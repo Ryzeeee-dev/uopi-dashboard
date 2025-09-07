@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>🔰 UOPI Dashboard - Sistema Avanzato</title>
     <meta name="theme-color" content="#1e293b">
-    <link rel="manifest" href="data:application/json;base64,eyJuYW1lIjoiVU9QSSBEYXNoYm9hcmQiLCJzaG9ydF9uYW1lIjoiVU9QSSIsImljb25zIjpbeyJzcmMiOiJkYXRhOmltYWdlL3N2Zyt4bWw7YmFzZTY0LFBITjJaeUI4YVdWM1FtOTRQU0l3SURBZ01qQWdNakFpSUdobGFXZG9kRDBpTWpBaUlIZHBaSFJvUFNJeU1DSStQR052Y21ObGJHVWdZM2c5SWpFd0lpQmplVDBpTVRBaUlISTlJallpSUdacGJHdzlJaU16WWpneVpqWWlMejQ4TDNOMlp6ND0iLCJzaXplcyI6IjE5Mng5NiIsInR5cGUiOiJpbWFnZS9zdmcreG1sIn1dLCJzdGFydF91cmwiOiIuIiwiZGlzcGxheSI6InN0YW5kYWxvbmUiLCJiYWNrZ3JvdW5kX2NvbG9yIjoiIzFlMjkzYiIsInRoZW1lX2NvbG9yIjoiIzNiODJmNiJ9">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         :root {
@@ -520,48 +519,6 @@
             border-top: 1px solid var(--border);
         }
 
-        /* FILE UPLOAD AVANZATO */
-        .file-upload-area {
-            border: 2px dashed var(--border);
-            border-radius: 12px;
-            padding: 2rem;
-            text-align: center;
-            transition: all 0.3s ease;
-            cursor: pointer;
-            position: relative;
-            background: var(--primary-bg);
-        }
-
-        .file-upload-area:hover {
-            border-color: var(--accent);
-            background: rgba(59, 130, 246, 0.1);
-        }
-
-        .file-upload-area.dragover {
-            border-color: var(--success);
-            background: rgba(16, 185, 129, 0.1);
-        }
-
-        .avatar-preview {
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
-            margin: 0 auto 1rem;
-            background: var(--secondary-bg);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2rem;
-            border: 3px solid var(--border);
-            overflow: hidden;
-        }
-
-        .avatar-preview img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
         /* TOAST NOTIFICATIONS AVANZATE */
         .toast-container {
             position: fixed;
@@ -956,12 +913,6 @@
             to { transform: scale(1); opacity: 1; }
         }
 
-        .kpi-chart {
-            width: 100%;
-            height: 60px;
-            margin-top: 1rem;
-        }
-
         /* CONTENT CARDS AVANZATE */
         .content-grid { 
             display: grid; 
@@ -1204,72 +1155,6 @@
             height: 150px;
         }
 
-        /* SEARCH RESULTS */
-        .search-results {
-            position: absolute;
-            top: 100%;
-            left: 0;
-            right: 0;
-            background: var(--secondary-bg);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-            max-height: 300px;
-            overflow-y: auto;
-            z-index: 1000;
-            margin-top: 0.5rem;
-        }
-
-        .search-result-item {
-            padding: 1rem;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .search-result-item:hover {
-            background: rgba(59, 130, 246, 0.1);
-        }
-
-        /* PWA INSTALL BUTTON */
-        .pwa-install {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: linear-gradient(135deg, var(--accent), #1d4ed8);
-            color: white;
-            padding: 1rem 1.5rem;
-            border-radius: 50px;
-            border: none;
-            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.4);
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-weight: 600;
-            z-index: 1000;
-            display: none;
-        }
-
-        .pwa-install.show {
-            display: block;
-            animation: slideInUp 0.5s ease;
-        }
-
-        .pwa-install:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 12px 35px rgba(59, 130, 246, 0.6);
-        }
-
-        @keyframes slideInUp {
-            from {
-                transform: translateY(100px);
-                opacity: 0;
-            }
-            to {
-                transform: translateY(0);
-                opacity: 1;
-            }
-        }
-
         /* RESPONSIVE AVANZATO */
         @media (max-width: 1200px) {
             .kpi-grid {
@@ -1368,7 +1253,6 @@
         <div class="search-container">
             <span class="search-icon">🔍</span>
             <input type="text" class="search-input" id="globalSearch" placeholder="Cerca in tutto il sistema...">
-            <div class="search-results" id="searchResults" style="display: none;"></div>
         </div>
         <button class="notification-bell" id="notificationBell" onclick="toggleNotifications()">
             <span>🔔</span>
@@ -1378,11 +1262,6 @@
             <span id="themeIcon">🌙</span>
         </button>
     </div>
-
-    <!-- PWA INSTALL BUTTON -->
-    <button class="pwa-install" id="pwaInstall">
-        📱 Installa App
-    </button>
 
     <!-- LOGIN SCREEN -->
     <div class="login-container" id="loginScreen">
@@ -1476,17 +1355,6 @@
             <div class="form-group">
                 <label class="form-label">💬 Tag Discord</label>
                 <input type="text" class="form-control" name="discord_tag" placeholder="DiscordTag#1234">
-            </div>
-            
-            <div class="form-group">
-                <label class="form-label">📸 Avatar (opzionale)</label>
-                <div class="file-upload-area" id="avatarUpload">
-                    <div class="avatar-preview" id="avatarPreview">
-                        <span>📸</span>
-                    </div>
-                    <p>Trascina un'immagine o clicca per caricare</p>
-                    <input type="file" id="avatarInput" accept="image/*" style="display: none;">
-                </div>
             </div>
         </form>
         
@@ -1584,12 +1452,6 @@
                             <span class="nav-link-text">Squadre</span>
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <a href="#analytics" class="nav-link" data-view="analytics">
-                            <span class="nav-link-icon">📊</span>
-                            <span class="nav-link-text">Analytics</span>
-                        </a>
-                    </li>
                 </ul>
             </nav>
 
@@ -1600,30 +1462,18 @@
                         <div class="kpi-card" onclick="navigateToView('operatori')">
                             <div class="kpi-label">👮 Operatori in Servizio</div>
                             <div class="kpi-value" id="kpi-operatori">0</div>
-                            <div class="chart-container chart-small">
-                                <canvas id="operatoriChart"></canvas>
-                            </div>
                         </div>
                         <div class="kpi-card" onclick="navigateToView('comunicazioni')">
                             <div class="kpi-label">🚨 Operazioni Attive</div>
                             <div class="kpi-value" id="kpi-operazioni">0</div>
-                            <div class="chart-container chart-small">
-                                <canvas id="operazioniChart"></canvas>
-                            </div>
                         </div>
                         <div class="kpi-card" onclick="navigateToView('squadre')">
                             <div class="kpi-label">🥷 Squadre Operative</div>
                             <div class="kpi-value" id="kpi-squadre">0</div>
-                            <div class="chart-container chart-small">
-                                <canvas id="squadreChart"></canvas>
-                            </div>
                         </div>
                         <div class="kpi-card" onclick="navigateToView('comunicazioni')">
                             <div class="kpi-label">📢 Comunicazioni</div>
                             <div class="kpi-value" id="kpi-comunicazioni">0</div>
-                            <div class="chart-container chart-small">
-                                <canvas id="comunicazioniChart"></canvas>
-                            </div>
                         </div>
                     </div>
                 </header>
@@ -1655,30 +1505,6 @@
         let currentView = 'dashboard';
         let isAuthenticated = false;
         let currentUser = null;
-        let sessionTimer = null;
-        let charts = {};
-
-        // PWA SETUP
-        let deferredPrompt;
-        
-        window.addEventListener('beforeinstallprompt', (e) => {
-            e.preventDefault();
-            deferredPrompt = e;
-            document.getElementById('pwaInstall').classList.add('show');
-        });
-
-        document.getElementById('pwaInstall').addEventListener('click', () => {
-            if (deferredPrompt) {
-                deferredPrompt.prompt();
-                deferredPrompt.userChoice.then((result) => {
-                    if (result.outcome === 'accepted') {
-                        showAdvancedToast('✅ App Installata', 'App UOPI installata con successo!', 'success');
-                    }
-                    deferredPrompt = null;
-                    document.getElementById('pwaInstall').classList.remove('show');
-                });
-            }
-        });
 
         // === GESTIONE TEMA ===
         function toggleTheme() {
@@ -1692,16 +1518,6 @@
             icon.textContent = newTheme === 'dark' ? '☀️' : '🌙';
             
             showAdvancedToast('🎨 Tema Cambiato', `Attivato tema ${newTheme === 'dark' ? 'scuro' : 'chiaro'}`, 'info');
-            
-            // Aggiorna i grafici
-            Object.values(charts).forEach(chart => {
-                if (chart) {
-                    chart.destroy();
-                }
-            });
-            setTimeout(() => {
-                initCharts();
-            }, 100);
         }
 
         // Carica tema salvato
@@ -1709,7 +1525,9 @@
             const savedTheme = localStorage.getItem(STORAGE_KEYS.theme) || 'light';
             document.documentElement.setAttribute('data-theme', savedTheme);
             const icon = document.getElementById('themeIcon');
-            icon.textContent = savedTheme === 'dark' ? '☀️' : '🌙';
+            if (icon) {
+                icon.textContent = savedTheme === 'dark' ? '☀️' : '🌙';
+            }
         }
 
         // === GESTIONE DATABASE PERSISTENTE ===
@@ -1717,9 +1535,7 @@
             const saved = localStorage.getItem(STORAGE_KEYS.database);
             if (saved) {
                 try {
-                    const parsed = JSON.parse(saved);
-                    // Migrazione dati se necessario
-                    return migrateDatabase(parsed);
+                    return JSON.parse(saved);
                 } catch (e) {
                     console.error('Errore caricamento database:', e);
                 }
@@ -1732,42 +1548,14 @@
                 operazioni: [],
                 comunicazioni: [],
                 turni: [],
-                sanzioni: [],
-                settings: {
-                    autoRefresh: true,
-                    notifications: true,
-                    sessionTimeout: 30 // minuti
-                }
+                sanzioni: []
             };
-        }
-
-        function migrateDatabase(db) {
-            // Aggiungi campi mancanti agli operatori esistenti
-            if (db.operatori) {
-                db.operatori.forEach(op => {
-                    if (!op.hasOwnProperty('avatar')) op.avatar = null;
-                    if (!op.hasOwnProperty('lastLogin')) op.lastLogin = null;
-                    if (!op.hasOwnProperty('loginCount')) op.loginCount = 0;
-                });
-            }
-            
-            if (!db.settings) {
-                db.settings = {
-                    autoRefresh: true,
-                    notifications: true,
-                    sessionTimeout: 30
-                };
-            }
-            
-            return db;
         }
 
         function saveDatabase(db) {
             try {
-                // Comprimi il database
-                const compressed = JSON.stringify(db);
-                localStorage.setItem(STORAGE_KEYS.database, compressed);
-                console.log('✅ Database salvato:', (compressed.length / 1024).toFixed(1) + 'KB');
+                localStorage.setItem(STORAGE_KEYS.database, JSON.stringify(db));
+                console.log('✅ Database salvato con successo');
                 return true;
             } catch (e) {
                 console.error('❌ Errore salvataggio database:', e);
@@ -1797,10 +1585,6 @@
                 } else {
                     sessionStorage.setItem(STORAGE_KEYS.session, JSON.stringify(sessionData));
                 }
-                
-                // Avvia timer sessione
-                startSessionTimer(db.settings.sessionTimeout);
-                
                 return true;
             } catch (e) {
                 console.error('Errore salvataggio sessione:', e);
@@ -1820,10 +1604,6 @@
                     
                     // Controlla scadenza
                     if (Date.now() < parsed.expiresAt) {
-                        // Avvia timer sessione
-                        if (parsed.user) {
-                            startSessionTimer(db.settings.sessionTimeout);
-                        }
                         return parsed;
                     } else {
                         clearSession();
@@ -1839,35 +1619,651 @@
         function clearSession() {
             localStorage.removeItem(STORAGE_KEYS.session);
             sessionStorage.removeItem(STORAGE_KEYS.session);
-            if (sessionTimer) {
-                clearInterval(sessionTimer);
+        }
+
+        // === GENERAZIONE MATRICOLA E PASSWORD ===
+        function generateMatricola() {
+            let maxNum = 0;
+            db.operatori.forEach(op => {
+                const num = parseInt(op.matricola.split('-')[1]) || 0;
+                if (num > maxNum) maxNum = num;
+            });
+            const nextNum = (maxNum + 1).toString().padStart(4, '0');
+            return `UOPI-${nextNum}`;
+        }
+
+        function generateTempPassword() {
+            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+            let password = '';
+            for (let i = 0; i < 8; i++) {
+                password += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+            return password;
+        }
+
+        // === UI HELPERS ===
+        function showBlur() {
+            document.getElementById('blurBackdrop').classList.add('active');
+        }
+
+        function hideBlur() {
+            document.getElementById('blurBackdrop').classList.remove('active');
+        }
+
+        // TOAST NOTIFICATIONS AVANZATE
+        function showAdvancedToast(title, message, type = 'info', duration = 4000) {
+            const toastContainer = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            
+            const icons = {
+                success: '✅',
+                error: '❌',
+                info: 'ℹ️',
+                warning: '⚠️'
+            };
+
+            toast.innerHTML = `
+                <div class="toast-icon">${icons[type] || 'ℹ️'}</div>
+                <div class="toast-content">
+                    <div class="toast-title">${title}</div>
+                    <div class="toast-message">${message}</div>
+                </div>
+                <button class="toast-close" onclick="this.parentElement.remove()">×</button>
+            `;
+
+            toastContainer.appendChild(toast);
+
+            setTimeout(() => {
+                toast.style.animation = 'toastOut 0.3s ease-out forwards';
+                setTimeout(() => {
+                    if (toast.parentNode) {
+                        toast.parentNode.removeChild(toast);
+                    }
+                }, 300);
+            }, duration);
+        }
+
+        function customConfirm(message) {
+            return new Promise((resolve) => {
+                const confirmBox = document.getElementById('customConfirm');
+                const confirmMessage = document.getElementById('customConfirmMessage');
+                const okButton = document.getElementById('customConfirmOk');
+                const cancelButton = document.getElementById('customConfirmCancel');
+
+                confirmMessage.textContent = message;
+                showBlur();
+                confirmBox.classList.remove('hidden');
+
+                function cleanup() {
+                    okButton.removeEventListener('click', onOk);
+                    cancelButton.removeEventListener('click', onCancel);
+                    confirmBox.classList.add('hidden');
+                    hideBlur();
+                }
+
+                function onOk() {
+                    cleanup();
+                    resolve(true);
+                }
+
+                function onCancel() {
+                    cleanup();
+                    resolve(false);
+                }
+
+                okButton.addEventListener('click', onOk);
+                cancelButton.addEventListener('click', onCancel);
+            });
+        }
+
+        // === AUTENTICAZIONE (SENZA 2FA) ===
+        function authenticateUser(username, password) {
+            // Admin login
+            if (username === ADMIN_CREDENTIALS.username && password === ADMIN_CREDENTIALS.password) {
+                return { 
+                    success: true, 
+                    user: { 
+                        type: 'admin', 
+                        username: username,
+                        password: password,
+                        nome: 'Admin',
+                        cognome: 'UOPI',
+                        needsPasswordChange: false 
+                    }
+                };
+            }
+
+            // Operator login
+            const operator = db.operatori.find(op => 
+                (op.matricola === username || op.username === username) && 
+                op.password === password && 
+                op.attivo
+            );
+
+            if (operator) {
+                return {
+                    success: true,
+                    user: {
+                        type: 'operator',
+                        id: operator.id,
+                        username: operator.username,
+                        password: operator.password,
+                        matricola: operator.matricola,
+                        nome: operator.nome,
+                        cognome: operator.cognome,
+                        grado: operator.grado,
+                        needsPasswordChange: operator.needsPasswordChange
+                    }
+                };
+            }
+
+            return { success: false };
+        }
+
+        // === LOGIN HANDLER (SENZA 2FA) ===
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const username = document.getElementById('username').value.trim();
+            const password = document.getElementById('password').value;
+            const rememberMe = document.getElementById('rememberMe').checked;
+            const errorMessage = document.getElementById('errorMessage');
+            
+            if (!username || !password) {
+                showAdvancedToast('⚠️ Campi Vuoti', 'Inserisci username e password', 'warning');
+                return;
+            }
+
+            const authResult = authenticateUser(username, password);
+            
+            if (authResult.success) {
+                currentUser = authResult.user;
+                
+                // Controlla se deve cambiare password
+                if (currentUser.needsPasswordChange) {
+                    showPasswordChangeModal();
+                    return;
+                }
+                
+                // Login completato direttamente (NIENTE 2FA)
+                completeLogin(rememberMe);
+                
+            } else {
+                errorMessage.style.display = 'block';
+                document.getElementById('username').style.borderColor = 'var(--danger)';
+                document.getElementById('password').style.borderColor = 'var(--danger)';
+                
+                setTimeout(() => {
+                    errorMessage.style.display = 'none';
+                    document.getElementById('username').style.borderColor = 'var(--border)';
+                    document.getElementById('password').style.borderColor = 'var(--border)';
+                }, 3000);
+            }
+        });
+
+        function completeLogin(rememberMe) {
+            // Salva sessione
+            saveSession(currentUser, rememberMe);
+            
+            // Mostra loading
+            document.getElementById('loadingOverlay').classList.add('show');
+            
+            setTimeout(() => {
+                showDashboard();
+                showAdvancedToast('🚀 Login Riuscito', `Benvenuto ${currentUser.nome}!`, 'success');
+            }, 1500);
+        }
+
+        function showDashboard() {
+            document.getElementById('loginScreen').style.display = 'none';
+            document.getElementById('loadingOverlay').classList.remove('show');
+            document.getElementById('globalControls').style.display = 'flex';
+            
+            const mainApp = document.getElementById('mainApp');
+            mainApp.style.display = 'block';
+            mainApp.classList.add('show');
+
+            isAuthenticated = true;
+            updateUserInfo();
+            updateKPIs();
+            renderContent();
+        }
+
+        function updateUserInfo() {
+            if (currentUser) {
+                document.getElementById('currentUserName').textContent = `${currentUser.nome} ${currentUser.cognome}`;
+                if (currentUser.type === 'admin') {
+                    document.getElementById('currentUserRole').textContent = 'Amministratore Sistema';
+                } else {
+                    document.getElementById('currentUserRole').textContent = `${currentUser.grado} - ${currentUser.matricola}`;
+                }
             }
         }
 
-        function startSessionTimer(timeoutMinutes) {
-            if (sessionTimer) {
-                clearInterval(sessionTimer);
-            }
-            
-            let timeLeft = timeoutMinutes * 60; // secondi
-            
-            sessionTimer = setInterval(() => {
-                timeLeft--;
-                
-                // Avviso a 5 minuti dalla scadenza
-                if (timeLeft === 300) {
-                    showAdvancedToast('⏰ Sessione in Scadenza', 'La sessione scadrà tra 5 minuti', 'warning');
-                }
-                
-                // Logout automatico
-                if (timeLeft <= 0) {
-                    logout();
-                }
-            }, 1000);
+        // === CAMBIO PASSWORD ===
+        function showPasswordChangeModal() {
+            showBlur();
+            document.getElementById('passwordChangeModal').classList.remove('hidden');
         }
 
-        function extendSession() {
-            const session = loadSession();
-            if (session) {
-                session.expiresAt = Date.now() + (8 * 60 * 60 * 1000); // +8 ore
-                localStorage.setItem(STORAGE_
+        function changePassword() {
+            const newPassword = document.getElementById('newPassword').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            
+            if (!newPassword || newPassword.length < 8) {
+                showAdvancedToast('❌ Password Troppo Corta', 'La password deve essere di almeno 8 caratteri', 'error');
+                return;
+            }
+            
+            if (newPassword !== confirmPassword) {
+                showAdvancedToast('❌ Password Diverse', 'Le password non coincidono', 'error');
+                return;
+            }
+            
+            // Aggiorna password dell'operatore
+            const operator = db.operatori.find(op => op.id === currentUser.id);
+            if (operator) {
+                operator.password = newPassword;
+                operator.needsPasswordChange = false;
+                currentUser.password = newPassword;
+                currentUser.needsPasswordChange = false;
+                
+                // Salva database aggiornato
+                if (saveDatabase(db)) {
+                    document.getElementById('passwordChangeModal').classList.add('hidden');
+                    hideBlur();
+                    
+                    showAdvancedToast('✅ Password Aggiornata', 'Password cambiata con successo!', 'success');
+                    
+                    // Completa il login
+                    const rememberMe = document.getElementById('rememberMe').checked;
+                    completeLogin(rememberMe);
+                } else {
+                    showAdvancedToast('❌ Errore Database', 'Impossibile salvare la nuova password', 'error');
+                }
+            }
+        }
+
+        // === GESTIONE OPERATORI ===
+        function openOperatorModal() {
+            showBlur();
+            document.getElementById('operatorModal').classList.remove('hidden');
+            document.getElementById('operatorForm').reset();
+        }
+
+        function closeOperatorModal() {
+            hideBlur();
+            document.getElementById('operatorModal').classList.add('hidden');
+        }
+
+        function saveOperator() {
+            const form = document.getElementById('operatorForm');
+            const formData = new FormData(form);
+            
+            const nome = formData.get('nome')?.trim();
+            const cognome = formData.get('cognome')?.trim();
+            const grado = formData.get('grado')?.trim();
+            const dataIngresso = formData.get('data_ingresso');
+            
+            if (!nome || !cognome || !grado || !dataIngresso) {
+                showAdvancedToast('⚠️ Campi Mancanti', 'Compila tutti i campi obbligatori', 'warning');
+                return;
+            }
+            
+            const matricola = generateMatricola();
+            const tempPassword = generateTempPassword();
+            
+            const newOperator = {
+                id: Date.now(),
+                matricola: matricola,
+                username: matricola,
+                password: tempPassword,
+                nome: nome,
+                cognome: cognome,
+                grado: grado,
+                data_ingresso: dataIngresso,
+                qualifiche: formData.get('qualifiche') ? 
+                    formData.get('qualifiche').split(',').map(q => q.trim()).filter(Boolean) : [],
+                abilitazioni: formData.get('abilitazioni') ? 
+                    formData.get('abilitazioni').split(',').map(a => a.trim()).filter(Boolean) : [],
+                attivo: true,
+                inServizio: false,
+                needsPasswordChange: true,
+                discord_tag: formData.get('discord_tag')?.trim() || ''
+            };
+            
+            db.operatori.push(newOperator);
+            
+            if (saveDatabase(db)) {
+                closeOperatorModal();
+                showAdvancedToast('✅ Operatore Creato', `${matricola} aggiunto al sistema`, 'success');
+                
+                setTimeout(() => {
+                    customConfirm(`👤 OPERATORE CREATO\n\n🆔 Matricola: ${matricola}\n🔒 Password temporanea: ${tempPassword}\n📅 Data ingresso: ${dataIngresso}\n💬 Discord: ${newOperator.discord_tag || 'Non specificato'}\n\n⚠️ L'operatore dovrà cambiare la password al primo accesso.`);
+                }, 500);
+                
+                updateKPIs();
+                if (currentView === 'operatori') {
+                    renderContent();
+                }
+            } else {
+                showAdvancedToast('❌ Errore Database', 'Impossibile creare l\'operatore', 'error');
+            }
+        }
+
+        // === LOGOUT ===
+        async function logout() {
+            const confirmed = await customConfirm('🚪 Sei sicuro di voler uscire dal sistema?');
+            if (confirmed) {
+                clearSession();
+                isAuthenticated = false;
+                currentUser = null;
+                
+                document.getElementById('globalControls').style.display = 'none';
+                const mainApp = document.getElementById('mainApp');
+                mainApp.classList.remove('show');
+                mainApp.style.display = 'none';
+                document.getElementById('loginScreen').style.display = 'flex';
+                
+                showAdvancedToast('👋 Logout', 'Uscita dal sistema completata', 'info');
+            }
+        }
+
+        // === TOGGLE PASSWORD VISIBILITY ===
+        function togglePassword() {
+            const passwordInput = document.getElementById('password');
+            const toggleIcon = document.getElementById('passwordToggleIcon');
+            
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                toggleIcon.textContent = '🙈';
+            } else {
+                passwordInput.type = 'password';
+                toggleIcon.textContent = '👁️';
+            }
+        }
+
+        // === NAVIGAZIONE ===
+        function navigateToView(view) {
+            currentView = view;
+            
+            // Aggiorna nav
+            document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+            document.querySelector(`[data-view="${view}"]`)?.classList.add('active');
+            
+            // Aggiorna titolo
+            const titles = {
+                dashboard: '🔰 Dashboard Operativa',
+                operatori: '👮 Gestione Operatori',
+                comunicazioni: '📢 Centro Comunicazioni',
+                turni: '📝 Registro Turni',
+                sanzioni: '⛔ Sanzioni e Promozioni',
+                squadre: '🥷 Squadre D\'Intervento'
+            };
+            
+            document.getElementById('page-title').textContent = titles[view] || '🔰 Dashboard';
+            renderContent();
+        }
+
+        // Event listeners per navigazione
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                if (!isAuthenticated) return;
+                navigateToView(e.target.closest('.nav-link').dataset.view);
+            });
+        });
+
+        // === NOTIFICHE ===
+        function toggleNotifications() {
+            showAdvancedToast('🔔 Notifiche', 'Centro notifiche in fase di sviluppo', 'info');
+        }
+
+        // === KPI ===
+        function updateKPIs() {
+            if (!isAuthenticated) return;
+            
+            document.getElementById('kpi-operatori').textContent = db.operatori.filter(o => o.inServizio).length;
+            document.getElementById('kpi-operazioni').textContent = db.operazioni.filter(o => o.stato === 'IN_CORSO').length;
+            document.getElementById('kpi-squadre').textContent = db.squadre.filter(s => s.stato === 'OPERATIVA').length;
+            document.getElementById('kpi-comunicazioni').textContent = db.comunicazioni.filter(c => !c.letto).length;
+            
+            // Aggiorna badge
+            const commCount = db.comunicazioni.filter(c => !c.letto).length;
+            document.getElementById('notificationBadge').textContent = commCount;
+            document.getElementById('commBadge').textContent = commCount;
+        }
+
+        // === RENDERING ===
+        function renderContent() {
+            if (!isAuthenticated) return;
+            
+            const contentArea = document.getElementById('content-area');
+            
+            switch(currentView) {
+                case 'dashboard':
+                    renderDashboard(contentArea);
+                    break;
+                case 'operatori':
+                    renderOperatori(contentArea);
+                    break;
+                case 'comunicazioni':
+                    renderComunicazioni(contentArea);
+                    break;
+                case 'turni':
+                    renderTurni(contentArea);
+                    break;
+                case 'sanzioni':
+                    renderSanzioni(contentArea);
+                    break;
+                case 'squadre':
+                    renderSquadre(contentArea);
+                    break;
+            }
+        }
+
+        function renderDashboard(container) {
+            if (db.operatori.length === 0) {
+                container.innerHTML = `
+                    <div class="card">
+                        <div class="empty-state">
+                            <div class="empty-state-icon">🏗️</div>
+                            <h3>Sistema Appena Inizializzato</h3>
+                            <p>Il database è vuoto. Inizia aggiungendo operatori per popolare il sistema.</p>
+                            <button class="btn btn-primary" onclick="openOperatorModal()">➕ Aggiungi Primo Operatore</button>
+                        </div>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = `
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">👮 Operatori Registrati</h3>
+                        <div class="card-actions">
+                            <button class="btn btn-primary" onclick="openOperatorModal()">➕ Aggiungi Operatore</button>
+                        </div>
+                    </div>
+                    <div class="table-container">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Matricola</th>
+                                    <th>Nome</th>
+                                    <th>Grado</th>
+                                    <th>Data Ingresso</th>
+                                    <th>Stato</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${db.operatori.map(op => `
+                                    <tr>
+                                        <td>${op.matricola}</td>
+                                        <td>${op.nome} ${op.cognome}</td>
+                                        <td>${op.grado}</td>
+                                        <td>${op.data_ingresso || '-'}</td>
+                                        <td><span class="badge ${op.inServizio ? '' : 'badge-warning'}">${op.inServizio ? 'IN SERVIZIO' : 'LIBERO'}</span></td>
+                                    </tr>
+                                `).join('')}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderOperatori(container) {
+            container.innerHTML = `
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">👮 Gestione Operatori</h3>
+                        <div class="card-actions">
+                            <button class="btn btn-primary" onclick="openOperatorModal()">➕ Aggiungi Operatore</button>
+                        </div>
+                    </div>
+                    <div class="table-container">
+                        ${db.operatori.length === 0 ? `
+                            <div class="empty-state">
+                                <div class="empty-state-icon">📋</div>
+                                <h3>Nessun Operatore Registrato</h3>
+                                <p>Aggiungi il primo operatore per iniziare.</p>
+                            </div>
+                        ` : `
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Matricola</th>
+                                        <th>Nome</th>
+                                        <th>Grado</th>
+                                        <th>Data Ingresso</th>
+                                        <th>Stato Servizio</th>
+                                        <th>Password</th>
+                                        <th>Discord</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    ${db.operatori.map(op => `
+                                        <tr>
+                                            <td>${op.matricola}</td>
+                                            <td>${op.nome} ${op.cognome}</td>
+                                            <td>${op.grado}</td>
+                                            <td>${op.data_ingresso || '-'}</td>
+                                            <td><span class="badge ${op.inServizio ? '' : 'badge-warning'}">${op.inServizio ? 'IN SERVIZIO' : 'LIBERO'}</span></td>
+                                            <td><span class="badge ${op.needsPasswordChange ? 'badge-danger' : 'badge-success'}">${op.needsPasswordChange ? 'DA CAMBIARE' : 'OK'}</span></td>
+                                            <td>${op.discord_tag || '-'}</td>
+                                        </tr>
+                                    `).join('')}
+                                </tbody>
+                            </table>
+                        `}
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderComunicazioni(container) {
+            container.innerHTML = `
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">📢 Centro Comunicazioni</h3>
+                    </div>
+                    <div class="table-container">
+                        <div class="empty-state">
+                            <div class="empty-state-icon">📭</div>
+                            <h3>Nessuna Comunicazione</h3>
+                            <p>Le comunicazioni operative appariranno qui.</p>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderTurni(container) {
+            container.innerHTML = `
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">📝 Registro Turni</h3>
+                    </div>
+                    <div class="table-container">
+                        <div class="empty-state">
+                            <div class="empty-state-icon">📅</div>
+                            <h3>Nessun Turno Registrato</h3>
+                            <p>I turni di servizio appariranno qui.</p>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderSanzioni(container) {
+            container.innerHTML = `
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">⛔ Sanzioni e Promozioni</h3>
+                    </div>
+                    <div class="table-container">
+                        <div class="empty-state">
+                            <div class="empty-state-icon">📋</div>
+                            <h3>Nessuna Sanzione o Promozione</h3>
+                            <p>I provvedimenti disciplinari appariranno qui.</p>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderSquadre(container) {
+            container.innerHTML = `
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">🥷 Squadre D'Intervento</h3>
+                    </div>
+                    <div class="table-container">
+                        <div class="empty-state">
+                            <div class="empty-state-icon">👥</div>
+                            <h3>Nessuna Squadra Formata</h3>
+                            <p>Le squadre operative appariranno qui.</p>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // === INIZIALIZZAZIONE ===
+        window.addEventListener('load', function() {
+            console.log('🔄 Inizializzazione sistema UOPI...');
+            
+            // Carica tema
+            loadTheme();
+            
+            // Carica sessione esistente
+            const savedSession = loadSession();
+            if (savedSession && savedSession.user) {
+                currentUser = savedSession.user;
+                isAuthenticated = true;
+                showDashboard();
+                showAdvancedToast('🔄 Sessione Ripristinata', `Bentornato ${savedSession.user.nome}!`, 'info');
+                
+                // Precompila le credenziali se presenti
+                if (savedSession.credentials) {
+                    document.getElementById('username').value = savedSession.credentials.username || '';
+                    document.getElementById('rememberMe').checked = true;
+                }
+                return;
+            }
+
+            console.log('🔒 Sistema pronto per il login');
+            console.log('📊 Operatori nel database:', db.operatori.length);
+        });
+
+        // Auto-refresh KPI ogni 30 secondi
+        setInterval(() => {
+            if (isAuthenticated) {
+                updateKPIs();
+            }
+        }, 30000);
+    </script>
+</body>
+</html>
