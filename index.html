@@ -3,8 +3,27 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>🔰 UOPI Dashboard - Sistema Pulito</title>
+    <title>🔰 UOPI Dashboard - Sistema Avanzato</title>
+    <meta name="theme-color" content="#1e293b">
     <style>
+        :root {
+            --primary-bg: #1e293b;
+            --secondary-bg: #334155;
+            --accent: #3b82f6;
+            --text: #f1f5f9;
+            --text-muted: #94a3b8;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --border: #475569;
+        }
+
+        [data-theme="dark"] {
+            --primary-bg: #0f1419;
+            --secondary-bg: #1a202c;
+            --text: #e2e8f0;
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -13,22 +32,20 @@
 
         body {
             font-family: system-ui, -apple-system, sans-serif;
-            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
-            color: #f1f5f9;
+            background: linear-gradient(135deg, var(--primary-bg) 0%, var(--secondary-bg) 100%);
+            color: var(--text);
             min-height: 100vh;
             overflow-x: hidden;
+            transition: all 0.3s ease;
         }
 
-        /* BLUR BACKDROP PER NOTIFICHE */
+        /* BLUR BACKDROP */
         .blur-backdrop {
             position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-            background: rgba(0, 0, 0, 0.3);
+            inset: 0;
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            background: rgba(0, 0, 0, 0.4);
             z-index: 9998;
             opacity: 0;
             pointer-events: none;
@@ -40,6 +57,63 @@
             pointer-events: auto;
         }
 
+        /* GLOBAL SEARCH */
+        .global-search {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .search-container {
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .search-input {
+            width: 250px;
+            padding: 0.75rem 1rem 0.75rem 3rem;
+            border: 2px solid var(--border);
+            border-radius: 25px;
+            background: var(--secondary-bg);
+            color: var(--text);
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+            width: 350px;
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+        }
+
+        .theme-toggle {
+            padding: 0.75rem;
+            background: var(--secondary-bg);
+            border: 2px solid var(--border);
+            border-radius: 50%;
+            color: var(--text);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .theme-toggle:hover {
+            background: var(--accent);
+            transform: rotate(180deg);
+        }
+
         /* LOGIN SCREEN */
         .login-container {
             display: flex;
@@ -47,30 +121,17 @@
             align-items: center;
             min-height: 100vh;
             position: relative;
-            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
         }
 
         .login-card {
-            background: linear-gradient(145deg, #1e293b, #334155);
+            background: linear-gradient(145deg, var(--primary-bg), var(--secondary-bg));
             padding: 3rem;
             border-radius: 24px;
             box-shadow: 0 25px 50px rgba(0,0,0,0.5);
-            border: 1px solid #475569;
+            border: 1px solid var(--border);
             width: 100%;
             max-width: 450px;
             text-align: center;
-            animation: slideUp 0.8s ease-out;
-        }
-
-        @keyframes slideUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
         }
 
         .login-logo {
@@ -86,7 +147,7 @@
         .login-title {
             font-size: 1.5rem;
             margin-bottom: 2rem;
-            color: #f1f5f9;
+            color: var(--text);
         }
 
         .form-group {
@@ -98,24 +159,24 @@
             display: block;
             margin-bottom: 0.5rem;
             font-weight: 600;
-            color: #f1f5f9;
+            color: var(--text);
             font-size: 0.9rem;
         }
 
         .form-control {
             width: 100%;
             padding: 1rem 1.25rem;
-            border: 2px solid #475569;
+            border: 2px solid var(--border);
             border-radius: 12px;
-            background: #0f172a;
-            color: #f1f5f9;
+            background: var(--primary-bg);
+            color: var(--text);
             font-size: 1rem;
             transition: all 0.3s ease;
         }
 
         .form-control:focus {
             outline: none;
-            border-color: #3b82f6;
+            border-color: var(--accent);
             box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
             transform: translateY(-2px);
         }
@@ -131,13 +192,13 @@
         .checkbox-group input[type="checkbox"] {
             width: 18px;
             height: 18px;
-            accent-color: #3b82f6;
+            accent-color: var(--accent);
             cursor: pointer;
         }
 
         .checkbox-group label {
             font-size: 0.9rem;
-            color: #94a3b8;
+            color: var(--text-muted);
             cursor: pointer;
             user-select: none;
         }
@@ -147,7 +208,7 @@
             padding: 1rem 2rem;
             border: none;
             border-radius: 12px;
-            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+            background: linear-gradient(135deg, var(--accent), #1d4ed8);
             color: white;
             font-size: 1.1rem;
             font-weight: 600;
@@ -161,12 +222,8 @@
             box-shadow: 0 12px 35px rgba(59, 130, 246, 0.6);
         }
 
-        .btn-login:active {
-            transform: translateY(-1px);
-        }
-
         .error-message {
-            color: #ef4444;
+            color: var(--danger);
             margin-top: 1rem;
             padding: 0.75rem;
             background: rgba(239, 68, 68, 0.1);
@@ -175,71 +232,22 @@
             display: none;
         }
 
-        /* LOADING OVERLAY */
-        .loading-overlay {
-            position: fixed;
-            inset: 0;
-            background: rgba(0,0,0,0.8);
-            backdrop-filter: blur(10px);
-            display: none;
-            justify-content: center;
-            align-items: center;
-            z-index: 9999;
-            flex-direction: column;
-        }
-
-        .loading-overlay.show {
-            display: flex;
-        }
-
-        .spinner {
-            width: 80px;
-            height: 80px;
-            border: 8px solid #475569;
-            border-top: 8px solid #3b82f6;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin-bottom: 2rem;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        .loading-text {
-            font-size: 1.5rem;
-            color: #f1f5f9;
-            margin-bottom: 1rem;
-            animation: pulse 2s ease-in-out infinite;
-        }
-
-        .loading-subtitle {
-            color: #94a3b8;
-            font-size: 1rem;
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
-        }
-
         /* NOTIFICHE PERSONALIZZATE */
         .custom-confirm {
             position: fixed;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            background: linear-gradient(145deg, #1e293b, #334155);
+            background: linear-gradient(145deg, var(--primary-bg), var(--secondary-bg));
             border-radius: 16px;
             padding: 2rem;
             z-index: 10001;
             box-shadow: 0 25px 50px rgba(0, 0, 0, 0.8);
             min-width: 400px;
             max-width: 600px;
-            color: #f1f5f9;
-            border: 1px solid #475569;
-            animation: notificationIn 0.3s ease-out;
+            color: var(--text);
+            border: 1px solid var(--border);
+            animation: modalIn 0.3s ease-out;
             white-space: pre-line;
         }
 
@@ -263,7 +271,7 @@
             justify-content: center;
         }
 
-        @keyframes notificationIn {
+        @keyframes modalIn {
             from {
                 opacity: 0;
                 transform: translate(-50%, -50%) scale(0.9);
@@ -280,16 +288,18 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            background: linear-gradient(145deg, #1e293b, #334155);
-            border-radius: 16px;
+            background: linear-gradient(145deg, var(--primary-bg), var(--secondary-bg));
+            border-radius: 20px;
             padding: 2rem;
             z-index: 10001;
             box-shadow: 0 25px 50px rgba(0, 0, 0, 0.8);
-            min-width: 500px;
-            max-width: 600px;
-            color: #f1f5f9;
-            border: 1px solid #475569;
-            animation: notificationIn 0.3s ease-out;
+            min-width: 600px;
+            max-width: 800px;
+            max-height: 90vh;
+            overflow-y: auto;
+            color: var(--text);
+            border: 1px solid var(--border);
+            animation: modalIn 0.3s ease-out;
         }
 
         .form-modal.hidden {
@@ -299,23 +309,29 @@
         .form-modal-header {
             text-align: center;
             margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border);
         }
 
         .form-modal-title {
-            font-size: 1.5rem;
+            font-size: 1.8rem;
             font-weight: 600;
             margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, var(--accent), #1d4ed8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
         .form-modal-subtitle {
-            color: #94a3b8;
+            color: var(--text-muted);
             font-size: 0.9rem;
         }
 
         .form-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 1rem;
+            gap: 1.5rem;
             margin-bottom: 2rem;
         }
 
@@ -327,46 +343,104 @@
             display: flex;
             gap: 1rem;
             justify-content: center;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border);
         }
 
         /* TOAST NOTIFICATIONS */
         .toast-container {
             position: fixed;
-            top: 20px;
+            top: 80px;
             right: 20px;
             z-index: 10002;
             display: flex;
             flex-direction: column;
-            gap: 0.5rem;
+            gap: 0.75rem;
+            max-width: 400px;
         }
 
         .toast {
-            background: linear-gradient(145deg, #1e293b, #334155);
-            color: #f1f5f9;
-            padding: 1rem 1.5rem;
-            border-radius: 12px;
+            background: linear-gradient(145deg, var(--primary-bg), var(--secondary-bg));
+            color: var(--text);
+            padding: 1.25rem 1.5rem;
+            border-radius: 16px;
             box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
-            border: 1px solid #475569;
-            min-width: 300px;
-            animation: toastIn 0.3s ease-out;
+            border: 1px solid var(--border);
+            min-width: 350px;
+            animation: toastIn 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
             display: flex;
-            align-items: center;
-            gap: 0.75rem;
+            align-items: flex-start;
+            gap: 1rem;
+            position: relative;
+            overflow: hidden;
         }
 
-        .toast.success {  border-left: 4px solid #10b981; }
-        .toast.error {    border-left: 4px solid #ef4444; }
-        .toast.info {     border-left: 4px solid #3b82f6; }
-        .toast.warning {  border-left: 4px solid #f59e0b; }
+        .toast::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: var(--accent);
+        }
+
+        .toast.success::before { background: var(--success); }
+        .toast.error::before { background: var(--danger); }
+        .toast.warning::before { background: var(--warning); }
+
+        .toast-icon {
+            font-size: 1.5rem;
+            flex-shrink: 0;
+            margin-top: 0.1rem;
+        }
+
+        .toast-content {
+            flex: 1;
+        }
+
+        .toast-title {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+            font-size: 0.95rem;
+        }
+
+        .toast-message {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            line-height: 1.4;
+        }
+
+        .toast-close {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            font-size: 1.2rem;
+            padding: 0;
+            margin-left: 0.5rem;
+        }
 
         @keyframes toastIn {
-            from { opacity: 0; transform: translateX(100%); }
-            to { opacity: 1; transform: translateX(0); }
+            from {
+                opacity: 0;
+                transform: translateX(100%) scale(0.8);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0) scale(1);
+            }
         }
 
         @keyframes toastOut {
-            from { opacity: 1; transform: translateX(0); }
-            to { opacity: 0; transform: translateX(100%); }
+            from {
+                opacity: 1;
+                transform: translateX(0) scale(1);
+            }
+            to {
+                opacity: 0;
+                transform: translateX(100%) scale(0.8);
+            }
         }
 
         /* MAIN APP */
@@ -392,66 +466,87 @@
         /* SIDEBAR */
         .sidebar {
             width: 320px;
-            background: linear-gradient(145deg, #1e293b, #334155);
+            background: linear-gradient(145deg, var(--primary-bg), var(--secondary-bg));
             padding: 2rem;
             box-shadow: 4px 0 20px rgba(0,0,0,0.3);
+            position: relative;
+            transition: all 0.3s ease;
+            border-right: 1px solid var(--border);
         }
 
         .logo {
-            font-size: 1.8rem;
+            font-size: 2rem;
             font-weight: bold;
-            color: #60a5fa;
+            color: var(--accent);
             text-align: center;
-            margin-bottom: 1rem;
+            margin-bottom: 2rem;
             letter-spacing: 0.1em;
         }
 
         .user-info {
             background: rgba(59, 130, 246, 0.1);
-            padding: 1rem;
-            border-radius: 12px;
+            padding: 1.5rem;
+            border-radius: 16px;
             margin-bottom: 2rem;
             text-align: center;
             border: 1px solid rgba(59, 130, 246, 0.2);
         }
 
         .user-avatar {
-            width: 50px;
-            height: 50px;
-            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--accent), #1d4ed8);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.5rem;
-            margin: 0 auto 0.5rem;
+            font-size: 1.8rem;
+            margin: 0 auto 1rem;
+            position: relative;
+            overflow: hidden;
+            border: 3px solid rgba(59, 130, 246, 0.3);
+        }
+
+        .status-indicator {
+            position: absolute;
+            bottom: 2px;
+            right: 2px;
+            width: 16px;
+            height: 16px;
+            background: var(--success);
+            border-radius: 50%;
+            border: 2px solid var(--secondary-bg);
         }
 
         .user-name {
             font-weight: 600;
-            margin-bottom: 0.25rem;
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
         }
 
         .user-role {
             font-size: 0.85rem;
-            color: #94a3b8;
+            color: var(--text-muted);
+            margin-bottom: 1rem;
         }
 
         .logout-btn {
             background: rgba(239, 68, 68, 0.2);
             border: 1px solid rgba(239, 68, 68, 0.3);
             color: #fca5a5;
-            padding: 0.5rem 1rem;
-            border-radius: 8px;
-            font-size: 0.8rem;
+            padding: 0.75rem 1.5rem;
+            border-radius: 12px;
+            font-size: 0.85rem;
             cursor: pointer;
             transition: all 0.3s ease;
-            margin-top: 0.5rem;
+            width: 100%;
+            font-weight: 500;
         }
 
         .logout-btn:hover {
             background: rgba(239, 68, 68, 0.3);
             color: #f87171;
+            transform: translateY(-2px);
         }
 
         .nav-menu {
@@ -459,26 +554,54 @@
         }
 
         .nav-item {
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.75rem;
         }
 
         .nav-link {
-            display: block;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
             padding: 1rem 1.5rem;
-            color: #94a3b8;
+            color: var(--text-muted);
             text-decoration: none;
-            border-radius: 12px;
-            transition: all 0.3s ease;
+            border-radius: 16px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             font-weight: 500;
             border: 2px solid transparent;
             font-size: 0.95rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav-link::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 0;
+            background: linear-gradient(135deg, var(--accent), #1d4ed8);
+            transition: width 0.3s ease;
+            border-radius: 16px;
         }
 
         .nav-link:hover, .nav-link.active {
-            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
             color: white;
             transform: translateX(8px);
             box-shadow: 0 8px 25px rgba(59, 130, 246, 0.4);
+        }
+
+        .nav-link:hover::before, .nav-link.active::before {
+            width: 100%;
+        }
+
+        .nav-link-icon {
+            font-size: 1.2rem;
+            z-index: 1;
+        }
+
+        .nav-link-text {
+            z-index: 1;
         }
 
         /* MAIN CONTENT */
@@ -486,115 +609,402 @@
             flex: 1;
             padding: 2rem;
             overflow-y: auto;
+            position: relative;
         }
 
         .header {
-            background: linear-gradient(135deg, #374151, #4b5563);
-            border-radius: 20px;
-            padding: 2rem;
+            background: linear-gradient(135deg, var(--secondary-bg), var(--primary-bg));
+            border-radius: 24px;
+            padding: 2.5rem;
             margin-bottom: 2rem;
             box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            position: relative;
+            overflow: hidden;
+            border: 1px solid var(--border);
         }
 
         .header h1 {
-            font-size: 2.5rem;
+            font-size: 2.8rem;
             margin-bottom: 1rem;
-            background: linear-gradient(135deg, #60a5fa, #3b82f6);
+            background: linear-gradient(135deg, #60a5fa, #3b82f6, #1d4ed8);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
+            position: relative;
+            z-index: 1;
         }
 
         /* KPI CARDS */
         .kpi-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 2rem;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
         }
 
         .kpi-card {
-            background: linear-gradient(145deg, #1e293b, #334155);
-            padding: 1.8rem;
-            border-radius: 20px;
+            background: linear-gradient(145deg, var(--primary-bg), var(--secondary-bg));
+            padding: 2rem;
+            border-radius: 24px;
             text-align: center;
             box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-            border: 1px solid #475569;
-            transition: all 0.3s ease;
+            border: 1px solid var(--border);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
         }
 
         .kpi-card:hover {
-            transform: translateY(-8px);
+            transform: translateY(-10px) scale(1.02);
             box-shadow: 0 20px 40px rgba(0,0,0,0.4);
-            border-color: #3b82f6;
+            border-color: var(--accent);
         }
 
         .kpi-label {
-            color: #94a3b8;
-            font-size: 0.85rem;
-            margin-bottom: 0.5rem;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-bottom: 0.75rem;
             text-transform: uppercase;
-            letter-spacing: 0.05em;
+            letter-spacing: 0.1em;
+            font-weight: 600;
         }
 
         .kpi-value {
-            font-size: 2.5rem;
+            font-size: 3rem;
             font-weight: bold;
             background: linear-gradient(135deg, #fbbf24, #f59e0b);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
+            margin-bottom: 1rem;
         }
 
         /* CONTENT CARDS */
-        .content-grid { display: grid; gap: 2rem; }
-        .card { background: linear-gradient(145deg, #1e293b, #334155); border-radius: 20px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.2); border: 1px solid #475569; }
-        .card-header { padding: 1.5rem 2rem; border-bottom: 1px solid #475569; display: flex; justify-content: space-between; align-items: center; }
-        .card-title { font-size: 1.5rem; font-weight: 600; color: #f1f5f9; }
-        .card-actions { display: flex; gap: 1rem; align-items: center; }
-        .btn { padding: 0.75rem 1.5rem; border: none; border-radius: 12px; font-weight: 600; text-decoration: none; display: inline-block; cursor: pointer; transition: all 0.3s ease; font-size: 0.9rem; }
-        .btn-primary { background: linear-gradient(135deg, #3b82f6, #1d4ed8); color: white; box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4); }
-        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(59, 130, 246, 0.6); }
-        .btn-secondary { background: linear-gradient(135deg, #6b7280, #4b5563); color: white; }
-        .btn-secondary:hover { transform: translateY(-2px); background: linear-gradient(135deg, #4b5563, #374151); }
-        .btn-success { background: linear-gradient(135deg, #10b981, #059669); color: white; }
-        .btn-danger { background: linear-gradient(135deg, #ef4444, #dc2626); color: white; }
-        .table-container { padding: 2rem; overflow-x: auto; }
-        .table { width: 100%; border-collapse: collapse; }
-        .table th { background: #0f172a; padding: 1rem; text-align: left; font-weight: 600; color: #60a5fa; border-bottom: 2px solid #3b82f6; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.05em; }
-        .table td { padding: 1rem; border-bottom: 1px solid #475569; font-size: 0.9rem; }
-        .table tbody tr:hover { background: rgba(59, 130, 246, 0.1); }
-        .badge { padding: 0.25rem 0.75rem; border-radius: 50px; font-size: 0.75rem; font-weight: 600; background: linear-gradient(135deg, #10b981, #059669); color: white; display: inline-block; margin: 0.125rem; }
-        .badge-warning { background: linear-gradient(135deg, #f59e0b, #d97706); }
-        .badge-danger { background: linear-gradient(135deg, #ef4444, #dc2626); }
-        .badge-info { background: linear-gradient(135deg, #3b82f6, #1d4ed8); }
+        .content-grid { 
+            display: grid; 
+            gap: 2rem; 
+        }
 
+        .card { 
+            background: linear-gradient(145deg, var(--primary-bg), var(--secondary-bg)); 
+            border-radius: 24px; 
+            overflow: hidden; 
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2); 
+            border: 1px solid var(--border);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+
+        .card-header { 
+            padding: 2rem 2.5rem 1.5rem; 
+            border-bottom: 1px solid var(--border); 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center;
+            background: rgba(59, 130, 246, 0.05);
+        }
+
+        .card-title { 
+            font-size: 1.6rem; 
+            font-weight: 600; 
+            color: var(--text);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .card-actions { 
+            display: flex; 
+            gap: 1rem; 
+            align-items: center; 
+        }
+
+        .btn { 
+            padding: 0.875rem 1.75rem; 
+            border: none; 
+            border-radius: 14px; 
+            font-weight: 600; 
+            text-decoration: none; 
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer; 
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); 
+            font-size: 0.9rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary { 
+            background: linear-gradient(135deg, var(--accent), #1d4ed8); 
+            color: white; 
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4); 
+        }
+        .btn-primary:hover { 
+            transform: translateY(-3px); 
+            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.6); 
+        }
+
+        .btn-secondary { 
+            background: linear-gradient(135deg, #6b7280, #4b5563); 
+            color: white; 
+        }
+        .btn-secondary:hover { 
+            transform: translateY(-2px); 
+            background: linear-gradient(135deg, #4b5563, #374151); 
+        }
+
+        .btn-success { 
+            background: linear-gradient(135deg, var(--success), #059669); 
+            color: white; 
+        }
+        .btn-danger { 
+            background: linear-gradient(135deg, var(--danger), #dc2626); 
+            color: white; 
+        }
+        .btn-warning { 
+            background: linear-gradient(135deg, var(--warning), #d97706); 
+            color: white; 
+        }
+
+        /* TABLE */
+        .table-container { 
+            padding: 2.5rem; 
+            overflow-x: auto; 
+        }
+
+        .table { 
+            width: 100%; 
+            border-collapse: separate;
+            border-spacing: 0;
+        }
+
+        .table th { 
+            background: linear-gradient(135deg, var(--secondary-bg), var(--primary-bg)); 
+            padding: 1.25rem; 
+            text-align: left; 
+            font-weight: 600; 
+            color: var(--accent); 
+            border-bottom: 2px solid var(--accent); 
+            font-size: 0.9rem; 
+            text-transform: uppercase; 
+            letter-spacing: 0.05em;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .table th:first-child {
+            border-radius: 12px 0 0 0;
+        }
+
+        .table th:last-child {
+            border-radius: 0 12px 0 0;
+        }
+
+        .table td { 
+            padding: 1.25rem; 
+            border-bottom: 1px solid var(--border); 
+            font-size: 0.9rem;
+            transition: all 0.2s ease;
+        }
+
+        .table tbody tr { 
+            transition: all 0.2s ease;
+        }
+
+        .table tbody tr:hover { 
+            background: rgba(59, 130, 246, 0.08);
+            transform: translateX(5px);
+        }
+
+        .table-actions { 
+            display: flex; 
+            gap: 0.75rem; 
+        }
+
+        /* BADGES */
+        .badge { 
+            padding: 0.4rem 0.9rem; 
+            border-radius: 20px; 
+            font-size: 0.75rem; 
+            font-weight: 600; 
+            background: linear-gradient(135deg, var(--success), #059669); 
+            color: white; 
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+            margin: 0.125rem; 
+            transition: all 0.2s ease;
+            border: 1px solid transparent;
+        }
+
+        .badge:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .badge-warning { 
+            background: linear-gradient(135deg, var(--warning), #d97706); 
+        }
+        .badge-danger { 
+            background: linear-gradient(135deg, var(--danger), #dc2626); 
+        }
+        .badge-info { 
+            background: linear-gradient(135deg, var(--accent), #1d4ed8); 
+        }
+        .badge-secondary {
+            background: linear-gradient(135deg, #6b7280, #4b5563);
+        }
+
+        /* EMPTY STATE */
         .empty-state {
             text-align: center;
-            padding: 4rem 2rem;
-            color: #94a3b8;
+            padding: 6rem 2rem;
+            color: var(--text-muted);
+        }
+
+        .empty-state-icon {
+            font-size: 4rem;
+            margin-bottom: 2rem;
+            opacity: 0.5;
         }
 
         .empty-state h3 {
-            font-size: 1.5rem;
+            font-size: 1.8rem;
             margin-bottom: 1rem;
-            color: #60a5fa;
+            color: var(--text);
+        }
+
+        .empty-state p {
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+            max-width: 400px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.6;
+        }
+
+        /* FORM TURNI SPECIALE */
+        .turni-form {
+            background: linear-gradient(145deg, var(--primary-bg), var(--secondary-bg));
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border: 1px solid var(--border);
+        }
+
+        .turni-form-grid {
+            display: grid;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .message-preview {
+            background: #0f172a;
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            line-height: 1.6;
+            white-space: pre-line;
+            resize: vertical;
+            min-height: 200px;
+            color: var(--text);
         }
 
         /* RESPONSIVE */
+        @media (max-width: 1200px) {
+            .kpi-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
         @media (max-width: 768px) {
-            .container { flex-direction: column; }
-            .sidebar { width: 100%; padding: 1rem; }
-            .nav-menu { display: flex; flex-wrap: wrap; gap: 0.5rem; }
-            .nav-item { margin-bottom: 0; }
-            .main { padding: 1rem; }
-            .kpi-grid { grid-template-columns: 1fr; }
-            .login-card { margin: 1rem; padding: 2rem; }
-            .custom-confirm { min-width: 300px; margin: 1rem; }
-            .toast-container { right: 10px; top: 10px; }
-            .toast { min-width: 250px; }
-            .form-modal { min-width: 300px; margin: 1rem; }
-            .form-grid { grid-template-columns: 1fr; }
+            .container { 
+                flex-direction: column; 
+            }
+            
+            .sidebar { 
+                width: 100%; 
+                padding: 1rem;
+                order: 2;
+            }
+            
+            .main { 
+                padding: 1rem;
+                order: 1;
+            }
+            
+            .nav-menu { 
+                display: flex; 
+                flex-wrap: wrap; 
+                gap: 0.5rem; 
+            }
+            
+            .nav-item { 
+                margin-bottom: 0; 
+            }
+            
+            .kpi-grid { 
+                grid-template-columns: 1fr; 
+            }
+            
+            .login-card { 
+                margin: 1rem; 
+                padding: 2rem; 
+            }
+            
+            .custom-confirm { 
+                min-width: 300px; 
+                margin: 1rem; 
+            }
+            
+            .toast-container { 
+                right: 10px; 
+                left: 10px;
+                top: 80px;
+            }
+            
+            .toast { 
+                min-width: auto; 
+            }
+            
+            .form-modal { 
+                min-width: 300px; 
+                margin: 1rem;
+                max-width: calc(100vw - 2rem);
+            }
+            
+            .form-grid { 
+                grid-template-columns: 1fr; 
+            }
+            
+            .global-search {
+                position: relative;
+                top: auto;
+                right: auto;
+                margin-bottom: 1rem;
+            }
+            
+            .search-input {
+                width: 100%;
+            }
+            
+            .search-input:focus {
+                width: 100%;
+            }
         }
     </style>
 </head>
@@ -603,12 +1013,23 @@
     <!-- BLUR BACKDROP -->
     <div class="blur-backdrop" id="blurBackdrop"></div>
 
+    <!-- GLOBAL SEARCH & CONTROLS -->
+    <div class="global-search" id="globalControls" style="display: none;">
+        <div class="search-container">
+            <span class="search-icon">🔍</span>
+            <input type="text" class="search-input" id="globalSearch" placeholder="Cerca in tutto il sistema...">
+        </div>
+        <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()">
+            <span id="themeIcon">🌙</span>
+        </button>
+    </div>
+
     <!-- LOGIN SCREEN -->
     <div class="login-container" id="loginScreen">
         <div class="login-card">
             <div class="login-logo">🔰</div>
             <h2 class="login-title">UOPI Dashboard</h2>
-            <p style="color: #94a3b8; margin-bottom: 2rem;">Sistema Operativo Pulito</p>
+            <p style="color: var(--text-muted); margin-bottom: 2rem;">Sistema Operativo Avanzato</p>
             
             <form id="loginForm">
                 <div class="form-group">
@@ -634,13 +1055,6 @@
         </div>
     </div>
 
-    <!-- LOADING OVERLAY -->
-    <div class="loading-overlay" id="loadingOverlay">
-        <div class="spinner"></div>
-        <div class="loading-text">🔰 Accesso in corso...</div>
-        <div class="loading-subtitle">Inizializzazione sistema UOPI</div>
-    </div>
-
     <!-- NOTIFICHE PERSONALIZZATE -->
     <div class="custom-confirm hidden" id="customConfirm">
         <div class="custom-confirm-content">
@@ -652,42 +1066,43 @@
         </div>
     </div>
 
-    <!-- MODAL FORM OPERATORI MODIFICATO -->
+    <!-- MODAL FORM OPERATORI -->
     <div class="form-modal hidden" id="operatorModal">
         <div class="form-modal-header">
-            <h3 class="form-modal-title">Nuovo Operatore UOPI</h3>
-            <p class="form-modal-subtitle">Compila i dati dell'operatore</p>
+            <h3 class="form-modal-title">👤 Nuovo Operatore UOPI</h3>
+            <p class="form-modal-subtitle">Sistema di registrazione avanzato</p>
         </div>
         
         <form id="operatorForm">
             <div class="form-grid">
                 <div class="form-group">
-                    <label class="form-label">Nome</label>
-                    <input type="text" class="form-control" name="nome" required>
+                    <label class="form-label">👤 Nome</label>
+                    <input type="text" class="form-control" name="nome" placeholder="Nome dell'operatore" required>
                 </div>
                 <div class="form-group">
-                    <label class="form-label">Cognome</label>
-                    <input type="text" class="form-control" name="cognome" required>
+                    <label class="form-label">👤 Cognome</label>
+                    <input type="text" class="form-control" name="cognome" placeholder="Cognome dell'operatore" required>
                 </div>
                 <div class="form-group">
-                    <label class="form-label">Grado</label>
-                    <input type="text" class="form-control" name="grado" placeholder="Es. Agente, Ispettore..." required>
+                    <label class="form-label">🎖️ Grado</label>
+                    <input type="text" class="form-control" name="grado" placeholder="Es. Agente, Ispettore, Commissario" required>
                 </div>
                 <div class="form-group">
-                    <label class="form-label">Data di Ingresso</label>
+                    <label class="form-label">📅 Data di Ingresso</label>
                     <input type="date" class="form-control" name="data_ingresso" required>
                 </div>
                 <div class="form-group">
-                    <label class="form-label">Qualifiche</label>
-                    <input type="text" class="form-control" name="qualifiche" placeholder="Es. Breacher, Marksman...">
+                    <label class="form-label">🏅 Qualifiche</label>
+                    <input type="text" class="form-control" name="qualifiche" placeholder="Es. Breacher, Marksman, Medico">
                 </div>
                 <div class="form-group">
-                    <label class="form-label">Abilitazioni</label>
-                    <input type="text" class="form-control" name="abilitazioni" placeholder="Es. Irruzione, Guida Urbana...">
+                    <label class="form-label">⚡ Abilitazioni</label>
+                    <input type="text" class="form-control" name="abilitazioni" placeholder="Es. Irruzione, Guida Urbana, K9">
                 </div>
             </div>
+            
             <div class="form-group">
-                <label class="form-label">Tag Discord</label>
+                <label class="form-label">💬 Tag Discord</label>
                 <input type="text" class="form-control" name="discord_tag" placeholder="DiscordTag#1234">
             </div>
         </form>
@@ -718,7 +1133,7 @@
             </div>
             
             <div style="background: rgba(59, 130, 246, 0.1); padding: 1rem; border-radius: 8px; margin-bottom: 1.5rem; border: 1px solid rgba(59, 130, 246, 0.2);">
-                <p style="margin: 0; font-size: 0.85rem; color: #94a3b8;">
+                <p style="margin: 0; font-size: 0.85rem; color: var(--text-muted);">
                     ℹ️ <strong>Requisiti password:</strong><br>
                     • Minimo 8 caratteri<br>
                     • Si consiglia di usare lettere, numeri e simboli
@@ -738,20 +1153,53 @@
     <div class="main-app" id="mainApp">
         <div class="container">
             <nav class="sidebar">
-                <div class="logo">🥷 Gestionario UOPI</div>
+                <div class="logo">🔰 UOPI Dashboard</div>
                 <div class="user-info">
-                    <div class="user-avatar">👤</div>
+                    <div class="user-avatar" id="userAvatar">
+                        👤
+                        <div class="status-indicator"></div>
+                    </div>
                     <div class="user-name" id="currentUserName">Sistema</div>
                     <div class="user-role" id="currentUserRole">Non autenticato</div>
-                    <button class="logout-btn" onclick="logout()">❌ Logout</button>
+                    <button class="logout-btn" onclick="logout()">🚪 Logout</button>
                 </div>
                 <ul class="nav-menu">
-                    <li class="nav-item"><a href="#dashboard" class="nav-link active" data-view="dashboard">🔰 Dashboard Operativa</a></li>
-                    <li class="nav-item"><a href="#operatori" class="nav-link" data-view="operatori">👮 Operatori</a></li>
-                    <li class="nav-item"><a href="#comunicazioni" class="nav-link" data-view="comunicazioni">📢 Comunicazioni</a></li>
-                    <li class="nav-item"><a href="#turni" class="nav-link" data-view="turni">📝 Registro Turni</a></li>
-                    <li class="nav-item"><a href="#sanzioni" class="nav-link" data-view="sanzioni">⛔ Sanzioni e Promozioni</a></li>
-                    <li class="nav-item"><a href="#squadre" class="nav-link" data-view="squadre">🥷 Squadre D'Intervento</a></li>
+                    <li class="nav-item">
+                        <a href="#dashboard" class="nav-link active" data-view="dashboard">
+                            <span class="nav-link-icon">🔰</span>
+                            <span class="nav-link-text">Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#operatori" class="nav-link" data-view="operatori">
+                            <span class="nav-link-icon">👮</span>
+                            <span class="nav-link-text">Operatori</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#comunicazioni" class="nav-link" data-view="comunicazioni">
+                            <span class="nav-link-icon">📢</span>
+                            <span class="nav-link-text">Comunicazioni</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#turni" class="nav-link" data-view="turni">
+                            <span class="nav-link-icon">📝</span>
+                            <span class="nav-link-text">Registro Turni</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#sanzioni" class="nav-link" data-view="sanzioni">
+                            <span class="nav-link-icon">⛔</span>
+                            <span class="nav-link-text">Sanzioni</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#squadre" class="nav-link" data-view="squadre">
+                            <span class="nav-link-icon">🥷</span>
+                            <span class="nav-link-text">Squadre</span>
+                        </a>
+                    </li>
                 </ul>
             </nav>
 
@@ -759,21 +1207,21 @@
                 <header class="header">
                     <h1 id="page-title">🔰 Dashboard Operativa</h1>
                     <div class="kpi-grid">
-                        <div class="kpi-card">
+                        <div class="kpi-card" onclick="navigateToView('operatori')">
                             <div class="kpi-label">👮 Operatori in Servizio</div>
                             <div class="kpi-value" id="kpi-operatori">0</div>
                         </div>
-                        <div class="kpi-card">
+                        <div class="kpi-card" onclick="navigateToView('comunicazioni')">
                             <div class="kpi-label">🚨 Operazioni Attive</div>
                             <div class="kpi-value" id="kpi-operazioni">0</div>
                         </div>
-                        <div class="kpi-card">
+                        <div class="kpi-card" onclick="navigateToView('squadre')">
                             <div class="kpi-label">🥷 Squadre Operative</div>
                             <div class="kpi-value" id="kpi-squadre">0</div>
                         </div>
-                        <div class="kpi-card">
-                            <div class="kpi-label">📢 Comunicazioni</div>
-                            <div class="kpi-value" id="kpi-comunicazioni">0</div>
+                        <div class="kpi-card" onclick="navigateToView('turni')">
+                            <div class="kpi-label">📝 Turni Registrati</div>
+                            <div class="kpi-value" id="kpi-turni">0</div>
                         </div>
                     </div>
                 </header>
@@ -788,21 +1236,45 @@
     </div>
 
     <script>
-        // COSTANTI - CREDENZIALI ADMIN CORRETTE
+        // CREDENZIALI ADMIN
         const ADMIN_CREDENTIALS = {
             username: 'adminuopi_2847832742398',
             password: 'uopiadmin_82389849298'
         };
 
         const STORAGE_KEYS = {
-            database: 'uopi_database',
-            session: 'uopi_session'
+            database: 'uopi_database_v2',
+            session: 'uopi_session_v2',
+            theme: 'uopi_theme'
         };
 
         // STATO GLOBALE
         let currentView = 'dashboard';
         let isAuthenticated = false;
         let currentUser = null;
+
+        // === GESTIONE TEMA ===
+        function toggleTheme() {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem(STORAGE_KEYS.theme, newTheme);
+            
+            const icon = document.getElementById('themeIcon');
+            icon.textContent = newTheme === 'dark' ? '☀️' : '🌙';
+            
+            showAdvancedToast('🎨 Tema Cambiato', `Attivato tema ${newTheme === 'dark' ? 'scuro' : 'chiaro'}`, 'info');
+        }
+
+        function loadTheme() {
+            const savedTheme = localStorage.getItem(STORAGE_KEYS.theme) || 'light';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+            const icon = document.getElementById('themeIcon');
+            if (icon) {
+                icon.textContent = savedTheme === 'dark' ? '☀️' : '🌙';
+            }
+        }
 
         // === GESTIONE DATABASE PERSISTENTE ===
         function loadDatabase() {
@@ -815,7 +1287,6 @@
                 }
             }
             
-            // Database vuoto iniziale
             return {
                 operatori: [],
                 squadre: [],
@@ -833,7 +1304,7 @@
                 return true;
             } catch (e) {
                 console.error('❌ Errore salvataggio database:', e);
-                showToast('Errore nel salvataggio dei dati', 'error');
+                showAdvancedToast('❌ Errore', 'Impossibile salvare i dati', 'error');
                 return false;
             }
         }
@@ -849,7 +1320,8 @@
                     username: userData.username,
                     password: userData.password || ''
                 },
-                timestamp: Date.now()
+                timestamp: Date.now(),
+                expiresAt: Date.now() + (rememberMe ? 30 * 24 * 60 * 60 * 1000 : 8 * 60 * 60 * 1000)
             };
 
             try {
@@ -874,8 +1346,8 @@
             if (data) {
                 try {
                     const parsed = JSON.parse(data);
-                    // Controlla scadenza (30 giorni)
-                    if (Date.now() - parsed.timestamp < 30 * 24 * 60 * 60 * 1000) {
+                    
+                    if (Date.now() < parsed.expiresAt) {
                         return parsed;
                     } else {
                         clearSession();
@@ -922,7 +1394,7 @@
             document.getElementById('blurBackdrop').classList.remove('active');
         }
 
-        function showToast(message, type = 'info', duration = 4000) {
+        function showAdvancedToast(title, message, type = 'info', duration = 4000) {
             const toastContainer = document.getElementById('toastContainer');
             const toast = document.createElement('div');
             toast.className = `toast ${type}`;
@@ -935,8 +1407,12 @@
             };
 
             toast.innerHTML = `
-                <span>${icons[type] || 'ℹ️'}</span>
-                <span>${message}</span>
+                <div class="toast-icon">${icons[type] || 'ℹ️'}</div>
+                <div class="toast-content">
+                    <div class="toast-title">${title}</div>
+                    <div class="toast-message">${message}</div>
+                </div>
+                <button class="toast-close" onclick="this.parentElement.remove()">×</button>
             `;
 
             toastContainer.appendChild(toast);
@@ -986,7 +1462,6 @@
 
         // === AUTENTICAZIONE ===
         function authenticateUser(username, password) {
-            // Admin login
             if (username === ADMIN_CREDENTIALS.username && password === ADMIN_CREDENTIALS.password) {
                 return { 
                     success: true, 
@@ -1001,7 +1476,6 @@
                 };
             }
 
-            // Operator login
             const operator = db.operatori.find(op => 
                 (op.matricola === username || op.username === username) && 
                 op.password === password && 
@@ -1029,62 +1503,61 @@
         }
 
         // === LOGIN HANDLER ===
-        document.getElementById('loginForm').addEventListener('submit', function(e) {
-            e.preventDefault();
+        function initLogin() {
+            const loginForm = document.getElementById('loginForm');
             
-            const username = document.getElementById('username').value.trim();
-            const password = document.getElementById('password').value;
-            const rememberMe = document.getElementById('rememberMe').checked;
-            const errorMessage = document.getElementById('errorMessage');
-            
-            if (!username || !password) {
-                showToast('Inserisci username e password', 'error');
-                return;
-            }
-
-            const authResult = authenticateUser(username, password);
-            
-            if (authResult.success) {
-                currentUser = authResult.user;
+            loginForm.addEventListener('submit', function(e) {
+                e.preventDefault();
                 
-                // Controlla se deve cambiare password
-                if (currentUser.needsPasswordChange) {
-                    showPasswordChangeModal();
-                    return;
+                const username = document.getElementById('username').value.trim();
+                const password = document.getElementById('password').value;
+                const rememberMe = document.getElementById('rememberMe').checked;
+                const errorMessage = document.getElementById('errorMessage');
+                
+                errorMessage.style.display = 'none';
+                
+                if (!username || !password) {
+                    showAdvancedToast('⚠️ Campi Vuoti', 'Inserisci username e password', 'warning');
+                    return false;
+                }
+
+                const authResult = authenticateUser(username, password);
+                
+                if (authResult.success) {
+                    currentUser = authResult.user;
+                    
+                    if (currentUser.needsPasswordChange) {
+                        showPasswordChangeModal();
+                        return false;
+                    }
+                    
+                    completeLogin(rememberMe);
+                    
+                } else {
+                    errorMessage.style.display = 'block';
+                    document.getElementById('username').style.borderColor = 'var(--danger)';
+                    document.getElementById('password').style.borderColor = 'var(--danger)';
+                    
+                    setTimeout(() => {
+                        errorMessage.style.display = 'none';
+                        document.getElementById('username').style.borderColor = 'var(--border)';
+                        document.getElementById('password').style.borderColor = 'var(--border)';
+                    }, 3000);
                 }
                 
-                // Login completato
-                completeLogin(rememberMe);
-                
-            } else {
-                errorMessage.style.display = 'block';
-                document.getElementById('username').style.borderColor = '#ef4444';
-                document.getElementById('password').style.borderColor = '#ef4444';
-                
-                setTimeout(() => {
-                    errorMessage.style.display = 'none';
-                    document.getElementById('username').style.borderColor = '#475569';
-                    document.getElementById('password').style.borderColor = '#475569';
-                }, 3000);
-            }
-        });
+                return false;
+            });
+        }
 
         function completeLogin(rememberMe) {
-            // Salva sessione
             saveSession(currentUser, rememberMe);
-            
-            // Mostra loading
-            document.getElementById('loadingOverlay').classList.add('show');
-            
-            setTimeout(() => {
-                showDashboard();
-                showToast(`Benvenuto ${currentUser.nome}!`, 'success');
-            }, 1500);
+            showDashboard();
+            showAdvancedToast('🚀 Login Riuscito', `Benvenuto ${currentUser.nome}!`, 'success');
         }
 
         function showDashboard() {
             document.getElementById('loginScreen').style.display = 'none';
-            document.getElementById('loadingOverlay').classList.remove('show');
+            document.getElementById('globalControls').style.display = 'flex';
             
             const mainApp = document.getElementById('mainApp');
             mainApp.style.display = 'block';
@@ -1118,16 +1591,15 @@
             const confirmPassword = document.getElementById('confirmPassword').value;
             
             if (!newPassword || newPassword.length < 8) {
-                showToast('La password deve essere di almeno 8 caratteri', 'error');
+                showAdvancedToast('❌ Password Troppo Corta', 'La password deve essere di almeno 8 caratteri', 'error');
                 return;
             }
             
             if (newPassword !== confirmPassword) {
-                showToast('Le password non coincidono', 'error');
+                showAdvancedToast('❌ Password Diverse', 'Le password non coincidono', 'error');
                 return;
             }
             
-            // Aggiorna password dell'operatore
             const operator = db.operatori.find(op => op.id === currentUser.id);
             if (operator) {
                 operator.password = newPassword;
@@ -1135,23 +1607,21 @@
                 currentUser.password = newPassword;
                 currentUser.needsPasswordChange = false;
                 
-                // Salva database aggiornato
                 if (saveDatabase(db)) {
                     document.getElementById('passwordChangeModal').classList.add('hidden');
                     hideBlur();
                     
-                    showToast('Password cambiata con successo!', 'success');
+                    showAdvancedToast('✅ Password Aggiornata', 'Password cambiata con successo!', 'success');
                     
-                    // Completa il login
                     const rememberMe = document.getElementById('rememberMe').checked;
                     completeLogin(rememberMe);
                 } else {
-                    showToast('Errore nel salvataggio della password', 'error');
+                    showAdvancedToast('❌ Errore Database', 'Impossibile salvare la nuova password', 'error');
                 }
             }
         }
 
-        // === GESTIONE OPERATORI MODIFICATA ===
+        // === GESTIONE OPERATORI ===
         function openOperatorModal() {
             showBlur();
             document.getElementById('operatorModal').classList.remove('hidden');
@@ -1173,7 +1643,7 @@
             const dataIngresso = formData.get('data_ingresso');
             
             if (!nome || !cognome || !grado || !dataIngresso) {
-                showToast('Compila tutti i campi obbligatori', 'error');
+                showAdvancedToast('⚠️ Campi Mancanti', 'Compila tutti i campi obbligatori', 'warning');
                 return;
             }
             
@@ -1203,7 +1673,7 @@
             
             if (saveDatabase(db)) {
                 closeOperatorModal();
-                showToast(`Operatore ${matricola} creato con successo!`, 'success', 6000);
+                showAdvancedToast('✅ Operatore Creato', `${matricola} aggiunto al sistema`, 'success');
                 
                 setTimeout(() => {
                     customConfirm(`👤 OPERATORE CREATO\n\n🆔 Matricola: ${matricola}\n🔒 Password temporanea: ${tempPassword}\n📅 Data ingresso: ${dataIngresso}\n💬 Discord: ${newOperator.discord_tag || 'Non specificato'}\n\n⚠️ L'operatore dovrà cambiare la password al primo accesso.`);
@@ -1214,7 +1684,38 @@
                     renderContent();
                 }
             } else {
-                showToast('Errore nella creazione dell\'operatore', 'error');
+                showAdvancedToast('❌ Errore Database', 'Impossibile creare l\'operatore', 'error');
+            }
+        }
+
+        // === RIMOZIONE OPERATORI ===
+        async function deleteOperator(id) {
+            const operator = db.operatori.find(op => op.id == id);
+            if (!operator) {
+                showAdvancedToast('⚠️ Operatore Non Trovato', 'Impossibile trovare l\'operatore da eliminare', 'warning');
+                return;
+            }
+
+            const confirmed = await customConfirm(`🗑️ Confermi la rimozione dell'operatore?\n\n${operator.nome} ${operator.cognome}\nMatricola: ${operator.matricola}\n\nQuesta azione è irreversibile.`);
+            
+            if (!confirmed) return;
+            
+            const before = db.operatori.length;
+            db.operatori = db.operatori.filter(o => o.id != id);
+            
+            if (db.operatori.length === before) {
+                showAdvancedToast('⚠️ Nessuna Modifica', 'Operatore non trovato', 'warning');
+                return;
+            }
+            
+            if (saveDatabase(db)) {
+                showAdvancedToast('✅ Operatore Rimosso', `${operator.nome} ${operator.cognome} eliminato dal sistema`, 'success');
+                updateKPIs();
+                if (currentView === 'operatori') {
+                    renderContent();
+                }
+            } else {
+                showAdvancedToast('❌ Errore Database', 'Impossibile salvare le modifiche', 'error');
             }
         }
 
@@ -1226,28 +1727,41 @@
                 isAuthenticated = false;
                 currentUser = null;
                 
+                document.getElementById('globalControls').style.display = 'none';
                 const mainApp = document.getElementById('mainApp');
                 mainApp.classList.remove('show');
                 mainApp.style.display = 'none';
                 document.getElementById('loginScreen').style.display = 'flex';
                 
-                showToast('Logout effettuato', 'info');
+                showAdvancedToast('👋 Logout', 'Uscita dal sistema completata', 'info');
             }
         }
 
         // === NAVIGAZIONE ===
+        function navigateToView(view) {
+            currentView = view;
+            
+            document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+            document.querySelector(`[data-view="${view}"]`)?.classList.add('active');
+            
+            const titles = {
+                dashboard: '🔰 Dashboard Operativa',
+                operatori: '👮 Gestione Operatori',
+                comunicazioni: '📢 Centro Comunicazioni',
+                turni: '📝 Registro Turni',
+                sanzioni: '⛔ Sanzioni e Promozioni',
+                squadre: '🥷 Squadre D\'Intervento'
+            };
+            
+            document.getElementById('page-title').textContent = titles[view] || '🔰 Dashboard';
+            renderContent();
+        }
+
         document.querySelectorAll('.nav-link').forEach(link => {
             link.addEventListener('click', (e) => {
                 e.preventDefault();
-                
                 if (!isAuthenticated) return;
-                
-                document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
-                e.target.classList.add('active');
-                
-                currentView = e.target.dataset.view;
-                document.getElementById('page-title').textContent = e.target.textContent;
-                renderContent();
+                navigateToView(e.target.closest('.nav-link').dataset.view);
             });
         });
 
@@ -1258,7 +1772,7 @@
             document.getElementById('kpi-operatori').textContent = db.operatori.filter(o => o.inServizio).length;
             document.getElementById('kpi-operazioni').textContent = db.operazioni.filter(o => o.stato === 'IN_CORSO').length;
             document.getElementById('kpi-squadre').textContent = db.squadre.filter(s => s.stato === 'OPERATIVA').length;
-            document.getElementById('kpi-comunicazioni').textContent = db.comunicazioni.filter(c => !c.letto).length;
+            document.getElementById('kpi-turni').textContent = db.turni ? db.turni.length : 0;
         }
 
         // === RENDERING ===
@@ -1294,9 +1808,9 @@
                 container.innerHTML = `
                     <div class="card">
                         <div class="empty-state">
-                            <h3>🏗️ Sistema Appena Inizializzato</h3>
+                            <div class="empty-state-icon">🏗️</div>
+                            <h3>Sistema Appena Inizializzato</h3>
                             <p>Il database è vuoto. Inizia aggiungendo operatori per popolare il sistema.</p>
-                            <br>
                             <button class="btn btn-primary" onclick="openOperatorModal()">➕ Aggiungi Primo Operatore</button>
                         </div>
                     </div>
@@ -1352,7 +1866,8 @@
                     <div class="table-container">
                         ${db.operatori.length === 0 ? `
                             <div class="empty-state">
-                                <h3>📋 Nessun Operatore Registrato</h3>
+                                <div class="empty-state-icon">📋</div>
+                                <h3>Nessun Operatore Registrato</h3>
                                 <p>Aggiungi il primo operatore per iniziare.</p>
                             </div>
                         ` : `
@@ -1366,6 +1881,7 @@
                                         <th>Stato Servizio</th>
                                         <th>Password</th>
                                         <th>Discord</th>
+                                        <th>Azioni</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -1378,6 +1894,9 @@
                                             <td><span class="badge ${op.inServizio ? '' : 'badge-warning'}">${op.inServizio ? 'IN SERVIZIO' : 'LIBERO'}</span></td>
                                             <td><span class="badge ${op.needsPasswordChange ? 'badge-danger' : 'badge-success'}">${op.needsPasswordChange ? 'DA CAMBIARE' : 'OK'}</span></td>
                                             <td>${op.discord_tag || '-'}</td>
+                                            <td class="table-actions">
+                                                <button class="btn btn-danger" onclick="deleteOperator('${op.id}')">🗑️ Rimuovi</button>
+                                            </td>
                                         </tr>
                                     `).join('')}
                                 </tbody>
@@ -1388,6 +1907,219 @@
             `;
         }
 
+        function renderTurni(container) {
+            container.innerHTML = `
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">📝 Registro Turni</h3>
+                        <div class="card-actions">
+                            <button class="btn btn-secondary" id="copyMsgBtn">📋 Copia Messaggio</button>
+                            <button class="btn btn-primary" id="saveShiftBtn">💾 Salva Turno</button>
+                        </div>
+                    </div>
+                    
+                    <div class="turni-form">
+                        <div class="turni-form-grid">
+                            <div class="form-group">
+                                <label class="form-label">Autorizzato Da:</label>
+                                <input type="text" class="form-control" id="t_auth" placeholder="Nome e Cognome">
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">Coordinatore:</label>
+                                <input type="text" class="form-control" id="t_coord" placeholder="Nome e Cognome">
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">Operatore che procederà alla contrattazione:</label>
+                                <input type="text" class="form-control" id="t_neg" placeholder="Nome e Cognome">
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">Tipo di Intervento:</label>
+                                <input type="text" class="form-control" id="t_tipo" placeholder="Es. Negoziazione, Intervento Dinamico...">
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">Operatori Coinvolti (separa con virgola):</label>
+                                <input type="text" class="form-control" id="t_ops" placeholder="Operatore 1, Operatore 2, ...">
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">📋 Anteprima Messaggio:</label>
+                                <textarea class="message-preview" id="t_preview" readonly></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card" style="margin-top: 2rem;">
+                    <div class="card-header">
+                        <h3 class="card-title">📚 Turni Salvati</h3>
+                    </div>
+                    <div class="table-container">
+                        ${!db.turni || db.turni.length === 0 ? `
+                            <div class="empty-state">
+                                <div class="empty-state-icon">📭</div>
+                                <h3>Nessun Turno Registrato</h3>
+                                <p>Compila i campi e salva per creare un record.</p>
+                            </div>
+                        ` : `
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Data</th>
+                                        <th>Autorizzato</th>
+                                        <th>Coordinatore</th>
+                                        <th>Tipo</th>
+                                        <th>Operatori</th>
+                                        <th>Azioni</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    ${db.turni.map(t => `
+                                        <tr>
+                                            <td>${new Date(t.timestamp).toLocaleString()}</td>
+                                            <td>${t.autorizzatoDa || '-'}</td>
+                                            <td>${t.coordinatore || '-'}</td>
+                                            <td>${t.tipoIntervento || '-'}</td>
+                                            <td>${(t.operatoriCoinvolti || []).join(', ')}</td>
+                                            <td class="table-actions">
+                                                <button class="btn btn-danger" onclick="deleteTurno('${t.id}')">🗑️ Rimuovi</button>
+                                            </td>
+                                        </tr>
+                                    `).join('')}
+                                </tbody>
+                            </table>
+                        `}
+                    </div>
+                </div>
+            `;
+
+            // Inizializza la logica del form turni
+            initTurniForm();
+        }
+
+        function initTurniForm() {
+            const inputs = ['t_auth','t_coord','t_neg','t_tipo','t_ops'].map(id => document.getElementById(id));
+            const preview = document.getElementById('t_preview');
+
+            function buildMessage() {
+                const auth = document.getElementById('t_auth').value.trim();
+                const coord = document.getElementById('t_coord').value.trim();
+                const neg = document.getElementById('t_neg').value.trim();
+                const tipo = document.getElementById('t_tipo').value.trim();
+                const ops = document.getElementById('t_ops').value.trim();
+                
+                return `MESSAGGIO DI ATTIVAZIONE @U.O.P.I 👮
+
+Autorizzato Da: ${auth}
+
+Coordinatore: ${coord}
+
+Operatore che procederà alla contrattazione: ${neg}
+
+Tipo di Intervento: ${tipo}
+
+Operatori Coinvolti: ${ops}`;
+            }
+
+            function refreshPreview() { 
+                preview.value = buildMessage(); 
+            }
+            
+            inputs.forEach(inp => {
+                if (inp) {
+                    inp.addEventListener('input', refreshPreview);
+                }
+            });
+            refreshPreview();
+
+            const copyBtn = document.getElementById('copyMsgBtn');
+            const saveBtn = document.getElementById('saveShiftBtn');
+
+            if (copyBtn) {
+                copyBtn.addEventListener('click', async () => {
+                    try {
+                        await navigator.clipboard.writeText(preview.value);
+                        showAdvancedToast('📋 Messaggio Copiato', 'Messaggio copiato negli appunti', 'success');
+                    } catch (e) {
+                        showAdvancedToast('❌ Errore Copia', 'Impossibile copiare il messaggio', 'error');
+                    }
+                });
+            }
+
+            if (saveBtn) {
+                saveBtn.addEventListener('click', () => {
+                    const auth = document.getElementById('t_auth').value.trim();
+                    const coord = document.getElementById('t_coord').value.trim();
+                    const neg = document.getElementById('t_neg').value.trim();
+                    const tipo = document.getElementById('t_tipo').value.trim();
+                    const ops = document.getElementById('t_ops').value.split(',').map(s => s.trim()).filter(Boolean);
+
+                    if (!auth || !coord || !neg || !tipo) {
+                        showAdvancedToast('⚠️ Campi Mancanti', 'Compila tutti i campi obbligatori', 'warning');
+                        return;
+                    }
+
+                    const rec = {
+                        id: Date.now(),
+                        autorizzatoDa: auth,
+                        coordinatore: coord,
+                        contrattazione: neg,
+                        tipoIntervento: tipo,
+                        operatoriCoinvolti: ops,
+                        message: preview.value,
+                        timestamp: Date.now()
+                    };
+
+                    if (!db.turni) db.turni = [];
+                    db.turni.push(rec);
+                    
+                    if (saveDatabase(db)) {
+                        showAdvancedToast('✅ Turno Salvato', 'Record aggiunto al registro turni', 'success');
+                        updateKPIs();
+                        if (currentView === 'turni') {
+                            renderContent();
+                        }
+                    } else {
+                        showAdvancedToast('❌ Errore Database', 'Impossibile salvare il turno', 'error');
+                    }
+                });
+            }
+        }
+
+        async function deleteTurno(id) {
+            const turno = db.turni?.find(t => t.id == id);
+            if (!turno) {
+                showAdvancedToast('⚠️ Turno Non Trovato', 'Impossibile trovare il turno da eliminare', 'warning');
+                return;
+            }
+
+            const confirmed = await customConfirm(`🗑️ Confermi la rimozione del turno?\n\nAutorizzato da: ${turno.autorizzatoDa}\nData: ${new Date(turno.timestamp).toLocaleString()}\n\nQuesta azione è irreversibile.`);
+            
+            if (!confirmed) return;
+            
+            if (!db.turni) db.turni = [];
+            const before = db.turni.length;
+            db.turni = db.turni.filter(t => t.id != id);
+            
+            if (db.turni.length === before) {
+                showAdvancedToast('⚠️ Nessuna Modifica', 'Turno non trovato', 'warning');
+                return;
+            }
+            
+            if (saveDatabase(db)) {
+                showAdvancedToast('✅ Turno Rimosso', 'Turno eliminato dal registro', 'success');
+                updateKPIs();
+                if (currentView === 'turni') {
+                    renderContent();
+                }
+            } else {
+                showAdvancedToast('❌ Errore Database', 'Impossibile salvare le modifiche', 'error');
+            }
+        }
+
         function renderComunicazioni(container) {
             container.innerHTML = `
                 <div class="card">
@@ -1396,24 +2128,9 @@
                     </div>
                     <div class="table-container">
                         <div class="empty-state">
-                            <h3>📭 Nessuna Comunicazione</h3>
+                            <div class="empty-state-icon">📭</div>
+                            <h3>Nessuna Comunicazione</h3>
                             <p>Le comunicazioni operative appariranno qui.</p>
-                        </div>
-                    </div>
-                </div>
-            `;
-        }
-
-        function renderTurni(container) {
-            container.innerHTML = `
-                <div class="card">
-                    <div class="card-header">
-                        <h3 class="card-title">📝 Registro Turni</h3>
-                    </div>
-                    <div class="table-container">
-                        <div class="empty-state">
-                            <h3>📅 Nessun Turno Registrato</h3>
-                            <p>I turni di servizio appariranno qui.</p>
                         </div>
                     </div>
                 </div>
@@ -1428,7 +2145,8 @@
                     </div>
                     <div class="table-container">
                         <div class="empty-state">
-                            <h3>📋 Nessuna Sanzione o Promozione</h3>
+                            <div class="empty-state-icon">📋</div>
+                            <h3>Nessuna Sanzione o Promozione</h3>
                             <p>I provvedimenti disciplinari appariranno qui.</p>
                         </div>
                     </div>
@@ -1444,7 +2162,8 @@
                     </div>
                     <div class="table-container">
                         <div class="empty-state">
-                            <h3>👥 Nessuna Squadra Formata</h3>
+                            <div class="empty-state-icon">👥</div>
+                            <h3>Nessuna Squadra Formata</h3>
                             <p>Le squadre operative appariranno qui.</p>
                         </div>
                     </div>
@@ -1453,31 +2172,30 @@
         }
 
         // === INIZIALIZZAZIONE ===
-        window.addEventListener('load', function() {
+        document.addEventListener('DOMContentLoaded', function() {
             console.log('🔄 Inizializzazione sistema UOPI...');
             
-            // Carica sessione esistente
+            loadTheme();
+            
             const savedSession = loadSession();
             if (savedSession && savedSession.user) {
                 currentUser = savedSession.user;
                 isAuthenticated = true;
                 showDashboard();
-                showToast(`Bentornato ${savedSession.user.nome}!`, 'info');
+                showAdvancedToast('🔄 Sessione Ripristinata', `Bentornato ${savedSession.user.nome}!`, 'info');
                 
-                // Precompila le credenziali se presenti
                 if (savedSession.credentials) {
                     document.getElementById('username').value = savedSession.credentials.username || '';
-                    document.getElementById('password').value = savedSession.credentials.password || '';
                     document.getElementById('rememberMe').checked = true;
                 }
                 return;
             }
 
+            initLogin();
             console.log('🔒 Sistema pronto per il login');
             console.log('📊 Operatori nel database:', db.operatori.length);
         });
 
-        // Auto-refresh KPI ogni 30 secondi
         setInterval(() => {
             if (isAuthenticated) {
                 updateKPIs();
@@ -1486,5 +2204,3 @@
     </script>
 </body>
 </html>
-
-
