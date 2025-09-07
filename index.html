@@ -5,9 +5,8 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>🔰 UOPI Dashboard - Sistema Avanzato</title>
     <meta name="theme-color" content="#1e293b">
-    <link rel="manifest" href="data:application/json;base64,eyJuYW1lIjoiVU9QSSBEYXNoYm9hcmQiLCJzaG9ydF9uYW1lIjoiVU9QSSIsImljb25zIjpbeyJzcmMiOiJkYXRhOmltYWdlL3N2Zyt4bWw7YmFzZTY0LFBITjJaeUIyYVdWM1FtOTRQU0l3SURBZ01qQWdNakFpSUdobGFXZG9kRDBpTWpBaUlIZHBaSFJvUFNJeU1DSStQR052Y21ObGJHVWdZM2c5SWpFd0lpQmplVDBpTVRBaUlISTlJallpSUdacGJHdzlJaU16WWpneVpqWWlMejQ4TDNOMlp6ND0iLCJzaXplcyI6IjE5Mng5NiIsInR5cGUiOiJpbWFnZS9zdmcreG1sIn1dLCJzdGFydF91cmwiOiIuIiwiZGlzcGxheSI6InN0YW5kYWxvbmUiLCJiYWNrZ3JvdW5kX2NvbG9yIjoiIzFlMjkzYiIsInRoZW1lX2NvbG9yIjoiIzNiODJmNiJ9">
+    <link rel="manifest" href="data:application/json;base64,eyJuYW1lIjoiVU9QSSBEYXNoYm9hcmQiLCJzaG9ydF9uYW1lIjoiVU9QSSIsImljb25zIjpbeyJzcmMiOiJkYXRhOmltYWdlL3N2Zyt4bWw7YmFzZTY0LFBITjJaeUI4YVdWM1FtOTRQU0l3SURBZ01qQWdNakFpSUdobGFXZG9kRDBpTWpBaUlIZHBaSFJvUFNJeU1DSStQR052Y21ObGJHVWdZM2c5SWpFd0lpQmplVDBpTVRBaUlISTlJallpSUdacGJHdzlJaU16WWpneVpqWWlMejQ4TDNOMlp6ND0iLCJzaXplcyI6IjE5Mng5NiIsInR5cGUiOiJpbWFnZS9zdmcreG1sIn1dLCJzdGFydF91cmwiOiIuIiwiZGlzcGxheSI6InN0YW5kYWxvbmUiLCJiYWNrZ3JvdW5kX2NvbG9yIjoiIzFlMjkzYiIsInRoZW1lX2NvbG9yIjoiIzNiODJmNiJ9">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
     <style>
         :root {
             --primary-bg: #1e293b;
@@ -40,29 +39,6 @@
             min-height: 100vh;
             overflow-x: hidden;
             transition: all 0.3s ease;
-        }
-
-        /* LOADER GLOBAL */
-        .global-loader {
-            position: fixed;
-            inset: 0;
-            background: var(--primary-bg);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 10000;
-            opacity: 1;
-            transition: opacity 0.5s ease;
-        }
-
-        .global-loader.hidden {
-            opacity: 0;
-            pointer-events: none;
-        }
-
-        .loader-content {
-            text-align: center;
-            animation: pulse 2s infinite;
         }
 
         /* BLUR BACKDROP */
@@ -363,46 +339,6 @@
             transform: translateY(-1px);
         }
 
-        /* 2FA MODAL */
-        .twofa-modal {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: var(--secondary-bg);
-            border-radius: 16px;
-            padding: 2rem;
-            z-index: 10001;
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.8);
-            min-width: 400px;
-            color: var(--text);
-            border: 1px solid var(--border);
-            animation: modalIn 0.3s ease-out;
-        }
-
-        .twofa-code-input {
-            display: flex;
-            gap: 1rem;
-            justify-content: center;
-            margin: 2rem 0;
-        }
-
-        .code-digit {
-            width: 50px;
-            height: 50px;
-            text-align: center;
-            font-size: 1.5rem;
-            border: 2px solid var(--border);
-            border-radius: 8px;
-            background: var(--primary-bg);
-            color: var(--text);
-        }
-
-        .code-digit:focus {
-            border-color: var(--accent);
-            outline: none;
-        }
-
         .error-message {
             color: var(--danger);
             margin-top: 1rem;
@@ -467,28 +403,6 @@
         @keyframes pulse {
             0%, 100% { opacity: 1; }
             50% { opacity: 0.5; }
-        }
-
-        /* PROGRESS BAR */
-        .progress-bar {
-            width: 300px;
-            height: 4px;
-            background: var(--border);
-            border-radius: 2px;
-            margin-top: 1rem;
-            overflow: hidden;
-        }
-
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, var(--accent), var(--success));
-            border-radius: 2px;
-            animation: progress 3s ease-in-out;
-        }
-
-        @keyframes progress {
-            0% { width: 0%; }
-            100% { width: 100%; }
         }
 
         /* NOTIFICHE PERSONALIZZATE */
@@ -775,22 +689,6 @@
             border-right: 1px solid var(--border);
         }
 
-        .sidebar::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            right: 0;
-            width: 1px;
-            height: 100%;
-            background: linear-gradient(180deg, transparent, var(--accent), transparent);
-            animation: pulse-line 3s infinite;
-        }
-
-        @keyframes pulse-line {
-            0%, 100% { opacity: 0.3; }
-            50% { opacity: 1; }
-        }
-
         .logo {
             font-size: 2rem;
             font-weight: bold;
@@ -868,29 +766,6 @@
             font-size: 0.85rem;
             color: var(--text-muted);
             margin-bottom: 1rem;
-        }
-
-        .user-stats {
-            display: flex;
-            justify-content: space-around;
-            margin-bottom: 1rem;
-        }
-
-        .user-stat {
-            text-align: center;
-        }
-
-        .user-stat-value {
-            font-size: 1.2rem;
-            font-weight: bold;
-            color: var(--accent);
-        }
-
-        .user-stat-label {
-            font-size: 0.7rem;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
         }
 
         .logout-btn {
@@ -985,18 +860,6 @@
             position: relative;
         }
 
-        .main::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: 
-                radial-gradient(circle at 20% 50%, rgba(59, 130, 246, 0.1) 0%, transparent 50%),
-                radial-gradient(circle at 80% 20%, rgba(16, 185, 129, 0.1) 0%, transparent 50%),
-                radial-gradient(circle at 40% 80%, rgba(245, 158, 11, 0.1) 0%, transparent 50%);
-            pointer-events: none;
-            z-index: -1;
-        }
-
         .header {
             background: linear-gradient(135deg, var(--secondary-bg), var(--primary-bg));
             border-radius: 24px;
@@ -1026,14 +889,6 @@
             position: relative;
             z-index: 1;
             animation: glow 3s ease-in-out infinite alternate;
-        }
-
-        .header-subtitle {
-            color: var(--text-muted);
-            font-size: 1.1rem;
-            margin-bottom: 2rem;
-            z-index: 1;
-            position: relative;
         }
 
         /* KPI CARDS AVANZATE */
@@ -1076,15 +931,6 @@
             border-color: var(--accent);
         }
 
-        .kpi-icon {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-            background: linear-gradient(135deg, var(--accent), #1d4ed8);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
         .kpi-label {
             color: var(--text-muted);
             font-size: 0.9rem;
@@ -1108,19 +954,6 @@
         @keyframes countUp {
             from { transform: scale(0.8); opacity: 0; }
             to { transform: scale(1); opacity: 1; }
-        }
-
-        .kpi-trend {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
-            font-size: 0.85rem;
-            color: var(--success);
-        }
-
-        .kpi-trend.down {
-            color: var(--danger);
         }
 
         .kpi-chart {
@@ -1166,14 +999,6 @@
             display: flex;
             align-items: center;
             gap: 1rem;
-        }
-
-        .card-title-icon {
-            font-size: 1.5rem;
-            background: linear-gradient(135deg, var(--accent), #1d4ed8);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
         }
 
         .card-actions { 
@@ -1241,52 +1066,6 @@
         .btn-warning { 
             background: linear-gradient(135deg, var(--warning), #d97706); 
             color: white; 
-        }
-
-        /* SEARCH AVANZATA */
-        .search-box { 
-            padding: 0.875rem 1.25rem; 
-            border: 2px solid var(--border); 
-            border-radius: 14px; 
-            background: var(--primary-bg); 
-            color: var(--text); 
-            font-size: 0.9rem; 
-            width: 300px; 
-            transition: all 0.3s ease; 
-            position: relative;
-        }
-
-        .search-box:focus { 
-            outline: none; 
-            border-color: var(--accent); 
-            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1); 
-            transform: translateY(-2px);
-        }
-
-        .search-results {
-            position: absolute;
-            top: 100%;
-            left: 0;
-            right: 0;
-            background: var(--secondary-bg);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-            max-height: 300px;
-            overflow-y: auto;
-            z-index: 1000;
-            margin-top: 0.5rem;
-        }
-
-        .search-result-item {
-            padding: 1rem;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .search-result-item:hover {
-            background: rgba(59, 130, 246, 0.1);
         }
 
         /* TABLE AVANZATA */
@@ -1425,86 +1204,70 @@
             height: 150px;
         }
 
-        /* TIMELINE AVANZATA */
-        .timeline { 
-            position: relative; 
-            padding-left: 3rem; 
-        }
-
-        .timeline::before { 
-            content: ''; 
-            position: absolute; 
-            left: 1rem; 
-            top: 0; 
-            bottom: 0; 
-            width: 3px; 
-            background: linear-gradient(180deg, var(--accent), var(--success), var(--warning)); 
-            border-radius: 2px;
-        }
-
-        .timeline-item { 
-            position: relative; 
-            margin-bottom: 2rem; 
-            padding-left: 2.5rem;
-            transition: all 0.3s ease;
-        }
-
-        .timeline-item:hover {
-            transform: translateX(10px);
-        }
-
-        .timeline-item::before { 
-            content: ''; 
-            position: absolute; 
-            left: -0.75rem; 
-            top: 0.75rem; 
-            width: 1.5rem; 
-            height: 1.5rem; 
-            background: var(--accent); 
-            border-radius: 50%; 
-            border: 3px solid var(--secondary-bg);
-            z-index: 1;
-        }
-
-        .timeline-content {
-            background: var(--secondary-bg);
-            padding: 1.5rem;
-            border-radius: 16px;
-            border: 1px solid var(--border);
-            position: relative;
-        }
-
-        .timeline-content::before {
-            content: '';
+        /* SEARCH RESULTS */
+        .search-results {
             position: absolute;
-            left: -10px;
-            top: 20px;
-            width: 0;
-            height: 0;
-            border-top: 10px solid transparent;
-            border-bottom: 10px solid transparent;
-            border-right: 10px solid var(--secondary-bg);
-        }
-
-        /* STATS AVANZATE */
-        .stats-grid { 
-            display: grid; 
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); 
-            gap: 2rem; 
-            margin-bottom: 2rem; 
-        }
-
-        .stat-card { 
-            background: linear-gradient(145deg, var(--primary-bg), var(--secondary-bg)); 
-            padding: 2rem; 
-            border-radius: 20px; 
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: var(--secondary-bg);
             border: 1px solid var(--border);
-            transition: all 0.3s ease;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            max-height: 300px;
+            overflow-y: auto;
+            z-index: 1000;
+            margin-top: 0.5rem;
         }
 
-        .stat-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+        .search-result-item {
+            padding: 1rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .search-result-item:hover {
+            background: rgba(59, 130, 246, 0.1);
+        }
+
+        /* PWA INSTALL BUTTON */
+        .pwa-install {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, var(--accent), #1d4ed8);
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: 50px;
+            border: none;
+            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.4);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            z-index: 1000;
+            display: none;
+        }
+
+        .pwa-install.show {
+            display: block;
+            animation: slideInUp 0.5s ease;
+        }
+
+        .pwa-install:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 35px rgba(59, 130, 246, 0.6);
+        }
+
+        @keyframes slideInUp {
+            from {
+                transform: translateY(100px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
         }
 
         /* RESPONSIVE AVANZATO */
@@ -1593,132 +1356,10 @@
                 width: 100%;
             }
         }
-
-        /* LOADING STATES */
-        .skeleton {
-            background: linear-gradient(90deg, var(--border) 25%, rgba(255,255,255,0.1) 50%, var(--border) 75%);
-            background-size: 200% 100%;
-            animation: skeleton-loading 1.5s infinite;
-        }
-
-        @keyframes skeleton-loading {
-            0% { background-position: 200% 0; }
-            100% { background-position: -200% 0; }
-        }
-
-        .skeleton-text {
-            height: 1em;
-            border-radius: 4px;
-            margin: 0.25rem 0;
-        }
-
-        .skeleton-avatar {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-        }
-
-        /* PWA INSTALL BUTTON */
-        .pwa-install {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: linear-gradient(135deg, var(--accent), #1d4ed8);
-            color: white;
-            padding: 1rem 1.5rem;
-            border-radius: 50px;
-            border: none;
-            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.4);
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-weight: 600;
-            z-index: 1000;
-            display: none;
-        }
-
-        .pwa-install.show {
-            display: block;
-            animation: slideInUp 0.5s ease;
-        }
-
-        .pwa-install:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 12px 35px rgba(59, 130, 246, 0.6);
-        }
-
-        @keyframes slideInUp {
-            from {
-                transform: translateY(100px);
-                opacity: 0;
-            }
-            to {
-                transform: translateY(0);
-                opacity: 1;
-            }
-        }
-
-        /* SESSION TIMEOUT WARNING */
-        .session-warning {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: var(--warning);
-            color: #1a1a1a;
-            padding: 2rem;
-            border-radius: 16px;
-            box-shadow: 0 25px 50px rgba(0,0,0,0.8);
-            z-index: 10003;
-            max-width: 400px;
-            text-align: center;
-            display: none;
-        }
-
-        .session-timer {
-            font-size: 2rem;
-            font-weight: bold;
-            margin: 1rem 0;
-        }
-
-        /* AUDIT LOG */
-        .audit-entry {
-            padding: 1rem;
-            border-left: 3px solid var(--accent);
-            margin-bottom: 1rem;
-            background: var(--secondary-bg);
-            border-radius: 0 12px 12px 0;
-        }
-
-        .audit-time {
-            color: var(--text-muted);
-            font-size: 0.8rem;
-        }
-
-        .audit-action {
-            font-weight: 600;
-            margin: 0.5rem 0;
-        }
-
-        .audit-details {
-            color: var(--text-muted);
-            font-size: 0.9rem;
-        }
     </style>
 </head>
 
 <body>
-    <!-- GLOBAL LOADER -->
-    <div class="global-loader" id="globalLoader">
-        <div class="loader-content">
-            <div class="login-logo">🔰</div>
-            <div class="loading-text">UOPI Sistema</div>
-            <div class="loading-subtitle">Caricamento in corso...</div>
-            <div class="progress-bar">
-                <div class="progress-fill"></div>
-            </div>
-        </div>
-    </div>
-
     <!-- BLUR BACKDROP -->
     <div class="blur-backdrop" id="blurBackdrop"></div>
 
@@ -1742,17 +1383,6 @@
     <button class="pwa-install" id="pwaInstall">
         📱 Installa App
     </button>
-
-    <!-- SESSION TIMEOUT WARNING -->
-    <div class="session-warning" id="sessionWarning">
-        <h3>⚠️ Sessione in Scadenza</h3>
-        <div class="session-timer" id="sessionTimer">05:00</div>
-        <p>La tua sessione scadrà tra poco. Vuoi continuare?</p>
-        <div style="margin-top: 1rem;">
-            <button class="btn btn-primary" onclick="extendSession()">Continua Sessione</button>
-            <button class="btn btn-secondary" onclick="logout()">Logout</button>
-        </div>
-    </div>
 
     <!-- LOGIN SCREEN -->
     <div class="login-container" id="loginScreen">
@@ -1790,14 +1420,454 @@
         </div>
     </div>
 
-    <!-- 2FA MODAL -->
-    <div class="twofa-modal hidden" id="twofaModal">
-        <div style="text-align: center;">
-            <h3>🔐 Autenticazione a Due Fattori</h3>
-            <p style="color: var(--text-muted); margin: 1rem 0;">Inserisci il codice a 6 cifre</p>
+    <!-- LOADING OVERLAY -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="spinner"></div>
+        <div class="loading-text">🔰 Accesso in corso...</div>
+        <div class="loading-subtitle">Inizializzazione sistema UOPI avanzato</div>
+    </div>
+
+    <!-- NOTIFICHE PERSONALIZZATE -->
+    <div class="custom-confirm hidden" id="customConfirm">
+        <div class="custom-confirm-content">
+            <p class="custom-confirm-message" id="customConfirmMessage">Messaggio di conferma</p>
+            <div class="custom-confirm-buttons">
+                <button class="btn btn-primary" id="customConfirmOk">✅ Conferma</button>
+                <button class="btn btn-secondary" id="customConfirmCancel">❌ Annulla</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL FORM OPERATORI AVANZATO -->
+    <div class="form-modal hidden" id="operatorModal">
+        <div class="form-modal-header">
+            <h3 class="form-modal-title">👤 Nuovo Operatore UOPI</h3>
+            <p class="form-modal-subtitle">Sistema di registrazione avanzato</p>
+        </div>
+        
+        <form id="operatorForm">
+            <div class="form-grid">
+                <div class="form-group">
+                    <label class="form-label">👤 Nome</label>
+                    <input type="text" class="form-control" name="nome" placeholder="Nome dell'operatore" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">👤 Cognome</label>
+                    <input type="text" class="form-control" name="cognome" placeholder="Cognome dell'operatore" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">🎖️ Grado</label>
+                    <input type="text" class="form-control" name="grado" placeholder="Es. Agente, Ispettore, Commissario" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">📅 Data di Ingresso</label>
+                    <input type="date" class="form-control" name="data_ingresso" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">🏅 Qualifiche</label>
+                    <input type="text" class="form-control" name="qualifiche" placeholder="Es. Breacher, Marksman, Medico">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">⚡ Abilitazioni</label>
+                    <input type="text" class="form-control" name="abilitazioni" placeholder="Es. Irruzione, Guida Urbana, K9">
+                </div>
+            </div>
             
-            <div class="twofa-code-input">
-                <input type="text" class="code-digit" maxlength="1" data-index="0">
-                <input type="text" class="code-digit" maxlength="1" data-index="1">
-                <input type="text" class="code-digit" maxlength="1" data-index="2">
-                <input type="text" class
+            <div class="form-group">
+                <label class="form-label">💬 Tag Discord</label>
+                <input type="text" class="form-control" name="discord_tag" placeholder="DiscordTag#1234">
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">📸 Avatar (opzionale)</label>
+                <div class="file-upload-area" id="avatarUpload">
+                    <div class="avatar-preview" id="avatarPreview">
+                        <span>📸</span>
+                    </div>
+                    <p>Trascina un'immagine o clicca per caricare</p>
+                    <input type="file" id="avatarInput" accept="image/*" style="display: none;">
+                </div>
+            </div>
+        </form>
+        
+        <div class="form-actions">
+            <button class="btn btn-secondary" onclick="closeOperatorModal()">❌ Annulla</button>
+            <button class="btn btn-primary" onclick="saveOperator()">💾 Crea Operatore</button>
+        </div>
+    </div>
+
+    <!-- MODAL CAMBIO PASSWORD -->
+    <div class="form-modal hidden" id="passwordChangeModal">
+        <div class="form-modal-header">
+            <h3 class="form-modal-title">🔐 Cambio Password Obbligatorio</h3>
+            <p class="form-modal-subtitle">È necessario cambiare la password temporanea al primo accesso</p>
+        </div>
+        
+        <form id="passwordChangeForm">
+            <div class="form-grid single-column">
+                <div class="form-group">
+                    <label class="form-label">🔒 Nuova Password</label>
+                    <input type="password" class="form-control" id="newPassword" placeholder="Inserisci nuova password" required minlength="8">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">🔒 Conferma Password</label>
+                    <input type="password" class="form-control" id="confirmPassword" placeholder="Conferma nuova password" required minlength="8">
+                </div>
+            </div>
+            
+            <div style="background: rgba(59, 130, 246, 0.1); padding: 1rem; border-radius: 8px; margin-bottom: 1.5rem; border: 1px solid rgba(59, 130, 246, 0.2);">
+                <p style="margin: 0; font-size: 0.85rem; color: var(--text-muted);">
+                    ℹ️ <strong>Requisiti password:</strong><br>
+                    • Minimo 8 caratteri<br>
+                    • Si consiglia di usare lettere, numeri e simboli
+                </p>
+            </div>
+        </form>
+        
+        <div class="form-actions">
+            <button class="btn btn-primary" onclick="changePassword()">🔐 Cambia Password</button>
+        </div>
+    </div>
+
+    <!-- TOAST CONTAINER -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- MAIN APP -->
+    <div class="main-app" id="mainApp">
+        <div class="container">
+            <nav class="sidebar">
+                <div class="logo">🔰 UOPI Dashboard</div>
+                <div class="user-info">
+                    <div class="user-avatar" id="userAvatar">
+                        👤
+                        <div class="status-indicator"></div>
+                    </div>
+                    <div class="user-name" id="currentUserName">Sistema</div>
+                    <div class="user-role" id="currentUserRole">Non autenticato</div>
+                    <button class="logout-btn" onclick="logout()">🚪 Logout</button>
+                </div>
+                <ul class="nav-menu">
+                    <li class="nav-item">
+                        <a href="#dashboard" class="nav-link active" data-view="dashboard">
+                            <span class="nav-link-icon">🔰</span>
+                            <span class="nav-link-text">Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#operatori" class="nav-link" data-view="operatori">
+                            <span class="nav-link-icon">👮</span>
+                            <span class="nav-link-text">Operatori</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#comunicazioni" class="nav-link" data-view="comunicazioni">
+                            <span class="nav-link-icon">📢</span>
+                            <span class="nav-link-text">Comunicazioni</span>
+                            <span class="nav-badge" id="commBadge">0</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#turni" class="nav-link" data-view="turni">
+                            <span class="nav-link-icon">📝</span>
+                            <span class="nav-link-text">Turni</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#sanzioni" class="nav-link" data-view="sanzioni">
+                            <span class="nav-link-icon">⛔</span>
+                            <span class="nav-link-text">Sanzioni</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#squadre" class="nav-link" data-view="squadre">
+                            <span class="nav-link-icon">🥷</span>
+                            <span class="nav-link-text">Squadre</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#analytics" class="nav-link" data-view="analytics">
+                            <span class="nav-link-icon">📊</span>
+                            <span class="nav-link-text">Analytics</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+
+            <main class="main">
+                <header class="header">
+                    <h1 id="page-title">🔰 Dashboard Operativa</h1>
+                    <div class="kpi-grid">
+                        <div class="kpi-card" onclick="navigateToView('operatori')">
+                            <div class="kpi-label">👮 Operatori in Servizio</div>
+                            <div class="kpi-value" id="kpi-operatori">0</div>
+                            <div class="chart-container chart-small">
+                                <canvas id="operatoriChart"></canvas>
+                            </div>
+                        </div>
+                        <div class="kpi-card" onclick="navigateToView('comunicazioni')">
+                            <div class="kpi-label">🚨 Operazioni Attive</div>
+                            <div class="kpi-value" id="kpi-operazioni">0</div>
+                            <div class="chart-container chart-small">
+                                <canvas id="operazioniChart"></canvas>
+                            </div>
+                        </div>
+                        <div class="kpi-card" onclick="navigateToView('squadre')">
+                            <div class="kpi-label">🥷 Squadre Operative</div>
+                            <div class="kpi-value" id="kpi-squadre">0</div>
+                            <div class="chart-container chart-small">
+                                <canvas id="squadreChart"></canvas>
+                            </div>
+                        </div>
+                        <div class="kpi-card" onclick="navigateToView('comunicazioni')">
+                            <div class="kpi-label">📢 Comunicazioni</div>
+                            <div class="kpi-value" id="kpi-comunicazioni">0</div>
+                            <div class="chart-container chart-small">
+                                <canvas id="comunicazioniChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </header>
+
+                <div class="content-grid">
+                    <div id="content-area">
+                        <!-- Il contenuto viene caricato qui dinamicamente -->
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script>
+        // COSTANTI - CREDENZIALI ADMIN
+        const ADMIN_CREDENTIALS = {
+            username: 'adminuopi_2847832742398',
+            password: 'uopiadmin_82389849298'
+        };
+
+        const STORAGE_KEYS = {
+            database: 'uopi_database_v2',
+            session: 'uopi_session_v2',
+            theme: 'uopi_theme',
+            settings: 'uopi_settings'
+        };
+
+        // STATO GLOBALE
+        let currentView = 'dashboard';
+        let isAuthenticated = false;
+        let currentUser = null;
+        let sessionTimer = null;
+        let charts = {};
+
+        // PWA SETUP
+        let deferredPrompt;
+        
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            document.getElementById('pwaInstall').classList.add('show');
+        });
+
+        document.getElementById('pwaInstall').addEventListener('click', () => {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                deferredPrompt.userChoice.then((result) => {
+                    if (result.outcome === 'accepted') {
+                        showAdvancedToast('✅ App Installata', 'App UOPI installata con successo!', 'success');
+                    }
+                    deferredPrompt = null;
+                    document.getElementById('pwaInstall').classList.remove('show');
+                });
+            }
+        });
+
+        // === GESTIONE TEMA ===
+        function toggleTheme() {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem(STORAGE_KEYS.theme, newTheme);
+            
+            const icon = document.getElementById('themeIcon');
+            icon.textContent = newTheme === 'dark' ? '☀️' : '🌙';
+            
+            showAdvancedToast('🎨 Tema Cambiato', `Attivato tema ${newTheme === 'dark' ? 'scuro' : 'chiaro'}`, 'info');
+            
+            // Aggiorna i grafici
+            Object.values(charts).forEach(chart => {
+                if (chart) {
+                    chart.destroy();
+                }
+            });
+            setTimeout(() => {
+                initCharts();
+            }, 100);
+        }
+
+        // Carica tema salvato
+        function loadTheme() {
+            const savedTheme = localStorage.getItem(STORAGE_KEYS.theme) || 'light';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+            const icon = document.getElementById('themeIcon');
+            icon.textContent = savedTheme === 'dark' ? '☀️' : '🌙';
+        }
+
+        // === GESTIONE DATABASE PERSISTENTE ===
+        function loadDatabase() {
+            const saved = localStorage.getItem(STORAGE_KEYS.database);
+            if (saved) {
+                try {
+                    const parsed = JSON.parse(saved);
+                    // Migrazione dati se necessario
+                    return migrateDatabase(parsed);
+                } catch (e) {
+                    console.error('Errore caricamento database:', e);
+                }
+            }
+            
+            // Database vuoto iniziale
+            return {
+                operatori: [],
+                squadre: [],
+                operazioni: [],
+                comunicazioni: [],
+                turni: [],
+                sanzioni: [],
+                settings: {
+                    autoRefresh: true,
+                    notifications: true,
+                    sessionTimeout: 30 // minuti
+                }
+            };
+        }
+
+        function migrateDatabase(db) {
+            // Aggiungi campi mancanti agli operatori esistenti
+            if (db.operatori) {
+                db.operatori.forEach(op => {
+                    if (!op.hasOwnProperty('avatar')) op.avatar = null;
+                    if (!op.hasOwnProperty('lastLogin')) op.lastLogin = null;
+                    if (!op.hasOwnProperty('loginCount')) op.loginCount = 0;
+                });
+            }
+            
+            if (!db.settings) {
+                db.settings = {
+                    autoRefresh: true,
+                    notifications: true,
+                    sessionTimeout: 30
+                };
+            }
+            
+            return db;
+        }
+
+        function saveDatabase(db) {
+            try {
+                // Comprimi il database
+                const compressed = JSON.stringify(db);
+                localStorage.setItem(STORAGE_KEYS.database, compressed);
+                console.log('✅ Database salvato:', (compressed.length / 1024).toFixed(1) + 'KB');
+                return true;
+            } catch (e) {
+                console.error('❌ Errore salvataggio database:', e);
+                showAdvancedToast('❌ Errore', 'Impossibile salvare i dati', 'error');
+                return false;
+            }
+        }
+
+        // DATABASE GLOBALE
+        let db = loadDatabase();
+
+        // === GESTIONE SESSIONE ===
+        function saveSession(userData, rememberMe) {
+            const sessionData = {
+                user: userData,
+                credentials: {
+                    username: userData.username,
+                    password: userData.password || ''
+                },
+                timestamp: Date.now(),
+                expiresAt: Date.now() + (rememberMe ? 30 * 24 * 60 * 60 * 1000 : 8 * 60 * 60 * 1000)
+            };
+
+            try {
+                if (rememberMe) {
+                    localStorage.setItem(STORAGE_KEYS.session, JSON.stringify(sessionData));
+                } else {
+                    sessionStorage.setItem(STORAGE_KEYS.session, JSON.stringify(sessionData));
+                }
+                
+                // Avvia timer sessione
+                startSessionTimer(db.settings.sessionTimeout);
+                
+                return true;
+            } catch (e) {
+                console.error('Errore salvataggio sessione:', e);
+                return false;
+            }
+        }
+
+        function loadSession() {
+            let data = localStorage.getItem(STORAGE_KEYS.session);
+            if (!data) {
+                data = sessionStorage.getItem(STORAGE_KEYS.session);
+            }
+            
+            if (data) {
+                try {
+                    const parsed = JSON.parse(data);
+                    
+                    // Controlla scadenza
+                    if (Date.now() < parsed.expiresAt) {
+                        // Avvia timer sessione
+                        if (parsed.user) {
+                            startSessionTimer(db.settings.sessionTimeout);
+                        }
+                        return parsed;
+                    } else {
+                        clearSession();
+                    }
+                } catch (e) {
+                    console.error('Errore caricamento sessione:', e);
+                    clearSession();
+                }
+            }
+            return null;
+        }
+
+        function clearSession() {
+            localStorage.removeItem(STORAGE_KEYS.session);
+            sessionStorage.removeItem(STORAGE_KEYS.session);
+            if (sessionTimer) {
+                clearInterval(sessionTimer);
+            }
+        }
+
+        function startSessionTimer(timeoutMinutes) {
+            if (sessionTimer) {
+                clearInterval(sessionTimer);
+            }
+            
+            let timeLeft = timeoutMinutes * 60; // secondi
+            
+            sessionTimer = setInterval(() => {
+                timeLeft--;
+                
+                // Avviso a 5 minuti dalla scadenza
+                if (timeLeft === 300) {
+                    showAdvancedToast('⏰ Sessione in Scadenza', 'La sessione scadrà tra 5 minuti', 'warning');
+                }
+                
+                // Logout automatico
+                if (timeLeft <= 0) {
+                    logout();
+                }
+            }, 1000);
+        }
+
+        function extendSession() {
+            const session = loadSession();
+            if (session) {
+                session.expiresAt = Date.now() + (8 * 60 * 60 * 1000); // +8 ore
+                localStorage.setItem(STORAGE_
