@@ -3,27 +3,8 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>🔰 UOPI Dashboard - Sistema Avanzato</title>
-    <meta name="theme-color" content="#1e293b">
+    <title>🔰 UOPI Dashboard - Sistema Pulito</title>
     <style>
-        :root {
-            --primary-bg: #1e293b;
-            --secondary-bg: #334155;
-            --accent: #3b82f6;
-            --text: #f1f5f9;
-            --text-muted: #94a3b8;
-            --success: #10b981;
-            --warning: #f59e0b;
-            --danger: #ef4444;
-            --border: #475569;
-        }
-
-        [data-theme="dark"] {
-            --primary-bg: #0f1419;
-            --secondary-bg: #1a202c;
-            --text: #e2e8f0;
-        }
-
         * {
             margin: 0;
             padding: 0;
@@ -32,11 +13,31 @@
 
         body {
             font-family: system-ui, -apple-system, sans-serif;
-            background: linear-gradient(135deg, var(--primary-bg) 0%, var(--secondary-bg) 100%);
-            color: var(--text);
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+            color: #f1f5f9;
             min-height: 100vh;
             overflow-x: hidden;
-            transition: all 0.3s ease;
+        }
+
+        /* BLUR BACKDROP PER NOTIFICHE */
+        .blur-backdrop {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            background: rgba(0, 0, 0, 0.3);
+            z-index: 9998;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .blur-backdrop.active {
+            opacity: 1;
+            pointer-events: auto;
         }
 
         /* LOGIN SCREEN */
@@ -46,17 +47,30 @@
             align-items: center;
             min-height: 100vh;
             position: relative;
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
         }
 
         .login-card {
-            background: linear-gradient(145deg, var(--primary-bg), var(--secondary-bg));
+            background: linear-gradient(145deg, #1e293b, #334155);
             padding: 3rem;
             border-radius: 24px;
             box-shadow: 0 25px 50px rgba(0,0,0,0.5);
-            border: 1px solid var(--border);
+            border: 1px solid #475569;
             width: 100%;
             max-width: 450px;
             text-align: center;
+            animation: slideUp 0.8s ease-out;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .login-logo {
@@ -72,7 +86,7 @@
         .login-title {
             font-size: 1.5rem;
             margin-bottom: 2rem;
-            color: var(--text);
+            color: #f1f5f9;
         }
 
         .form-group {
@@ -84,24 +98,24 @@
             display: block;
             margin-bottom: 0.5rem;
             font-weight: 600;
-            color: var(--text);
+            color: #f1f5f9;
             font-size: 0.9rem;
         }
 
         .form-control {
             width: 100%;
             padding: 1rem 1.25rem;
-            border: 2px solid var(--border);
+            border: 2px solid #475569;
             border-radius: 12px;
-            background: var(--primary-bg);
-            color: var(--text);
+            background: #0f172a;
+            color: #f1f5f9;
             font-size: 1rem;
             transition: all 0.3s ease;
         }
 
         .form-control:focus {
             outline: none;
-            border-color: var(--accent);
+            border-color: #3b82f6;
             box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
             transform: translateY(-2px);
         }
@@ -117,13 +131,13 @@
         .checkbox-group input[type="checkbox"] {
             width: 18px;
             height: 18px;
-            accent-color: var(--accent);
+            accent-color: #3b82f6;
             cursor: pointer;
         }
 
         .checkbox-group label {
             font-size: 0.9rem;
-            color: var(--text-muted);
+            color: #94a3b8;
             cursor: pointer;
             user-select: none;
         }
@@ -133,7 +147,7 @@
             padding: 1rem 2rem;
             border: none;
             border-radius: 12px;
-            background: linear-gradient(135deg, var(--accent), #1d4ed8);
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
             color: white;
             font-size: 1.1rem;
             font-weight: 600;
@@ -147,14 +161,212 @@
             box-shadow: 0 12px 35px rgba(59, 130, 246, 0.6);
         }
 
+        .btn-login:active {
+            transform: translateY(-1px);
+        }
+
         .error-message {
-            color: var(--danger);
+            color: #ef4444;
             margin-top: 1rem;
             padding: 0.75rem;
             background: rgba(239, 68, 68, 0.1);
             border: 1px solid rgba(239, 68, 68, 0.3);
             border-radius: 8px;
             display: none;
+        }
+
+        /* LOADING OVERLAY */
+        .loading-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.8);
+            backdrop-filter: blur(10px);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            flex-direction: column;
+        }
+
+        .loading-overlay.show {
+            display: flex;
+        }
+
+        .spinner {
+            width: 80px;
+            height: 80px;
+            border: 8px solid #475569;
+            border-top: 8px solid #3b82f6;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 2rem;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .loading-text {
+            font-size: 1.5rem;
+            color: #f1f5f9;
+            margin-bottom: 1rem;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        .loading-subtitle {
+            color: #94a3b8;
+            font-size: 1rem;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        /* NOTIFICHE PERSONALIZZATE */
+        .custom-confirm {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: linear-gradient(145deg, #1e293b, #334155);
+            border-radius: 16px;
+            padding: 2rem;
+            z-index: 10001;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.8);
+            min-width: 400px;
+            max-width: 600px;
+            color: #f1f5f9;
+            border: 1px solid #475569;
+            animation: notificationIn 0.3s ease-out;
+            white-space: pre-line;
+        }
+
+        .custom-confirm.hidden {
+            display: none;
+        }
+
+        .custom-confirm-content {
+            text-align: center;
+        }
+
+        .custom-confirm-message {
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.5;
+        }
+
+        .custom-confirm-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+        }
+
+        @keyframes notificationIn {
+            from {
+                opacity: 0;
+                transform: translate(-50%, -50%) scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1);
+            }
+        }
+
+        /* MODAL FORM */
+        .form-modal {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: linear-gradient(145deg, #1e293b, #334155);
+            border-radius: 16px;
+            padding: 2rem;
+            z-index: 10001;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.8);
+            min-width: 500px;
+            max-width: 600px;
+            color: #f1f5f9;
+            border: 1px solid #475569;
+            animation: notificationIn 0.3s ease-out;
+        }
+
+        .form-modal.hidden {
+            display: none;
+        }
+
+        .form-modal-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .form-modal-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .form-modal-subtitle {
+            color: #94a3b8;
+            font-size: 0.9rem;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .form-grid.single-column {
+            grid-template-columns: 1fr;
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+        }
+
+        /* TOAST NOTIFICATIONS */
+        .toast-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 10002;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .toast {
+            background: linear-gradient(145deg, #1e293b, #334155);
+            color: #f1f5f9;
+            padding: 1rem 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
+            border: 1px solid #475569;
+            min-width: 300px;
+            animation: toastIn 0.3s ease-out;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .toast.success {  border-left: 4px solid #10b981; }
+        .toast.error {    border-left: 4px solid #ef4444; }
+        .toast.info {     border-left: 4px solid #3b82f6; }
+        .toast.warning {  border-left: 4px solid #f59e0b; }
+
+        @keyframes toastIn {
+            from { opacity: 0; transform: translateX(100%); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        @keyframes toastOut {
+            from { opacity: 1; transform: translateX(0); }
+            to { opacity: 0; transform: translateX(100%); }
         }
 
         /* MAIN APP */
@@ -164,23 +376,127 @@
 
         .main-app.show {
             display: block;
+            animation: fadeIn 0.8s ease-out;
         }
 
-        .dashboard {
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* SIDEBAR */
+        .sidebar {
+            width: 320px;
+            background: linear-gradient(145deg, #1e293b, #334155);
             padding: 2rem;
-            max-width: 1200px;
-            margin: 0 auto;
+            box-shadow: 4px 0 20px rgba(0,0,0,0.3);
         }
 
-        .welcome-card {
-            background: linear-gradient(145deg, var(--primary-bg), var(--secondary-bg));
-            padding: 3rem;
-            border-radius: 24px;
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #60a5fa;
             text-align: center;
-            border: 1px solid var(--border);
+            margin-bottom: 1rem;
+            letter-spacing: 0.1em;
         }
 
-        .dashboard-title {
+        .user-info {
+            background: rgba(59, 130, 246, 0.1);
+            padding: 1rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            text-align: center;
+            border: 1px solid rgba(59, 130, 246, 0.2);
+        }
+
+        .user-avatar {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin: 0 auto 0.5rem;
+        }
+
+        .user-name {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .user-role {
+            font-size: 0.85rem;
+            color: #94a3b8;
+        }
+
+        .logout-btn {
+            background: rgba(239, 68, 68, 0.2);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            color: #fca5a5;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 0.5rem;
+        }
+
+        .logout-btn:hover {
+            background: rgba(239, 68, 68, 0.3);
+            color: #f87171;
+        }
+
+        .nav-menu {
+            list-style: none;
+        }
+
+        .nav-item {
+            margin-bottom: 0.5rem;
+        }
+
+        .nav-link {
+            display: block;
+            padding: 1rem 1.5rem;
+            color: #94a3b8;
+            text-decoration: none;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            border: 2px solid transparent;
+            font-size: 0.95rem;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+            color: white;
+            transform: translateX(8px);
+            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.4);
+        }
+
+        /* MAIN CONTENT */
+        .main {
+            flex: 1;
+            padding: 2rem;
+            overflow-y: auto;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #374151, #4b5563);
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .header h1 {
             font-size: 2.5rem;
             margin-bottom: 1rem;
             background: linear-gradient(135deg, #60a5fa, #3b82f6);
@@ -189,72 +505,110 @@
             background-clip: text;
         }
 
-        .logout-btn {
-            background: rgba(239, 68, 68, 0.2);
-            border: 1px solid rgba(239, 68, 68, 0.3);
-            color: #fca5a5;
-            padding: 0.75rem 1.5rem;
-            border-radius: 12px;
-            cursor: pointer;
-            margin-top: 2rem;
-        }
-
-        .logout-btn:hover {
-            background: rgba(239, 68, 68, 0.3);
-        }
-
+        /* KPI CARDS */
         .kpi-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-            margin-top: 3rem;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
         }
 
         .kpi-card {
-            background: linear-gradient(145deg, var(--primary-bg), var(--secondary-bg));
-            padding: 2rem;
+            background: linear-gradient(145deg, #1e293b, #334155);
+            padding: 1.8rem;
             border-radius: 20px;
             text-align: center;
-            border: 1px solid var(--border);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            border: 1px solid #475569;
+            transition: all 0.3s ease;
+        }
+
+        .kpi-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+            border-color: #3b82f6;
+        }
+
+        .kpi-label {
+            color: #94a3b8;
+            font-size: 0.85rem;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
         }
 
         .kpi-value {
             font-size: 2.5rem;
             font-weight: bold;
-            color: var(--success);
-            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, #fbbf24, #f59e0b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
-        .kpi-label {
-            color: var(--text-muted);
-            font-size: 0.9rem;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
+        /* CONTENT CARDS */
+        .content-grid { display: grid; gap: 2rem; }
+        .card { background: linear-gradient(145deg, #1e293b, #334155); border-radius: 20px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.2); border: 1px solid #475569; }
+        .card-header { padding: 1.5rem 2rem; border-bottom: 1px solid #475569; display: flex; justify-content: space-between; align-items: center; }
+        .card-title { font-size: 1.5rem; font-weight: 600; color: #f1f5f9; }
+        .card-actions { display: flex; gap: 1rem; align-items: center; }
+        .btn { padding: 0.75rem 1.5rem; border: none; border-radius: 12px; font-weight: 600; text-decoration: none; display: inline-block; cursor: pointer; transition: all 0.3s ease; font-size: 0.9rem; }
+        .btn-primary { background: linear-gradient(135deg, #3b82f6, #1d4ed8); color: white; box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4); }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(59, 130, 246, 0.6); }
+        .btn-secondary { background: linear-gradient(135deg, #6b7280, #4b5563); color: white; }
+        .btn-secondary:hover { transform: translateY(-2px); background: linear-gradient(135deg, #4b5563, #374151); }
+        .btn-success { background: linear-gradient(135deg, #10b981, #059669); color: white; }
+        .btn-danger { background: linear-gradient(135deg, #ef4444, #dc2626); color: white; }
+        .table-container { padding: 2rem; overflow-x: auto; }
+        .table { width: 100%; border-collapse: collapse; }
+        .table th { background: #0f172a; padding: 1rem; text-align: left; font-weight: 600; color: #60a5fa; border-bottom: 2px solid #3b82f6; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.05em; }
+        .table td { padding: 1rem; border-bottom: 1px solid #475569; font-size: 0.9rem; }
+        .table tbody tr:hover { background: rgba(59, 130, 246, 0.1); }
+        .badge { padding: 0.25rem 0.75rem; border-radius: 50px; font-size: 0.75rem; font-weight: 600; background: linear-gradient(135deg, #10b981, #059669); color: white; display: inline-block; margin: 0.125rem; }
+        .badge-warning { background: linear-gradient(135deg, #f59e0b, #d97706); }
+        .badge-danger { background: linear-gradient(135deg, #ef4444, #dc2626); }
+        .badge-info { background: linear-gradient(135deg, #3b82f6, #1d4ed8); }
+
+        .empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: #94a3b8;
+        }
+
+        .empty-state h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #60a5fa;
         }
 
         /* RESPONSIVE */
         @media (max-width: 768px) {
-            .login-card {
-                margin: 1rem;
-                padding: 2rem;
-            }
-            .dashboard {
-                padding: 1rem;
-            }
-            .kpi-grid {
-                grid-template-columns: 1fr;
-            }
+            .container { flex-direction: column; }
+            .sidebar { width: 100%; padding: 1rem; }
+            .nav-menu { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+            .nav-item { margin-bottom: 0; }
+            .main { padding: 1rem; }
+            .kpi-grid { grid-template-columns: 1fr; }
+            .login-card { margin: 1rem; padding: 2rem; }
+            .custom-confirm { min-width: 300px; margin: 1rem; }
+            .toast-container { right: 10px; top: 10px; }
+            .toast { min-width: 250px; }
+            .form-modal { min-width: 300px; margin: 1rem; }
+            .form-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 
 <body>
+    <!-- BLUR BACKDROP -->
+    <div class="blur-backdrop" id="blurBackdrop"></div>
+
     <!-- LOGIN SCREEN -->
     <div class="login-container" id="loginScreen">
         <div class="login-card">
             <div class="login-logo">🔰</div>
             <h2 class="login-title">UOPI Dashboard</h2>
-            <p style="color: var(--text-muted); margin-bottom: 2rem;">Sistema Operativo Avanzato</p>
+            <p style="color: #94a3b8; margin-bottom: 2rem;">Sistema Operativo Pulito</p>
             
             <form id="loginForm">
                 <div class="form-group">
@@ -280,210 +634,855 @@
         </div>
     </div>
 
-    <!-- MAIN APP -->
-    <div class="main-app" id="mainApp">
-        <div class="dashboard">
-            <div class="welcome-card">
-                <div class="dashboard-title">🔰 UOPI Dashboard</div>
-                <h2>Benvenuto, <span id="userName">Operatore</span>!</h2>
-                <p style="color: var(--text-muted); margin: 1rem 0;">Sistema operativo avanzato caricato con successo</p>
-                
-                <div class="kpi-grid">
-                    <div class="kpi-card">
-                        <div class="kpi-value" id="kpiOperatori">0</div>
-                        <div class="kpi-label">👮 Operatori in Servizio</div>
-                    </div>
-                    <div class="kpi-card">
-                        <div class="kpi-value" id="kpiOperazioni">0</div>
-                        <div class="kpi-label">🚨 Operazioni Attive</div>
-                    </div>
-                    <div class="kpi-card">
-                        <div class="kpi-value" id="kpiSquadre">0</div>
-                        <div class="kpi-label">🥷 Squadre Operative</div>
-                    </div>
-                    <div class="kpi-card">
-                        <div class="kpi-value" id="kpiComunicazioni">0</div>
-                        <div class="kpi-label">📢 Comunicazioni</div>
-                    </div>
-                </div>
-                
-                <button class="logout-btn" onclick="logout()">🚪 Logout</button>
+    <!-- LOADING OVERLAY -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="spinner"></div>
+        <div class="loading-text">🔰 Accesso in corso...</div>
+        <div class="loading-subtitle">Inizializzazione sistema UOPI</div>
+    </div>
+
+    <!-- NOTIFICHE PERSONALIZZATE -->
+    <div class="custom-confirm hidden" id="customConfirm">
+        <div class="custom-confirm-content">
+            <p class="custom-confirm-message" id="customConfirmMessage">Messaggio di conferma</p>
+            <div class="custom-confirm-buttons">
+                <button class="btn btn-primary" id="customConfirmOk">✅ Conferma</button>
+                <button class="btn btn-secondary" id="customConfirmCancel">❌ Annulla</button>
             </div>
         </div>
     </div>
 
+    <!-- MODAL FORM OPERATORI MODIFICATO -->
+    <div class="form-modal hidden" id="operatorModal">
+        <div class="form-modal-header">
+            <h3 class="form-modal-title">Nuovo Operatore UOPI</h3>
+            <p class="form-modal-subtitle">Compila i dati dell'operatore</p>
+        </div>
+        
+        <form id="operatorForm">
+            <div class="form-grid">
+                <div class="form-group">
+                    <label class="form-label">Nome</label>
+                    <input type="text" class="form-control" name="nome" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Cognome</label>
+                    <input type="text" class="form-control" name="cognome" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Grado</label>
+                    <input type="text" class="form-control" name="grado" placeholder="Es. Agente, Ispettore..." required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Data di Ingresso</label>
+                    <input type="date" class="form-control" name="data_ingresso" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Qualifiche</label>
+                    <input type="text" class="form-control" name="qualifiche" placeholder="Es. Breacher, Marksman...">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Abilitazioni</label>
+                    <input type="text" class="form-control" name="abilitazioni" placeholder="Es. Irruzione, Guida Urbana...">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Tag Discord</label>
+                <input type="text" class="form-control" name="discord_tag" placeholder="DiscordTag#1234">
+            </div>
+        </form>
+        
+        <div class="form-actions">
+            <button class="btn btn-secondary" onclick="closeOperatorModal()">❌ Annulla</button>
+            <button class="btn btn-primary" onclick="saveOperator()">💾 Crea Operatore</button>
+        </div>
+    </div>
+
+    <!-- MODAL CAMBIO PASSWORD -->
+    <div class="form-modal hidden" id="passwordChangeModal">
+        <div class="form-modal-header">
+            <h3 class="form-modal-title">🔐 Cambio Password Obbligatorio</h3>
+            <p class="form-modal-subtitle">È necessario cambiare la password temporanea al primo accesso</p>
+        </div>
+        
+        <form id="passwordChangeForm">
+            <div class="form-grid single-column">
+                <div class="form-group">
+                    <label class="form-label">🔒 Nuova Password</label>
+                    <input type="password" class="form-control" id="newPassword" placeholder="Inserisci nuova password" required minlength="8">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">🔒 Conferma Password</label>
+                    <input type="password" class="form-control" id="confirmPassword" placeholder="Conferma nuova password" required minlength="8">
+                </div>
+            </div>
+            
+            <div style="background: rgba(59, 130, 246, 0.1); padding: 1rem; border-radius: 8px; margin-bottom: 1.5rem; border: 1px solid rgba(59, 130, 246, 0.2);">
+                <p style="margin: 0; font-size: 0.85rem; color: #94a3b8;">
+                    ℹ️ <strong>Requisiti password:</strong><br>
+                    • Minimo 8 caratteri<br>
+                    • Si consiglia di usare lettere, numeri e simboli
+                </p>
+            </div>
+        </form>
+        
+        <div class="form-actions">
+            <button class="btn btn-primary" onclick="changePassword()">🔐 Cambia Password</button>
+        </div>
+    </div>
+
+    <!-- TOAST CONTAINER -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- MAIN APP -->
+    <div class="main-app" id="mainApp">
+        <div class="container">
+            <nav class="sidebar">
+                <div class="logo">🔰 UOPI Dashboard</div>
+                <div class="user-info">
+                    <div class="user-avatar">👤</div>
+                    <div class="user-name" id="currentUserName">Sistema</div>
+                    <div class="user-role" id="currentUserRole">Non autenticato</div>
+                    <button class="logout-btn" onclick="logout()">🚪 Logout</button>
+                </div>
+                <ul class="nav-menu">
+                    <li class="nav-item"><a href="#dashboard" class="nav-link active" data-view="dashboard">🔰 Dashboard Operativa</a></li>
+                    <li class="nav-item"><a href="#operatori" class="nav-link" data-view="operatori">👮 Operatori</a></li>
+                    <li class="nav-item"><a href="#comunicazioni" class="nav-link" data-view="comunicazioni">📢 Comunicazioni</a></li>
+                    <li class="nav-item"><a href="#turni" class="nav-link" data-view="turni">📝 Registro Turni</a></li>
+                    <li class="nav-item"><a href="#sanzioni" class="nav-link" data-view="sanzioni">⛔ Sanzioni e Promozioni</a></li>
+                    <li class="nav-item"><a href="#squadre" class="nav-link" data-view="squadre">🥷 Squadre D'Intervento</a></li>
+                </ul>
+            </nav>
+
+            <main class="main">
+                <header class="header">
+                    <h1 id="page-title">🔰 Dashboard Operativa</h1>
+                    <div class="kpi-grid">
+                        <div class="kpi-card">
+                            <div class="kpi-label">👮 Operatori in Servizio</div>
+                            <div class="kpi-value" id="kpi-operatori">0</div>
+                        </div>
+                        <div class="kpi-card">
+                            <div class="kpi-label">🚨 Operazioni Attive</div>
+                            <div class="kpi-value" id="kpi-operazioni">0</div>
+                        </div>
+                        <div class="kpi-card">
+                            <div class="kpi-label">🥷 Squadre Operative</div>
+                            <div class="kpi-value" id="kpi-squadre">0</div>
+                        </div>
+                        <div class="kpi-card">
+                            <div class="kpi-label">📢 Comunicazioni</div>
+                            <div class="kpi-value" id="kpi-comunicazioni">0</div>
+                        </div>
+                    </div>
+                </header>
+
+                <div class="content-grid">
+                    <div id="content-area">
+                        <!-- Il contenuto viene caricato qui dinamicamente -->
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
     <script>
-        // CREDENZIALI ADMIN
+        // COSTANTI - CREDENZIALI ADMIN CORRETTE
         const ADMIN_CREDENTIALS = {
             username: 'adminuopi_2847832742398',
             password: 'uopiadmin_82389849298'
         };
 
+        const STORAGE_KEYS = {
+            database: 'uopi_database',
+            session: 'uopi_session'
+        };
+
         // STATO GLOBALE
+        let currentView = 'dashboard';
         let isAuthenticated = false;
         let currentUser = null;
 
-        // DATABASE SIMULATO
-        const db = {
-            operatori: [],
-            operazioni: [],
-            squadre: [],
-            comunicazioni: []
-        };
-
-        // === LOGIN HANDLER CORRETTO ===
-        function initLogin() {
-            const loginForm = document.getElementById('loginForm');
+        // === GESTIONE DATABASE PERSISTENTE ===
+        function loadDatabase() {
+            const saved = localStorage.getItem(STORAGE_KEYS.database);
+            if (saved) {
+                try {
+                    return JSON.parse(saved);
+                } catch (e) {
+                    console.error('Errore caricamento database:', e);
+                }
+            }
             
-            loginForm.addEventListener('submit', function(e) {
-                // IMPORTANTE: Previene il reload della pagina
-                e.preventDefault();
-                
-                console.log('🔄 Form submit intercettato');
-                
-                const username = document.getElementById('username').value.trim();
-                const password = document.getElementById('password').value;
-                const rememberMe = document.getElementById('rememberMe').checked;
-                const errorMessage = document.getElementById('errorMessage');
-                
-                // Reset errori
-                errorMessage.style.display = 'none';
-                
-                if (!username || !password) {
-                    showError('Inserisci username e password');
-                    return false;
-                }
+            // Database vuoto iniziale
+            return {
+                operatori: [],
+                squadre: [],
+                operazioni: [],
+                comunicazioni: [],
+                turni: [],
+                sanzioni: []
+            };
+        }
 
-                console.log('🔍 Verifico credenziali...');
-                
-                // Verifica credenziali
-                if (username === ADMIN_CREDENTIALS.username && password === ADMIN_CREDENTIALS.password) {
-                    console.log('✅ Login admin riuscito');
-                    
-                    currentUser = {
-                        type: 'admin',
-                        username: username,
-                        nome: 'Admin',
-                        cognome: 'UOPI'
-                    };
-                    
-                    // Salva sessione se richiesto
-                    if (rememberMe) {
-                        localStorage.setItem('uopi_session', JSON.stringify({
-                            user: currentUser,
-                            timestamp: Date.now()
-                        }));
-                    }
-                    
-                    // Carica dashboard
-                    loadDashboard();
-                    
-                } else {
-                    console.log('❌ Credenziali errate');
-                    showError('Credenziali non valide. Riprova.');
-                }
-                
-                // IMPORTANTE: Previene qualsiasi submit del form
+        function saveDatabase(db) {
+            try {
+                localStorage.setItem(STORAGE_KEYS.database, JSON.stringify(db));
+                console.log('✅ Database salvato con successo');
+                return true;
+            } catch (e) {
+                console.error('❌ Errore salvataggio database:', e);
+                showToast('Errore nel salvataggio dei dati', 'error');
                 return false;
-            });
-        }
-
-        function showError(message) {
-            const errorMessage = document.getElementById('errorMessage');
-            errorMessage.textContent = '❌ ' + message;
-            errorMessage.style.display = 'block';
-            
-            setTimeout(() => {
-                errorMessage.style.display = 'none';
-            }, 5000);
-        }
-
-        function loadDashboard() {
-            console.log('🚀 Caricando dashboard...');
-            
-            isAuthenticated = true;
-            
-            // Nascondi login
-            document.getElementById('loginScreen').style.display = 'none';
-            
-            // Mostra app
-            const mainApp = document.getElementById('mainApp');
-            mainApp.style.display = 'block';
-            mainApp.classList.add('show');
-            
-            // Aggiorna info utente
-            document.getElementById('userName').textContent = currentUser.nome + ' ' + currentUser.cognome;
-            
-            // Aggiorna KPI
-            updateKPIs();
-            
-            console.log('✅ Dashboard caricata');
-        }
-
-        function updateKPIs() {
-            document.getElementById('kpiOperatori').textContent = db.operatori.filter(o => o.inServizio).length;
-            document.getElementById('kpiOperazioni').textContent = db.operazioni.filter(o => o.stato === 'ATTIVA').length;
-            document.getElementById('kpiSquadre').textContent = db.squadre.filter(s => s.stato === 'OPERATIVA').length;
-            document.getElementById('kpiComunicazioni').textContent = db.comunicazioni.filter(c => !c.letto).length;
-        }
-
-        function logout() {
-            if (confirm('🚪 Sei sicuro di voler uscire dal sistema?')) {
-                // Clear session
-                localStorage.removeItem('uopi_session');
-                sessionStorage.removeItem('uopi_session');
-                
-                // Reset state
-                isAuthenticated = false;
-                currentUser = null;
-                
-                // Reset form
-                document.getElementById('loginForm').reset();
-                
-                // Show login
-                document.getElementById('mainApp').style.display = 'none';
-                document.getElementById('loginScreen').style.display = 'flex';
-                
-                console.log('👋 Logout completato');
             }
         }
 
-        function checkSession() {
-            const savedSession = localStorage.getItem('uopi_session');
-            if (savedSession) {
+        // DATABASE GLOBALE
+        let db = loadDatabase();
+
+        // === GESTIONE SESSIONE ===
+        function saveSession(userData, rememberMe) {
+            const sessionData = {
+                user: userData,
+                credentials: {
+                    username: userData.username,
+                    password: userData.password || ''
+                },
+                timestamp: Date.now()
+            };
+
+            try {
+                if (rememberMe) {
+                    localStorage.setItem(STORAGE_KEYS.session, JSON.stringify(sessionData));
+                } else {
+                    sessionStorage.setItem(STORAGE_KEYS.session, JSON.stringify(sessionData));
+                }
+                return true;
+            } catch (e) {
+                console.error('Errore salvataggio sessione:', e);
+                return false;
+            }
+        }
+
+        function loadSession() {
+            let data = localStorage.getItem(STORAGE_KEYS.session);
+            if (!data) {
+                data = sessionStorage.getItem(STORAGE_KEYS.session);
+            }
+            
+            if (data) {
                 try {
-                    const session = JSON.parse(savedSession);
-                    
-                    // Check if session is not expired (7 days)
-                    if (Date.now() - session.timestamp < 7 * 24 * 60 * 60 * 1000) {
-                        currentUser = session.user;
-                        loadDashboard();
-                        console.log('🔄 Sessione ripristinata');
-                        return true;
+                    const parsed = JSON.parse(data);
+                    // Controlla scadenza (30 giorni)
+                    if (Date.now() - parsed.timestamp < 30 * 24 * 60 * 60 * 1000) {
+                        return parsed;
+                    } else {
+                        clearSession();
                     }
                 } catch (e) {
                     console.error('Errore caricamento sessione:', e);
+                    clearSession();
                 }
             }
-            return false;
+            return null;
+        }
+
+        function clearSession() {
+            localStorage.removeItem(STORAGE_KEYS.session);
+            sessionStorage.removeItem(STORAGE_KEYS.session);
+        }
+
+        // === GENERAZIONE MATRICOLA E PASSWORD ===
+        function generateMatricola() {
+            let maxNum = 0;
+            db.operatori.forEach(op => {
+                const num = parseInt(op.matricola.split('-')[1]) || 0;
+                if (num > maxNum) maxNum = num;
+            });
+            const nextNum = (maxNum + 1).toString().padStart(4, '0');
+            return `UOPI-${nextNum}`;
+        }
+
+        function generateTempPassword() {
+            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+            let password = '';
+            for (let i = 0; i < 8; i++) {
+                password += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+            return password;
+        }
+
+        // === UI HELPERS ===
+        function showBlur() {
+            document.getElementById('blurBackdrop').classList.add('active');
+        }
+
+        function hideBlur() {
+            document.getElementById('blurBackdrop').classList.remove('active');
+        }
+
+        function showToast(message, type = 'info', duration = 4000) {
+            const toastContainer = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            
+            const icons = {
+                success: '✅',
+                error: '❌',
+                info: 'ℹ️',
+                warning: '⚠️'
+            };
+
+            toast.innerHTML = `
+                <span>${icons[type] || 'ℹ️'}</span>
+                <span>${message}</span>
+            `;
+
+            toastContainer.appendChild(toast);
+
+            setTimeout(() => {
+                toast.style.animation = 'toastOut 0.3s ease-out forwards';
+                setTimeout(() => {
+                    if (toast.parentNode) {
+                        toast.parentNode.removeChild(toast);
+                    }
+                }, 300);
+            }, duration);
+        }
+
+        function customConfirm(message) {
+            return new Promise((resolve) => {
+                const confirmBox = document.getElementById('customConfirm');
+                const confirmMessage = document.getElementById('customConfirmMessage');
+                const okButton = document.getElementById('customConfirmOk');
+                const cancelButton = document.getElementById('customConfirmCancel');
+
+                confirmMessage.textContent = message;
+                showBlur();
+                confirmBox.classList.remove('hidden');
+
+                function cleanup() {
+                    okButton.removeEventListener('click', onOk);
+                    cancelButton.removeEventListener('click', onCancel);
+                    confirmBox.classList.add('hidden');
+                    hideBlur();
+                }
+
+                function onOk() {
+                    cleanup();
+                    resolve(true);
+                }
+
+                function onCancel() {
+                    cleanup();
+                    resolve(false);
+                }
+
+                okButton.addEventListener('click', onOk);
+                cancelButton.addEventListener('click', onCancel);
+            });
+        }
+
+        // === AUTENTICAZIONE ===
+        function authenticateUser(username, password) {
+            // Admin login
+            if (username === ADMIN_CREDENTIALS.username && password === ADMIN_CREDENTIALS.password) {
+                return { 
+                    success: true, 
+                    user: { 
+                        type: 'admin', 
+                        username: username,
+                        password: password,
+                        nome: 'Admin',
+                        cognome: 'UOPI',
+                        needsPasswordChange: false 
+                    }
+                };
+            }
+
+            // Operator login
+            const operator = db.operatori.find(op => 
+                (op.matricola === username || op.username === username) && 
+                op.password === password && 
+                op.attivo
+            );
+
+            if (operator) {
+                return {
+                    success: true,
+                    user: {
+                        type: 'operator',
+                        id: operator.id,
+                        username: operator.username,
+                        password: operator.password,
+                        matricola: operator.matricola,
+                        nome: operator.nome,
+                        cognome: operator.cognome,
+                        grado: operator.grado,
+                        needsPasswordChange: operator.needsPasswordChange
+                    }
+                };
+            }
+
+            return { success: false };
+        }
+
+        // === LOGIN HANDLER ===
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const username = document.getElementById('username').value.trim();
+            const password = document.getElementById('password').value;
+            const rememberMe = document.getElementById('rememberMe').checked;
+            const errorMessage = document.getElementById('errorMessage');
+            
+            if (!username || !password) {
+                showToast('Inserisci username e password', 'error');
+                return;
+            }
+
+            const authResult = authenticateUser(username, password);
+            
+            if (authResult.success) {
+                currentUser = authResult.user;
+                
+                // Controlla se deve cambiare password
+                if (currentUser.needsPasswordChange) {
+                    showPasswordChangeModal();
+                    return;
+                }
+                
+                // Login completato
+                completeLogin(rememberMe);
+                
+            } else {
+                errorMessage.style.display = 'block';
+                document.getElementById('username').style.borderColor = '#ef4444';
+                document.getElementById('password').style.borderColor = '#ef4444';
+                
+                setTimeout(() => {
+                    errorMessage.style.display = 'none';
+                    document.getElementById('username').style.borderColor = '#475569';
+                    document.getElementById('password').style.borderColor = '#475569';
+                }, 3000);
+            }
+        });
+
+        function completeLogin(rememberMe) {
+            // Salva sessione
+            saveSession(currentUser, rememberMe);
+            
+            // Mostra loading
+            document.getElementById('loadingOverlay').classList.add('show');
+            
+            setTimeout(() => {
+                showDashboard();
+                showToast(`Benvenuto ${currentUser.nome}!`, 'success');
+            }, 1500);
+        }
+
+        function showDashboard() {
+            document.getElementById('loginScreen').style.display = 'none';
+            document.getElementById('loadingOverlay').classList.remove('show');
+            
+            const mainApp = document.getElementById('mainApp');
+            mainApp.style.display = 'block';
+            mainApp.classList.add('show');
+
+            isAuthenticated = true;
+            updateUserInfo();
+            updateKPIs();
+            renderContent();
+        }
+
+        function updateUserInfo() {
+            if (currentUser) {
+                document.getElementById('currentUserName').textContent = `${currentUser.nome} ${currentUser.cognome}`;
+                if (currentUser.type === 'admin') {
+                    document.getElementById('currentUserRole').textContent = 'Amministratore Sistema';
+                } else {
+                    document.getElementById('currentUserRole').textContent = `${currentUser.grado} - ${currentUser.matricola}`;
+                }
+            }
+        }
+
+        // === CAMBIO PASSWORD ===
+        function showPasswordChangeModal() {
+            showBlur();
+            document.getElementById('passwordChangeModal').classList.remove('hidden');
+        }
+
+        function changePassword() {
+            const newPassword = document.getElementById('newPassword').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            
+            if (!newPassword || newPassword.length < 8) {
+                showToast('La password deve essere di almeno 8 caratteri', 'error');
+                return;
+            }
+            
+            if (newPassword !== confirmPassword) {
+                showToast('Le password non coincidono', 'error');
+                return;
+            }
+            
+            // Aggiorna password dell'operatore
+            const operator = db.operatori.find(op => op.id === currentUser.id);
+            if (operator) {
+                operator.password = newPassword;
+                operator.needsPasswordChange = false;
+                currentUser.password = newPassword;
+                currentUser.needsPasswordChange = false;
+                
+                // Salva database aggiornato
+                if (saveDatabase(db)) {
+                    document.getElementById('passwordChangeModal').classList.add('hidden');
+                    hideBlur();
+                    
+                    showToast('Password cambiata con successo!', 'success');
+                    
+                    // Completa il login
+                    const rememberMe = document.getElementById('rememberMe').checked;
+                    completeLogin(rememberMe);
+                } else {
+                    showToast('Errore nel salvataggio della password', 'error');
+                }
+            }
+        }
+
+        // === GESTIONE OPERATORI MODIFICATA ===
+        function openOperatorModal() {
+            showBlur();
+            document.getElementById('operatorModal').classList.remove('hidden');
+            document.getElementById('operatorForm').reset();
+        }
+
+        function closeOperatorModal() {
+            hideBlur();
+            document.getElementById('operatorModal').classList.add('hidden');
+        }
+
+        function saveOperator() {
+            const form = document.getElementById('operatorForm');
+            const formData = new FormData(form);
+            
+            const nome = formData.get('nome')?.trim();
+            const cognome = formData.get('cognome')?.trim();
+            const grado = formData.get('grado')?.trim();
+            const dataIngresso = formData.get('data_ingresso');
+            
+            if (!nome || !cognome || !grado || !dataIngresso) {
+                showToast('Compila tutti i campi obbligatori', 'error');
+                return;
+            }
+            
+            const matricola = generateMatricola();
+            const tempPassword = generateTempPassword();
+            
+            const newOperator = {
+                id: Date.now(),
+                matricola: matricola,
+                username: matricola,
+                password: tempPassword,
+                nome: nome,
+                cognome: cognome,
+                grado: grado,
+                data_ingresso: dataIngresso,
+                qualifiche: formData.get('qualifiche') ? 
+                    formData.get('qualifiche').split(',').map(q => q.trim()).filter(Boolean) : [],
+                abilitazioni: formData.get('abilitazioni') ? 
+                    formData.get('abilitazioni').split(',').map(a => a.trim()).filter(Boolean) : [],
+                attivo: true,
+                inServizio: false,
+                needsPasswordChange: true,
+                discord_tag: formData.get('discord_tag')?.trim() || ''
+            };
+            
+            db.operatori.push(newOperator);
+            
+            if (saveDatabase(db)) {
+                closeOperatorModal();
+                showToast(`Operatore ${matricola} creato con successo!`, 'success', 6000);
+                
+                setTimeout(() => {
+                    customConfirm(`👤 OPERATORE CREATO\n\n🆔 Matricola: ${matricola}\n🔒 Password temporanea: ${tempPassword}\n📅 Data ingresso: ${dataIngresso}\n💬 Discord: ${newOperator.discord_tag || 'Non specificato'}\n\n⚠️ L'operatore dovrà cambiare la password al primo accesso.`);
+                }, 500);
+                
+                updateKPIs();
+                if (currentView === 'operatori') {
+                    renderContent();
+                }
+            } else {
+                showToast('Errore nella creazione dell\'operatore', 'error');
+            }
+        }
+
+        // === LOGOUT ===
+        async function logout() {
+            const confirmed = await customConfirm('🚪 Sei sicuro di voler uscire dal sistema?');
+            if (confirmed) {
+                clearSession();
+                isAuthenticated = false;
+                currentUser = null;
+                
+                const mainApp = document.getElementById('mainApp');
+                mainApp.classList.remove('show');
+                mainApp.style.display = 'none';
+                document.getElementById('loginScreen').style.display = 'flex';
+                
+                showToast('Logout effettuato', 'info');
+            }
+        }
+
+        // === NAVIGAZIONE ===
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                
+                if (!isAuthenticated) return;
+                
+                document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+                e.target.classList.add('active');
+                
+                currentView = e.target.dataset.view;
+                document.getElementById('page-title').textContent = e.target.textContent;
+                renderContent();
+            });
+        });
+
+        // === KPI ===
+        function updateKPIs() {
+            if (!isAuthenticated) return;
+            
+            document.getElementById('kpi-operatori').textContent = db.operatori.filter(o => o.inServizio).length;
+            document.getElementById('kpi-operazioni').textContent = db.operazioni.filter(o => o.stato === 'IN_CORSO').length;
+            document.getElementById('kpi-squadre').textContent = db.squadre.filter(s => s.stato === 'OPERATIVA').length;
+            document.getElementById('kpi-comunicazioni').textContent = db.comunicazioni.filter(c => !c.letto).length;
+        }
+
+        // === RENDERING ===
+        function renderContent() {
+            if (!isAuthenticated) return;
+            
+            const contentArea = document.getElementById('content-area');
+            
+            switch(currentView) {
+                case 'dashboard':
+                    renderDashboard(contentArea);
+                    break;
+                case 'operatori':
+                    renderOperatori(contentArea);
+                    break;
+                case 'comunicazioni':
+                    renderComunicazioni(contentArea);
+                    break;
+                case 'turni':
+                    renderTurni(contentArea);
+                    break;
+                case 'sanzioni':
+                    renderSanzioni(contentArea);
+                    break;
+                case 'squadre':
+                    renderSquadre(contentArea);
+                    break;
+            }
+        }
+
+        function renderDashboard(container) {
+            if (db.operatori.length === 0) {
+                container.innerHTML = `
+                    <div class="card">
+                        <div class="empty-state">
+                            <h3>🏗️ Sistema Appena Inizializzato</h3>
+                            <p>Il database è vuoto. Inizia aggiungendo operatori per popolare il sistema.</p>
+                            <br>
+                            <button class="btn btn-primary" onclick="openOperatorModal()">➕ Aggiungi Primo Operatore</button>
+                        </div>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = `
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">👮 Operatori Registrati</h3>
+                        <div class="card-actions">
+                            <button class="btn btn-primary" onclick="openOperatorModal()">➕ Aggiungi Operatore</button>
+                        </div>
+                    </div>
+                    <div class="table-container">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Matricola</th>
+                                    <th>Nome</th>
+                                    <th>Grado</th>
+                                    <th>Data Ingresso</th>
+                                    <th>Stato</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${db.operatori.map(op => `
+                                    <tr>
+                                        <td>${op.matricola}</td>
+                                        <td>${op.nome} ${op.cognome}</td>
+                                        <td>${op.grado}</td>
+                                        <td>${op.data_ingresso || '-'}</td>
+                                        <td><span class="badge ${op.inServizio ? '' : 'badge-warning'}">${op.inServizio ? 'IN SERVIZIO' : 'LIBERO'}</span></td>
+                                    </tr>
+                                `).join('')}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderOperatori(container) {
+            container.innerHTML = `
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">👮 Gestione Operatori</h3>
+                        <div class="card-actions">
+                            <button class="btn btn-primary" onclick="openOperatorModal()">➕ Aggiungi Operatore</button>
+                        </div>
+                    </div>
+                    <div class="table-container">
+                        ${db.operatori.length === 0 ? `
+                            <div class="empty-state">
+                                <h3>📋 Nessun Operatore Registrato</h3>
+                                <p>Aggiungi il primo operatore per iniziare.</p>
+                            </div>
+                        ` : `
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Matricola</th>
+                                        <th>Nome</th>
+                                        <th>Grado</th>
+                                        <th>Data Ingresso</th>
+                                        <th>Stato Servizio</th>
+                                        <th>Password</th>
+                                        <th>Discord</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    ${db.operatori.map(op => `
+                                        <tr>
+                                            <td>${op.matricola}</td>
+                                            <td>${op.nome} ${op.cognome}</td>
+                                            <td>${op.grado}</td>
+                                            <td>${op.data_ingresso || '-'}</td>
+                                            <td><span class="badge ${op.inServizio ? '' : 'badge-warning'}">${op.inServizio ? 'IN SERVIZIO' : 'LIBERO'}</span></td>
+                                            <td><span class="badge ${op.needsPasswordChange ? 'badge-danger' : 'badge-success'}">${op.needsPasswordChange ? 'DA CAMBIARE' : 'OK'}</span></td>
+                                            <td>${op.discord_tag || '-'}</td>
+                                        </tr>
+                                    `).join('')}
+                                </tbody>
+                            </table>
+                        `}
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderComunicazioni(container) {
+            container.innerHTML = `
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">📢 Centro Comunicazioni</h3>
+                    </div>
+                    <div class="table-container">
+                        <div class="empty-state">
+                            <h3>📭 Nessuna Comunicazione</h3>
+                            <p>Le comunicazioni operative appariranno qui.</p>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderTurni(container) {
+            container.innerHTML = `
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">📝 Registro Turni</h3>
+                    </div>
+                    <div class="table-container">
+                        <div class="empty-state">
+                            <h3>📅 Nessun Turno Registrato</h3>
+                            <p>I turni di servizio appariranno qui.</p>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderSanzioni(container) {
+            container.innerHTML = `
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">⛔ Sanzioni e Promozioni</h3>
+                    </div>
+                    <div class="table-container">
+                        <div class="empty-state">
+                            <h3>📋 Nessuna Sanzione o Promozione</h3>
+                            <p>I provvedimenti disciplinari appariranno qui.</p>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderSquadre(container) {
+            container.innerHTML = `
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">🥷 Squadre D'Intervento</h3>
+                    </div>
+                    <div class="table-container">
+                        <div class="empty-state">
+                            <h3>👥 Nessuna Squadra Formata</h3>
+                            <p>Le squadre operative appariranno qui.</p>
+                        </div>
+                    </div>
+                </div>
+            `;
         }
 
         // === INIZIALIZZAZIONE ===
-        document.addEventListener('DOMContentLoaded', function() {
-            console.log('🔄 Sistema UOPI in inizializzazione...');
+        window.addEventListener('load', function() {
+            console.log('🔄 Inizializzazione sistema UOPI...');
             
-            // Controlla sessione esistente
-            if (!checkSession()) {
-                // Inizializza login
-                initLogin();
-                console.log('🔒 Sistema pronto per il login');
+            // Carica sessione esistente
+            const savedSession = loadSession();
+            if (savedSession && savedSession.user) {
+                currentUser = savedSession.user;
+                isAuthenticated = true;
+                showDashboard();
+                showToast(`Bentornato ${savedSession.user.nome}!`, 'info');
+                
+                // Precompila le credenziali se presenti
+                if (savedSession.credentials) {
+                    document.getElementById('username').value = savedSession.credentials.username || '';
+                    document.getElementById('password').value = savedSession.credentials.password || '';
+                    document.getElementById('rememberMe').checked = true;
+                }
+                return;
             }
-            
-            console.log('✅ Inizializzazione completata');
+
+            console.log('🔒 Sistema pronto per il login');
+            console.log('📊 Operatori nel database:', db.operatori.length);
         });
 
         // Auto-refresh KPI ogni 30 secondi
-        setInterval(updateKPIs, 30000);
+        setInterval(() => {
+            if (isAuthenticated) {
+                updateKPIs();
+            }
+        }, 30000);
     </script>
 </body>
 </html>
