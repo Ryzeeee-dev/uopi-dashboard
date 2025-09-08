@@ -45,7 +45,7 @@
             overflow: hidden;
         }
 
-        /* SIDEBAR SENZA USER INFO */
+        /* SIDEBAR PULITA */
         .sidebar {
             width: 280px;
             background: var(--secondary-bg);
@@ -233,6 +233,33 @@
         .logout-button:hover {
             transform: translateY(-2px);
             box-shadow: 0 8px 20px rgba(239, 68, 68, 0.4);
+        }
+
+        /* SISTEMA NOTIFICHE BANNER DALL'ALTO */
+        .notification-banner {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(135deg, var(--accent), #60a5fa);
+            color: white;
+            padding: 1rem 2rem;
+            font-weight: 600;
+            font-size: 1rem;
+            text-align: center;
+            z-index: 9999;
+            transform: translateY(-100%);
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 20px rgba(59, 130, 246, 0.4);
+            backdrop-filter: blur(10px);
+        }
+
+        .notification-banner.show {
+            transform: translateY(0);
+        }
+
+        .notification-banner.hide {
+            transform: translateY(-100%);
         }
 
         /* DASHBOARD CONTENT */
@@ -464,6 +491,11 @@
             .content-section {
                 padding: 2rem 1rem;
             }
+
+            .notification-banner {
+                padding: 0.8rem 1rem;
+                font-size: 0.9rem;
+            }
         }
 
         /* ANIMAZIONI FLUIDE */
@@ -485,8 +517,11 @@
 </head>
 
 <body>
+    <!-- BANNER NOTIFICHE DALL'ALTO -->
+    <div id="notificationBanner" class="notification-banner"></div>
+
     <div class="app-container">
-        <!-- SIDEBAR PULITA SENZA USER INFO -->
+        <!-- SIDEBAR PULITA -->
         <aside class="sidebar">
             <div class="logo-section">
                 <h1 class="logo">
@@ -611,7 +646,29 @@
     </div>
 
     <script>
-        // GESTIONE NAVIGAZIONE
+        // SISTEMA NOTIFICHE BANNER DALL'ALTO
+        function showNotification(message) {
+            const banner = document.getElementById('notificationBanner');
+            banner.textContent = message;
+            banner.classList.add('show');
+            
+            // Auto-hide dopo 3 secondi
+            setTimeout(() => {
+                hideNotification();
+            }, 3000);
+        }
+
+        function hideNotification() {
+            const banner = document.getElementById('notificationBanner');
+            banner.classList.remove('show');
+            banner.classList.add('hide');
+            
+            setTimeout(() => {
+                banner.classList.remove('hide');
+            }, 400);
+        }
+
+        // GESTIONE NAVIGAZIONE SENZA NOTIFICHE
         function navigateTo(page) {
             // Rimuove active da tutti i link
             document.querySelectorAll('.nav-link').forEach(link => {
@@ -636,8 +693,7 @@
 
             document.querySelector('.page-title').textContent = titles[page] || 'Dashboard';
             
-            // Notifica di navigazione
-            showNotification(`📍 Navigazione verso: ${titles[page]}`);
+            // NESSUNA NOTIFICA per cambio scheda
         }
 
         // GESTIONE LOGOUT
@@ -656,64 +712,6 @@
             // Qui si integrerà il sistema completo
         }
 
-        // SISTEMA NOTIFICHE
-        function showNotification(message) {
-            // Crea elemento notifica
-            const notification = document.createElement('div');
-            notification.style.cssText = `
-                position: fixed;
-                top: 20px;
-                right: 20px;
-                background: linear-gradient(135deg, #3b82f6, #60a5fa);
-                color: white;
-                padding: 1rem 1.5rem;
-                border-radius: 12px;
-                box-shadow: 0 8px 25px rgba(59, 130, 246, 0.4);
-                z-index: 1000;
-                font-weight: 600;
-                animation: slideIn 0.3s ease-out;
-            `;
-            notification.textContent = message;
-
-            // Aggiunge al DOM
-            document.body.appendChild(notification);
-
-            // Rimuove dopo 3 secondi
-            setTimeout(() => {
-                notification.style.animation = 'slideOut 0.3s ease-in forwards';
-                setTimeout(() => {
-                    document.body.removeChild(notification);
-                }, 300);
-            }, 3000);
-        }
-
-        // ANIMAZIONI CSS DINAMICHE
-        const style = document.createElement('style');
-        style.textContent = `
-            @keyframes slideIn {
-                from {
-                    transform: translateX(100%);
-                    opacity: 0;
-                }
-                to {
-                    transform: translateX(0);
-                    opacity: 1;
-                }
-            }
-            
-            @keyframes slideOut {
-                from {
-                    transform: translateX(0);
-                    opacity: 1;
-                }
-                to {
-                    transform: translateX(100%);
-                    opacity: 0;
-                }
-            }
-        `;
-        document.head.appendChild(style);
-
         // EVENT LISTENERS
         document.addEventListener('DOMContentLoaded', function() {
             // Gestisce click sui link di navigazione
@@ -725,7 +723,7 @@
                 });
             });
 
-            // Mostra messaggio di benvenuto
+            // Mostra messaggio di benvenuto SOLO all'avvio
             setTimeout(() => {
                 showNotification('🔰 Benvenuto nel Sistema UOPI!');
             }, 1000);
