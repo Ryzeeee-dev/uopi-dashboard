@@ -803,7 +803,7 @@
                                 <span class="metric-icon">🚨</span>
                                 <div class="metric-label">Operazioni Attive</div>
                             </div>
-                            <div class="metric-value">0</div>
+                            <div class="metric-value" id="active-operations">0</div>
                         </div>
 
                         <div class="metric-card" onclick="navigateTo('squadre')">
@@ -819,7 +819,7 @@
                                 <span class="metric-icon">📝</span>
                                 <div class="metric-label">Turni Pianificati</div>
                             </div>
-                            <div class="metric-value">0</div>
+                            <div class="metric-value" id="total-shifts">0</div>
                         </div>
                     </div>
                 </div>
@@ -828,7 +828,7 @@
                 <div id="turni-content" class="page-content">
                     <div class="uopi-modules">
                         <!-- ATTIVAZIONE UOPI -->
-                        <div class="module-card" onclick="openModal('attivazione-uopi')">
+                        <div class="module-card">
                             <div class="module-header">
                                 <div class="module-title">
                                     🚁 Messaggio di Attivazione UOPI
@@ -852,12 +852,12 @@
                                         <div class="field-preview">Negoziatore qualificato</div>
                                     </div>
                                 </div>
-                                <button class="module-action">📝 Compila Modulo</button>
+                                <button class="module-action" onclick="openModal('attivazione-uopi')">📝 Compila Modulo</button>
                             </div>
                         </div>
 
                         <!-- ATTIVAZIONE PATTUGLIE -->
-                        <div class="module-card" onclick="openModal('attivazione-pattuglie')">
+                        <div class="module-card">
                             <div class="module-header">
                                 <div class="module-title">
                                     🚔 Attivazione Pattuglie UOPI
@@ -881,12 +881,12 @@
                                         <div class="field-preview">Equipaggio assegnato</div>
                                     </div>
                                 </div>
-                                <button class="module-action">🚁 Attiva Pattuglia</button>
+                                <button class="module-action" onclick="openModal('attivazione-pattuglie')">🚁 Attiva Pattuglia</button>
                             </div>
                         </div>
 
                         <!-- DISATTIVAZIONE UOPI -->
-                        <div class="module-card" onclick="openModal('disattivazione-uopi')">
+                        <div class="module-card">
                             <div class="module-header">
                                 <div class="module-title">
                                     🏁 Disattivazione UOPI
@@ -906,12 +906,12 @@
                                         <div class="field-preview">Timestamp automatico</div>
                                     </div>
                                 </div>
-                                <button class="module-action">🔚 Disattiva UOPI</button>
+                                <button class="module-action" onclick="openModal('disattivazione-uopi')">🔚 Disattiva UOPI</button>
                             </div>
                         </div>
 
                         <!-- ISTANZA ATTIVAZIONE -->
-                        <div class="module-card" onclick="openModal('istanza-attivazione')">
+                        <div class="module-card">
                             <div class="module-header">
                                 <div class="module-title">
                                     📋 Istanza per Attivazione UOPI
@@ -931,8 +931,16 @@
                                         <div class="field-preview">7 operatori taggati</div>
                                     </div>
                                 </div>
-                                <button class="module-action">📨 Invia Istanza</button>
+                                <button class="module-action" onclick="openModal('istanza-attivazione')">📨 Invia Istanza</button>
                             </div>
+                        </div>
+                    </div>
+                    
+                    <!-- LISTA MODULI REGISTRATI -->
+                    <div style="margin-top: 3rem;">
+                        <h3 style="color: var(--text-primary); margin-bottom: 1rem;">📋 Moduli Registrati</h3>
+                        <div id="registered-forms-list" style="background: var(--secondary-bg); border-radius: 16px; padding: 2rem; border: 1px solid var(--border);">
+                            <p style="color: var(--text-muted); text-align: center;">Nessun modulo registrato ancora...</p>
                         </div>
                     </div>
                 </div>
@@ -1004,8 +1012,8 @@
                 </div>
             </form>
             <div class="modal-actions">
-                <button class="btn btn-secondary" onclick="closeModal('attivazione-uopi')">Annulla</button>
-                <button class="btn btn-primary" onclick="submitForm('attivazione-uopi')">✅ Attiva UOPI</button>
+                <button type="button" class="btn btn-secondary" onclick="closeModal('attivazione-uopi')">Annulla</button>
+                <button type="button" class="btn btn-primary" onclick="submitForm('attivazione-uopi')">✅ Attiva UOPI</button>
             </div>
         </div>
     </div>
@@ -1042,8 +1050,8 @@
                 </div>
             </form>
             <div class="modal-actions">
-                <button class="btn btn-secondary" onclick="closeModal('attivazione-pattuglie')">Annulla</button>
-                <button class="btn btn-primary" onclick="submitForm('attivazione-pattuglie')">🚁 Attiva Pattuglia</button>
+                <button type="button" class="btn btn-secondary" onclick="closeModal('attivazione-pattuglie')">Annulla</button>
+                <button type="button" class="btn btn-primary" onclick="submitForm('attivazione-pattuglie')">🚁 Attiva Pattuglia</button>
             </div>
         </div>
     </div>
@@ -1070,8 +1078,8 @@
                 </div>
             </form>
             <div class="modal-actions">
-                <button class="btn btn-secondary" onclick="closeModal('disattivazione-uopi')">Annulla</button>
-                <button class="btn btn-primary" onclick="submitForm('disattivazione-uopi')">🔚 Disattiva UOPI</button>
+                <button type="button" class="btn btn-secondary" onclick="closeModal('disattivazione-uopi')">Annulla</button>
+                <button type="button" class="btn btn-primary" onclick="submitForm('disattivazione-uopi')">🔚 Disattiva UOPI</button>
             </div>
         </div>
     </div>
@@ -1121,20 +1129,22 @@
                 </div>
             </form>
             <div class="modal-actions">
-                <button class="btn btn-secondary" onclick="closeModal('istanza-attivazione')">Annulla</button>
-                <button class="btn btn-primary" onclick="submitForm('istanza-attivazione')">📨 Invia Istanza</button>
+                <button type="button" class="btn btn-secondary" onclick="closeModal('istanza-attivazione')">Annulla</button>
+                <button type="button" class="btn btn-primary" onclick="submitForm('istanza-attivazione')">📨 Invia Istanza</button>
             </div>
         </div>
     </div>
 
     <script>
-        // DATABASE SIMULATO PER SALVARE I MODULI
-        let uopiDatabase = {
+        // DATABASE REALE CHE FUNZIONA
+        let uopiDatabase = JSON.parse(localStorage.getItem('uopiDatabase')) || {
             attivazioniUopi: [],
             attivazionePattuglie: [],
             disattivazioni: [],
             istanzeAttivazione: []
         };
+
+        console.log('🔥 DATABASE CARICATO:', uopiDatabase);
 
         // SISTEMA NOTIFICHE
         function showNotification(message, type = 'success') {
@@ -1158,18 +1168,15 @@
         function navigateTo(page) {
             if (page === currentPage) return;
 
-            // Rimuove active da tutti i link
             document.querySelectorAll('.nav-link').forEach(link => {
                 link.classList.remove('active');
             });
 
-            // Aggiunge active al link selezionato
             const targetLink = document.querySelector(`[data-page="${page}"]`);
             if (targetLink) {
                 targetLink.classList.add('active');
             }
 
-            // Animazione di uscita
             const currentContent = document.getElementById(`${currentPage}-content`);
             if (currentContent) {
                 currentContent.classList.add('exit');
@@ -1178,7 +1185,6 @@
                 }, 250);
             }
 
-            // Animazione di entrata
             setTimeout(() => {
                 const newContent = document.getElementById(`${page}-content`);
                 if (newContent) {
@@ -1187,7 +1193,6 @@
                 currentPage = page;
             }, 250);
 
-            // Aggiorna titolo
             const titles = {
                 dashboard: 'Dashboard Operativa',
                 operatori: 'Gestione Operatori',
@@ -1200,8 +1205,9 @@
             document.querySelector('.page-title').textContent = titles[page] || 'Dashboard';
         }
 
-        // GESTIONE MODALS FUNZIONANTI
+        // GESTIONE MODALS CHE FUNZIONANO DAVVERO
         function openModal(modalId) {
+            console.log('🔓 Apertura modal:', modalId);
             const modal = document.getElementById(`modal-${modalId}`);
             if (modal) {
                 modal.classList.add('show');
@@ -1213,10 +1219,15 @@
                     const datetime = now.toISOString().slice(0, 16);
                     modal.querySelector('input[name="ora_disattivazione"]').value = datetime;
                 }
+                
+                console.log('✅ Modal aperto con successo');
+            } else {
+                console.error('❌ Modal non trovato:', modalId);
             }
         }
 
         function closeModal(modalId) {
+            console.log('🔒 Chiusura modal:', modalId);
             const modal = document.getElementById(`modal-${modalId}`);
             if (modal) {
                 modal.classList.remove('show');
@@ -1227,28 +1238,39 @@
                 if (form) {
                     form.reset();
                 }
+                
+                console.log('✅ Modal chiuso');
             }
         }
 
-        // SUBMIT FORM FUNZIONANTE
+        // SUBMIT FORM CHE FUNZIONA E REGISTRA DAVVERO
         function submitForm(formType) {
+            console.log('📝 INIZIO INVIO MODULO:', formType);
+            
             const form = document.getElementById(`form-${formType}`);
             if (!form) {
-                console.error('Form non trovato:', formType);
+                console.error('❌ Form non trovato:', formType);
+                alert('Errore: Form non trovato!');
                 return;
             }
 
+            console.log('✅ Form trovato, validazione...');
+
             // Validazione form
             if (!form.checkValidity()) {
+                console.log('❌ Form non valido');
                 form.reportValidity();
                 return;
             }
 
-            // Raccolta dati
+            console.log('✅ Form valido, raccolta dati...');
+
+            // Raccolta dati COMPLETA
             const formData = new FormData(form);
             const data = {
                 id: Date.now(),
                 timestamp: new Date().toISOString(),
+                data_italiana: new Date().toLocaleString('it-IT'),
                 tipo: formType,
                 dati: {}
             };
@@ -1259,52 +1281,117 @@
                     .map(tag => tag.textContent.replace('×', '').trim())
                     .filter(name => name.length > 0);
                 data.dati.operatori_disponibili = tags;
+                console.log('🏷️ Tags raccolti:', tags);
             }
 
             // Converti FormData in oggetto
             for (let [key, value] of formData.entries()) {
                 data.dati[key] = value;
+                console.log(`📊 Campo ${key}:`, value);
             }
 
-            // Salva nel database simulato
+            console.log('📦 DATI COMPLETI RACCOLTI:', data);
+
+            // Salva nel database PER TIPO
+            let saved = false;
             switch (formType) {
                 case 'attivazione-uopi':
                     uopiDatabase.attivazioniUopi.push(data);
+                    saved = true;
+                    console.log('💾 Salvato in attivazioniUopi');
                     break;
                 case 'attivazione-pattuglie':
                     uopiDatabase.attivazionePattuglie.push(data);
+                    saved = true;
+                    console.log('💾 Salvato in attivazionePattuglie');
                     break;
                 case 'disattivazione-uopi':
                     uopiDatabase.disattivazioni.push(data);
+                    saved = true;
+                    console.log('💾 Salvato in disattivazioni');
                     break;
                 case 'istanza-attivazione':
                     uopiDatabase.istanzeAttivazione.push(data);
+                    saved = true;
+                    console.log('💾 Salvato in istanzeAttivazione');
                     break;
+                default:
+                    console.error('❌ Tipo form sconosciuto:', formType);
             }
 
-            // Salva in localStorage
-            localStorage.setItem('uopiDatabase', JSON.stringify(uopiDatabase));
+            if (saved) {
+                // Salva in localStorage
+                try {
+                    localStorage.setItem('uopiDatabase', JSON.stringify(uopiDatabase));
+                    console.log('💾 DATABASE SALVATO IN LOCALSTORAGE');
+                    console.log('📊 DATABASE AGGIORNATO:', uopiDatabase);
 
-            // Console log per debug
-            console.log('📋 MODULO INVIATO:', formType.toUpperCase());
-            console.log('📊 DATI:', data);
-            console.log('💾 DATABASE AGGIORNATO:', uopiDatabase);
+                    // Chiudi modal
+                    closeModal(formType);
 
-            // Chiudi modal
-            closeModal(formType);
+                    // Aggiorna la lista dei moduli registrati
+                    updateRegisteredFormsList();
 
-            // Mostra notifica di successo
-            const messages = {
-                'attivazione-uopi': '🚁 Attivazione UOPI confermata! Unità dispiegata.',
-                'attivazione-pattuglie': '🚔 Pattuglia UOPI attivata e in movimento.',
-                'disattivazione-uopi': '🏁 UOPI disattivato. Operatori in rientro.',
-                'istanza-attivazione': '📨 Istanza inviata. In attesa di autorizzazione.'
-            };
+                    // Aggiorna metriche
+                    updateMetrics();
 
-            showNotification(messages[formType] || '✅ Modulo inviato con successo!');
+                    // Mostra notifica di successo
+                    const messages = {
+                        'attivazione-uopi': '🚁 ATTIVAZIONE UOPI CONFERMATA! Unità dispiegata e registrata.',
+                        'attivazione-pattuglie': '🚔 PATTUGLIA UOPI ATTIVATA! In movimento e registrata.',
+                        'disattivazione-uopi': '🏁 UOPI DISATTIVATO! Operatori in rientro - Registrato.',
+                        'istanza-attivazione': '📨 ISTANZA INVIATA! In attesa di autorizzazione - Registrata.'
+                    };
 
-            // Aggiorna contatori se necessario
-            updateMetrics();
+                    showNotification(messages[formType] || '✅ MODULO REGISTRATO CON SUCCESSO!');
+
+                    console.log('🎉 MODULO INVIATO E REGISTRATO CON SUCCESSO!');
+
+                } catch (error) {
+                    console.error('❌ ERRORE SALVATAGGIO:', error);
+                    alert('Errore nel salvataggio del modulo!');
+                }
+            }
+        }
+
+        // AGGIORNA LISTA MODULI REGISTRATI
+        function updateRegisteredFormsList() {
+            const container = document.getElementById('registered-forms-list');
+            if (!container) return;
+
+            const allForms = [
+                ...uopiDatabase.attivazioniUopi.map(f => ({...f, categoria: '🚁 Attivazione UOPI'})),
+                ...uopiDatabase.attivazionePattuglie.map(f => ({...f, categoria: '🚔 Attivazione Pattuglie'})),
+                ...uopiDatabase.disattivazioni.map(f => ({...f, categoria: '🏁 Disattivazione UOPI'})),
+                ...uopiDatabase.istanzeAttivazione.map(f => ({...f, categoria: '📨 Istanza Attivazione'}))
+            ].sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+
+            if (allForms.length === 0) {
+                container.innerHTML = '<p style="color: var(--text-muted); text-align: center;">Nessun modulo registrato ancora...</p>';
+                return;
+            }
+
+            const formsHtml = allForms.map(form => `
+                <div style="background: var(--tertiary-bg); padding: 1rem; border-radius: 8px; margin-bottom: 1rem; border-left: 4px solid var(--accent);">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                        <strong>${form.categoria}</strong>
+                        <small style="color: var(--text-muted);">ID: ${form.id}</small>
+                    </div>
+                    <div style="color: var(--text-muted); font-size: 0.9rem;">
+                        📅 ${form.data_italiana}
+                    </div>
+                    <div style="margin-top: 0.5rem; font-size: 0.85rem;">
+                        ${Object.entries(form.dati).slice(0, 2).map(([key, value]) => 
+                            `<span style="background: var(--quaternary-bg); padding: 0.2rem 0.5rem; border-radius: 4px; margin-right: 0.5rem;">${key}: ${value}</span>`
+                        ).join('')}
+                    </div>
+                </div>
+            `).join('');
+
+            container.innerHTML = `
+                <h4 style="color: var(--text-primary); margin-bottom: 1rem;">📊 Totale: ${allForms.length} moduli registrati</h4>
+                ${formsHtml}
+            `;
         }
 
         // GESTIONE TAG
@@ -1322,20 +1409,25 @@
                 uopiDatabase.attivazioniUopi.length - 
                 uopiDatabase.disattivazioni.length;
 
-            // Aggiorna i valori nelle card (se visibili)
-            const operationsCard = document.querySelector('.metric-card .metric-value');
-            if (operationsCard && currentPage === 'dashboard') {
-                document.querySelectorAll('.metric-value')[1].textContent = Math.max(0, activeOperations);
+            const activeOpsElement = document.getElementById('active-operations');
+            const totalShiftsElement = document.getElementById('total-shifts');
+
+            if (activeOpsElement) {
+                activeOpsElement.textContent = Math.max(0, activeOperations);
             }
+
+            if (totalShiftsElement) {
+                totalShiftsElement.textContent = totalOperations;
+            }
+
+            console.log('📊 Metriche aggiornate - Operazioni attive:', Math.max(0, activeOperations), 'Totale:', totalOperations);
         }
 
         // LOGOUT
         function handleLogout() {
-            if (confirm('🚪 Sei sicuro di voler uscire dal sistema UOPI?')) {
-                showNotification('👋 Logout completato. Arrivederci!');
+            if (confirm('🚪 Sei sicuro di voler uscire dal sistema UOPI?\n\n⚠️ I dati rimarranno salvati nel browser.')) {
+                showNotification('👋 Logout completato. Tutti i moduli sono stati salvati!');
                 setTimeout(() => {
-                    // Reset database se necessario
-                    // localStorage.removeItem('uopiDatabase');
                     location.reload();
                 }, 1500);
             }
@@ -1343,15 +1435,8 @@
 
         // EVENT LISTENERS
         document.addEventListener('DOMContentLoaded', function() {
-            // Carica database da localStorage
-            const savedDatabase = localStorage.getItem('uopiDatabase');
-            if (savedDatabase) {
-                try {
-                    uopiDatabase = JSON.parse(savedDatabase);
-                } catch (e) {
-                    console.error('Errore caricamento database:', e);
-                }
-            }
+            console.log('🚀 INIZIALIZZAZIONE SISTEMA UOPI...');
+            console.log('📊 Database all\'avvio:', uopiDatabase);
 
             // Gestisce click sui link di navigazione
             document.querySelectorAll('.nav-link').forEach(link => {
@@ -1382,13 +1467,17 @@
                 }
             });
 
+            // Aggiorna tutto all'avvio
+            updateRegisteredFormsList();
+            updateMetrics();
+
             // Mostra messaggio di benvenuto
             setTimeout(() => {
-                showNotification('🔰 Sistema UOPI operativo. Tutti i moduli funzionanti!');
+                const totalForms = Object.values(uopiDatabase).flat().length;
+                showNotification(`🔰 Sistema UOPI operativo! ${totalForms} moduli già registrati.`);
             }, 1000);
 
-            // Aggiorna metriche
-            updateMetrics();
+            console.log('✅ SISTEMA COMPLETAMENTE INIZIALIZZATO E FUNZIONANTE!');
         });
     </script>
 </body>
