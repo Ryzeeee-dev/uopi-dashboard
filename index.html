@@ -1418,8 +1418,8 @@
         };
 
         const STORAGE_KEYS = {
-            database: 'uopi_database_v4',
-            session: 'uopi_session_v4',
+            database: 'uopi_database_v5',
+            session: 'uopi_session_v5',
             theme: 'uopi_theme'
         };
 
@@ -1539,7 +1539,7 @@
         function generateMatricola() {
             let maxNum = 0;
             db.operatori.forEach(op => {
-                const num = parseInt(op.matricola.split('-')[9]) || 0;
+                const num = parseInt(op.matricola.split('-')[1]) || 0;
                 if (num > maxNum) maxNum = num;
             });
             const nextNum = (maxNum + 1).toString().padStart(4, '0');
@@ -1672,7 +1672,11 @@
         function initLogin() {
             const loginForm = document.getElementById('loginForm');
             
-            loginForm.addEventListener('submit', function(e) {
+            // Rimuove eventuali listener precedenti
+            const newForm = loginForm.cloneNode(true);
+            loginForm.parentNode.replaceChild(newForm, loginForm);
+            
+            newForm.addEventListener('submit', function(e) {
                 e.preventDefault();
                 
                 const username = document.getElementById('username').value.trim();
@@ -1957,7 +1961,7 @@
             return ranges[type] || 'N/A';
         }
 
-        // === LOGOUT CORRETTO (FIX PRINCIPALE) ===
+        // === LOGOUT CORRETTO ===
         async function logout() {
             const confirmed = await customConfirm('🚪 Sei sicuro di voler uscire dal sistema?');
             if (confirmed) {
@@ -1996,7 +2000,338 @@
                 
                 showAdvancedToast('👋 Logout Completato', 'Sistema pronto per nuovo accesso', 'info');
                 
-                // ASSICURA CHE IL FORM LOGIN SIA FUNZIONANTE
+                // RIATTIVA IL FORM LOGIN
                 setTimeout(() => {
                     initLogin();
-                }, 100);
+                }, 200);
+            }
+        }
+
+        // === NAVIGAZIONE ===
+        function navigateToView(view) {
+            currentView = view;
+            
+            document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+            document.querySelector(`[data-view="${view}"]`)?.classList.add('active');
+            
+            const titles = {
+                dashboard: '🔰 Dashboard Operativa',
+                operatori: '👮 Gestione Operatori',
+                comunicazioni: '📢 Centro Comunicazioni',
+                turni: '📝 Gestione Turni',
+                sanzioni: '⛔ Sanzioni e Promozioni',
+                squadre: '🥷 Squadre D\'Intervento'
+            };
+            
+            document.getElementById('page-title').textContent = titles[view] || '🔰 Dashboard';
+            renderContent();
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    if (!isAuthenticated) return;
+                    navigateToView(e.target.closest('.nav-link').dataset.view);
+                });
+            });
+        });
+
+        // === KPI ===
+        function updateKPIs() {
+            if (!isAuthenticated) return;
+            
+            document.getElementById('kpi-operatori').textContent = db.operatori.filter(o => o.inServizio).length;
+            document.getElementById('kpi-operazioni').textContent = 0;
+            document.getElementById('kpi-squadre').textContent = 0;
+            document.getElementById('kpi-turni').textContent = db.shifts ? db.shifts.length : 0;
+        }
+
+        // === RENDERING ===
+        function renderContent() {
+            if (!isAuthenticated) return;
+            
+            const contentArea = document.getElementById('content-area');
+            
+            switch(currentView) {
+                case 'dashboard':
+                    renderDashboard(contentArea);
+                    break;
+                case 'operatori':
+                    renderOperatori(contentArea);
+                    break;
+                case 'turni':
+                    renderTurniSemplici(contentArea);
+                    break;
+                default:
+                    renderEmptySection(contentArea, currentView);
+                    break;
+            }
+        }
+
+        function renderDashboard(container) {
+            if (db.operatori.length === 0) {
+                container.innerHTML = `
+                    <div class="card">
+                        <div class="empty-state">
+                            <div class="empty-state-icon">🏗️</div>
+                            <h3>Sistema Inizializzato</h3>
+                            <p>Inizia aggiungendo operatori al sistema.</p>
+                            <button class="btn btn-primary" onclick="openOperatorModal()">➕ Aggiungi Operatore</button>
+                        </div>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = `
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">👮 Operatori Registrati</h3>
+                        <div class="card-actions">
+                            <button class="btn btn-primary" onclick="openOperatorModal()">➕ Aggiungi</button>
+                        </div>
+                    </div>
+                    <div class="table-container">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Matricola</th>
+                                    <th>Nome</th>
+                                    <th>Grado</th>
+                                    <th>Stato</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${db.operatori.map(op => `
+                                    <tr>
+                                        <td>${op.matricola}</td>
+                                        <td>${op.nome} ${op.cognome}</td>
+                                        <td>${op.grado}</td>
+                                        <td><span class="badge ${op.inServizio ? '' : 'badge-warning'}">${op.inServizio ? 'IN SERVIZIO' : 'LIBERO'}</span></td>
+                                    </tr>
+                                `).join('')}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderOperatori(container) {
+            container.innerHTML = `
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">👮 Gestione Operatori</h3>
+                        <div class="card-actions">
+                            <button class="btn btn-primary" onclick="openOperatorModal()">➕ Aggiungi Operatore</button>
+                        </div>
+                    </div>
+                    <div class="table-container">
+                        ${db.operatori.length === 0 ? `
+                            <div class="empty-state">
+                                <div class="empty-state-icon">📋</div>
+                                <h3>Nessun Operatore</h3>
+                                <p>Aggiungi il primo operatore per iniziare.</p>
+                            </div>
+                        ` : `
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Matricola</th>
+                                        <th>Nome</th>
+                                        <th>Grado</th>
+                                        <th>Data Ingresso</th>
+                                        <th>Stato</th>
+                                        <th>Discord</th>
+                                        <th>Azioni</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    ${db.operatori.map(op => `
+                                        <tr>
+                                            <td>${op.matricola}</td>
+                                            <td>${op.nome} ${op.cognome}</td>
+                                            <td>${op.grado}</td>
+                                            <td>${op.data_ingresso || '-'}</td>
+                                            <td><span class="badge ${op.inServizio ? '' : 'badge-warning'}">${op.inServizio ? 'IN SERVIZIO' : 'LIBERO'}</span></td>
+                                            <td>${op.discord_tag || '-'}</td>
+                                            <td class="table-actions">
+                                                <button class="btn btn-danger" onclick="deleteOperator('${op.id}')">🗑️ Rimuovi</button>
+                                            </td>
+                                        </tr>
+                                    `).join('')}
+                                </tbody>
+                            </table>
+                        `}
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderTurniSemplici(container) {
+            container.innerHTML = `
+                <!-- Controlli Turni -->
+                <div class="shift-controls">
+                    <div class="shift-filters">
+                        <select class="shift-filter">
+                            <option value="">Tutti i turni</option>
+                            <option value="morning">🌅 Mattino</option>
+                            <option value="afternoon">🌇 Pomeriggio</option>
+                            <option value="night">🌙 Notte</option>
+                            <option value="emergency">🚨 Emergenza</option>
+                        </select>
+                    </div>
+                    
+                    <button class="btn btn-primary" onclick="openShiftModal()">📅 Pianifica Turno</button>
+                </div>
+
+                <!-- Analytics Semplici -->
+                <div class="shifts-analytics">
+                    <div class="analytics-card">
+                        <div class="analytics-value">${db.shifts ? db.shifts.length : 0}</div>
+                        <div class="analytics-label">Turni Totali</div>
+                    </div>
+                    <div class="analytics-card">
+                        <div class="analytics-value">${db.operatori.filter(op => op.attivo).length}</div>
+                        <div class="analytics-label">Operatori Attivi</div>
+                    </div>
+                    <div class="analytics-card">
+                        <div class="analytics-value">${db.shifts ? db.shifts.filter(s => s.type === 'morning').length : 0}</div>
+                        <div class="analytics-label">Turni Mattino</div>
+                    </div>
+                    <div class="analytics-card">
+                        <div class="analytics-value">${db.shifts ? db.shifts.filter(s => s.type === 'night').length : 0}</div>
+                        <div class="analytics-label">Turni Notte</div>
+                    </div>
+                </div>
+
+                <!-- Lista Turni -->
+                ${renderShiftCards()}
+            `;
+        }
+
+        function renderShiftCards() {
+            if (!db.shifts || db.shifts.length === 0) {
+                return `
+                    <div class="card">
+                        <div class="empty-state">
+                            <div class="empty-state-icon">📅</div>
+                            <h3>Nessun Turno Pianificato</h3>
+                            <p>Inizia creando il primo turno di servizio con data specifica.</p>
+                            <button class="btn btn-primary" onclick="openShiftModal()">📅 Pianifica Primo Turno</button>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            const sortedShifts = [...db.shifts].sort((a, b) => new Date(a.date) - new Date(b.date));
+            
+            return `
+                <div class="shifts-grid">
+                    ${sortedShifts.map(shift => {
+                        const operators = shift.assignedOperators.map(id => {
+                            const op = db.operatori.find(o => o.id === id);
+                            return op ? `${op.nome} ${op.cognome}` : 'Operatore Sconosciuto';
+                        });
+                        
+                        // Calcola status relativo alla data
+                        const shiftDate = new Date(shift.date);
+                        const today = new Date();
+                        const daysDiff = Math.ceil((shiftDate - today) / (1000 * 60 * 60 * 24));
+                        
+                        let dateStatus = '';
+                        let statusClass = 'planned';
+                        if (daysDiff === 0) {
+                            dateStatus = 'OGGI';
+                            statusClass = 'emergency';
+                        } else if (daysDiff === 1) {
+                            dateStatus = 'DOMANI';
+                            statusClass = 'warning';
+                        } else if (daysDiff > 1) {
+                            dateStatus = `Tra ${daysDiff} giorni`;
+                        } else {
+                            dateStatus = 'Passato';
+                            statusClass = 'cancelled';
+                        }
+                        
+                        return `
+                            <div class="shift-card ${shift.type}">
+                                <div class="shift-card-header">
+                                    <div>
+                                        <div class="shift-type">${getShiftTypeName(shift.type)}</div>
+                                        <div class="shift-date">${new Date(shift.date).toLocaleDateString()}</div>
+                                        <div class="shift-time">${getShiftTimeRange(shift.type)}</div>
+                                    </div>
+                                    <div class="shift-status ${statusClass}">${dateStatus}</div>
+                                </div>
+                                
+                                <div class="shift-operators">
+                                    <div class="shift-operators-title">Operatori Assegnati</div>
+                                    <div class="shift-operators-list">
+                                        ${operators.map(name => `<span class="operator-pill">${name}</span>`).join('')}
+                                    </div>
+                                </div>
+                                
+                                <div class="shift-info">
+                                    <div class="shift-info-item"><strong>Operazione:</strong> ${shift.operationType}</div>
+                                    ${shift.notes ? `<div class="shift-info-item"><strong>Note:</strong> ${shift.notes}</div>` : ''}
+                                </div>
+                                
+                                <div class="shift-actions">
+                                    <button class="shift-action-btn" onclick="deleteShift('${shift.id}')">🗑️ Elimina</button>
+                                </div>
+                            </div>
+                        `;
+                    }).join('')}
+                </div>
+            `;
+        }
+
+        function renderEmptySection(container, section) {
+            const sections = {
+                comunicazioni: { icon: '📢', title: 'Centro Comunicazioni', desc: 'Le comunicazioni operative appariranno qui.' },
+                sanzioni: { icon: '⛔', title: 'Sanzioni e Promozioni', desc: 'I provvedimenti disciplinari appariranno qui.' },
+                squadre: { icon: '🥷', title: 'Squadre D\'Intervento', desc: 'Le squadre operative appariranno qui.' }
+            };
+            
+            const sectionData = sections[section] || { icon: '📋', title: 'Sezione', desc: 'Contenuto in sviluppo.' };
+            
+            container.innerHTML = `
+                <div class="card">
+                    <div class="empty-state">
+                        <div class="empty-state-icon">${sectionData.icon}</div>
+                        <h3>${sectionData.title}</h3>
+                        <p>${sectionData.desc}</p>
+                    </div>
+                </div>
+            `;
+        }
+
+        // === INIZIALIZZAZIONE ===
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('🔄 Inizializzazione sistema UOPI...');
+            
+            loadTheme();
+            
+            const savedSession = loadSession();
+            if (savedSession && savedSession.user) {
+                currentUser = savedSession.user;
+                isAuthenticated = true;
+                showDashboard();
+                showAdvancedToast('🔄 Sessione Ripristinata', `Bentornato ${savedSession.user.nome}!`, 'info');
+                return;
+            }
+
+            initLogin();
+            console.log('🔒 Sistema pronto per il login');
+        });
+
+        setInterval(() => {
+            if (isAuthenticated) {
+                updateKPIs();
+            }
+        }, 30000);
+    </script>
+</body>
+</html>
