@@ -3,351 +3,215 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🔰 UOPI Dashboard</title>
+    <title>UOPI Dashboard</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: #0f172a;
-            color: #f1f5f9;
-            height: 100vh;
-            overflow: hidden;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background: #1a202c;
+            color: white;
         }
         
-        /* LOGIN SCREEN */
-        .login-screen {
+        .login-page {
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
-            background: linear-gradient(135deg, #0f172a, #1e293b);
+            background: #1a202c;
         }
         
         .login-card {
-            background: #1e293b;
-            padding: 3rem;
-            border-radius: 20px;
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
-            border: 1px solid #334155;
-            max-width: 400px;
-            width: 100%;
+            background: #2d3748;
+            padding: 2rem;
+            border-radius: 10px;
+            width: 300px;
             text-align: center;
         }
         
-        .login-logo {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-            color: #3b82f6;
-        }
-        
         .login-title {
-            font-size: 1.5rem;
+            color: #4299e1;
             margin-bottom: 2rem;
-            color: #f1f5f9;
+            font-size: 1.5rem;
         }
         
         .form-group {
-            margin-bottom: 1.5rem;
+            margin-bottom: 1rem;
             text-align: left;
         }
         
         .form-label {
             display: block;
             margin-bottom: 0.5rem;
-            font-weight: 600;
-            color: #cbd5e1;
+            color: #e2e8f0;
         }
         
         .form-input {
             width: 100%;
-            padding: 1rem;
-            border: 2px solid #334155;
-            border-radius: 10px;
-            background: #0f172a;
-            color: #f1f5f9;
+            padding: 0.75rem;
+            border: 1px solid #4a5568;
+            border-radius: 5px;
+            background: #1a202c;
+            color: white;
+            box-sizing: border-box;
+        }
+        
+        .btn {
+            background: #4299e1;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
             font-size: 1rem;
         }
         
-        .form-input:focus {
-            outline: none;
-            border-color: #3b82f6;
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        .btn:hover {
+            background: #3182ce;
         }
         
-        .login-btn {
-            width: 100%;
-            padding: 1rem;
-            background: linear-gradient(135deg, #3b82f6, #2563eb);
-            border: none;
-            border-radius: 10px;
-            color: white;
-            font-size: 1.1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        
-        .login-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(59, 130, 246, 0.4);
-        }
-        
-        .error-msg {
-            color: #ef4444;
+        .error {
+            color: #f56565;
             margin-top: 1rem;
             display: none;
         }
         
-        /* MAIN APP */
-        .main-app {
+        .dashboard {
             display: none;
-            height: 100vh;
-            flex-direction: row;
+            min-height: 100vh;
         }
         
-        .main-app.active {
+        .dashboard.active {
             display: flex;
         }
         
-        /* SIDEBAR */
         .sidebar {
-            width: 280px;
-            background: #1e293b;
-            border-right: 1px solid #334155;
-            display: flex;
-            flex-direction: column;
+            width: 250px;
+            background: #2d3748;
+            padding: 1rem;
+            border-right: 1px solid #4a5568;
         }
         
-        .sidebar-logo {
-            padding: 2rem;
+        .sidebar h2 {
+            color: #4299e1;
+            margin-bottom: 2rem;
             text-align: center;
-            border-bottom: 1px solid #334155;
-        }
-        
-        .sidebar-logo h1 {
-            color: #3b82f6;
-            font-size: 1.5rem;
-        }
-        
-        .sidebar-nav {
-            flex: 1;
-            padding: 2rem 1rem;
-        }
-        
-        .nav-list {
-            list-style: none;
         }
         
         .nav-item {
-            margin-bottom: 0.5rem;
-        }
-        
-        .nav-link {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
             padding: 1rem;
-            color: #cbd5e1;
-            text-decoration: none;
-            border-radius: 10px;
-            transition: all 0.3s ease;
+            margin-bottom: 0.5rem;
+            border-radius: 5px;
             cursor: pointer;
+            transition: background 0.3s;
         }
         
-        .nav-link:hover,
-        .nav-link.active {
-            background: #334155;
-            color: #3b82f6;
-            transform: translateX(5px);
+        .nav-item:hover,
+        .nav-item.active {
+            background: #4a5568;
+            color: #4299e1;
         }
         
-        .nav-icon {
-            font-size: 1.2rem;
-        }
-        
-        /* MAIN CONTENT */
         .main-content {
             flex: 1;
-            display: flex;
-            flex-direction: column;
+            padding: 2rem;
         }
         
-        /* HEADER */
         .header {
-            background: #1e293b;
-            padding: 1.5rem 2rem;
-            border-bottom: 1px solid #334155;
             display: flex;
             justify-content: space-between;
             align-items: center;
-        }
-        
-        .page-title {
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: #3b82f6;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #4a5568;
         }
         
         .user-info {
             display: flex;
             align-items: center;
             gap: 1rem;
-            background: #334155;
-            padding: 0.75rem 1.5rem;
-            border-radius: 50px;
-        }
-        
-        .user-avatar {
-            width: 40px;
-            height: 40px;
-            background: #3b82f6;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: bold;
-        }
-        
-        .user-details {
-            display: flex;
-            flex-direction: column;
-        }
-        
-        .user-name {
-            font-weight: 600;
-            font-size: 0.9rem;
-        }
-        
-        .user-role {
-            font-size: 0.75rem;
-            color: #94a3b8;
         }
         
         .logout-btn {
-            background: #ef4444;
-            border: none;
+            background: #e53e3e;
             color: white;
+            border: none;
             padding: 0.5rem 1rem;
-            border-radius: 8px;
+            border-radius: 5px;
             cursor: pointer;
         }
         
-        /* CONTENT AREA */
-        .content-area {
-            flex: 1;
-            padding: 2rem;
-            overflow-y: auto;
-        }
-        
-        .content-section {
+        .section {
             display: none;
         }
         
-        .content-section.active {
+        .section.active {
             display: block;
         }
         
-        /* KPI CARDS */
-        .kpi-grid {
+        .cards-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 3rem;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
         }
         
-        .kpi-card {
-            background: #1e293b;
-            padding: 2rem;
-            border-radius: 16px;
-            border: 1px solid #334155;
+        .card {
+            background: #2d3748;
+            padding: 1.5rem;
+            border-radius: 10px;
             text-align: center;
             cursor: pointer;
-            transition: all 0.3s ease;
         }
         
-        .kpi-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        .card:hover {
+            background: #4a5568;
         }
         
-        .kpi-label {
-            font-size: 0.8rem;
-            color: #94a3b8;
+        .card-title {
+            color: #a0aec0;
+            font-size: 0.9rem;
             margin-bottom: 1rem;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
         }
         
-        .kpi-value {
-            font-size: 2.5rem;
+        .card-value {
+            font-size: 2rem;
             font-weight: bold;
-            color: #fbbf24;
+            color: #fbb924;
         }
         
-        /* MODULES GRID */
         .modules-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 2rem;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1rem;
         }
         
-        .module-card {
-            background: #1e293b;
-            border-radius: 16px;
-            border: 1px solid #334155;
-            overflow: hidden;
-            transition: all 0.3s ease;
-        }
-        
-        .module-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
-        }
-        
-        .module-header {
-            background: #334155;
+        .module {
+            background: #2d3748;
+            border-radius: 10px;
             padding: 1.5rem;
         }
         
-        .module-title {
-            font-size: 1.1rem;
-            font-weight: 700;
-            margin-bottom: 0.5rem;
-        }
-        
-        .module-desc {
-            font-size: 0.9rem;
-            color: #94a3b8;
-        }
-        
-        .module-body {
-            padding: 1.5rem;
+        .module h3 {
+            color: #4299e1;
+            margin-bottom: 1rem;
         }
         
         .module-btn {
-            width: 100%;
-            background: #3b82f6;
-            border: none;
+            background: #38a169;
             color: white;
-            padding: 1rem;
-            border-radius: 10px;
-            font-weight: 600;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 5px;
             cursor: pointer;
-            transition: all 0.3s ease;
+            width: 100%;
+            margin-top: 1rem;
         }
         
         .module-btn:hover {
-            background: #2563eb;
-            transform: translateY(-2px);
+            background: #2f855a;
         }
         
-        /* MODAL */
         .modal {
             display: none;
             position: fixed;
@@ -355,9 +219,8 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: rgba(0, 0, 0, 0.8);
+            background: rgba(0,0,0,0.8);
             z-index: 1000;
-            backdrop-filter: blur(5px);
         }
         
         .modal.active {
@@ -367,786 +230,573 @@
         }
         
         .modal-content {
-            background: #1e293b;
-            border-radius: 20px;
+            background: #2d3748;
             padding: 2rem;
-            max-width: 600px;
+            border-radius: 10px;
             width: 90%;
+            max-width: 500px;
             max-height: 80vh;
             overflow-y: auto;
-            border: 1px solid #334155;
-        }
-        
-        .modal-header {
-            text-align: center;
-            margin-bottom: 2rem;
-            border-bottom: 1px solid #334155;
-            padding-bottom: 1rem;
         }
         
         .modal-title {
-            font-size: 1.5rem;
-            color: #3b82f6;
-            margin-bottom: 0.5rem;
-        }
-        
-        .modal-subtitle {
-            color: #94a3b8;
-        }
-        
-        .modal-form {
-            display: grid;
-            gap: 1.5rem;
-            margin-bottom: 2rem;
+            color: #4299e1;
+            margin-bottom: 1rem;
+            text-align: center;
         }
         
         .modal-actions {
             display: flex;
             gap: 1rem;
+            margin-top: 2rem;
             justify-content: center;
-            border-top: 1px solid #334155;
-            padding-top: 1rem;
-        }
-        
-        .btn {
-            padding: 0.75rem 2rem;
-            border: none;
-            border-radius: 10px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        
-        .btn-primary {
-            background: #3b82f6;
-            color: white;
         }
         
         .btn-secondary {
-            background: #64748b;
-            color: white;
+            background: #718096;
         }
         
-        .btn:hover {
-            transform: translateY(-2px);
+        .btn-secondary:hover {
+            background: #4a5568;
         }
         
-        /* TABLE */
-        .data-table {
+        .table {
             width: 100%;
-            background: #1e293b;
-            border-radius: 16px;
+            background: #2d3748;
+            border-radius: 10px;
             overflow: hidden;
-            border: 1px solid #334155;
         }
         
-        .data-table table {
+        .table table {
             width: 100%;
             border-collapse: collapse;
         }
         
-        .data-table th {
-            background: #334155;
+        .table th {
+            background: #4a5568;
             padding: 1rem;
             text-align: left;
-            font-weight: 600;
-            color: #3b82f6;
+            color: #4299e1;
         }
         
-        .data-table td {
+        .table td {
             padding: 1rem;
-            border-bottom: 1px solid #334155;
+            border-bottom: 1px solid #4a5568;
         }
         
-        .data-table tbody tr:hover {
-            background: #334155;
+        .table tbody tr:hover {
+            background: #4a5568;
         }
         
-        .badge {
-            padding: 0.25rem 0.75rem;
-            border-radius: 20px;
-            font-size: 0.75rem;
-            font-weight: 600;
-        }
-        
-        .badge-success {
-            background: #10b981;
-            color: white;
-        }
-        
-        .badge-warning {
-            background: #f59e0b;
-            color: white;
-        }
-        
-        /* NOTIFICATION */
         .notification {
             position: fixed;
             top: 20px;
             right: 20px;
-            background: #10b981;
+            background: #38a169;
             color: white;
-            padding: 1rem 1.5rem;
-            border-radius: 10px;
-            font-weight: 600;
+            padding: 1rem;
+            border-radius: 5px;
             z-index: 2000;
             transform: translateX(100%);
-            transition: transform 0.3s ease;
+            transition: transform 0.3s;
         }
         
         .notification.show {
             transform: translateX(0);
         }
+        
+        .forms-list {
+            background: #2d3748;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-top: 2rem;
+        }
+        
+        .form-item {
+            background: #4a5568;
+            padding: 1rem;
+            border-radius: 5px;
+            margin-bottom: 1rem;
+        }
     </style>
 </head>
 <body>
-    <!-- NOTIFICATION -->
+    <!-- Notifica -->
     <div id="notification" class="notification"></div>
 
-    <!-- LOGIN SCREEN -->
-    <div id="loginScreen" class="login-screen">
+    <!-- Login Page -->
+    <div id="loginPage" class="login-page">
         <div class="login-card">
-            <div class="login-logo">🔰</div>
-            <h2 class="login-title">UOPI Dashboard</h2>
+            <h2 class="login-title">🔰 UOPI Login</h2>
             <form id="loginForm">
                 <div class="form-group">
-                    <label class="form-label">Username</label>
-                    <input type="text" class="form-input" id="loginUsername" required>
+                    <label class="form-label">Username:</label>
+                    <input type="text" class="form-input" id="username" required>
                 </div>
                 <div class="form-group">
-                    <label class="form-label">Password</label>
-                    <input type="password" class="form-input" id="loginPassword" required>
+                    <label class="form-label">Password:</label>
+                    <input type="password" class="form-input" id="password" required>
                 </div>
-                <button type="submit" class="login-btn">🚀 Accedi</button>
-                <div id="loginError" class="error-msg">❌ Credenziali non valide</div>
+                <button type="submit" class="btn">Accedi</button>
+                <div id="loginError" class="error">Credenziali non valide</div>
             </form>
         </div>
     </div>
 
-    <!-- MAIN APP -->
-    <div id="mainApp" class="main-app">
-        <!-- SIDEBAR -->
+    <!-- Dashboard -->
+    <div id="dashboard" class="dashboard">
         <div class="sidebar">
-            <div class="sidebar-logo">
-                <h1>🔰 UOPI</h1>
-            </div>
-            <nav class="sidebar-nav">
-                <ul class="nav-list">
-                    <li class="nav-item">
-                        <a class="nav-link active" data-section="dashboard">
-                            <span class="nav-icon">🏠</span>
-                            Dashboard
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" data-section="operatori">
-                            <span class="nav-icon">👮</span>
-                            Operatori
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" data-section="turni">
-                            <span class="nav-icon">📝</span>
-                            Gestione Turni
-                        </a>
-                    </li>
-                </ul>
-            </nav>
+            <h2>🔰 UOPI</h2>
+            <div class="nav-item active" data-section="home">🏠 Dashboard</div>
+            <div class="nav-item" data-section="operators">👮 Operatori</div>
+            <div class="nav-item" data-section="modules">📝 Moduli</div>
         </div>
-
-        <!-- MAIN CONTENT -->
+        
         <div class="main-content">
-            <!-- HEADER -->
             <div class="header">
-                <h1 class="page-title">Dashboard Operativa</h1>
+                <h1 id="pageTitle">Dashboard</h1>
                 <div class="user-info">
-                    <div class="user-avatar">A</div>
-                    <div class="user-details">
-                        <div class="user-name" id="userName">Admin UOPI</div>
-                        <div class="user-role">Amministratore Sistema</div>
-                    </div>
-                    <button class="logout-btn" id="logoutBtn">Logout</button>
+                    <span id="userName">Admin UOPI</span>
+                    <button class="logout-btn" onclick="logout()">Logout</button>
                 </div>
             </div>
-
-            <!-- CONTENT AREA -->
-            <div class="content-area">
-                <!-- DASHBOARD SECTION -->
-                <div id="dashboard" class="content-section active">
-                    <div class="kpi-grid">
-                        <div class="kpi-card">
-                            <div class="kpi-label">👮 Operatori in Servizio</div>
-                            <div class="kpi-value" id="operatoriCount">0</div>
-                        </div>
-                        <div class="kpi-card">
-                            <div class="kpi-label">🚨 Operazioni Attive</div>
-                            <div class="kpi-value" id="operazioniCount">0</div>
-                        </div>
-                        <div class="kpi-card">
-                            <div class="kpi-label">📝 Moduli Registrati</div>
-                            <div class="kpi-value" id="moduliCount">0</div>
-                        </div>
+            
+            <!-- Home Section -->
+            <div id="home" class="section active">
+                <div class="cards-grid">
+                    <div class="card">
+                        <div class="card-title">Operatori</div>
+                        <div class="card-value" id="operatorsCount">0</div>
+                    </div>
+                    <div class="card">
+                        <div class="card-title">Moduli</div>
+                        <div class="card-value" id="modulesCount">0</div>
                     </div>
                 </div>
-
-                <!-- OPERATORI SECTION -->
-                <div id="operatori" class="content-section">
-                    <div style="display: flex; justify-content: space-between; margin-bottom: 2rem;">
-                        <h2>👮 Gestione Operatori</h2>
-                        <button class="btn btn-primary" id="addOperatorBtn">➕ Aggiungi Operatore</button>
+            </div>
+            
+            <!-- Operators Section -->
+            <div id="operators" class="section">
+                <div style="margin-bottom: 2rem;">
+                    <button class="btn" onclick="openModal('addOperator')">+ Aggiungi Operatore</button>
+                </div>
+                <div class="table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Matricola</th>
+                                <th>Nome</th>
+                                <th>Grado</th>
+                                <th>Azioni</th>
+                            </tr>
+                        </thead>
+                        <tbody id="operatorsTable">
+                            <tr>
+                                <td colspan="4" style="text-align: center;">Nessun operatore</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <!-- Modules Section -->
+            <div id="modules" class="section">
+                <div class="modules-grid">
+                    <div class="module">
+                        <h3>🚁 Attivazione UOPI</h3>
+                        <p>Messaggio di attivazione unità speciale</p>
+                        <button class="module-btn" onclick="openModal('activateUopi')">Compila</button>
                     </div>
-                    
-                    <div class="data-table">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Matricola</th>
-                                    <th>Nome</th>
-                                    <th>Grado</th>
-                                    <th>Stato</th>
-                                    <th>Azioni</th>
-                                </tr>
-                            </thead>
-                            <tbody id="operatorsTableBody">
-                                <tr>
-                                    <td colspan="5" style="text-align: center; color: #94a3b8;">Nessun operatore registrato</td>
-                                </tr>
-                            </tbody>
-                        </table>
+                    <div class="module">
+                        <h3>🚔 Attivazione Pattuglie</h3>
+                        <p>Gestione pattuglie operative</p>
+                        <button class="module-btn" onclick="openModal('activatePatrol')">Compila</button>
+                    </div>
+                    <div class="module">
+                        <h3>🏁 Disattivazione UOPI</h3>
+                        <p>Concludi operazione</p>
+                        <button class="module-btn" onclick="openModal('deactivateUopi')">Compila</button>
+                    </div>
+                    <div class="module">
+                        <h3>📋 Istanza Attivazione</h3>
+                        <p>Richiedi attivazione</p>
+                        <button class="module-btn" onclick="openModal('requestActivation')">Compila</button>
                     </div>
                 </div>
-
-                <!-- TURNI SECTION -->
-                <div id="turni" class="content-section">
-                    <h2 style="margin-bottom: 2rem;">📝 Gestione Turni UOPI</h2>
-                    
-                    <div class="modules-grid">
-                        <div class="module-card">
-                            <div class="module-header">
-                                <div class="module-title">🚁 Attivazione UOPI</div>
-                                <div class="module-desc">Messaggio di attivazione unità speciale</div>
-                            </div>
-                            <div class="module-body">
-                                <button class="module-btn" onclick="openModal('attivazioneUopi')">📝 Compila Modulo</button>
-                            </div>
-                        </div>
-
-                        <div class="module-card">
-                            <div class="module-header">
-                                <div class="module-title">🚔 Attivazione Pattuglie</div>
-                                <div class="module-desc">Gestione pattuglie operative</div>
-                            </div>
-                            <div class="module-body">
-                                <button class="module-btn" onclick="openModal('attivazionePattuglie')">🚁 Attiva Pattuglia</button>
-                            </div>
-                        </div>
-
-                        <div class="module-card">
-                            <div class="module-header">
-                                <div class="module-title">🏁 Disattivazione UOPI</div>
-                                <div class="module-desc">Concludi operazione e rientro</div>
-                            </div>
-                            <div class="module-body">
-                                <button class="module-btn" onclick="openModal('disattivazioneUopi')">🔚 Disattiva UOPI</button>
-                            </div>
-                        </div>
-
-                        <div class="module-card">
-                            <div class="module-header">
-                                <div class="module-title">📋 Istanza Attivazione</div>
-                                <div class="module-desc">Richiedi attivazione per situazioni specifiche</div>
-                            </div>
-                            <div class="module-body">
-                                <button class="module-btn" onclick="openModal('istanzaAttivazione')">📨 Invia Istanza</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- MODULI REGISTRATI -->
-                    <div style="margin-top: 3rem;">
-                        <h3>📊 Moduli Registrati</h3>
-                        <div id="moduliList" style="margin-top: 1rem; min-height: 100px; background: #1e293b; border-radius: 16px; padding: 2rem; border: 1px solid #334155;">
-                            <p style="text-align: center; color: #94a3b8;">Nessun modulo registrato</p>
-                        </div>
+                
+                <div class="forms-list">
+                    <h3>📊 Moduli Registrati</h3>
+                    <div id="modulesList">
+                        <p style="text-align: center; color: #a0aec0;">Nessun modulo registrato</p>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- MODALS -->
-    <!-- Modal Operatore -->
-    <div id="modalOperator" class="modal">
+    <!-- Modal Add Operator -->
+    <div id="modalAddOperator" class="modal">
         <div class="modal-content">
-            <div class="modal-header">
-                <div class="modal-title">👤 Nuovo Operatore</div>
-                <div class="modal-subtitle">Registrazione operatore UOPI</div>
-            </div>
-            <form class="modal-form" id="operatorForm">
+            <h3 class="modal-title">Nuovo Operatore</h3>
+            <form id="operatorForm">
                 <div class="form-group">
-                    <label class="form-label">Nome</label>
+                    <label class="form-label">Nome:</label>
                     <input type="text" class="form-input" name="nome" required>
                 </div>
                 <div class="form-group">
-                    <label class="form-label">Cognome</label>
+                    <label class="form-label">Cognome:</label>
                     <input type="text" class="form-input" name="cognome" required>
                 </div>
                 <div class="form-group">
-                    <label class="form-label">Grado</label>
+                    <label class="form-label">Grado:</label>
                     <input type="text" class="form-input" name="grado" required>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Data Ingresso</label>
-                    <input type="date" class="form-input" name="dataIngresso" required>
                 </div>
             </form>
             <div class="modal-actions">
-                <button class="btn btn-secondary" onclick="closeModal('modalOperator')">Annulla</button>
-                <button class="btn btn-primary" onclick="submitOperator()">💾 Salva</button>
+                <button class="btn btn-secondary" onclick="closeModal()">Annulla</button>
+                <button class="btn" onclick="saveOperator()">Salva</button>
             </div>
         </div>
     </div>
 
-    <!-- Modal Attivazione UOPI -->
-    <div id="modalAttivazioneUopi" class="modal">
+    <!-- Modal Activate UOPI -->
+    <div id="modalActivateUopi" class="modal">
         <div class="modal-content">
-            <div class="modal-header">
-                <div class="modal-title">🚁 Attivazione UOPI</div>
-                <div class="modal-subtitle">Messaggio di attivazione unità speciale</div>
-            </div>
-            <form class="modal-form" id="attivazioneUopiForm">
+            <h3 class="modal-title">🚁 Attivazione UOPI</h3>
+            <form id="activateUopiForm">
                 <div class="form-group">
-                    <label class="form-label">Autorizzato Da</label>
-                    <select class="form-input" name="autorizzatoDa" required>
-                        <option value="">Seleziona autorità</option>
-                        <option value="Commissario Capo">Commissario Capo</option>
+                    <label class="form-label">Autorizzato da:</label>
+                    <select class="form-input" name="autorizzato" required>
+                        <option value="">Seleziona</option>
+                        <option value="Commissario">Commissario</option>
                         <option value="Questore">Questore</option>
-                        <option value="Vice Questore">Vice Questore</option>
                     </select>
                 </div>
                 <div class="form-group">
-                    <label class="form-label">Coordinatore</label>
+                    <label class="form-label">Coordinatore:</label>
                     <input type="text" class="form-input" name="coordinatore" required>
                 </div>
                 <div class="form-group">
-                    <label class="form-label">Operatore Contrattazione</label>
-                    <input type="text" class="form-input" name="operatoreContrattazione" required>
+                    <label class="form-label">Operatore Contrattazione:</label>
+                    <input type="text" class="form-input" name="operatore" required>
                 </div>
                 <div class="form-group">
-                    <label class="form-label">Tipo di Intervento</label>
-                    <select class="form-input" name="tipoIntervento" required>
-                        <option value="">Seleziona tipo</option>
-                        <option value="Rapina in corso">Rapina in corso</option>
-                        <option value="Sequestro persona">Sequestro persona</option>
-                        <option value="Barricamento">Barricamento</option>
+                    <label class="form-label">Tipo Intervento:</label>
+                    <select class="form-input" name="tipo" required>
+                        <option value="">Seleziona</option>
+                        <option value="Rapina">Rapina in corso</option>
+                        <option value="Sequestro">Sequestro persona</option>
                         <option value="Terrorismo">Terrorismo</option>
-                        <option value="Altro">Altro</option>
                     </select>
                 </div>
                 <div class="form-group">
-                    <label class="form-label">Operatori Coinvolti</label>
-                    <textarea class="form-input" name="operatoriCoinvolti" rows="3" required></textarea>
+                    <label class="form-label">Operatori Coinvolti:</label>
+                    <textarea class="form-input" name="operatori" rows="3" required></textarea>
                 </div>
             </form>
             <div class="modal-actions">
-                <button class="btn btn-secondary" onclick="closeModal('modalAttivazioneUopi')">Annulla</button>
-                <button class="btn btn-primary" onclick="submitModulo('attivazioneUopi')">✅ Attiva UOPI</button>
+                <button class="btn btn-secondary" onclick="closeModal()">Annulla</button>
+                <button class="btn" onclick="saveModule('activateUopi')">Attiva UOPI</button>
             </div>
         </div>
     </div>
 
-    <!-- Modal Attivazione Pattuglie -->
-    <div id="modalAttivazionePattuglie" class="modal">
+    <!-- Modal Activate Patrol -->
+    <div id="modalActivatePatrol" class="modal">
         <div class="modal-content">
-            <div class="modal-header">
-                <div class="modal-title">🚔 Attivazione Pattuglie</div>
-                <div class="modal-subtitle">Gestione pattuglie operative</div>
-            </div>
-            <form class="modal-form" id="attivazionePattruglieForm">
+            <h3 class="modal-title">🚔 Attivazione Pattuglie</h3>
+            <form id="activatePatrolForm">
                 <div class="form-group">
-                    <label class="form-label">Gestito da</label>
-                    <input type="text" class="form-input" name="gestitoDa" required>
+                    <label class="form-label">Gestito da:</label>
+                    <input type="text" class="form-input" name="gestore" required>
                 </div>
                 <div class="form-group">
-                    <label class="form-label">Tipo di Intervento</label>
-                    <select class="form-input" name="tipoIntervento" required>
-                        <option value="">Seleziona tipo</option>
+                    <label class="form-label">Tipo Intervento:</label>
+                    <select class="form-input" name="tipo" required>
+                        <option value="">Seleziona</option>
                         <option value="Pattugliamento">Pattugliamento</option>
-                        <option value="Controllo territorio">Controllo territorio</option>
-                        <option value="Supporto operazione">Supporto operazione</option>
                         <option value="Emergenza">Emergenza</option>
                     </select>
                 </div>
                 <div class="form-group">
-                    <label class="form-label">Veicolo Utilizzato</label>
-                    <input type="text" class="form-input" name="veicoloUtilizzato" required>
+                    <label class="form-label">Veicolo:</label>
+                    <input type="text" class="form-input" name="veicolo" required>
                 </div>
                 <div class="form-group">
-                    <label class="form-label">Operatori in Uscita</label>
-                    <textarea class="form-input" name="operatoriUscita" rows="3" required></textarea>
+                    <label class="form-label">Operatori:</label>
+                    <textarea class="form-input" name="operatori" rows="3" required></textarea>
                 </div>
             </form>
             <div class="modal-actions">
-                <button class="btn btn-secondary" onclick="closeModal('modalAttivazionePattuglie')">Annulla</button>
-                <button class="btn btn-primary" onclick="submitModulo('attivazionePattuglie')">🚁 Attiva Pattuglia</button>
+                <button class="btn btn-secondary" onclick="closeModal()">Annulla</button>
+                <button class="btn" onclick="saveModule('activatePatrol')">Attiva</button>
             </div>
         </div>
     </div>
 
-    <!-- Modal Disattivazione UOPI -->
-    <div id="modalDisattivazioneUopi" class="modal">
+    <!-- Modal Deactivate UOPI -->
+    <div id="modalDeactivateUopi" class="modal">
         <div class="modal-content">
-            <div class="modal-header">
-                <div class="modal-title">🏁 Disattivazione UOPI</div>
-                <div class="modal-subtitle">Concludi operazione e rientro</div>
-            </div>
-            <form class="modal-form" id="disattivazioneUopiForm">
+            <h3 class="modal-title">🏁 Disattivazione UOPI</h3>
+            <form id="deactivateUopiForm">
                 <div class="form-group">
-                    <label class="form-label">Operatori in Rientro</label>
-                    <textarea class="form-input" name="operatoriRientro" rows="4" required></textarea>
+                    <label class="form-label">Operatori in Rientro:</label>
+                    <textarea class="form-input" name="operatori" rows="4" required></textarea>
                 </div>
                 <div class="form-group">
-                    <label class="form-label">Ora Disattivazione</label>
-                    <input type="datetime-local" class="form-input" name="oraDisattivazione" required>
+                    <label class="form-label">Ora Disattivazione:</label>
+                    <input type="datetime-local" class="form-input" name="ora" required>
                 </div>
                 <div class="form-group">
-                    <label class="form-label">Note Operazione</label>
-                    <textarea class="form-input" name="noteOperazione" rows="3"></textarea>
+                    <label class="form-label">Note:</label>
+                    <textarea class="form-input" name="note" rows="3"></textarea>
                 </div>
             </form>
             <div class="modal-actions">
-                <button class="btn btn-secondary" onclick="closeModal('modalDisattivazioneUopi')">Annulla</button>
-                <button class="btn btn-primary" onclick="submitModulo('disattivazioneUopi')">🔚 Disattiva UOPI</button>
+                <button class="btn btn-secondary" onclick="closeModal()">Annulla</button>
+                <button class="btn" onclick="saveModule('deactivateUopi')">Disattiva</button>
             </div>
         </div>
     </div>
 
-    <!-- Modal Istanza Attivazione -->
-    <div id="modalIstanzaAttivazione" class="modal">
+    <!-- Modal Request Activation -->
+    <div id="modalRequestActivation" class="modal">
         <div class="modal-content">
-            <div class="modal-header">
-                <div class="modal-title">📋 Istanza Attivazione</div>
-                <div class="modal-subtitle">Richiedi attivazione unità speciale</div>
-            </div>
-            <form class="modal-form" id="istanzaAttivazioneForm">
+            <h3 class="modal-title">📋 Istanza Attivazione</h3>
+            <form id="requestActivationForm">
                 <div class="form-group">
-                    <label class="form-label">Tipo di Rapina</label>
-                    <select class="form-input" name="tipoRapina" required>
-                        <option value="">Seleziona categoria</option>
-                        <option value="Rapina a mano armata">Rapina a mano armata</option>
-                        <option value="Furto con sequestro">Furto con sequestro</option>
-                        <option value="Rapina in banca">Rapina in banca</option>
-                        <option value="Rapina gioielleria">Rapina gioielleria</option>
-                        <option value="Altro reato grave">Altro reato grave</option>
+                    <label class="form-label">Tipo Rapina:</label>
+                    <select class="form-input" name="tipo" required>
+                        <option value="">Seleziona</option>
+                        <option value="Rapina armata">Rapina a mano armata</option>
+                        <option value="Rapina banca">Rapina in banca</option>
+                        <option value="Altro">Altro</option>
                     </select>
                 </div>
                 <div class="form-group">
-                    <label class="form-label">Operatore Responsabile</label>
-                    <input type="text" class="form-input" name="operatoreResponsabile" required>
+                    <label class="form-label">Operatore Responsabile:</label>
+                    <input type="text" class="form-input" name="responsabile" required>
                 </div>
                 <div class="form-group">
-                    <label class="form-label">Operatori Disponibili</label>
-                    <textarea class="form-input" name="operatoriDisponibili" rows="3" placeholder="Tonino Frasca, Gabriel Martinelli, Simone Sottaceto..." required></textarea>
+                    <label class="form-label">Operatori Disponibili:</label>
+                    <textarea class="form-input" name="operatori" placeholder="Tonino Frasca, Gabriel Martinelli..." rows="3" required></textarea>
                 </div>
                 <div class="form-group">
-                    <label class="form-label">Urgenza</label>
+                    <label class="form-label">Urgenza:</label>
                     <select class="form-input" name="urgenza" required>
                         <option value="ALTA">ALTA - Immediata</option>
-                        <option value="MEDIA">MEDIA - Entro 30 min</option>
+                        <option value="MEDIA">MEDIA - 30 min</option>
                         <option value="BASSA">BASSA - Programmata</option>
                     </select>
                 </div>
             </form>
             <div class="modal-actions">
-                <button class="btn btn-secondary" onclick="closeModal('modalIstanzaAttivazione')">Annulla</button>
-                <button class="btn btn-primary" onclick="submitModulo('istanzaAttivazione')">📨 Invia Istanza</button>
+                <button class="btn btn-secondary" onclick="closeModal()">Annulla</button>
+                <button class="btn" onclick="saveModule('requestActivation')">Invia</button>
             </div>
         </div>
     </div>
 
     <script>
-        // CREDENZIALI ADMIN
-        const ADMIN_CREDENTIALS = {
-            username: 'adminuopi_2847832742398',
-            password: 'uopiadmin_82389849298'
+        // Database
+        let db = JSON.parse(localStorage.getItem('uopiDB')) || {
+            operators: [],
+            modules: []
         };
 
-        // DATABASE
-        let database = JSON.parse(localStorage.getItem('uopiDatabase')) || {
-            operatori: [],
-            moduli: []
-        };
-
-        let currentUser = null;
-        let currentSection = 'dashboard';
-
-        // FUNZIONI UTILITÀ
-        function showNotification(message, type = 'success') {
-            const notification = document.getElementById('notification');
-            notification.textContent = message;
-            notification.className = `notification show ${type}`;
-            
-            setTimeout(() => {
-                notification.classList.remove('show');
-            }, 3000);
-        }
-
-        function generateMatricola() {
-            let maxNum = 0;
-            database.operatori.forEach(op => {
-                const num = parseInt(op.matricola.split('-')[1]) || 0;
-                if (num > maxNum) maxNum = num;
-            });
-            return `UOPI-${(maxNum + 1).toString().padStart(4, '0')}`;
-        }
-
-        function generatePassword() {
-            return Math.random().toString(36).substr(2, 8);
-        }
-
-        function saveDatabase() {
-            localStorage.setItem('uopiDatabase', JSON.stringify(database));
-        }
-
-        // LOGIN
-        document.getElementById('loginForm').addEventListener('submit', function(e) {
+        // Login
+        document.getElementById('loginForm').onsubmit = function(e) {
             e.preventDefault();
+            let user = document.getElementById('username').value;
+            let pass = document.getElementById('password').value;
             
-            const username = document.getElementById('loginUsername').value;
-            const password = document.getElementById('loginPassword').value;
-            const errorDiv = document.getElementById('loginError');
-            
-            if (username === ADMIN_CREDENTIALS.username && password === ADMIN_CREDENTIALS.password) {
-                currentUser = { type: 'admin', nome: 'Admin', cognome: 'UOPI' };
-                document.getElementById('loginScreen').style.display = 'none';
-                document.getElementById('mainApp').classList.add('active');
+            if (user === 'adminuopi_2847832742398' && pass === 'uopiadmin_82389849298') {
+                document.getElementById('loginPage').style.display = 'none';
+                document.getElementById('dashboard').classList.add('active');
                 updateDashboard();
-                showNotification('🚀 Login riuscito! Benvenuto ' + currentUser.nome);
+                showNotification('Login riuscito!');
             } else {
-                errorDiv.style.display = 'block';
-                setTimeout(() => errorDiv.style.display = 'none', 3000);
+                document.getElementById('loginError').style.display = 'block';
             }
-        });
+        };
 
-        // LOGOUT
-        document.getElementById('logoutBtn').addEventListener('click', function() {
-            if (confirm('Sicuro di voler uscire?')) {
-                location.reload();
-            }
-        });
-
-        // NAVIGAZIONE
-        document.querySelectorAll('.nav-link').forEach(link => {
-            link.addEventListener('click', function(e) {
-                e.preventDefault();
-                const section = this.getAttribute('data-section');
+        // Navigation
+        document.querySelectorAll('.nav-item').forEach(item => {
+            item.onclick = function() {
+                let section = this.dataset.section;
                 
-                // Aggiorna nav
-                document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+                document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
                 this.classList.add('active');
                 
-                // Mostra sezione
-                document.querySelectorAll('.content-section').forEach(s => s.classList.remove('active'));
+                document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
                 document.getElementById(section).classList.add('active');
                 
-                currentSection = section;
-                
-                // Aggiorna titolo
-                const titles = {
-                    dashboard: 'Dashboard Operativa',
-                    operatori: 'Gestione Operatori',
-                    turni: 'Gestione Turni'
-                };
-                document.querySelector('.page-title').textContent = titles[section];
-            });
-        });
-
-        // MODALS
-        function openModal(type) {
-            const modalId = 'modal' + type.charAt(0).toUpperCase() + type.slice(1);
-            const modal = document.getElementById(modalId);
-            
-            if (modal) {
-                modal.classList.add('active');
-                
-                // Pre-compila ora per disattivazione
-                if (type === 'disattivazioneUopi') {
-                    const now = new Date();
-                    const datetime = now.toISOString().slice(0, 16);
-                    modal.querySelector('input[name="oraDisattivazione"]').value = datetime;
-                }
-            }
-        }
-
-        function closeModal(modalId) {
-            const modal = document.getElementById(modalId);
-            if (modal) {
-                modal.classList.remove('active');
-                modal.querySelector('form').reset();
-            }
-        }
-
-        // CLICK FUORI DAL MODAL
-        document.querySelectorAll('.modal').forEach(modal => {
-            modal.addEventListener('click', function(e) {
-                if (e.target === this) {
-                    this.classList.remove('active');
-                }
-            });
-        });
-
-        // OPERATORI
-        document.getElementById('addOperatorBtn').addEventListener('click', () => openModal('operator'));
-
-        function submitOperator() {
-            const form = document.getElementById('operatorForm');
-            if (!form.checkValidity()) {
-                form.reportValidity();
-                return;
-            }
-
-            const formData = new FormData(form);
-            const matricola = generateMatricola();
-            const tempPassword = generatePassword();
-            
-            const operator = {
-                id: Date.now(),
-                matricola: matricola,
-                nome: formData.get('nome'),
-                cognome: formData.get('cognome'),
-                grado: formData.get('grado'),
-                dataIngresso: formData.get('dataIngresso'),
-                password: tempPassword,
-                attivo: true,
-                inServizio: false
+                let titles = {home: 'Dashboard', operators: 'Operatori', modules: 'Moduli UOPI'};
+                document.getElementById('pageTitle').textContent = titles[section];
             };
+        });
 
-            database.operatori.push(operator);
-            saveDatabase();
-            closeModal('modalOperator');
+        // Modal functions
+        function openModal(type) {
+            let modal = document.getElementById('modal' + type.charAt(0).toUpperCase() + type.slice(1));
+            modal.classList.add('active');
+            
+            if (type === 'deactivateUopi') {
+                let now = new Date().toISOString().slice(0, 16);
+                modal.querySelector('input[name="ora"]').value = now;
+            }
+        }
+
+        function closeModal() {
+            document.querySelectorAll('.modal').forEach(m => m.classList.remove('active'));
+        }
+
+        // Save operator
+        function saveOperator() {
+            let form = document.getElementById('operatorForm');
+            let data = new FormData(form);
+            
+            let operator = {
+                id: Date.now(),
+                matricola: 'UOPI-' + (db.operators.length + 1).toString().padStart(4, '0'),
+                nome: data.get('nome'),
+                cognome: data.get('cognome'),
+                grado: data.get('grado'),
+                password: Math.random().toString(36).substr(2, 8)
+            };
+            
+            db.operators.push(operator);
+            localStorage.setItem('uopiDB', JSON.stringify(db));
+            
+            closeModal();
             updateOperatorsTable();
             updateDashboard();
-            
-            showNotification(`✅ Operatore creato! Matricola: ${matricola}, Password: ${tempPassword}`);
+            showNotification(`Operatore creato! Matricola: ${operator.matricola}, Password: ${operator.password}`);
         }
 
-        function deleteOperator(id) {
-            if (confirm('Sicuro di voler eliminare questo operatore?')) {
-                database.operatori = database.operatori.filter(op => op.id !== id);
-                saveDatabase();
-                updateOperatorsTable();
-                updateDashboard();
-                showNotification('✅ Operatore eliminato');
+        // Save module
+        function saveModule(type) {
+            let form = document.getElementById(type + 'Form');
+            let data = new FormData(form);
+            
+            if (!form.checkValidity()) {
+                alert('Compila tutti i campi obbligatori');
+                return;
             }
+            
+            let module = {
+                id: Date.now(),
+                type: type,
+                timestamp: new Date().toLocaleString('it-IT'),
+                data: {}
+            };
+            
+            for (let [key, value] of data.entries()) {
+                module.data[key] = value;
+            }
+            
+            db.modules.push(module);
+            localStorage.setItem('uopiDB', JSON.stringify(db));
+            
+            closeModal();
+            updateModulesList();
+            updateDashboard();
+            
+            let messages = {
+                activateUopi: '🚁 UOPI attivato!',
+                activatePatrol: '🚔 Pattuglia attivata!',
+                deactivateUopi: '🏁 UOPI disattivato!',
+                requestActivation: '📋 Istanza inviata!'
+            };
+            
+            showNotification(messages[type]);
+        }
+
+        // Update functions
+        function updateDashboard() {
+            document.getElementById('operatorsCount').textContent = db.operators.length;
+            document.getElementById('modulesCount').textContent = db.modules.length;
+            updateOperatorsTable();
+            updateModulesList();
         }
 
         function updateOperatorsTable() {
-            const tbody = document.getElementById('operatorsTableBody');
+            let tbody = document.getElementById('operatorsTable');
             
-            if (database.operatori.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="5" style="text-align: center; color: #94a3b8;">Nessun operatore registrato</td></tr>';
+            if (db.operators.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="4" style="text-align: center;">Nessun operatore</td></tr>';
                 return;
             }
-
-            tbody.innerHTML = database.operatori.map(op => `
+            
+            tbody.innerHTML = db.operators.map(op => `
                 <tr>
                     <td>${op.matricola}</td>
                     <td>${op.nome} ${op.cognome}</td>
                     <td>${op.grado}</td>
-                    <td><span class="badge ${op.inServizio ? 'badge-success' : 'badge-warning'}">${op.inServizio ? 'IN SERVIZIO' : 'LIBERO'}</span></td>
-                    <td>
-                        <button class="btn btn-secondary" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" onclick="deleteOperator(${op.id})">
-                            🗑️ Elimina
-                        </button>
-                    </td>
+                    <td><button class="btn btn-secondary" onclick="deleteOperator(${op.id})" style="padding: 0.25rem 0.5rem;">Elimina</button></td>
                 </tr>
             `).join('');
         }
 
-        // MODULI UOPI
-        function submitModulo(tipo) {
-            const formId = tipo + 'Form';
-            const form = document.getElementById(formId);
+        function updateModulesList() {
+            let container = document.getElementById('modulesList');
             
-            if (!form.checkValidity()) {
-                form.reportValidity();
+            if (db.modules.length === 0) {
+                container.innerHTML = '<p style="text-align: center; color: #a0aec0;">Nessun modulo registrato</p>';
                 return;
             }
-
-            const formData = new FormData(form);
-            const modulo = {
-                id: Date.now(),
-                tipo: tipo,
-                timestamp: new Date().toISOString(),
-                dataItaliana: new Date().toLocaleString('it-IT'),
-                dati: {}
-            };
-
-            // Converti FormData in oggetto
-            for (let [key, value] of formData.entries()) {
-                modulo.dati[key] = value;
-            }
-
-            database.moduli.push(modulo);
-            saveDatabase();
-            closeModal('modal' + tipo.charAt(0).toUpperCase() + tipo.slice(1));
-            updateModuliList();
-            updateDashboard();
-
-            const messages = {
-                'attivazioneUopi': '🚁 ATTIVAZIONE UOPI CONFERMATA!',
-                'attivazionePattuglie': '🚔 PATTUGLIA ATTIVATA!',
-                'disattivazioneUopi': '🏁 UOPI DISATTIVATO!',
-                'istanzaAttivazione': '📨 ISTANZA INVIATA!'
-            };
-
-            showNotification(messages[tipo] + ' - Modulo registrato');
-        }
-
-        function updateModuliList() {
-            const container = document.getElementById('moduliList');
             
-            if (database.moduli.length === 0) {
-                container.innerHTML = '<p style="text-align: center; color: #94a3b8;">Nessun modulo registrato</p>';
-                return;
-            }
-
-            const sortedModuli = [...database.moduli].sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
-
-            container.innerHTML = `
-                <h4 style="margin-bottom: 1rem; color: #3b82f6;">📊 Totale: ${sortedModuli.length} moduli</h4>
-                ${sortedModuli.map(modulo => `
-                    <div style="background: #334155; padding: 1rem; border-radius: 8px; margin-bottom: 1rem; border-left: 4px solid #3b82f6;">
-                        <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
-                            <strong>${modulo.tipo.toUpperCase()}</strong>
-                            <small style="color: #94a3b8;">ID: ${modulo.id}</small>
-                        </div>
-                        <div style="color: #94a3b8; font-size: 0.9rem; margin-bottom: 0.5rem;">
-                            📅 ${modulo.dataItaliana}
-                        </div>
-                        <div style="font-size: 0.85rem;">
-                            ${Object.entries(modulo.dati).slice(0, 2).map(([key, value]) => 
-                                `<span style="background: #475569; padding: 0.2rem 0.5rem; border-radius: 4px; margin-right: 0.5rem;">${key}: ${value}</span>`
-                            ).join('')}
-                        </div>
+            let sorted = [...db.modules].sort((a, b) => b.id - a.id);
+            
+            container.innerHTML = sorted.map(mod => `
+                <div class="form-item">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                        <strong>${mod.type.toUpperCase()}</strong>
+                        <small>ID: ${mod.id}</small>
                     </div>
-                `).join('')}
-            `;
+                    <div style="color: #a0aec0; margin-bottom: 0.5rem;">${mod.timestamp}</div>
+                    <div style="font-size: 0.9rem;">
+                        ${Object.entries(mod.data).slice(0, 2).map(([k, v]) => 
+                            `<span style="background: #718096; padding: 0.2rem 0.5rem; border-radius: 3px; margin-right: 0.5rem;">${k}: ${v}</span>`
+                        ).join('')}
+                    </div>
+                </div>
+            `).join('');
         }
 
-        function updateDashboard() {
-            document.getElementById('operatoriCount').textContent = database.operatori.filter(op => op.inServizio).length;
-            document.getElementById('operazioniCount').textContent = database.moduli.filter(m => m.tipo.includes('attivazione')).length;
-            document.getElementById('moduliCount').textContent = database.moduli.length;
-            
-            updateOperatorsTable();
-            updateModuliList();
+        // Delete operator
+        function deleteOperator(id) {
+            if (confirm('Eliminare questo operatore?')) {
+                db.operators = db.operators.filter(op => op.id !== id);
+                localStorage.setItem('uopiDB', JSON.stringify(db));
+                updateOperatorsTable();
+                updateDashboard();
+                showNotification('Operatore eliminato');
+            }
         }
 
-        // INIZIALIZZAZIONE
-        document.addEventListener('DOMContentLoaded', function() {
-            console.log('🚀 Sistema UOPI inizializzato');
-            console.log('📊 Database:', database);
+        // Notification
+        function showNotification(message) {
+            let notif = document.getElementById('notification');
+            notif.textContent = message;
+            notif.classList.add('show');
+            setTimeout(() => notif.classList.remove('show'), 3000);
+        }
+
+        // Logout
+        function logout() {
+            if (confirm('Sicuro di voler uscire?')) {
+                location.reload();
+            }
+        }
+
+        // Close modal on backdrop click
+        document.querySelectorAll('.modal').forEach(modal => {
+            modal.onclick = function(e) {
+                if (e.target === this) {
+                    this.classList.remove('active');
+                }
+            };
         });
     </script>
 </body>
