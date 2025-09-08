@@ -976,9 +976,9 @@
         }
 
         .shift-status {
-            padding: 0.25rem 0.75rem;
+            padding: 0.5rem 1rem;
             border-radius: 12px;
-            font-size: 0.75rem;
+            font-size: 0.8rem;
             font-weight: 600;
             background: var(--success);
             color: white;
@@ -1093,7 +1093,6 @@
             color: var(--danger);
         }
 
-        /* MODIFICA PRINCIPALE: Stile speciale per il campo data */
         .date-input-special {
             border: 3px solid var(--accent) !important;
             background: rgba(59, 130, 246, 0.1) !important;
@@ -2209,4 +2208,96 @@
                         
                         let dateStatus = '';
                         let statusClass = 'planned';
-                        if
+                        if (daysDiff === 0) {
+                            dateStatus = 'OGGI';
+                            statusClass = 'emergency';
+                        } else if (daysDiff === 1) {
+                            dateStatus = 'DOMANI';
+                            statusClass = 'warning';
+                        } else if (daysDiff > 1) {
+                            dateStatus = `Tra ${daysDiff} giorni`;
+                        } else {
+                            dateStatus = 'Passato';
+                            statusClass = 'cancelled';
+                        }
+                        
+                        return `
+                            <div class="shift-card ${shift.type}">
+                                <div class="shift-card-header">
+                                    <div>
+                                        <div class="shift-type">${getShiftTypeName(shift.type)}</div>
+                                        <div class="shift-date">${new Date(shift.date).toLocaleDateString()}</div>
+                                        <div class="shift-time">${getShiftTimeRange(shift.type)}</div>
+                                    </div>
+                                    <div class="shift-status ${statusClass}">${dateStatus}</div>
+                                </div>
+                                
+                                <div class="shift-operators">
+                                    <div class="shift-operators-title">Operatori Assegnati</div>
+                                    <div class="shift-operators-list">
+                                        ${operators.map(name => `<span class="operator-pill">${name}</span>`).join('')}
+                                    </div>
+                                </div>
+                                
+                                <div class="shift-info">
+                                    <div class="shift-info-item"><strong>Operazione:</strong> ${shift.operationType}</div>
+                                    ${shift.notes ? `<div class="shift-info-item"><strong>Note:</strong> ${shift.notes}</div>` : ''}
+                                </div>
+                                
+                                <div class="shift-actions">
+                                    <button class="shift-action-btn" onclick="deleteShift('${shift.id}')">🗑️ Elimina</button>
+                                </div>
+                            </div>
+                        `;
+                    }).join('')}
+                </div>
+            `;
+        }
+
+        function renderEmptySection(container, section) {
+            const sections = {
+                comunicazioni: { icon: '📢', title: 'Centro Comunicazioni', desc: 'Le comunicazioni operative appariranno qui.' },
+                sanzioni: { icon: '⛔', title: 'Sanzioni e Promozioni', desc: 'I provvedimenti disciplinari appariranno qui.' },
+                squadre: { icon: '🥷', title: 'Squadre D\'Intervento', desc: 'Le squadre operative appariranno qui.' }
+            };
+            
+            const sectionData = sections[section] || { icon: '📋', title: 'Sezione', desc: 'Contenuto in sviluppo.' };
+            
+            container.innerHTML = `
+                <div class="card">
+                    <div class="empty-state">
+                        <div class="empty-state-icon">${sectionData.icon}</div>
+                        <h3>${sectionData.title}</h3>
+                        <p>${sectionData.desc}</p>
+                    </div>
+                </div>
+            `;
+        }
+
+        // === INIZIALIZZAZIONE ===
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('🔄 Inizializzazione sistema UOPI...');
+            
+            loadTheme();
+            
+            const savedSession = loadSession();
+            if (savedSession && savedSession.user) {
+                currentUser = savedSession.user;
+                isAuthenticated = true;
+                showDashboard();
+                showAdvancedToast('🔄 Sessione Ripristinata', `Bentornato ${savedSession.user.nome}!`, 'info');
+                return;
+            }
+
+            initLogin();
+            console.log('🔒 Sistema pronto per il login');
+        });
+
+        setInterval(() => {
+            if (isAuthenticated) {
+                updateKPIs();
+            }
+        }, 30000);
+    </script>
+</body>
+</html>
