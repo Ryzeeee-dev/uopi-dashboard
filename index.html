@@ -43,8 +43,6 @@
             transition: all 0.3s ease;
         }
 
-        /* TUTTI GLI STILI PRECEDENTI RIMANGONO UGUALI... */
-        /* BLUR BACKDROP */
         .blur-backdrop {
             position: fixed;
             inset: 0;
@@ -62,7 +60,6 @@
             pointer-events: auto;
         }
 
-        /* GLOBAL SEARCH */
         .global-search {
             position: fixed;
             top: 20px;
@@ -119,7 +116,6 @@
             transform: rotate(180deg);
         }
 
-        /* LOGIN SCREEN */
         .login-container {
             display: flex;
             justify-content: center;
@@ -237,7 +233,6 @@
             display: none;
         }
 
-        /* NOTIFICHE PERSONALIZZATE */
         .custom-confirm {
             position: fixed;
             top: 50%;
@@ -287,7 +282,6 @@
             }
         }
 
-        /* MODAL FORM */
         .form-modal {
             position: fixed;
             top: 50%;
@@ -352,7 +346,6 @@
             border-top: 1px solid var(--border);
         }
 
-        /* TOAST NOTIFICATIONS */
         .toast-container {
             position: fixed;
             top: 80px;
@@ -448,7 +441,6 @@
             }
         }
 
-        /* MAIN APP */
         .main-app {
             display: none;
         }
@@ -468,7 +460,6 @@
             min-height: 100vh;
         }
 
-        /* SIDEBAR */
         .sidebar {
             width: 320px;
             background: linear-gradient(145deg, var(--primary-bg), var(--secondary-bg));
@@ -609,7 +600,6 @@
             z-index: 1;
         }
 
-        /* MAIN CONTENT */
         .main {
             flex: 1;
             padding: 2rem;
@@ -639,7 +629,6 @@
             z-index: 1;
         }
 
-        /* KPI CARDS */
         .kpi-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -685,7 +674,6 @@
             margin-bottom: 1rem;
         }
 
-        /* CONTENT CARDS */
         .content-grid { 
             display: grid; 
             gap: 2rem; 
@@ -778,7 +766,6 @@
             color: white; 
         }
 
-        /* TABLE */
         .table-container { 
             padding: 2.5rem; 
             overflow-x: auto; 
@@ -834,7 +821,6 @@
             gap: 0.75rem; 
         }
 
-        /* BADGES */
         .badge { 
             padding: 0.4rem 0.9rem; 
             border-radius: 20px; 
@@ -868,7 +854,6 @@
             background: linear-gradient(135deg, #6b7280, #4b5563);
         }
 
-        /* EMPTY STATE */
         .empty-state {
             text-align: center;
             padding: 6rem 2rem;
@@ -896,7 +881,6 @@
             line-height: 1.6;
         }
 
-        /* SISTEMA TURNI SEMPLIFICATO (SENZA CALENDARIO) */
         .shift-controls {
             display: flex;
             gap: 1rem;
@@ -921,7 +905,6 @@
             font-size: 0.9rem;
         }
 
-        /* CARD TURNI SEMPLICI */
         .shifts-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
@@ -1071,7 +1054,6 @@
             color: white;
         }
 
-        /* ANALYTICS TURNI SEMPLICI */
         .shifts-analytics {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -1111,7 +1093,26 @@
             color: var(--danger);
         }
 
-        /* RESPONSIVE */
+        /* MODIFICA PRINCIPALE: Stile speciale per il campo data */
+        .date-input-special {
+            border: 3px solid var(--accent) !important;
+            background: rgba(59, 130, 246, 0.1) !important;
+        }
+
+        .date-label-special {
+            color: var(--accent) !important;
+            font-weight: 700 !important;
+            font-size: 1rem !important;
+            margin-bottom: 0.75rem !important;
+        }
+
+        .date-helper-text {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-top: 0.5rem;
+            font-style: italic;
+        }
+
         @media (max-width: 1200px) {
             .kpi-grid {
                 grid-template-columns: repeat(2, 1fr);
@@ -1273,18 +1274,19 @@
         </div>
     </div>
 
-    <!-- MODAL TURNO -->
+    <!-- MODAL TURNO MODIFICATO -->
     <div class="form-modal hidden" id="shiftModal">
         <div class="form-modal-header">
             <h3 class="form-modal-title">📝 Pianifica Turno</h3>
-            <p class="form-modal-subtitle">Crea un nuovo turno di servizio</p>
+            <p class="form-modal-subtitle">Inserisci la data esatta di formazione della pattuglia o attivazione del reparto</p>
         </div>
         
         <form id="shiftForm">
             <div class="form-grid">
-                <div class="form-group">
-                    <label class="form-label">📅 Data Turno</label>
-                    <input type="date" class="form-control" name="shift_date" required>
+                <div class="form-group" style="grid-column: 1 / -1;">
+                    <label class="form-label date-label-special">📅 Data Esatta di Formazione Pattuglia / Attivazione Reparto</label>
+                    <input type="date" class="form-control date-input-special" name="shift_date" required>
+                    <p class="date-helper-text">⚠️ IMPORTANTE: Inserire la data esatta in cui si sta formando la pattuglia o si sta attivando il reparto operativo</p>
                 </div>
                 <div class="form-group">
                     <label class="form-label">🕐 Tipo Turno</label>
@@ -1316,7 +1318,7 @@
         
         <div class="form-actions">
             <button class="btn btn-secondary" onclick="closeShiftModal()">❌ Annulla</button>
-            <button class="btn btn-primary" onclick="saveShift()">💾 Crea Turno</button>
+            <button class="btn btn-primary" onclick="saveShift()">💾 Conferma Turno</button>
         </div>
     </div>
 
@@ -1538,7 +1540,7 @@
         function generateMatricola() {
             let maxNum = 0;
             db.operatori.forEach(op => {
-                const num = parseInt(op.matricola.split('-')[11]) || 0;
+                const num = parseInt(op.matricola.split('-')[1]) || 0;
                 if (num > maxNum) maxNum = num;
             });
             const nextNum = (maxNum + 1).toString().padStart(4, '0');
@@ -1820,7 +1822,7 @@
             }
         }
 
-        // === GESTIONE TURNI SEMPLIFICATA ===
+        // === GESTIONE TURNI CON DATA OBBLIGATORIA ===
         function openShiftModal() {
             showBlur();
             const modal = document.getElementById('shiftModal');
@@ -1837,8 +1839,9 @@
                 }
             });
             
+            // NON impostiamo più la data automatica - l'utente DEVE inserirla
             const dateInput = modal.querySelector('input[name="shift_date"]');
-            dateInput.value = new Date().toISOString().split('T');
+            dateInput.value = ''; // Campo vuoto per forzare l'inserimento
             
             document.getElementById('shiftForm').reset();
         }
@@ -1855,8 +1858,15 @@
             const shiftDate = formData.get('shift_date');
             const shiftType = formData.get('shift_type');
             
-            if (!shiftDate || !shiftType) {
-                showAdvancedToast('⚠️ Campi Mancanti', 'Compila data e tipo turno', 'warning');
+            // VALIDAZIONE RAFFORZATA per la data
+            if (!shiftDate) {
+                showAdvancedToast('⚠️ DATA OBBLIGATORIA', 'DEVI inserire la data esatta di formazione della pattuglia/attivazione del reparto', 'error');
+                document.querySelector('input[name="shift_date"]').focus();
+                return;
+            }
+            
+            if (!shiftType) {
+                showAdvancedToast('⚠️ Tipo Turno Mancante', 'Seleziona il tipo di turno', 'warning');
                 return;
             }
             
@@ -1868,6 +1878,11 @@
                 return;
             }
             
+            // Calcola differenza tra data inserita e oggi
+            const selectedDate = new Date(shiftDate);
+            const today = new Date();
+            const daysDiff = Math.ceil((selectedDate - today) / (1000 * 60 * 60 * 24));
+            
             const newShift = {
                 id: Date.now(),
                 date: shiftDate,
@@ -1876,7 +1891,8 @@
                 operationType: formData.get('operation_type') || 'Pattugliamento',
                 notes: formData.get('shift_notes') || '',
                 status: 'planned',
-                createdAt: Date.now()
+                createdAt: Date.now(),
+                createdBy: currentUser.nome || 'Sistema'
             };
             
             if (!db.shifts) db.shifts = [];
@@ -1884,7 +1900,19 @@
             
             if (saveDatabase(db)) {
                 closeShiftModal();
-                showAdvancedToast('✅ Turno Creato', 'Turno pianificato con successo', 'success');
+                
+                let message = 'Turno pianificato con successo';
+                if (daysDiff === 0) {
+                    message += ' per OGGI';
+                } else if (daysDiff === 1) {
+                    message += ' per DOMANI';
+                } else if (daysDiff > 1) {
+                    message += ` per tra ${daysDiff} giorni`;
+                } else {
+                    message += ' per una data passata';
+                }
+                
+                showAdvancedToast('✅ Turno Creato', message, 'success');
                 updateKPIs();
                 if (currentView === 'turni') {
                     renderContent();
@@ -2122,7 +2150,7 @@
                         </select>
                     </div>
                     
-                    <button class="btn btn-primary" onclick="openShiftModal()">➕ Pianifica Turno</button>
+                    <button class="btn btn-primary" onclick="openShiftModal()">📅 Pianifica Turno</button>
                 </div>
 
                 <!-- Analytics Semplici -->
@@ -2157,8 +2185,8 @@
                         <div class="empty-state">
                             <div class="empty-state-icon">📅</div>
                             <h3>Nessun Turno Pianificato</h3>
-                            <p>Inizia creando il primo turno di servizio.</p>
-                            <button class="btn btn-primary" onclick="openShiftModal()">➕ Crea Turno</button>
+                            <p>Inizia creando il primo turno di servizio con data specifica.</p>
+                            <button class="btn btn-primary" onclick="openShiftModal()">📅 Pianifica Primo Turno</button>
                         </div>
                     </div>
                 `;
@@ -2174,83 +2202,11 @@
                             return op ? `${op.nome} ${op.cognome}` : 'Operatore Sconosciuto';
                         });
                         
-                        return `
-                            <div class="shift-card ${shift.type}">
-                                <div class="shift-card-header">
-                                    <div>
-                                        <div class="shift-type">${getShiftTypeName(shift.type)}</div>
-                                        <div class="shift-date">${new Date(shift.date).toLocaleDateString()}</div>
-                                        <div class="shift-time">${getShiftTimeRange(shift.type)}</div>
-                                    </div>
-                                    <div class="shift-status ${shift.status}">Pianificato</div>
-                                </div>
-                                
-                                <div class="shift-operators">
-                                    <div class="shift-operators-title">Operatori Assegnati</div>
-                                    <div class="shift-operators-list">
-                                        ${operators.map(name => `<span class="operator-pill">${name}</span>`).join('')}
-                                    </div>
-                                </div>
-                                
-                                <div class="shift-info">
-                                    <div class="shift-info-item"><strong>Operazione:</strong> ${shift.operationType}</div>
-                                    ${shift.notes ? `<div class="shift-info-item"><strong>Note:</strong> ${shift.notes}</div>` : ''}
-                                </div>
-                                
-                                <div class="shift-actions">
-                                    <button class="shift-action-btn" onclick="deleteShift('${shift.id}')">🗑️ Elimina</button>
-                                </div>
-                            </div>
-                        `;
-                    }).join('')}
-                </div>
-            `;
-        }
-
-        function renderEmptySection(container, section) {
-            const sections = {
-                comunicazioni: { icon: '📢', title: 'Centro Comunicazioni', desc: 'Le comunicazioni operative appariranno qui.' },
-                sanzioni: { icon: '⛔', title: 'Sanzioni e Promozioni', desc: 'I provvedimenti disciplinari appariranno qui.' },
-                squadre: { icon: '🥷', title: 'Squadre D\'Intervento', desc: 'Le squadre operative appariranno qui.' }
-            };
-            
-            const sectionData = sections[section] || { icon: '📋', title: 'Sezione', desc: 'Contenuto in sviluppo.' };
-            
-            container.innerHTML = `
-                <div class="card">
-                    <div class="empty-state">
-                        <div class="empty-state-icon">${sectionData.icon}</div>
-                        <h3>${sectionData.title}</h3>
-                        <p>${sectionData.desc}</p>
-                    </div>
-                </div>
-            `;
-        }
-
-        // === INIZIALIZZAZIONE ===
-        document.addEventListener('DOMContentLoaded', function() {
-            console.log('🔄 Inizializzazione sistema UOPI...');
-            
-            loadTheme();
-            
-            const savedSession = loadSession();
-            if (savedSession && savedSession.user) {
-                currentUser = savedSession.user;
-                isAuthenticated = true;
-                showDashboard();
-                showAdvancedToast('🔄 Sessione Ripristinata', `Bentornato ${savedSession.user.nome}!`, 'info');
-                return;
-            }
-
-            initLogin();
-            console.log('🔒 Sistema pronto per il login');
-        });
-
-        setInterval(() => {
-            if (isAuthenticated) {
-                updateKPIs();
-            }
-        }, 30000);
-    </script>
-</body>
-</html>
+                        // Calcola status relativo alla data
+                        const shiftDate = new Date(shift.date);
+                        const today = new Date();
+                        const daysDiff = Math.ceil((shiftDate - today) / (1000 * 60 * 60 * 24));
+                        
+                        let dateStatus = '';
+                        let statusClass = 'planned';
+                        if
