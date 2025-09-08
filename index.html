@@ -240,7 +240,7 @@
             top: 0;
             left: 0;
             right: 0;
-            background: linear-gradient(135deg, var(--accent), #60a5fa);
+            background: linear-gradient(135deg, var(--success), #16a34a);
             color: white;
             padding: 1rem 2rem;
             font-weight: 600;
@@ -249,7 +249,7 @@
             z-index: 9999;
             transform: translateY(-100%);
             transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 4px 20px rgba(59, 130, 246, 0.4);
+            box-shadow: 0 4px 20px rgba(16, 185, 129, 0.4);
             backdrop-filter: blur(10px);
         }
 
@@ -928,7 +928,7 @@
                                     </div>
                                     <div class="field-group">
                                         <div class="field-label">Operatori Disponibili:</div>
-                                        <div class="field-preview">8 operatori taggati</div>
+                                        <div class="field-preview">7 operatori taggati</div>
                                     </div>
                                 </div>
                                 <button class="module-action">📨 Invia Istanza</button>
@@ -961,7 +961,7 @@
         </main>
     </div>
 
-    <!-- MODALS -->
+    <!-- MODALS FUNZIONANTI -->
     <!-- Modal Attivazione UOPI -->
     <div id="modal-attivazione-uopi" class="modal-backdrop">
         <div class="modal">
@@ -969,38 +969,38 @@
                 <div class="modal-title">🚁 Messaggio di Attivazione UOPI</div>
                 <div class="modal-subtitle">Compila i dati per l'attivazione unità speciale</div>
             </div>
-            <form class="form-grid">
+            <form id="form-attivazione-uopi" class="form-grid">
                 <div class="form-group">
                     <label class="form-label">Autorizzato Da:</label>
-                    <select class="form-control">
-                        <option>Seleziona autorità</option>
-                        <option>Commissario Capo</option>
-                        <option>Questore</option>
-                        <option>Vice Questore</option>
+                    <select class="form-control" name="autorizzato_da" required>
+                        <option value="">Seleziona autorità</option>
+                        <option value="Commissario Capo">Commissario Capo</option>
+                        <option value="Questore">Questore</option>
+                        <option value="Vice Questore">Vice Questore</option>
                     </select>
                 </div>
                 <div class="form-group">
                     <label class="form-label">Coordinatore:</label>
-                    <input type="text" class="form-control" placeholder="Nome coordinatore">
+                    <input type="text" class="form-control" name="coordinatore" placeholder="Nome coordinatore" required>
                 </div>
                 <div class="form-group">
                     <label class="form-label">Operatore Contrattazione:</label>
-                    <input type="text" class="form-control" placeholder="Negoziatore assegnato">
+                    <input type="text" class="form-control" name="operatore_contrattazione" placeholder="Negoziatore assegnato" required>
                 </div>
                 <div class="form-group">
                     <label class="form-label">Tipo di Intervento:</label>
-                    <select class="form-control">
-                        <option>Seleziona tipo</option>
-                        <option>Rapina in corso</option>
-                        <option>Sequestro persona</option>
-                        <option>Barricamento</option>
-                        <option>Terrorismo</option>
-                        <option>Altro</option>
+                    <select class="form-control" name="tipo_intervento" required>
+                        <option value="">Seleziona tipo</option>
+                        <option value="Rapina in corso">Rapina in corso</option>
+                        <option value="Sequestro persona">Sequestro persona</option>
+                        <option value="Barricamento">Barricamento</option>
+                        <option value="Terrorismo">Terrorismo</option>
+                        <option value="Altro">Altro</option>
                     </select>
                 </div>
                 <div class="form-group">
                     <label class="form-label">Operatori Coinvolti:</label>
-                    <textarea class="form-control" rows="3" placeholder="Lista operatori assegnati..."></textarea>
+                    <textarea class="form-control" name="operatori_coinvolti" rows="3" placeholder="Lista operatori assegnati..." required></textarea>
                 </div>
             </form>
             <div class="modal-actions">
@@ -1017,28 +1017,28 @@
                 <div class="modal-title">🚔 Attivazione Pattuglie UOPI</div>
                 <div class="modal-subtitle">Gestione pattuglie operative</div>
             </div>
-            <form class="form-grid">
+            <form id="form-attivazione-pattuglie" class="form-grid">
                 <div class="form-group">
                     <label class="form-label">Gestito da:</label>
-                    <input type="text" class="form-control" placeholder="Centrale operativa">
+                    <input type="text" class="form-control" name="gestito_da" placeholder="Centrale operativa" required>
                 </div>
                 <div class="form-group">
                     <label class="form-label">Tipo di Intervento:</label>
-                    <select class="form-control">
-                        <option>Seleziona tipo</option>
-                        <option>Pattugliamento</option>
-                        <option>Controllo territorio</option>
-                        <option>Supporto operazione</option>
-                        <option>Emergenza</option>
+                    <select class="form-control" name="tipo_intervento" required>
+                        <option value="">Seleziona tipo</option>
+                        <option value="Pattugliamento">Pattugliamento</option>
+                        <option value="Controllo territorio">Controllo territorio</option>
+                        <option value="Supporto operazione">Supporto operazione</option>
+                        <option value="Emergenza">Emergenza</option>
                     </select>
                 </div>
                 <div class="form-group">
                     <label class="form-label">Veicolo Utilizzato:</label>
-                    <input type="text" class="form-control" placeholder="Codice veicolo (es. UOPI-01)">
+                    <input type="text" class="form-control" name="veicolo_utilizzato" placeholder="Codice veicolo (es. UOPI-01)" required>
                 </div>
                 <div class="form-group">
                     <label class="form-label">Operatori in Uscita:</label>
-                    <textarea class="form-control" rows="3" placeholder="Equipaggio pattuglia..."></textarea>
+                    <textarea class="form-control" name="operatori_uscita" rows="3" placeholder="Equipaggio pattuglia..." required></textarea>
                 </div>
             </form>
             <div class="modal-actions">
@@ -1055,18 +1055,18 @@
                 <div class="modal-title">🏁 Disattivazione UOPI</div>
                 <div class="modal-subtitle">Concludi operazione e rientro</div>
             </div>
-            <form class="form-grid">
+            <form id="form-disattivazione-uopi" class="form-grid">
                 <div class="form-group">
                     <label class="form-label">Operatori in Rientro:</label>
-                    <textarea class="form-control" rows="4" placeholder="Lista operatori che rientrano..."></textarea>
+                    <textarea class="form-control" name="operatori_rientro" rows="4" placeholder="Lista operatori che rientrano..." required></textarea>
                 </div>
                 <div class="form-group">
                     <label class="form-label">Ora Disattivazione:</label>
-                    <input type="datetime-local" class="form-control">
+                    <input type="datetime-local" class="form-control" name="ora_disattivazione" required>
                 </div>
                 <div class="form-group">
                     <label class="form-label">Note Operazione:</label>
-                    <textarea class="form-control" rows="3" placeholder="Risultati e note sull'operazione..."></textarea>
+                    <textarea class="form-control" name="note_operazione" rows="3" placeholder="Risultati e note sull'operazione..."></textarea>
                 </div>
             </form>
             <div class="modal-actions">
@@ -1083,40 +1083,40 @@
                 <div class="modal-title">📋 Istanza per Attivazione UOPI</div>
                 <div class="modal-subtitle">Richiedi attivazione unità speciale</div>
             </div>
-            <form class="form-grid">
+            <form id="form-istanza-attivazione" class="form-grid">
                 <div class="form-group">
                     <label class="form-label">Tipo di Rapina:</label>
-                    <select class="form-control">
-                        <option>Seleziona categoria</option>
-                        <option>Rapina a mano armata</option>
-                        <option>Furto con sequestro</option>
-                        <option>Rapina in banca</option>
-                        <option>Rapina gioielleria</option>
-                        <option>Altro reato grave</option>
+                    <select class="form-control" name="tipo_rapina" required>
+                        <option value="">Seleziona categoria</option>
+                        <option value="Rapina a mano armata">Rapina a mano armata</option>
+                        <option value="Furto con sequestro">Furto con sequestro</option>
+                        <option value="Rapina in banca">Rapina in banca</option>
+                        <option value="Rapina gioielleria">Rapina gioielleria</option>
+                        <option value="Altro reato grave">Altro reato grave</option>
                     </select>
                 </div>
                 <div class="form-group">
                     <label class="form-label">Operatore che Gestirà:</label>
-                    <input type="text" class="form-control" placeholder="Nome operatore responsabile">
+                    <input type="text" class="form-control" name="operatore_responsabile" placeholder="Nome operatore responsabile" required>
                 </div>
                 <div class="form-group">
                     <label class="form-label">Operatori Disponibili:</label>
                     <div class="tag-input" id="tag-container">
-                        <div class="tag">Tonino Frasca <button class="tag-remove" onclick="removeTag(this)">×</button></div>
-                        <div class="tag">Gabriel Martinelli <button class="tag-remove" onclick="removeTag(this)">×</button></div>
-                        <div class="tag">Simone Sottaceto <button class="tag-remove" onclick="removeTag(this)">×</button></div>
-                        <div class="tag">Matteo Rossi <button class="tag-remove" onclick="removeTag(this)">×</button></div>
-                        <div class="tag">Simone Brighella <button class="tag-remove" onclick="removeTag(this)">×</button></div>
-                        <div class="tag">Franco Costa <button class="tag-remove" onclick="removeTag(this)">×</button></div>
-                        <div class="tag">Diego Bianchi <button class="tag-remove" onclick="removeTag(this)">×</button></div>
+                        <div class="tag">Tonino Frasca <button type="button" class="tag-remove" onclick="removeTag(this)">×</button></div>
+                        <div class="tag">Gabriel Martinelli <button type="button" class="tag-remove" onclick="removeTag(this)">×</button></div>
+                        <div class="tag">Simone Sottaceto <button type="button" class="tag-remove" onclick="removeTag(this)">×</button></div>
+                        <div class="tag">Matteo Rossi <button type="button" class="tag-remove" onclick="removeTag(this)">×</button></div>
+                        <div class="tag">Simone Brighella <button type="button" class="tag-remove" onclick="removeTag(this)">×</button></div>
+                        <div class="tag">Franco Costa <button type="button" class="tag-remove" onclick="removeTag(this)">×</button></div>
+                        <div class="tag">Diego Bianchi <button type="button" class="tag-remove" onclick="removeTag(this)">×</button></div>
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="form-label">Urgenza:</label>
-                    <select class="form-control">
-                        <option>ALTA - Immediata</option>
-                        <option>MEDIA - Entro 30 min</option>
-                        <option>BASSA - Programmata</option>
+                    <select class="form-control" name="urgenza" required>
+                        <option value="ALTA">ALTA - Immediata</option>
+                        <option value="MEDIA">MEDIA - Entro 30 min</option>
+                        <option value="BASSA">BASSA - Programmata</option>
                     </select>
                 </div>
             </form>
@@ -1128,15 +1128,23 @@
     </div>
 
     <script>
+        // DATABASE SIMULATO PER SALVARE I MODULI
+        let uopiDatabase = {
+            attivazioniUopi: [],
+            attivazionePattuglie: [],
+            disattivazioni: [],
+            istanzeAttivazione: []
+        };
+
         // SISTEMA NOTIFICHE
-        function showNotification(message) {
+        function showNotification(message, type = 'success') {
             const banner = document.getElementById('notificationBanner');
             banner.textContent = message;
-            banner.classList.add('show');
+            banner.className = `notification-banner show ${type}`;
             
             setTimeout(() => {
                 hideNotification();
-            }, 3000);
+            }, 4000);
         }
 
         function hideNotification() {
@@ -1192,12 +1200,19 @@
             document.querySelector('.page-title').textContent = titles[page] || 'Dashboard';
         }
 
-        // GESTIONE MODALS
+        // GESTIONE MODALS FUNZIONANTI
         function openModal(modalId) {
             const modal = document.getElementById(`modal-${modalId}`);
             if (modal) {
                 modal.classList.add('show');
                 document.body.style.overflow = 'hidden';
+                
+                // Pre-compila ora corrente per disattivazione
+                if (modalId === 'disattivazione-uopi') {
+                    const now = new Date();
+                    const datetime = now.toISOString().slice(0, 16);
+                    modal.querySelector('input[name="ora_disattivazione"]').value = datetime;
+                }
             }
         }
 
@@ -1206,22 +1221,90 @@
             if (modal) {
                 modal.classList.remove('show');
                 document.body.style.overflow = 'auto';
+                
+                // Reset form
+                const form = modal.querySelector('form');
+                if (form) {
+                    form.reset();
+                }
             }
         }
 
+        // SUBMIT FORM FUNZIONANTE
         function submitForm(formType) {
-            showNotification(`✅ ${getFormTitle(formType)} inviato con successo!`);
-            closeModal(formType);
-        }
+            const form = document.getElementById(`form-${formType}`);
+            if (!form) {
+                console.error('Form non trovato:', formType);
+                return;
+            }
 
-        function getFormTitle(formType) {
-            const titles = {
-                'attivazione-uopi': 'Attivazione UOPI',
-                'attivazione-pattuglie': 'Attivazione Pattuglia',
-                'disattivazione-uopi': 'Disattivazione UOPI',
-                'istanza-attivazione': 'Istanza Attivazione'
+            // Validazione form
+            if (!form.checkValidity()) {
+                form.reportValidity();
+                return;
+            }
+
+            // Raccolta dati
+            const formData = new FormData(form);
+            const data = {
+                id: Date.now(),
+                timestamp: new Date().toISOString(),
+                tipo: formType,
+                dati: {}
             };
-            return titles[formType] || 'Modulo';
+
+            // Aggiungi operatori taggati per istanza-attivazione
+            if (formType === 'istanza-attivazione') {
+                const tags = Array.from(document.querySelectorAll('#tag-container .tag'))
+                    .map(tag => tag.textContent.replace('×', '').trim())
+                    .filter(name => name.length > 0);
+                data.dati.operatori_disponibili = tags;
+            }
+
+            // Converti FormData in oggetto
+            for (let [key, value] of formData.entries()) {
+                data.dati[key] = value;
+            }
+
+            // Salva nel database simulato
+            switch (formType) {
+                case 'attivazione-uopi':
+                    uopiDatabase.attivazioniUopi.push(data);
+                    break;
+                case 'attivazione-pattuglie':
+                    uopiDatabase.attivazionePattuglie.push(data);
+                    break;
+                case 'disattivazione-uopi':
+                    uopiDatabase.disattivazioni.push(data);
+                    break;
+                case 'istanza-attivazione':
+                    uopiDatabase.istanzeAttivazione.push(data);
+                    break;
+            }
+
+            // Salva in localStorage
+            localStorage.setItem('uopiDatabase', JSON.stringify(uopiDatabase));
+
+            // Console log per debug
+            console.log('📋 MODULO INVIATO:', formType.toUpperCase());
+            console.log('📊 DATI:', data);
+            console.log('💾 DATABASE AGGIORNATO:', uopiDatabase);
+
+            // Chiudi modal
+            closeModal(formType);
+
+            // Mostra notifica di successo
+            const messages = {
+                'attivazione-uopi': '🚁 Attivazione UOPI confermata! Unità dispiegata.',
+                'attivazione-pattuglie': '🚔 Pattuglia UOPI attivata e in movimento.',
+                'disattivazione-uopi': '🏁 UOPI disattivato. Operatori in rientro.',
+                'istanza-attivazione': '📨 Istanza inviata. In attesa di autorizzazione.'
+            };
+
+            showNotification(messages[formType] || '✅ Modulo inviato con successo!');
+
+            // Aggiorna contatori se necessario
+            updateMetrics();
         }
 
         // GESTIONE TAG
@@ -1229,11 +1312,30 @@
             button.parentElement.remove();
         }
 
+        // AGGIORNA METRICHE
+        function updateMetrics() {
+            const totalOperations = 
+                uopiDatabase.attivazioniUopi.length + 
+                uopiDatabase.attivazionePattuglie.length;
+            
+            const activeOperations = 
+                uopiDatabase.attivazioniUopi.length - 
+                uopiDatabase.disattivazioni.length;
+
+            // Aggiorna i valori nelle card (se visibili)
+            const operationsCard = document.querySelector('.metric-card .metric-value');
+            if (operationsCard && currentPage === 'dashboard') {
+                document.querySelectorAll('.metric-value')[1].textContent = Math.max(0, activeOperations);
+            }
+        }
+
         // LOGOUT
         function handleLogout() {
             if (confirm('🚪 Sei sicuro di voler uscire dal sistema UOPI?')) {
                 showNotification('👋 Logout completato. Arrivederci!');
                 setTimeout(() => {
+                    // Reset database se necessario
+                    // localStorage.removeItem('uopiDatabase');
                     location.reload();
                 }, 1500);
             }
@@ -1241,6 +1343,16 @@
 
         // EVENT LISTENERS
         document.addEventListener('DOMContentLoaded', function() {
+            // Carica database da localStorage
+            const savedDatabase = localStorage.getItem('uopiDatabase');
+            if (savedDatabase) {
+                try {
+                    uopiDatabase = JSON.parse(savedDatabase);
+                } catch (e) {
+                    console.error('Errore caricamento database:', e);
+                }
+            }
+
             // Gestisce click sui link di navigazione
             document.querySelectorAll('.nav-link').forEach(link => {
                 link.addEventListener('click', function(e) {
@@ -1260,20 +1372,23 @@
                 });
             });
 
+            // Gestione ESC per chiudere modal
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    document.querySelectorAll('.modal-backdrop.show').forEach(modal => {
+                        modal.classList.remove('show');
+                        document.body.style.overflow = 'auto';
+                    });
+                }
+            });
+
             // Mostra messaggio di benvenuto
             setTimeout(() => {
-                showNotification('🔰 Sistema UOPI operativo. Benvenuto!');
+                showNotification('🔰 Sistema UOPI operativo. Tutti i moduli funzionanti!');
             }, 1000);
-        });
 
-        // Gestione tasto ESC per chiudere modal
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape') {
-                document.querySelectorAll('.modal-backdrop.show').forEach(modal => {
-                    modal.classList.remove('show');
-                    document.body.style.overflow = 'auto';
-                });
-            }
+            // Aggiorna metriche
+            updateMetrics();
         });
     </script>
 </body>
