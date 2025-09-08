@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>🔰 UOPI Dashboard - Sistema Completo</title>
+    <title>🔰 UOPI Dashboard - Sistema Ottimizzato</title>
     <meta name="theme-color" content="#1e293b">
     <style>
         :root {
@@ -97,14 +97,12 @@
             background: var(--primary-bg);
             color: var(--text-primary);
             font-size: 1rem;
-            transition: all 0.3s ease;
+            transition: border-color 0.2s ease;
         }
 
         .form-control:focus {
             outline: none;
             border-color: var(--accent);
-            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
-            transform: translateY(-2px);
         }
 
         .checkbox-group {
@@ -139,13 +137,12 @@
             font-size: 1.1rem;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.2s ease;
             box-shadow: 0 8px 25px rgba(59, 130, 246, 0.4);
         }
 
         .btn-login:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 12px 35px rgba(59, 130, 246, 0.6);
+            transform: translateY(-2px);
         }
 
         .error-message {
@@ -167,12 +164,6 @@
 
         .app-container.show {
             display: flex;
-            animation: fadeIn 0.8s ease-out;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
         }
 
         /* SIDEBAR */
@@ -182,7 +173,6 @@
             border-right: 1px solid var(--border);
             display: flex;
             flex-direction: column;
-            transition: all 0.3s ease;
         }
 
         .logo-section {
@@ -226,10 +216,11 @@
             border-radius: 12px;
             font-weight: 500;
             font-size: 0.95rem;
-            transition: all 0.3s ease;
+            transition: all 0.2s ease;
             position: relative;
             overflow: hidden;
             cursor: pointer;
+            will-change: transform, background-color;
         }
 
         .nav-link::before {
@@ -241,15 +232,14 @@
             width: 4px;
             background: var(--accent);
             transform: scaleY(0);
-            transition: transform 0.3s ease;
+            transition: transform 0.2s ease;
         }
 
         .nav-link:hover,
         .nav-link.active {
             background: var(--tertiary-bg);
             color: var(--text-primary);
-            transform: translateX(8px);
-            box-shadow: var(--shadow);
+            transform: translateX(4px);
         }
 
         .nav-link:hover::before,
@@ -282,7 +272,6 @@
             position: sticky;
             top: 0;
             z-index: 100;
-            backdrop-filter: blur(8px);
         }
 
         .page-title {
@@ -304,13 +293,12 @@
             padding: 0.75rem 1.5rem;
             border-radius: 50px;
             border: 1px solid var(--border);
-            transition: all 0.3s ease;
+            transition: all 0.2s ease;
         }
 
         .header-user-section:hover {
             background: var(--quaternary-bg);
-            transform: translateY(-2px);
-            box-shadow: var(--shadow);
+            transform: translateY(-1px);
         }
 
         .user-avatar {
@@ -356,13 +344,12 @@
             font-size: 0.8rem;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.2s ease;
             user-select: none;
         }
 
         .logout-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(239, 68, 68, 0.4);
+            transform: translateY(-1px);
         }
 
         /* BANNER NOTIFICHE */
@@ -379,16 +366,15 @@
             text-align: center;
             z-index: 9999;
             transform: translateY(-100%);
-            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: transform 0.3s ease;
             box-shadow: 0 4px 20px rgba(16, 185, 129, 0.4);
-            backdrop-filter: blur(10px);
         }
 
         .notification-banner.show {
             transform: translateY(0);
         }
 
-        /* CONTENT CON ANIMAZIONI */
+        /* CONTENT SENZA ANIMAZIONI LAGGOSE */
         .content-wrapper {
             flex: 1;
             position: relative;
@@ -404,21 +390,17 @@
             padding: 2rem;
             overflow-y: auto;
             opacity: 0;
-            transform: translateX(50px);
-            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            visibility: hidden;
+            transition: opacity 0.2s ease;
+            will-change: opacity;
         }
 
         .page-content.active {
             opacity: 1;
-            transform: translateX(0);
+            visibility: visible;
         }
 
-        .page-content.exit {
-            opacity: 0;
-            transform: translateX(-50px);
-        }
-
-        /* KPI CARDS */
+        /* KPI CARDS OTTIMIZZATE */
         .metrics-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -431,10 +413,11 @@
             border: 1px solid var(--border);
             border-radius: 16px;
             padding: 2rem;
-            transition: all 0.3s ease;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
             cursor: pointer;
             position: relative;
             overflow: hidden;
+            will-change: transform;
         }
 
         .metric-card::before {
@@ -446,14 +429,12 @@
             height: 3px;
             background: linear-gradient(90deg, var(--accent), #60a5fa);
             transform: scaleX(0);
-            transition: transform 0.3s ease;
+            transition: transform 0.2s ease;
         }
 
         .metric-card:hover {
-            transform: translateY(-8px);
-            background: var(--tertiary-bg);
+            transform: translateY(-4px);
             box-shadow: var(--shadow-lg);
-            border-color: var(--accent);
         }
 
         .metric-card:hover::before {
@@ -487,7 +468,7 @@
             line-height: 1;
         }
 
-        /* MODULI UOPI */
+        /* MODULI UOPI OTTIMIZZATI */
         .uopi-modules {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
@@ -500,14 +481,14 @@
             border: 1px solid var(--border);
             border-radius: 16px;
             overflow: hidden;
-            transition: all 0.3s ease;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
             cursor: pointer;
+            will-change: transform;
         }
 
         .module-card:hover {
-            transform: translateY(-5px);
+            transform: translateY(-3px);
             box-shadow: var(--shadow-lg);
-            border-color: var(--accent);
         }
 
         .module-header {
@@ -545,15 +526,16 @@
             border-radius: 10px;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            will-change: transform;
         }
 
         .module-action:hover {
-            transform: translateY(-2px);
+            transform: translateY(-1px);
             box-shadow: 0 8px 20px rgba(59, 130, 246, 0.4);
         }
 
-        /* FORM MODALS */
+        /* FORM MODALS OTTIMIZZATI */
         .modal-backdrop {
             position: fixed;
             top: 0;
@@ -561,11 +543,11 @@
             right: 0;
             bottom: 0;
             background: rgba(0, 0, 0, 0.7);
-            backdrop-filter: blur(8px);
+            backdrop-filter: blur(5px);
             z-index: 1000;
             opacity: 0;
             pointer-events: none;
-            transition: opacity 0.3s ease;
+            transition: opacity 0.2s ease;
         }
 
         .modal-backdrop.show {
@@ -577,7 +559,7 @@
             position: fixed;
             top: 50%;
             left: 50%;
-            transform: translate(-50%, -50%) scale(0.9);
+            transform: translate(-50%, -50%);
             background: var(--secondary-bg);
             border: 1px solid var(--border);
             border-radius: 20px;
@@ -587,11 +569,6 @@
             max-height: 80vh;
             overflow-y: auto;
             z-index: 1001;
-            transition: all 0.3s ease;
-        }
-
-        .modal-backdrop.show .modal {
-            transform: translate(-50%, -50%) scale(1);
         }
 
         .modal-header {
@@ -633,7 +610,7 @@
             border-radius: 10px;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: transform 0.2s ease;
         }
 
         .btn-primary {
@@ -648,10 +625,10 @@
         }
 
         .btn:hover {
-            transform: translateY(-2px);
+            transform: translateY(-1px);
         }
 
-        /* TABLE */
+        /* TABLE OTTIMIZZATA */
         .table-container {
             padding: 2.5rem;
             overflow-x: auto;
@@ -683,7 +660,6 @@
 
         .table tbody tr:hover {
             background: rgba(59, 130, 246, 0.08);
-            transform: translateX(5px);
         }
 
         .badge {
@@ -907,7 +883,7 @@
                         <div class="user-name" id="currentUserName">Admin UOPI</div>
                         <div class="user-role" id="currentUserRole">Amministratore Sistema</div>
                     </div>
-                    <button class="logout-button" onclick="handleLogout()">🚪 Logout</button>
+                    <button class="logout-button" id="logoutBtn">🚪 Logout</button>
                 </div>
             </header>
 
@@ -916,7 +892,7 @@
                 <!-- DASHBOARD PAGE -->
                 <div id="dashboard-content" class="page-content active">
                     <div class="metrics-grid">
-                        <div class="metric-card" onclick="navigateTo('operatori')">
+                        <div class="metric-card" data-nav="operatori">
                             <div class="metric-header">
                                 <span class="metric-icon">👮</span>
                                 <div class="metric-label">Operatori in Servizio</div>
@@ -924,7 +900,7 @@
                             <div class="metric-value" id="kpi-operatori">0</div>
                         </div>
 
-                        <div class="metric-card" onclick="navigateTo('comunicazioni')">
+                        <div class="metric-card" data-nav="comunicazioni">
                             <div class="metric-header">
                                 <span class="metric-icon">🚨</span>
                                 <div class="metric-label">Operazioni Attive</div>
@@ -932,7 +908,7 @@
                             <div class="metric-value" id="kpi-operazioni">0</div>
                         </div>
 
-                        <div class="metric-card" onclick="navigateTo('squadre')">
+                        <div class="metric-card" data-nav="squadre">
                             <div class="metric-header">
                                 <span class="metric-icon">🥷</span>
                                 <div class="metric-label">Squadre Operative</div>
@@ -940,7 +916,7 @@
                             <div class="metric-value" id="kpi-squadre">0</div>
                         </div>
 
-                        <div class="metric-card" onclick="navigateTo('turni')">
+                        <div class="metric-card" data-nav="turni">
                             <div class="metric-header">
                                 <span class="metric-icon">📝</span>
                                 <div class="metric-label">Turni Pianificati</div>
@@ -954,7 +930,7 @@
                 <div id="operatori-content" class="page-content">
                     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
                         <h2>👮 Gestione Operatori</h2>
-                        <button class="btn btn-primary" onclick="openModal('operator')">➕ Aggiungi Operatore</button>
+                        <button class="btn btn-primary" id="addOperatorBtn">➕ Aggiungi Operatore</button>
                     </div>
                     
                     <div style="background: var(--secondary-bg); border-radius: 24px; overflow: hidden; border: 1px solid var(--border);">
@@ -1001,7 +977,7 @@
                                 <div class="module-description">Attiva unità UOPI per interventi speciali</div>
                             </div>
                             <div class="module-body">
-                                <button class="module-action" onclick="openModal('attivazione-uopi')">📝 Compila Modulo</button>
+                                <button class="module-action" data-modal="attivazione-uopi">📝 Compila Modulo</button>
                             </div>
                         </div>
 
@@ -1012,7 +988,7 @@
                                 <div class="module-description">Gestisci pattuglie operative sul territorio</div>
                             </div>
                             <div class="module-body">
-                                <button class="module-action" onclick="openModal('attivazione-pattuglie')">🚁 Attiva Pattuglia</button>
+                                <button class="module-action" data-modal="attivazione-pattuglie">🚁 Attiva Pattuglia</button>
                             </div>
                         </div>
 
@@ -1023,7 +999,7 @@
                                 <div class="module-description">Concludi operazione e rientro operatori</div>
                             </div>
                             <div class="module-body">
-                                <button class="module-action" onclick="openModal('disattivazione-uopi')">🔚 Disattiva UOPI</button>
+                                <button class="module-action" data-modal="disattivazione-uopi">🔚 Disattiva UOPI</button>
                             </div>
                         </div>
 
@@ -1034,7 +1010,7 @@
                                 <div class="module-description">Richiedi attivazione per situazioni specifiche</div>
                             </div>
                             <div class="module-body">
-                                <button class="module-action" onclick="openModal('istanza-attivazione')">📨 Invia Istanza</button>
+                                <button class="module-action" data-modal="istanza-attivazione">📨 Invia Istanza</button>
                             </div>
                         </div>
                     </div>
@@ -1103,8 +1079,8 @@
                 </div>
             </form>
             <div class="modal-actions">
-                <button class="btn btn-secondary" onclick="closeModal('operator')">Annulla</button>
-                <button class="btn btn-primary" onclick="submitForm('operator')">💾 Crea Operatore</button>
+                <button class="btn btn-secondary" data-close="operator">Annulla</button>
+                <button class="btn btn-primary" data-submit="operator">💾 Crea Operatore</button>
             </div>
         </div>
     </div>
@@ -1151,8 +1127,8 @@
                 </div>
             </form>
             <div class="modal-actions">
-                <button class="btn btn-secondary" onclick="closeModal('attivazione-uopi')">Annulla</button>
-                <button class="btn btn-primary" onclick="submitForm('attivazione-uopi')">✅ Attiva UOPI</button>
+                <button class="btn btn-secondary" data-close="attivazione-uopi">Annulla</button>
+                <button class="btn btn-primary" data-submit="attivazione-uopi">✅ Attiva UOPI</button>
             </div>
         </div>
     </div>
@@ -1189,8 +1165,8 @@
                 </div>
             </form>
             <div class="modal-actions">
-                <button class="btn btn-secondary" onclick="closeModal('attivazione-pattuglie')">Annulla</button>
-                <button class="btn btn-primary" onclick="submitForm('attivazione-pattuglie')">🚁 Attiva Pattuglia</button>
+                <button class="btn btn-secondary" data-close="attivazione-pattuglie">Annulla</button>
+                <button class="btn btn-primary" data-submit="attivazione-pattuglie">🚁 Attiva Pattuglia</button>
             </div>
         </div>
     </div>
@@ -1217,8 +1193,8 @@
                 </div>
             </form>
             <div class="modal-actions">
-                <button class="btn btn-secondary" onclick="closeModal('disattivazione-uopi')">Annulla</button>
-                <button class="btn btn-primary" onclick="submitForm('disattivazione-uopi')">🔚 Disattiva UOPI</button>
+                <button class="btn btn-secondary" data-close="disattivazione-uopi">Annulla</button>
+                <button class="btn btn-primary" data-submit="disattivazione-uopi">🔚 Disattiva UOPI</button>
             </div>
         </div>
     </div>
@@ -1260,8 +1236,8 @@
                 </div>
             </form>
             <div class="modal-actions">
-                <button class="btn btn-secondary" onclick="closeModal('istanza-attivazione')">Annulla</button>
-                <button class="btn btn-primary" onclick="submitForm('istanza-attivazione')">📨 Invia Istanza</button>
+                <button class="btn btn-secondary" data-close="istanza-attivazione">Annulla</button>
+                <button class="btn btn-primary" data-submit="istanza-attivazione">📨 Invia Istanza</button>
             </div>
         </div>
     </div>
@@ -1283,20 +1259,15 @@
         let currentPage = 'dashboard';
         let isAuthenticated = false;
 
-        // SISTEMA NOTIFICHE
+        // SISTEMA NOTIFICHE OTTIMIZZATO
         function showNotification(message) {
             const banner = document.getElementById('notificationBanner');
             banner.textContent = message;
             banner.classList.add('show');
             
             setTimeout(() => {
-                hideNotification();
+                banner.classList.remove('show');
             }, 3000);
-        }
-
-        function hideNotification() {
-            const banner = document.getElementById('notificationBanner');
-            banner.classList.remove('show');
         }
 
         // AUTENTICAZIONE
@@ -1358,13 +1329,8 @@
                 showNotification('🚀 Login riuscito! Benvenuto ' + currentUser.nome);
             } else {
                 errorMessage.style.display = 'block';
-                document.getElementById('username').style.borderColor = 'var(--danger)';
-                document.getElementById('password').style.borderColor = 'var(--danger)';
-
                 setTimeout(() => {
                     errorMessage.style.display = 'none';
-                    document.getElementById('username').style.borderColor = 'var(--border)';
-                    document.getElementById('password').style.borderColor = 'var(--border)';
                 }, 3000);
             }
 
@@ -1392,10 +1358,11 @@
             }
         }
 
-        // NAVIGAZIONE CON ANIMAZIONI
+        // NAVIGAZIONE OTTIMIZZATA
         function navigateTo(page) {
             if (page === currentPage) return;
 
+            // Aggiorna nav
             document.querySelectorAll('.nav-link').forEach(link => {
                 link.classList.remove('active');
             });
@@ -1405,21 +1372,17 @@
                 targetLink.classList.add('active');
             }
 
-            const currentContent = document.getElementById(`${currentPage}-content`);
-            if (currentContent) {
-                currentContent.classList.add('exit');
-                setTimeout(() => {
-                    currentContent.classList.remove('active', 'exit');
-                }, 250);
+            // Cambia contenuto senza animazioni laggose
+            document.querySelectorAll('.page-content').forEach(content => {
+                content.classList.remove('active');
+            });
+
+            const newContent = document.getElementById(`${page}-content`);
+            if (newContent) {
+                newContent.classList.add('active');
             }
 
-            setTimeout(() => {
-                const newContent = document.getElementById(`${page}-content`);
-                if (newContent) {
-                    newContent.classList.add('active');
-                }
-                currentPage = page;
-            }, 250);
+            currentPage = page;
 
             const titles = {
                 dashboard: 'Dashboard Operativa',
@@ -1433,7 +1396,7 @@
             document.querySelector('.page-title').textContent = titles[page] || 'Dashboard';
         }
 
-        // GESTIONE MODALS
+        // GESTIONE MODALS OTTIMIZZATA
         function openModal(modalId) {
             const modal = document.getElementById(`modal-${modalId}`);
             if (modal) {
@@ -1461,7 +1424,7 @@
             }
         }
 
-        // SUBMIT FORM FUNZIONANTE
+        // SUBMIT FORM CHE FUNZIONA
         function submitForm(formType) {
             const form = document.getElementById(`${formType}-form`);
             if (!form) {
@@ -1647,9 +1610,11 @@
             }
         }
 
-        // INIZIALIZZAZIONE
+        // INIZIALIZZAZIONE OTTIMIZZATA
         document.addEventListener('DOMContentLoaded', function() {
-            // Carica database da localStorage
+            console.log('🚀 INIZIALIZZAZIONE SISTEMA UOPI OTTIMIZZATO...');
+
+            // Carica database
             const savedDatabase = localStorage.getItem('uopiDatabase');
             if (savedDatabase) {
                 try {
@@ -1665,23 +1630,61 @@
                 handleLogin();
             });
 
-            // Gestisce click sui link di navigazione
-            document.querySelectorAll('.nav-link').forEach(link => {
-                link.addEventListener('click', function(e) {
+            // NAVIGAZIONE - EVENT DELEGATION
+            document.addEventListener('click', function(e) {
+                // Nav links
+                if (e.target.closest('.nav-link')) {
                     e.preventDefault();
-                    const page = this.getAttribute('data-page');
-                    navigateTo(page);
-                });
+                    const page = e.target.closest('.nav-link').getAttribute('data-page');
+                    if (page) navigateTo(page);
+                }
+
+                // Metric cards navigation
+                if (e.target.closest('[data-nav]')) {
+                    const page = e.target.closest('[data-nav]').getAttribute('data-nav');
+                    if (page) navigateTo(page);
+                }
+
+                // Modal triggers - PULSANTI CHE FUNZIONANO
+                if (e.target.closest('[data-modal]')) {
+                    e.preventDefault();
+                    const modalId = e.target.closest('[data-modal]').getAttribute('data-modal');
+                    openModal(modalId);
+                }
+
+                // Form submissions
+                if (e.target.closest('[data-submit]')) {
+                    e.preventDefault();
+                    const formType = e.target.closest('[data-submit]').getAttribute('data-submit');
+                    submitForm(formType);
+                }
+
+                // Modal close buttons
+                if (e.target.closest('[data-close]')) {
+                    e.preventDefault();
+                    const modalId = e.target.closest('[data-close]').getAttribute('data-close');
+                    closeModal(modalId);
+                }
+
+                // Add operator button
+                if (e.target.id === 'addOperatorBtn') {
+                    e.preventDefault();
+                    openModal('operator');
+                }
+
+                // Logout button
+                if (e.target.id === 'logoutBtn') {
+                    e.preventDefault();
+                    handleLogout();
+                }
             });
 
             // Chiude modal con click su backdrop
-            document.querySelectorAll('.modal-backdrop').forEach(backdrop => {
-                backdrop.addEventListener('click', function(e) {
-                    if (e.target === this) {
-                        this.classList.remove('show');
-                        document.body.style.overflow = 'auto';
-                    }
-                });
+            document.addEventListener('click', function(e) {
+                if (e.target.classList.contains('modal-backdrop')) {
+                    e.target.classList.remove('show');
+                    document.body.style.overflow = 'auto';
+                }
             });
 
             // Gestione ESC per chiudere modal
@@ -1694,7 +1697,8 @@
                 }
             });
 
-            console.log('✅ SISTEMA UOPI COMPLETO INIZIALIZZATO!');
+            console.log('✅ SISTEMA UOPI OTTIMIZZATO INIZIALIZZATO!');
+            console.log('📊 Database:', uopiDatabase);
         });
     </script>
 </body>
