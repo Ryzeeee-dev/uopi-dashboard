@@ -3,24 +3,25 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>🔰 UOPI Dashboard - Sistema Moderno</title>
+    <title>🔰 UOPI Dashboard - Sistema Avanzato</title>
     <meta name="theme-color" content="#1e293b">
     <style>
         :root {
-            --primary-bg: #121821;
+            --primary-bg: #0f172a;
             --secondary-bg: #1e293b;
-            --tertiary-bg: #2c374d;
-            --accent: #448aff;
-            --accent-light: #64b5f6;
-            --text: #e3eaf4;
-            --text-muted: #8892b0;
-            --text-secondary: #cfd8dc;
-            --success: #4caf50;
-            --warning: #ffdb4d;
-            --danger: #ff5252;
-            --border: #2f3950;
-            --shadow: rgba(0, 0, 0, 0.3);
-            --shadow-hover: rgba(68, 138, 255, 0.3);
+            --tertiary-bg: #334155;
+            --quaternary-bg: #475569;
+            --accent: #3b82f6;
+            --accent-hover: #2563eb;
+            --text-primary: #f8fafc;
+            --text-secondary: #cbd5e1;
+            --text-muted: #64748b;
+            --border: #374151;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+            --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.4);
         }
 
         * {
@@ -30,52 +31,59 @@
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background: var(--primary-bg);
-            color: var(--text);
-            min-height: 100vh;
+            color: var(--text-primary);
+            height: 100vh;
             overflow: hidden;
             line-height: 1.6;
         }
 
-        .container {
+        .app-container {
             display: flex;
             height: 100vh;
             overflow: hidden;
         }
 
-        /* SIDEBAR MODERNA */
+        /* SIDEBAR SENZA USER INFO */
         .sidebar {
             width: 280px;
             background: var(--secondary-bg);
+            border-right: 1px solid var(--border);
             display: flex;
             flex-direction: column;
-            border-right: 1px solid var(--border);
             transition: all 0.3s ease;
         }
 
-        .logo {
+        .logo-section {
             padding: 2rem;
-            text-align: center;
             border-bottom: 1px solid var(--border);
+            text-align: center;
         }
 
-        .logo h1 {
+        .logo {
             font-size: 1.8rem;
             font-weight: 700;
             color: var(--accent);
-            margin: 0;
             user-select: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .navigation {
+            flex: 1;
+            padding: 2rem 1rem;
+            overflow-y: auto;
         }
 
         .nav-menu {
-            flex: 1;
-            padding: 2rem 1rem;
             list-style: none;
         }
 
         .nav-item {
-            margin-bottom: 1rem;
+            margin-bottom: 0.5rem;
         }
 
         .nav-link {
@@ -86,92 +94,53 @@
             color: var(--text-secondary);
             text-decoration: none;
             border-radius: 12px;
-            transition: all 0.3s ease;
             font-weight: 500;
             font-size: 0.95rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav-link::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 4px;
+            background: var(--accent);
+            transform: scaleY(0);
+            transition: transform 0.3s ease;
         }
 
         .nav-link:hover,
         .nav-link.active {
             background: var(--tertiary-bg);
-            color: var(--accent);
+            color: var(--text-primary);
             transform: translateX(8px);
-            box-shadow: 0 4px 12px var(--shadow);
+            box-shadow: var(--shadow);
         }
 
-        .nav-link-icon {
-            font-size: 1.2rem;
-            width: 20px;
+        .nav-link:hover::before,
+        .nav-link.active::before {
+            transform: scaleY(1);
+        }
+
+        .nav-icon {
+            font-size: 1.25rem;
+            width: 24px;
             text-align: center;
-        }
-
-        /* USER INFO NELLA SIDEBAR (BOTTOM) */
-        .sidebar-user {
-            padding: 1.5rem;
-            border-top: 1px solid var(--border);
-            background: var(--tertiary-bg);
-            margin: 1rem;
-            border-radius: 16px;
-        }
-
-        .sidebar-user-avatar {
-            width: 60px;
-            height: 60px;
-            background: linear-gradient(135deg, var(--accent), var(--accent-light));
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            color: white;
-            font-weight: 700;
-            margin: 0 auto 1rem;
-            border: 3px solid rgba(68, 138, 255, 0.2);
-        }
-
-        .sidebar-user-name {
-            text-align: center;
-            font-weight: 600;
-            font-size: 1rem;
-            margin-bottom: 0.5rem;
-            color: var(--text);
-        }
-
-        .sidebar-user-role {
-            text-align: center;
-            font-size: 0.8rem;
-            color: var(--text-muted);
-            margin-bottom: 1rem;
-        }
-
-        .logout-btn {
-            width: 100%;
-            padding: 0.8rem;
-            background: rgba(255, 82, 82, 0.2);
-            border: 1px solid rgba(255, 82, 82, 0.3);
-            border-radius: 10px;
-            color: #ff8a80;
-            cursor: pointer;
-            font-weight: 500;
-            transition: all 0.3s ease;
-        }
-
-        .logout-btn:hover {
-            background: rgba(255, 82, 82, 0.3);
-            color: #ff5252;
-            transform: translateY(-2px);
         }
 
         /* MAIN CONTENT */
-        .main {
+        .main-content {
             flex: 1;
             display: flex;
             flex-direction: column;
-            overflow-y: auto;
-            background: var(--primary-bg);
+            overflow: hidden;
         }
 
-        /* HEADER MODERNO (NO SEARCH BAR, USER INFO TOP RIGHT) */
+        /* HEADER CON SOLO USER INFO TOP RIGHT */
         .header {
             background: var(--secondary-bg);
             border-bottom: 1px solid var(--border);
@@ -182,236 +151,228 @@
             position: sticky;
             top: 0;
             z-index: 100;
-            backdrop-filter: blur(10px);
+            backdrop-filter: blur(8px);
         }
 
         .page-title {
             font-size: 1.8rem;
             font-weight: 700;
-            color: var(--accent);
+            color: var(--text-primary);
             user-select: none;
+            background: linear-gradient(135deg, var(--accent), #60a5fa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
-        /* USER INFO IN HEADER TOP RIGHT */
-        .header-user {
+        /* USER INFO COMPLETO IN ALTO A DESTRA */
+        .header-user-section {
             display: flex;
             align-items: center;
             gap: 1rem;
             background: var(--tertiary-bg);
-            padding: 0.8rem 1.2rem;
+            padding: 0.75rem 1.5rem;
             border-radius: 50px;
             border: 1px solid var(--border);
+            transition: all 0.3s ease;
         }
 
-        .header-user-avatar {
-            width: 40px;
-            height: 40px;
-            background: linear-gradient(135deg, var(--accent), var(--accent-light));
+        .header-user-section:hover {
+            background: var(--quaternary-bg);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+
+        .user-avatar {
+            width: 42px;
+            height: 42px;
+            background: linear-gradient(135deg, var(--accent), #60a5fa);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 1rem;
-            color: white;
             font-weight: 700;
+            color: white;
+            user-select: none;
+            border: 2px solid rgba(59, 130, 246, 0.3);
         }
 
-        .header-user-details {
+        .user-details {
             display: flex;
             flex-direction: column;
+            min-width: 140px;
+        }
+
+        .user-name {
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: var(--text-primary);
             line-height: 1.2;
         }
 
-        .header-user-name {
-            font-weight: 600;
-            font-size: 0.9rem;
-            color: var(--text);
-        }
-
-        .header-user-role {
+        .user-role {
             font-size: 0.75rem;
             color: var(--text-muted);
+            line-height: 1.2;
         }
 
-        /* DASHBOARD TILES MODERNE */
-        .dashboard-section {
-            padding: 2rem;
+        .logout-button {
+            background: linear-gradient(135deg, var(--danger), #dc2626);
+            border: none;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            user-select: none;
+        }
+
+        .logout-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(239, 68, 68, 0.4);
+        }
+
+        /* DASHBOARD CONTENT */
+        .dashboard-content {
             flex: 1;
+            padding: 2rem;
+            overflow-y: auto;
+            background: var(--primary-bg);
         }
 
-        .kpi-grid {
+        /* KPI CARDS MODERNE E PULITE */
+        .metrics-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 1.5rem;
             margin-bottom: 3rem;
         }
 
-        .kpi-card {
+        .metric-card {
             background: var(--secondary-bg);
             border: 1px solid var(--border);
             border-radius: 16px;
             padding: 2rem;
-            text-align: center;
             transition: all 0.3s ease;
             cursor: pointer;
             position: relative;
             overflow: hidden;
         }
 
-        .kpi-card::before {
+        .metric-card::before {
             content: '';
             position: absolute;
             top: 0;
             left: 0;
             right: 0;
-            height: 4px;
-            background: linear-gradient(90deg, var(--accent), var(--accent-light));
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent), #60a5fa);
             transform: scaleX(0);
             transition: transform 0.3s ease;
         }
 
-        .kpi-card:hover {
+        .metric-card:hover {
             transform: translateY(-8px);
-            box-shadow: 0 12px 30px var(--shadow-hover);
+            background: var(--tertiary-bg);
+            box-shadow: var(--shadow-lg);
             border-color: var(--accent);
         }
 
-        .kpi-card:hover::before {
+        .metric-card:hover::before {
             transform: scaleX(1);
         }
 
-        .kpi-label {
-            font-size: 0.8rem;
+        .metric-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+        }
+
+        .metric-icon {
+            font-size: 1.5rem;
+            color: var(--accent);
+        }
+
+        .metric-label {
+            font-size: 0.85rem;
             font-weight: 600;
             color: var(--text-muted);
             text-transform: uppercase;
             letter-spacing: 0.1em;
-            margin-bottom: 1rem;
         }
 
-        .kpi-value {
-            font-size: 3rem;
+        .metric-value {
+            font-size: 2.5rem;
             font-weight: 700;
             color: var(--warning);
-            margin-bottom: 0.5rem;
+            line-height: 1;
         }
 
-        .kpi-icon {
-            font-size: 1.2rem;
-            margin-right: 0.5rem;
-        }
-
-        /* CONTENT AREA MODERNA */
-        .content-area {
+        /* MAIN CONTENT AREA */
+        .content-section {
             background: var(--secondary-bg);
+            border: 1px solid var(--border);
             border-radius: 20px;
             padding: 3rem;
             text-align: center;
-            border: 1px solid var(--border);
         }
 
-        .empty-state {
+        .empty-state-container {
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 1.5rem;
+            gap: 2rem;
+            max-width: 500px;
+            margin: 0 auto;
         }
 
-        .empty-state-icon {
+        .empty-icon {
             font-size: 4rem;
             color: var(--accent);
-            opacity: 0.6;
+            opacity: 0.8;
+            animation: pulse 2s infinite;
         }
 
-        .empty-state h3 {
-            font-size: 1.8rem;
-            font-weight: 600;
-            color: var(--text);
+        @keyframes pulse {
+            0%, 100% { opacity: 0.8; }
+            50% { opacity: 0.4; }
+        }
+
+        .empty-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text-primary);
             margin-bottom: 0.5rem;
         }
 
-        .empty-state p {
-            font-size: 1rem;
+        .empty-description {
+            font-size: 1.1rem;
             color: var(--text-muted);
-            max-width: 400px;
-            line-height: 1.5;
+            line-height: 1.6;
+            margin-bottom: 2rem;
         }
 
-        .btn {
-            padding: 1rem 2rem;
-            background: linear-gradient(135deg, var(--accent), var(--accent-light));
+        .primary-button {
+            background: linear-gradient(135deg, var(--accent), #60a5fa);
             border: none;
-            border-radius: 12px;
             color: white;
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            font-size: 1rem;
             font-weight: 600;
-            font-size: 0.95rem;
             cursor: pointer;
             transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(68, 138, 255, 0.4);
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
+            user-select: none;
         }
 
-        .btn:hover {
+        .primary-button:hover {
             transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(68, 138, 255, 0.6);
-        }
-
-        /* RESPONSIVE */
-        @media (max-width: 768px) {
-            .container {
-                flex-direction: column;
-            }
-            
-            .sidebar {
-                width: 100%;
-                height: auto;
-                order: 2;
-            }
-            
-            .main {
-                order: 1;
-            }
-            
-            .nav-menu {
-                display: flex;
-                flex-wrap: wrap;
-                gap: 0.5rem;
-                padding: 1rem;
-            }
-            
-            .nav-item {
-                margin-bottom: 0;
-            }
-            
-            .header {
-                padding: 1rem;
-                flex-direction: column;
-                gap: 1rem;
-            }
-            
-            .kpi-grid {
-                grid-template-columns: 1fr;
-                gap: 1rem;
-            }
-            
-            .dashboard-section {
-                padding: 1rem;
-            }
-        }
-
-        /* ANIMAZIONI FLUIDE */
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .main-app {
-            animation: fadeIn 0.6s ease-out;
+            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.6);
         }
 
         /* SCROLLBAR PERSONALIZZATA */
@@ -429,164 +390,241 @@
         }
 
         ::-webkit-scrollbar-thumb:hover {
-            background: var(--accent);
+            background: var(--quaternary-bg);
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .app-container {
+                flex-direction: column;
+            }
+
+            .sidebar {
+                width: 100%;
+                height: 70px;
+                flex-direction: row;
+                border-right: none;
+                border-bottom: 1px solid var(--border);
+                overflow-x: auto;
+            }
+
+            .logo-section {
+                padding: 1rem;
+                border-bottom: none;
+                border-right: 1px solid var(--border);
+                min-width: 120px;
+            }
+
+            .logo {
+                font-size: 1.2rem;
+            }
+
+            .navigation {
+                padding: 0 1rem;
+                display: flex;
+                align-items: center;
+                overflow-x: auto;
+            }
+
+            .nav-menu {
+                display: flex;
+                gap: 0.5rem;
+                white-space: nowrap;
+            }
+
+            .nav-item {
+                margin-bottom: 0;
+            }
+
+            .nav-link {
+                padding: 0.75rem 1rem;
+                white-space: nowrap;
+            }
+
+            .header {
+                padding: 1rem;
+                flex-wrap: wrap;
+                gap: 1rem;
+            }
+
+            .header-user-section {
+                width: 100%;
+                justify-content: space-between;
+            }
+
+            .dashboard-content {
+                padding: 1rem;
+            }
+
+            .metrics-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            .content-section {
+                padding: 2rem 1rem;
+            }
+        }
+
+        /* ANIMAZIONI FLUIDE */
+        .app-container {
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
     </style>
 </head>
 
 <body>
-    <div class="main-app">
-        <div class="container">
-            <!-- SIDEBAR MODERNA -->
-            <nav class="sidebar">
-                <div class="logo">
-                    <h1>🔰 UOPI</h1>
-                </div>
-                
+    <div class="app-container">
+        <!-- SIDEBAR PULITA SENZA USER INFO -->
+        <aside class="sidebar">
+            <div class="logo-section">
+                <h1 class="logo">
+                    🔰 UOPI
+                </h1>
+            </div>
+
+            <nav class="navigation">
                 <ul class="nav-menu">
                     <li class="nav-item">
-                        <a href="#dashboard" class="nav-link active">
-                            <span class="nav-link-icon">🏠</span>
-                            <span class="nav-link-text">Dashboard</span>
+                        <a href="#dashboard" class="nav-link active" data-page="dashboard">
+                            <span class="nav-icon">🏠</span>
+                            <span>Dashboard</span>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="#operatori" class="nav-link">
-                            <span class="nav-link-icon">👮</span>
-                            <span class="nav-link-text">Operatori</span>
+                        <a href="#operatori" class="nav-link" data-page="operatori">
+                            <span class="nav-icon">👮</span>
+                            <span>Operatori</span>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="#comunicazioni" class="nav-link">
-                            <span class="nav-link-icon">📢</span>
-                            <span class="nav-link-text">Comunicazioni</span>
+                        <a href="#comunicazioni" class="nav-link" data-page="comunicazioni">
+                            <span class="nav-icon">📢</span>
+                            <span>Comunicazioni</span>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="#turni" class="nav-link">
-                            <span class="nav-link-icon">📝</span>
-                            <span class="nav-link-text">Gestione Turni</span>
+                        <a href="#turni" class="nav-link" data-page="turni">
+                            <span class="nav-icon">📝</span>
+                            <span>Gestione Turni</span>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="#sanzioni" class="nav-link">
-                            <span class="nav-link-icon">⛔</span>
-                            <span class="nav-link-text">Sanzioni</span>
+                        <a href="#sanzioni" class="nav-link" data-page="sanzioni">
+                            <span class="nav-icon">⛔</span>
+                            <span>Sanzioni</span>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="#squadre" class="nav-link">
-                            <span class="nav-link-icon">🥷</span>
-                            <span class="nav-link-text">Squadre</span>
+                        <a href="#squadre" class="nav-link" data-page="squadre">
+                            <span class="nav-icon">🥷</span>
+                            <span>Squadre</span>
                         </a>
                     </li>
                 </ul>
-
-                <!-- USER INFO SIDEBAR BOTTOM -->
-                <div class="sidebar-user">
-                    <div class="sidebar-user-avatar">A</div>
-                    <div class="sidebar-user-name">Admin UOPI</div>
-                    <div class="sidebar-user-role">Amministratore Sistema</div>
-                    <button class="logout-btn" onclick="logout()">🚪 Logout</button>
-                </div>
             </nav>
+        </aside>
 
-            <!-- MAIN CONTENT -->
-            <main class="main">
-                <!-- HEADER CON USER INFO TOP RIGHT (NO SEARCH BAR) -->
-                <header class="header">
-                    <h1 class="page-title">Dashboard Operativa</h1>
-                    
-                    <!-- USER INFO TOP RIGHT -->
-                    <div class="header-user">
-                        <div class="header-user-avatar">A</div>
-                        <div class="header-user-details">
-                            <div class="header-user-name">Admin UOPI</div>
-                            <div class="header-user-role">Amministratore Sistema</div>
-                        </div>
+        <!-- MAIN CONTENT -->
+        <main class="main-content">
+            <!-- HEADER CON SOLO USER INFO TOP RIGHT -->
+            <header class="header">
+                <h1 class="page-title">Dashboard Operativa</h1>
+
+                <!-- USER INFO COMPLETO CON LOGOUT -->
+                <div class="header-user-section">
+                    <div class="user-avatar">A</div>
+                    <div class="user-details">
+                        <div class="user-name">Admin UOPI</div>
+                        <div class="user-role">Amministratore Sistema</div>
                     </div>
-                </header>
+                    <button class="logout-button" onclick="handleLogout()">
+                        🚪 Logout
+                    </button>
+                </div>
+            </header>
 
-                <!-- DASHBOARD CONTENT -->
-                <section class="dashboard-section">
-                    <!-- KPI CARDS MODERNE -->
-                    <div class="kpi-grid">
-                        <div class="kpi-card" onclick="navigateToView('operatori')">
-                            <div class="kpi-label">
-                                <span class="kpi-icon">👮</span>
-                                Operatori in Servizio
-                            </div>
-                            <div class="kpi-value">0</div>
+            <!-- DASHBOARD CONTENT -->
+            <section class="dashboard-content">
+                <!-- METRICHE MODERNE -->
+                <div class="metrics-grid">
+                    <div class="metric-card" onclick="navigateTo('operatori')">
+                        <div class="metric-header">
+                            <span class="metric-icon">👮</span>
+                            <div class="metric-label">Operatori in Servizio</div>
                         </div>
-                        <div class="kpi-card" onclick="navigateToView('comunicazioni')">
-                            <div class="kpi-label">
-                                <span class="kpi-icon">🚨</span>
-                                Operazioni Attive
-                            </div>
-                            <div class="kpi-value">0</div>
-                        </div>
-                        <div class="kpi-card" onclick="navigateToView('squadre')">
-                            <div class="kpi-label">
-                                <span class="kpi-icon">🥷</span>
-                                Squadre Operative
-                            </div>
-                            <div class="kpi-value">0</div>
-                        </div>
-                        <div class="kpi-card" onclick="navigateToView('turni')">
-                            <div class="kpi-label">
-                                <span class="kpi-icon">📝</span>
-                                Turni Pianificati
-                            </div>
-                            <div class="kpi-value">0</div>
-                        </div>
+                        <div class="metric-value">0</div>
                     </div>
 
-                    <!-- CONTENT AREA MODERNA -->
-                    <div class="content-area">
-                        <div class="empty-state">
-                            <div class="empty-state-icon">🚧</div>
-                            <h3>Sistema Inizializzato</h3>
-                            <p>Il sistema UOPI è pronto per l'uso. Inizia aggiungendo operatori per attivare tutte le funzionalità della dashboard.</p>
-                            <button class="btn" onclick="openOperatorModal()">
-                                ➕ Aggiungi Primo Operatore
-                            </button>
+                    <div class="metric-card" onclick="navigateTo('comunicazioni')">
+                        <div class="metric-header">
+                            <span class="metric-icon">🚨</span>
+                            <div class="metric-label">Operazioni Attive</div>
                         </div>
+                        <div class="metric-value">0</div>
                     </div>
-                </section>
-            </main>
-        </div>
+
+                    <div class="metric-card" onclick="navigateTo('squadre')">
+                        <div class="metric-header">
+                            <span class="metric-icon">🥷</span>
+                            <div class="metric-label">Squadre Operative</div>
+                        </div>
+                        <div class="metric-value">0</div>
+                    </div>
+
+                    <div class="metric-card" onclick="navigateTo('turni')">
+                        <div class="metric-header">
+                            <span class="metric-icon">📝</span>
+                            <div class="metric-label">Turni Pianificati</div>
+                        </div>
+                        <div class="metric-value">0</div>
+                    </div>
+                </div>
+
+                <!-- CONTENT PRINCIPALE -->
+                <div class="content-section">
+                    <div class="empty-state-container">
+                        <div class="empty-icon">🚀</div>
+                        <h2 class="empty-title">Sistema Inizializzato</h2>
+                        <p class="empty-description">
+                            Il sistema UOPI è pronto per l'uso. Inizia aggiungendo operatori 
+                            per attivare tutte le funzionalità della dashboard.
+                        </p>
+                        <button class="primary-button" onclick="openOperatorModal()">
+                            ➕ Aggiungi Primo Operatore
+                        </button>
+                    </div>
+                </div>
+            </section>
+        </main>
     </div>
 
     <script>
-        // CREDENZIALI ADMIN
-        const ADMIN_CREDENTIALS = {
-            username: 'adminuopi_2847832742398',
-            password: 'uopiadmin_82389849298'
-        };
-
-        // FUNZIONI BASE
-        function logout() {
-            const confirmed = confirm('🚪 Sei sicuro di voler uscire dal sistema?');
-            if (confirmed) {
-                alert('👋 Logout completato. Arrivederci!');
-                // Qui inseriremo la logica di logout completa
-                location.reload();
-            }
-        }
-
-        function openOperatorModal() {
-            alert('📝 Apertura modulo creazione operatore...');
-            // Qui inseriremo la logica per aprire il modal
-        }
-
-        function navigateToView(view) {
+        // GESTIONE NAVIGAZIONE
+        function navigateTo(page) {
             // Rimuove active da tutti i link
-            document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
-            
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active');
+            });
+
             // Aggiunge active al link selezionato
-            document.querySelector(`[href="#${view}"]`)?.classList.add('active');
-            
-            // Aggiorna titolo pagina
+            const targetLink = document.querySelector(`[data-page="${page}"]`);
+            if (targetLink) {
+                targetLink.classList.add('active');
+            }
+
+            // Aggiorna il titolo della pagina
             const titles = {
                 dashboard: 'Dashboard Operativa',
                 operatori: 'Gestione Operatori',
@@ -595,21 +633,102 @@
                 sanzioni: 'Sanzioni e Promozioni',
                 squadre: 'Squadre d\'Intervento'
             };
+
+            document.querySelector('.page-title').textContent = titles[page] || 'Dashboard';
             
-            document.querySelector('.page-title').textContent = titles[view] || 'Dashboard Operativa';
-            
-            alert(`📍 Navigazione verso: ${titles[view] || view}`);
+            // Notifica di navigazione
+            showNotification(`📍 Navigazione verso: ${titles[page]}`);
         }
 
-        // Event listeners per la navigazione
+        // GESTIONE LOGOUT
+        function handleLogout() {
+            if (confirm('🚪 Sei sicuro di voler uscire dal sistema UOPI?')) {
+                showNotification('👋 Logout completato. Arrivederci!');
+                setTimeout(() => {
+                    location.reload();
+                }, 1500);
+            }
+        }
+
+        // MODAL OPERATORE
+        function openOperatorModal() {
+            showNotification('📝 Apertura modulo creazione operatore...');
+            // Qui si integrerà il sistema completo
+        }
+
+        // SISTEMA NOTIFICHE
+        function showNotification(message) {
+            // Crea elemento notifica
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: linear-gradient(135deg, #3b82f6, #60a5fa);
+                color: white;
+                padding: 1rem 1.5rem;
+                border-radius: 12px;
+                box-shadow: 0 8px 25px rgba(59, 130, 246, 0.4);
+                z-index: 1000;
+                font-weight: 600;
+                animation: slideIn 0.3s ease-out;
+            `;
+            notification.textContent = message;
+
+            // Aggiunge al DOM
+            document.body.appendChild(notification);
+
+            // Rimuove dopo 3 secondi
+            setTimeout(() => {
+                notification.style.animation = 'slideOut 0.3s ease-in forwards';
+                setTimeout(() => {
+                    document.body.removeChild(notification);
+                }, 300);
+            }, 3000);
+        }
+
+        // ANIMAZIONI CSS DINAMICHE
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slideIn {
+                from {
+                    transform: translateX(100%);
+                    opacity: 0;
+                }
+                to {
+                    transform: translateX(0);
+                    opacity: 1;
+                }
+            }
+            
+            @keyframes slideOut {
+                from {
+                    transform: translateX(0);
+                    opacity: 1;
+                }
+                to {
+                    transform: translateX(100%);
+                    opacity: 0;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // EVENT LISTENERS
         document.addEventListener('DOMContentLoaded', function() {
+            // Gestisce click sui link di navigazione
             document.querySelectorAll('.nav-link').forEach(link => {
-                link.addEventListener('click', (e) => {
+                link.addEventListener('click', function(e) {
                     e.preventDefault();
-                    const view = e.target.closest('.nav-link').getAttribute('href').replace('#', '');
-                    navigateToView(view);
+                    const page = this.getAttribute('data-page');
+                    navigateTo(page);
                 });
             });
+
+            // Mostra messaggio di benvenuto
+            setTimeout(() => {
+                showNotification('🔰 Benvenuto nel Sistema UOPI!');
+            }, 1000);
         });
     </script>
 </body>
