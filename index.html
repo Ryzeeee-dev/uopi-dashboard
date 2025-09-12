@@ -736,7 +736,7 @@ function loginWithDiscord() {
     scope: 'identify'
   });
   
-  window.location.href = `https://discord.com/oauth2/authorize?client_id=1387801645743869982&permissions=8&integration_type=0&scope=bot`;
+  window.location.href = `https://discord.com/api/oauth2/authorize?${params}`
 }
 
 // Gestione callback Discord
@@ -1326,3 +1326,4 @@ document.addEventListener('DOMContentLoaded', () => {
 
 </body>
 </html>
+
