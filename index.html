@@ -1,1705 +1,1328 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="it">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>🔰 UOPI Dashboard - Sistema Ottimizzato</title>
-    <meta name="theme-color" content="#1e293b">
-    <style>
-        :root {
-            --primary-bg: #0f172a;
-            --secondary-bg: #1e293b;
-            --tertiary-bg: #334155;
-            --quaternary-bg: #475569;
-            --accent: #3b82f6;
-            --accent-hover: #2563eb;
-            --text-primary: #f8fafc;
-            --text-secondary: #cbd5e1;
-            --text-muted: #64748b;
-            --border: #374151;
-            --success: #10b981;
-            --warning: #f59e0b;
-            --danger: #ef4444;
-            --shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
-            --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.4);
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: var(--primary-bg);
-            color: var(--text-primary);
-            height: 100vh;
-            overflow: hidden;
-            line-height: 1.6;
-        }
-
-        /* LOGIN SCREEN */
-        .login-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            position: relative;
-            background: linear-gradient(135deg, var(--primary-bg), var(--secondary-bg));
-        }
-
-        .login-card {
-            background: linear-gradient(145deg, var(--primary-bg), var(--secondary-bg));
-            padding: 3rem;
-            border-radius: 24px;
-            box-shadow: 0 25px 50px rgba(0,0,0,0.5);
-            border: 1px solid var(--border);
-            width: 100%;
-            max-width: 450px;
-            text-align: center;
-        }
-
-        .login-logo {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-            background: linear-gradient(135deg, #60a5fa, #3b82f6);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            font-weight: bold;
-        }
-
-        .login-title {
-            font-size: 1.5rem;
-            margin-bottom: 2rem;
-            color: var(--text-primary);
-        }
-
-        .form-group {
-            margin-bottom: 1.5rem;
-            text-align: left;
-        }
-
-        .form-label {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-weight: 600;
-            color: var(--text-primary);
-            font-size: 0.9rem;
-        }
-
-        .form-control {
-            width: 100%;
-            padding: 1rem 1.25rem;
-            border: 2px solid var(--border);
-            border-radius: 12px;
-            background: var(--primary-bg);
-            color: var(--text-primary);
-            font-size: 1rem;
-            transition: border-color 0.2s ease;
-        }
-
-        .form-control:focus {
-            outline: none;
-            border-color: var(--accent);
-        }
-
-        .checkbox-group {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            margin-bottom: 1.5rem;
-            text-align: left;
-        }
-
-        .checkbox-group input[type="checkbox"] {
-            width: 18px;
-            height: 18px;
-            accent-color: var(--accent);
-            cursor: pointer;
-        }
-
-        .checkbox-group label {
-            font-size: 0.9rem;
-            color: var(--text-muted);
-            cursor: pointer;
-            user-select: none;
-        }
-
-        .btn-login {
-            width: 100%;
-            padding: 1rem 2rem;
-            border: none;
-            border-radius: 12px;
-            background: linear-gradient(135deg, var(--accent), #1d4ed8);
-            color: white;
-            font-size: 1.1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.4);
-        }
-
-        .btn-login:hover {
-            transform: translateY(-2px);
-        }
-
-        .error-message {
-            color: var(--danger);
-            margin-top: 1rem;
-            padding: 0.75rem;
-            background: rgba(239, 68, 68, 0.1);
-            border: 1px solid rgba(239, 68, 68, 0.3);
-            border-radius: 8px;
-            display: none;
-        }
-
-        /* MAIN APP */
-        .app-container {
-            display: none;
-            height: 100vh;
-            overflow: hidden;
-        }
-
-        .app-container.show {
-            display: flex;
-        }
-
-        /* SIDEBAR */
-        .sidebar {
-            width: 280px;
-            background: var(--secondary-bg);
-            border-right: 1px solid var(--border);
-            display: flex;
-            flex-direction: column;
-        }
-
-        .logo-section {
-            padding: 2rem;
-            border-bottom: 1px solid var(--border);
-            text-align: center;
-        }
-
-        .logo {
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: var(--accent);
-            user-select: none;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
-        }
-
-        .navigation {
-            flex: 1;
-            padding: 2rem 1rem;
-            overflow-y: auto;
-        }
-
-        .nav-menu {
-            list-style: none;
-        }
-
-        .nav-item {
-            margin-bottom: 0.5rem;
-        }
-
-        .nav-link {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            padding: 1rem 1.5rem;
-            color: var(--text-secondary);
-            text-decoration: none;
-            border-radius: 12px;
-            font-weight: 500;
-            font-size: 0.95rem;
-            transition: all 0.2s ease;
-            position: relative;
-            overflow: hidden;
-            cursor: pointer;
-            will-change: transform, background-color;
-        }
-
-        .nav-link::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 0;
-            height: 100%;
-            width: 4px;
-            background: var(--accent);
-            transform: scaleY(0);
-            transition: transform 0.2s ease;
-        }
-
-        .nav-link:hover,
-        .nav-link.active {
-            background: var(--tertiary-bg);
-            color: var(--text-primary);
-            transform: translateX(4px);
-        }
-
-        .nav-link:hover::before,
-        .nav-link.active::before {
-            transform: scaleY(1);
-        }
-
-        .nav-icon {
-            font-size: 1.25rem;
-            width: 24px;
-            text-align: center;
-        }
-
-        /* MAIN CONTENT */
-        .main-content {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-        }
-
-        /* HEADER */
-        .header {
-            background: var(--secondary-bg);
-            border-bottom: 1px solid var(--border);
-            padding: 1.5rem 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-
-        .page-title {
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: var(--text-primary);
-            user-select: none;
-            background: linear-gradient(135deg, var(--accent), #60a5fa);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .header-user-section {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            background: var(--tertiary-bg);
-            padding: 0.75rem 1.5rem;
-            border-radius: 50px;
-            border: 1px solid var(--border);
-            transition: all 0.2s ease;
-        }
-
-        .header-user-section:hover {
-            background: var(--quaternary-bg);
-            transform: translateY(-1px);
-        }
-
-        .user-avatar {
-            width: 42px;
-            height: 42px;
-            background: linear-gradient(135deg, var(--accent), #60a5fa);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1rem;
-            font-weight: 700;
-            color: white;
-            user-select: none;
-            border: 2px solid rgba(59, 130, 246, 0.3);
-        }
-
-        .user-details {
-            display: flex;
-            flex-direction: column;
-            min-width: 140px;
-        }
-
-        .user-name {
-            font-weight: 600;
-            font-size: 0.9rem;
-            color: var(--text-primary);
-            line-height: 1.2;
-        }
-
-        .user-role {
-            font-size: 0.75rem;
-            color: var(--text-muted);
-            line-height: 1.2;
-        }
-
-        .logout-button {
-            background: linear-gradient(135deg, var(--danger), #dc2626);
-            border: none;
-            color: white;
-            padding: 0.5rem 1rem;
-            border-radius: 8px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            user-select: none;
-        }
-
-        .logout-button:hover {
-            transform: translateY(-1px);
-        }
-
-        /* BANNER NOTIFICHE */
-        .notification-banner {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            background: linear-gradient(135deg, var(--success), #16a34a);
-            color: white;
-            padding: 1rem 2rem;
-            font-weight: 600;
-            font-size: 1rem;
-            text-align: center;
-            z-index: 9999;
-            transform: translateY(-100%);
-            transition: transform 0.3s ease;
-            box-shadow: 0 4px 20px rgba(16, 185, 129, 0.4);
-        }
-
-        .notification-banner.show {
-            transform: translateY(0);
-        }
-
-        /* CONTENT SENZA ANIMAZIONI LAGGOSE */
-        .content-wrapper {
-            flex: 1;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .page-content {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            padding: 2rem;
-            overflow-y: auto;
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 0.2s ease;
-            will-change: opacity;
-        }
-
-        .page-content.active {
-            opacity: 1;
-            visibility: visible;
-        }
-
-        /* KPI CARDS OTTIMIZZATE */
-        .metrics-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 3rem;
-        }
-
-        .metric-card {
-            background: var(--secondary-bg);
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            padding: 2rem;
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-            cursor: pointer;
-            position: relative;
-            overflow: hidden;
-            will-change: transform;
-        }
-
-        .metric-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 3px;
-            background: linear-gradient(90deg, var(--accent), #60a5fa);
-            transform: scaleX(0);
-            transition: transform 0.2s ease;
-        }
-
-        .metric-card:hover {
-            transform: translateY(-4px);
-            box-shadow: var(--shadow-lg);
-        }
-
-        .metric-card:hover::before {
-            transform: scaleX(1);
-        }
-
-        .metric-header {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            margin-bottom: 1rem;
-        }
-
-        .metric-icon {
-            font-size: 1.5rem;
-            color: var(--accent);
-        }
-
-        .metric-label {
-            font-size: 0.85rem;
-            font-weight: 600;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-        }
-
-        .metric-value {
-            font-size: 2.5rem;
-            font-weight: 700;
-            color: var(--warning);
-            line-height: 1;
-        }
-
-        /* MODULI UOPI OTTIMIZZATI */
-        .uopi-modules {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 2rem;
-            margin-bottom: 2rem;
-        }
-
-        .module-card {
-            background: var(--secondary-bg);
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            overflow: hidden;
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-            cursor: pointer;
-            will-change: transform;
-        }
-
-        .module-card:hover {
-            transform: translateY(-3px);
-            box-shadow: var(--shadow-lg);
-        }
-
-        .module-header {
-            background: var(--tertiary-bg);
-            padding: 1.5rem;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .module-title {
-            font-size: 1.1rem;
-            font-weight: 700;
-            color: var(--text-primary);
-            margin-bottom: 0.5rem;
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-        }
-
-        .module-description {
-            font-size: 0.9rem;
-            color: var(--text-muted);
-            line-height: 1.4;
-        }
-
-        .module-body {
-            padding: 1.5rem;
-        }
-
-        .module-action {
-            width: 100%;
-            background: linear-gradient(135deg, var(--accent), #60a5fa);
-            border: none;
-            color: white;
-            padding: 0.75rem 1.5rem;
-            border-radius: 10px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-            will-change: transform;
-        }
-
-        .module-action:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 8px 20px rgba(59, 130, 246, 0.4);
-        }
-
-        /* FORM MODALS OTTIMIZZATI */
-        .modal-backdrop {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.7);
-            backdrop-filter: blur(5px);
-            z-index: 1000;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.2s ease;
-        }
-
-        .modal-backdrop.show {
-            opacity: 1;
-            pointer-events: auto;
-        }
-
-        .modal {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: var(--secondary-bg);
-            border: 1px solid var(--border);
-            border-radius: 20px;
-            padding: 2rem;
-            max-width: 600px;
-            width: 90%;
-            max-height: 80vh;
-            overflow-y: auto;
-            z-index: 1001;
-        }
-
-        .modal-header {
-            text-align: center;
-            margin-bottom: 2rem;
-            padding-bottom: 1rem;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .modal-title {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--accent);
-            margin-bottom: 0.5rem;
-        }
-
-        .modal-subtitle {
-            color: var(--text-muted);
-            font-size: 0.9rem;
-        }
-
-        .form-grid {
-            display: grid;
-            gap: 1.5rem;
-            margin-bottom: 2rem;
-        }
-
-        .modal-actions {
-            display: flex;
-            gap: 1rem;
-            justify-content: center;
-            padding-top: 1rem;
-            border-top: 1px solid var(--border);
-        }
-
-        .btn {
-            padding: 0.75rem 2rem;
-            border: none;
-            border-radius: 10px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: transform 0.2s ease;
-        }
-
-        .btn-primary {
-            background: linear-gradient(135deg, var(--accent), #60a5fa);
-            color: white;
-        }
-
-        .btn-secondary {
-            background: var(--tertiary-bg);
-            color: var(--text-secondary);
-            border: 1px solid var(--border);
-        }
-
-        .btn:hover {
-            transform: translateY(-1px);
-        }
-
-        /* TABLE OTTIMIZZATA */
-        .table-container {
-            padding: 2.5rem;
-            overflow-x: auto;
-        }
-
-        .table {
-            width: 100%;
-            border-collapse: separate;
-            border-spacing: 0;
-        }
-
-        .table th {
-            background: linear-gradient(135deg, var(--secondary-bg), var(--primary-bg));
-            padding: 1.25rem;
-            text-align: left;
-            font-weight: 600;
-            color: var(--accent);
-            border-bottom: 2px solid var(--accent);
-            font-size: 0.9rem;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-        }
-
-        .table td {
-            padding: 1.25rem;
-            border-bottom: 1px solid var(--border);
-            font-size: 0.9rem;
-        }
-
-        .table tbody tr:hover {
-            background: rgba(59, 130, 246, 0.08);
-        }
-
-        .badge {
-            padding: 0.4rem 0.9rem;
-            border-radius: 20px;
-            font-size: 0.75rem;
-            font-weight: 600;
-            background: linear-gradient(135deg, var(--success), #059669);
-            color: white;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.25rem;
-        }
-
-        .badge-warning {
-            background: linear-gradient(135deg, var(--warning), #d97706);
-        }
-
-        /* EMPTY STATE */
-        .empty-state {
-            text-align: center;
-            padding: 6rem 2rem;
-            color: var(--text-muted);
-        }
-
-        .empty-state-icon {
-            font-size: 4rem;
-            margin-bottom: 2rem;
-            opacity: 0.5;
-        }
-
-        .empty-state h3 {
-            font-size: 1.8rem;
-            margin-bottom: 1rem;
-            color: var(--text-primary);
-        }
-
-        .empty-state p {
-            font-size: 1.1rem;
-            margin-bottom: 2rem;
-            max-width: 400px;
-            margin-left: auto;
-            margin-right: auto;
-            line-height: 1.6;
-        }
-
-        /* RESPONSIVE */
-        @media (max-width: 768px) {
-            .app-container {
-                flex-direction: column;
-            }
-
-            .sidebar {
-                width: 100%;
-                height: 70px;
-                flex-direction: row;
-                border-right: none;
-                border-bottom: 1px solid var(--border);
-                overflow-x: auto;
-            }
-
-            .logo-section {
-                padding: 1rem;
-                border-bottom: none;
-                border-right: 1px solid var(--border);
-                min-width: 120px;
-            }
-
-            .logo {
-                font-size: 1.2rem;
-            }
-
-            .navigation {
-                padding: 0 1rem;
-                display: flex;
-                align-items: center;
-                overflow-x: auto;
-            }
-
-            .nav-menu {
-                display: flex;
-                gap: 0.5rem;
-                white-space: nowrap;
-            }
-
-            .nav-item {
-                margin-bottom: 0;
-            }
-
-            .nav-link {
-                padding: 0.75rem 1rem;
-                white-space: nowrap;
-            }
-
-            .header {
-                padding: 1rem;
-                flex-wrap: wrap;
-                gap: 1rem;
-            }
-
-            .header-user-section {
-                width: 100%;
-                justify-content: space-between;
-            }
-
-            .page-content {
-                padding: 1rem;
-            }
-
-            .metrics-grid {
-                grid-template-columns: 1fr;
-                gap: 1rem;
-            }
-
-            .uopi-modules {
-                grid-template-columns: 1fr;
-                gap: 1rem;
-            }
-
-            .modal {
-                width: 95%;
-                padding: 1.5rem;
-            }
-        }
-    </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Dashboard Gestione UOPI - FiveM</title>
+<style>
+  /* Reset */
+  *, *::before, *::after { box-sizing: border-box; }
+  html, body {
+    margin: 0; padding: 0;
+    height: 100%;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #1a202c;
+    color: #eee;
+  }
+  
+  /* Header con profilo utente e icone circolari */
+  .user-profile-section {
+    position: fixed;
+    top: 0;
+    right: 0;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 15px 25px;
+    background: rgba(26, 32, 44, 0.95);
+    backdrop-filter: blur(10px);
+    z-index: 1000;
+    border-bottom-left-radius: 15px;
+  }
+  
+  .user-circle {
+    width: 45px;
+    height: 45px;
+    background: #4A90E2;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: bold;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 10px rgba(74, 144, 226, 0.3);
+  }
+  
+  .user-circle:hover {
+    background: #357ABD;
+    transform: scale(1.05);
+    box-shadow: 0 4px 15px rgba(74, 144, 226, 0.5);
+  }
+  
+  .action-circle {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: none;
+    outline: none;
+  }
+  
+  .action-circle:hover {
+    transform: scale(1.1);
+  }
+  
+  .settings-circle {
+    background: #28a745;
+    box-shadow: 0 2px 10px rgba(40, 167, 69, 0.3);
+  }
+  
+  .settings-circle:hover {
+    background: #218838;
+    box-shadow: 0 4px 15px rgba(40, 167, 69, 0.5);
+  }
+  
+  .logout-circle {
+    background: #dc3545;
+    box-shadow: 0 2px 10px rgba(220, 53, 69, 0.3);
+  }
+  
+  .logout-circle:hover {
+    background: #c82333;
+    box-shadow: 0 4px 15px rgba(220, 53, 69, 0.5);
+  }
+  
+  /* Icone SVG */
+  .icon-gear {
+    width: 20px;
+    height: 20px;
+    fill: white;
+  }
+  
+  .icon-logout {
+    width: 18px;
+    height: 18px;
+    fill: white;
+  }
+  
+  /* Login section */
+  #login-section {
+  position: fixed;
+  inset: 0;
+  background: #1a202c;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+#login-form-container {
+  background: #2d3748;
+  padding: 2.5rem 3rem;
+  border-radius: 1.4rem;
+  min-width: 350px;
+  text-align: center;
+  box-shadow: 0 6px 32px rgba(0,0,0,0.38);
+}
+
+#login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+#login-form input {
+  width: 100%;
+  padding: 0.7rem;
+  border-radius: 6px;
+  border: none;
+  background: #222938;
+  color: #eee;
+}
+
+#login-form button {
+  width: 100%;
+  padding: 0.88rem;
+  background: #63b3ed;
+  border: none;
+  border-radius: 6px;
+  color: white;
+  font-weight: 700;
+  font-size: 1.1rem;
+  cursor: pointer;
+}
+
+#login-error {
+  color: #f56565;
+  margin-top: 1rem;
+}
+  
+  /* Dashboard */
+  #app {
+    display: none;
+    height: 100vh;
+    opacity: 0;
+    transition: opacity 0.7s ease;
+    background: #f4f7fa;
+    color: #222938;
+    padding-top: 80px;
+  }
+  #app.visible {
+    display: flex;
+    opacity: 1;
+  }
+  nav.sidebar {
+    width: 240px;
+    background: #1a202c;
+    color: #edf2f7;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+  nav.sidebar .logo {
+    padding: 24px 0;
+    font-weight: 700;
+    font-size: 1.5rem;
+    text-align: center;
+    border-bottom: 1px solid #2c3545;
+    user-select: none;
+  }
+  nav.sidebar button {
+    background: none;
+    border: none;
+    padding: 16px 24px;
+    text-align: left;
+    color: #a0aec0;
+    font-weight: 600;
+    font-size: 1.05rem;
+    cursor: pointer;
+    width: 100%;
+    transition: background 0.3s ease, border-left 0.3s ease, color 0.3s ease;
+    border-left: 4px solid transparent;
+  }
+  nav.sidebar button:hover,
+  nav.sidebar button.active {
+    background-color: #2c3545;
+    color: #63b3ed;
+    border-left-color: #3182ce;
+  }
+  
+  main.content {
+    flex-grow: 1;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+  main.content header {
+    background: white;
+    padding: 16px 24px;
+    font-size: 1.25rem;
+    font-weight: 600;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.10);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+  main.content section {
+    flex-grow: 1;
+    position: absolute;
+    top: 56px;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: white;
+    padding: 32px;
+    box-sizing: border-box;
+    opacity: 0;
+    transform: translateX(40px);
+    transition: transform 0.4s ease, opacity 0.4s ease;
+    display: none;
+    overflow-y: auto;
+  }
+  main.content section.active {
+    opacity: 1;
+    transform: translateX(0);
+    display: block;
+    position: relative;
+  }
+  
+  /* Stats cards */
+  .stats-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    margin-bottom: 30px;
+  }
+  .stat-card {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 25px;
+    border-radius: 15px;
+    text-align: center;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease;
+  }
+  .stat-card:hover {
+    transform: translateY(-5px);
+  }
+  .stat-number {
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+  .stat-label {
+    font-size: 1rem;
+    opacity: 0.9;
+  }
+  
+  /* Table styles */
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    margin-top: 16px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.05);
+    background: white;
+    overflow: hidden;
+  }
+  th, td {
+    padding: 12px 16px;
+    border-bottom: 1px solid #e2e8f0;
+    text-align: left;
+  }
+  th {
+    background: #ebf8ff;
+    color: #2b6cb0;
+    font-weight: 700;
+  }
+  tr:hover td {
+    background: #e2e8f0;
+    transition: background-color 0.25s ease;
+  }
+  
+  /* Buttons */
+  button {
+    cursor: pointer;
+    border-radius: 6px;
+    padding: 10px 18px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    border: none;
+    transition: background-color 0.3s ease, transform 0.15s ease;
+  }
+  button:hover:not(.action-circle) {
+    transform: scale(1.05);
+  }
+  button.primary {
+    background-color: #3182ce;
+    color: white;
+  }
+  button.primary:hover {
+    background-color: #2563a9;
+  }
+  button.danger {
+    background-color: #e53e3e;
+    color: white;
+  }
+  button.danger:hover {
+    background-color: #a81f1f;
+  }
+  .actions button {
+    margin-right: 10px;
+  }
+  
+  /* Forms */
+  form {
+    max-width: 640px;
+    margin-top: 24px;
+    opacity: 0;
+    max-height: 0;
+    overflow: hidden;
+    transition: opacity 0.5s ease, max-height 0.5s ease;
+    display: none;
+  }
+  form.show {
+    opacity: 1;
+    max-height: 1200px;
+    overflow: visible;
+    display: block;
+  }
+  form div {
+    margin-bottom: 18px;
+  }
+  label {
+    font-weight: 600;
+    margin-bottom: 8px;
+    display: block;
+  }
+  input[type="text"], select, input[type="date"], input[type="number"] {
+    width: 100%;
+    padding: 10px 12px;
+    font-size: 1rem;
+    border: 1px solid #cbd5e0;
+    border-radius: 6px;
+    background-color: #f7fafc;
+    outline: none;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  }
+  input[type="text"]:focus, select:focus, input[type="date"]:focus, input[type="number"]:focus {
+    border-color: #63b3ed;
+    box-shadow: 0 0 8px #63b3ed99;
+  }
+  
+  /* Responsive */
+  @media(max-width: 768px) {
+    .user-profile-section {
+      position: relative;
+      justify-content: center;
+      padding: 10px;
+    }
+    #app {
+      padding-top: 70px;
+    }
+    nav.sidebar {
+      width: 70px;
+    }
+    nav.sidebar .logo {
+      font-size: 1rem;
+      padding: 16px 0;
+    }
+    nav.sidebar button {
+      padding: 12px 12px;
+      font-size: 0;
+      position: relative;
+    }
+    nav.sidebar button::after {
+      content: attr(data-tooltip);
+      position: absolute;
+      left: 100%;
+      top: 50%;
+      transform: translateY(-50%);
+      background-color: #2c3749;
+      color: #edf2f7;
+      padding: 6px 10px;
+      border-radius: 6px;
+      white-space: nowrap;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+      margin-left: 10px;
+      font-size: 14px;
+      z-index: 20;
+    }
+    nav.sidebar button:hover::after {
+      opacity: 1;
+    }
+    main.content section {
+      position: relative;
+      top: auto; bottom: auto; left: auto; right: auto;
+      padding: 16px;
+      overflow-y: visible;
+    }
+  }
+
+  /* NOTIFICHE */
+.notification {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  padding: 15px 25px;
+  border-radius: 8px;
+  color: white;
+  font-weight: 500;
+  z-index: 1000;
+  animation: slideIn 0.3s ease;
+}
+
+.notification-error {
+  background: #dc3545;
+}
+
+.notification-success {
+  background: #28a745;
+}
+
+@keyframes slideIn {
+  from { transform: translateX(100%); }
+  to { transform: translateX(0); }
+}
+
+.fade-out {
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+/* Aggiungi nella sezione <style> */
+.discord-login {
+  margin-top: 2rem;
+}
+
+.discord-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  padding: 12px;
+  background: #5865F2;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.discord-btn:hover {
+  background: #4752C4;
+}
+
+.discord-icon {
+  width: 24px;
+  height: 24px;
+  fill: currentColor;
+}
+</style>
 </head>
-
 <body>
-    <!-- BANNER NOTIFICHE -->
-    <div id="notificationBanner" class="notification-banner"></div>
 
-    <!-- LOGIN SCREEN -->
-    <div class="login-container" id="loginScreen">
-        <div class="login-card">
-            <div class="login-logo">🔰</div>
-            <h2 class="login-title">UOPI Dashboard</h2>
-            <p style="color: var(--text-muted); margin-bottom: 2rem;">Sistema Operativo Avanzato</p>
-            
-            <form id="loginForm">
-                <div class="form-group">
-                    <label class="form-label">👤 Username / Matricola</label>
-                    <input type="text" class="form-control" id="username" placeholder="Inserisci username o matricola" required>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">🔒 Password</label>
-                    <input type="password" class="form-control" id="password" placeholder="Inserisci password" required>
-                </div>
-                
-                <div class="checkbox-group">
-                    <input type="checkbox" id="rememberMe">
-                    <label for="rememberMe">🔐 Mantieni l'accesso</label>
-                </div>
-                
-                <button type="submit" class="btn-login">🚀 Accedi al Sistema</button>
-            </form>
-            
-            <div class="error-message" id="errorMessage">
-                ❌ Credenziali non valide. Riprova.
-            </div>
+<!-- Login Section -->
+<div id="login-section" role="dialog" aria-modal="true" aria-labelledby="login-title">
+  <div id="login-form-container">
+    <h2 id="login-title">Accesso Gestione UOPI</h2>
+    <div class="discord-login">
+      <button onclick="loginWithDiscord()" class="discord-btn">
+        <svg class="discord-icon" viewBox="0 0 24 24">
+          <path d="M20.317 4.3698a19.7913 19.7913 0 00-4.8851-1.5152.0741.0741 0 00-.0785.0371c-.211.3753-.4447.8648-.6083 1.2495-1.8447-.2762-3.68-.2762-5.4868 0-.1636-.3933-.4058-.8742-.6177-1.2495a.077.077 0 00-.0785-.037 19.7363 19.7363 0 00-4.8852 1.515.0699.0699 0 00-.0321.0277C.5334 9.0458-.319 13.5799.0992 18.0578a.0824.0824 0 00.0312.0561c2.0528 1.5076 4.0413 2.4228 5.9929 3.0294a.0777.0777 0 00.0842-.0276c.4616-.6304.8731-1.2952 1.226-1.9942a.076.076 0 00-.0416-.1057c-.6528-.2476-1.2743-.5495-1.8722-.8923a.077.077 0 01-.0076-.1277c.1258-.0943.2517-.1923.3718-.2914a.0743.0743 0 01.0776-.0105c3.9278 1.7933 8.18 1.7933 12.0614 0a.0739.0739 0 01.0785.0095c.1202.099.246.1981.3728.2924a.077.077 0 01-.0066.1276 12.2986 12.2986 0 01-1.873.8914.0766.0766 0 00-.0407.1067c.3604.698.7719 1.3628 1.225 1.9932a.076.076 0 00.0842.0286c1.961-.6067 3.9495-1.5219 6.0023-3.0294a.077.077 0 00.0313-.0552c.5004-5.177-.8382-9.6739-3.5485-13.6604a.061.061 0 00-.0312-.0286zM8.02 15.3312c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9555-2.4189 2.157-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.9555 2.4189-2.1569 2.4189zm7.9748 0c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9554-2.4189 2.1569-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.946 2.4189-2.1568 2.4189Z"/>
+        </svg>
+        Accedi con Discord
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- User Profile Header (visibile solo dopo login) -->
+<div class="user-profile-section" id="user-header" style="display: none;">
+  <!-- Cerchio con iniziali utente -->
+  <div class="user-circle" title="Admin UOPI">
+    A
+  </div>
+  
+  <!-- Cerchio impostazioni -->
+  <button class="action-circle settings-circle" title="Impostazioni" onclick="openSettings()">
+    <svg class="icon-gear" viewBox="0 0 24 24">
+      <path d="M12,15.5A3.5,3.5 0 0,1 8.5,12A3.5,3.5 0 0,1 12,8.5A3.5,3.5 0 0,1 15.5,12A3.5,3.5 0 0,1 12,15.5M19.43,12.97C19.47,12.65 19.5,12.33 19.5,12C19.5,11.67 19.47,11.34 19.43,11.03L21.54,9.37C21.73,9.22 21.78,8.95 21.66,8.73L19.66,5.27C19.54,5.05 19.27,4.96 19.05,5.05L16.56,6.05C16.04,5.66 15.5,5.32 14.87,5.07L14.5,2.42C14.46,2.18 14.25,2 14,2H10C9.75,2 9.54,2.18 9.5,2.42L9.13,5.07C8.5,5.32 7.96,5.66 7.44,6.05L4.95,5.05C4.73,4.96 4.46,5.05 4.34,5.27L2.34,8.73C2.22,8.95 2.27,9.22 2.46,9.37L4.57,11.03C4.53,11.34 4.5,11.67 4.5,12C4.5,12.33 4.53,12.65 4.57,12.97L2.46,14.63C2.27,14.78 2.22,15.05 2.34,15.27L4.34,18.73C4.46,18.95 4.73,19.03 4.95,18.95L7.44,17.94C7.96,18.34 8.5,18.68 9.13,18.93L9.5,21.58C9.54,21.82 9.75,22 10,22H14C14.25,22 14.46,21.82 14.5,21.58L14.87,18.93C15.5,18.68 16.04,18.34 16.56,17.94L19.05,18.95C19.27,19.03 19.54,18.95 19.66,18.73L21.66,15.27C21.78,15.05 21.73,14.78 21.54,14.63L19.43,12.97Z" />
+    </svg>
+  </button>
+  
+  <!-- Cerchio logout -->
+  <button class="action-circle logout-circle" title="Logout" onclick="confirmLogout()">
+    <svg class="icon-logout" viewBox="0 0 24 24">
+      <path d="M16,17V14H9V10H16V7L21,12L16,17M14,2A2,2 0 0,1 16,4V6H14V4H5V20H14V18H16V20A2,2 0 0,1 14,22H5A2,2 0 0,1 3,20V4A2,2 0 0,1 5,2H14C14.25,2 14.46,2.18 14.5,2.42L14.87,5.07C15.5,5.32 16.04,5.66 16.56,6.05L19.05,5.05C19.27,4.96 19.54,5.05 19.66,5.27L21.66,8.73C21.78,8.95 21.73,9.22 21.54,9.37L19.43,12.97Z" />
+    </svg>
+  </button>
+</div>
+
+<!-- Dashboard -->
+<div id="app" aria-label="Dashboard UOPI" role="application" tabindex="0" aria-hidden="true">
+  <nav class="sidebar" role="navigation" aria-label="Menu di navigazione">
+    <div class="logo" aria-label="Logo UOPI FiveM">UOPI FiveM</div>
+    <button class="active" data-section="operatori" data-tooltip="Operatori">☰ Operatori</button>
+    <button data-section="interventi" data-tooltip="Interventi">🚨 Interventi</button>
+    <button data-section="formazione" data-tooltip="Formazione">🎓 Formazione</button>
+    <button data-section="equipaggiamenti" data-tooltip="Equipaggiamenti">🛡️ Equipaggiamenti</button>
+    <button data-section="report" data-tooltip="Report">📊 Report</button>
+  </nav>
+  <main class="content" role="main">
+
+    <header>Dashboard Gestione Operatori UOPI</header>
+
+    <section id="operatori" class="active" tabindex="0" aria-label="Sezione Gestione Operatori">
+      <div class="stats-container">
+        <div class="stat-card">
+          <div class="stat-number" id="operatori-count">3</div>
+          <div class="stat-label">Operatori in Servizio</div>
         </div>
-    </div>
-
-    <!-- MAIN APP -->
-    <div class="app-container" id="mainApp">
-        <!-- SIDEBAR -->
-        <aside class="sidebar">
-            <div class="logo-section">
-                <h1 class="logo">🔰 UOPI</h1>
-            </div>
-
-            <nav class="navigation">
-                <ul class="nav-menu">
-                    <li class="nav-item">
-                        <a class="nav-link active" data-page="dashboard">
-                            <span class="nav-icon">🏠</span>
-                            <span>Dashboard</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" data-page="operatori">
-                            <span class="nav-icon">👮</span>
-                            <span>Operatori</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" data-page="comunicazioni">
-                            <span class="nav-icon">📢</span>
-                            <span>Comunicazioni</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" data-page="turni">
-                            <span class="nav-icon">📝</span>
-                            <span>Gestione Turni</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" data-page="sanzioni">
-                            <span class="nav-icon">⛔</span>
-                            <span>Sanzioni</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" data-page="squadre">
-                            <span class="nav-icon">🥷</span>
-                            <span>Squadre</span>
-                        </a>
-                    </li>
-                </ul>
-            </nav>
-        </aside>
-
-        <!-- MAIN CONTENT -->
-        <main class="main-content">
-            <!-- HEADER -->
-            <header class="header">
-                <h1 class="page-title">Dashboard Operativa</h1>
-                <div class="header-user-section">
-                    <div class="user-avatar">A</div>
-                    <div class="user-details">
-                        <div class="user-name" id="currentUserName">Admin UOPI</div>
-                        <div class="user-role" id="currentUserRole">Amministratore Sistema</div>
-                    </div>
-                    <button class="logout-button" id="logoutBtn">🚪 Logout</button>
-                </div>
-            </header>
-
-            <!-- CONTENT WRAPPER -->
-            <div class="content-wrapper">
-                <!-- DASHBOARD PAGE -->
-                <div id="dashboard-content" class="page-content active">
-                    <div class="metrics-grid">
-                        <div class="metric-card" data-nav="operatori">
-                            <div class="metric-header">
-                                <span class="metric-icon">👮</span>
-                                <div class="metric-label">Operatori in Servizio</div>
-                            </div>
-                            <div class="metric-value" id="kpi-operatori">0</div>
-                        </div>
-
-                        <div class="metric-card" data-nav="comunicazioni">
-                            <div class="metric-header">
-                                <span class="metric-icon">🚨</span>
-                                <div class="metric-label">Operazioni Attive</div>
-                            </div>
-                            <div class="metric-value" id="kpi-operazioni">0</div>
-                        </div>
-
-                        <div class="metric-card" data-nav="squadre">
-                            <div class="metric-header">
-                                <span class="metric-icon">🥷</span>
-                                <div class="metric-label">Squadre Operative</div>
-                            </div>
-                            <div class="metric-value" id="kpi-squadre">0</div>
-                        </div>
-
-                        <div class="metric-card" data-nav="turni">
-                            <div class="metric-header">
-                                <span class="metric-icon">📝</span>
-                                <div class="metric-label">Turni Pianificati</div>
-                            </div>
-                            <div class="metric-value" id="kpi-turni">0</div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- OPERATORI PAGE -->
-                <div id="operatori-content" class="page-content">
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
-                        <h2>👮 Gestione Operatori</h2>
-                        <button class="btn btn-primary" id="addOperatorBtn">➕ Aggiungi Operatore</button>
-                    </div>
-                    
-                    <div style="background: var(--secondary-bg); border-radius: 24px; overflow: hidden; border: 1px solid var(--border);">
-                        <div class="table-container">
-                            <table class="table" id="operators-table">
-                                <thead>
-                                    <tr>
-                                        <th>Matricola</th>
-                                        <th>Nome</th>
-                                        <th>Grado</th>
-                                        <th>Data Ingresso</th>
-                                        <th>Stato</th>
-                                        <th>Azioni</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="operators-tbody">
-                                    <tr>
-                                        <td colspan="6" style="text-align: center; color: var(--text-muted); padding: 3rem;">
-                                            Nessun operatore registrato. Aggiungi il primo operatore.
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- COMUNICAZIONI PAGE -->
-                <div id="comunicazioni-content" class="page-content">
-                    <div class="empty-state">
-                        <div class="empty-state-icon">📢</div>
-                        <h3>Centro Comunicazioni</h3>
-                        <p>Le comunicazioni operative e i messaggi urgenti appariranno qui in tempo reale.</p>
-                    </div>
-                </div>
-
-                <!-- TURNI PAGE -->
-                <div id="turni-content" class="page-content">
-                    <div class="uopi-modules">
-                        <!-- ATTIVAZIONE UOPI -->
-                        <div class="module-card">
-                            <div class="module-header">
-                                <div class="module-title">🚁 Messaggio di Attivazione UOPI</div>
-                                <div class="module-description">Attiva unità UOPI per interventi speciali</div>
-                            </div>
-                            <div class="module-body">
-                                <button class="module-action" data-modal="attivazione-uopi">📝 Compila Modulo</button>
-                            </div>
-                        </div>
-
-                        <!-- ATTIVAZIONE PATTUGLIE -->
-                        <div class="module-card">
-                            <div class="module-header">
-                                <div class="module-title">🚔 Attivazione Pattuglie UOPI</div>
-                                <div class="module-description">Gestisci pattuglie operative sul territorio</div>
-                            </div>
-                            <div class="module-body">
-                                <button class="module-action" data-modal="attivazione-pattuglie">🚁 Attiva Pattuglia</button>
-                            </div>
-                        </div>
-
-                        <!-- DISATTIVAZIONE UOPI -->
-                        <div class="module-card">
-                            <div class="module-header">
-                                <div class="module-title">🏁 Disattivazione UOPI</div>
-                                <div class="module-description">Concludi operazione e rientro operatori</div>
-                            </div>
-                            <div class="module-body">
-                                <button class="module-action" data-modal="disattivazione-uopi">🔚 Disattiva UOPI</button>
-                            </div>
-                        </div>
-
-                        <!-- ISTANZA ATTIVAZIONE -->
-                        <div class="module-card">
-                            <div class="module-header">
-                                <div class="module-title">📋 Istanza per Attivazione UOPI</div>
-                                <div class="module-description">Richiedi attivazione per situazioni specifiche</div>
-                            </div>
-                            <div class="module-body">
-                                <button class="module-action" data-modal="istanza-attivazione">📨 Invia Istanza</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- LISTA MODULI REGISTRATI -->
-                    <div style="margin-top: 3rem; background: var(--secondary-bg); border-radius: 16px; padding: 2rem; border: 1px solid var(--border);">
-                        <h3 style="color: var(--text-primary); margin-bottom: 1rem;">📋 Moduli Registrati</h3>
-                        <div id="forms-container">
-                            <p style="color: var(--text-muted); text-align: center;">Nessun modulo registrato ancora...</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- SANZIONI PAGE -->
-                <div id="sanzioni-content" class="page-content">
-                    <div class="empty-state">
-                        <div class="empty-state-icon">⛔</div>
-                        <h3>Sanzioni e Promozioni</h3>
-                        <p>I provvedimenti disciplinari, le sanzioni e le promozioni degli operatori appariranno qui.</p>
-                    </div>
-                </div>
-
-                <!-- SQUADRE PAGE -->
-                <div id="squadre-content" class="page-content">
-                    <div class="empty-state">
-                        <div class="empty-state-icon">🥷</div>
-                        <h3>Squadre d'Intervento</h3>
-                        <p>Le squadre operative, i team specializzati e le formazioni tattiche appariranno qui.</p>
-                    </div>
-                </div>
-            </div>
-        </main>
-    </div>
-
-    <!-- MODAL OPERATORE -->
-    <div id="modal-operator" class="modal-backdrop">
-        <div class="modal">
-            <div class="modal-header">
-                <div class="modal-title">👤 Nuovo Operatore UOPI</div>
-                <div class="modal-subtitle">Sistema di registrazione operatori</div>
-            </div>
-            <form class="form-grid" id="operator-form">
-                <div class="form-group">
-                    <label class="form-label">Nome:</label>
-                    <input type="text" class="form-control" name="nome" required>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Cognome:</label>
-                    <input type="text" class="form-control" name="cognome" required>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Grado:</label>
-                    <input type="text" class="form-control" name="grado" required>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Data di Ingresso:</label>
-                    <input type="date" class="form-control" name="data_ingresso" required>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Qualifiche:</label>
-                    <input type="text" class="form-control" name="qualifiche" placeholder="Es. Breacher, Marksman, Medico">
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Tag Discord:</label>
-                    <input type="text" class="form-control" name="discord_tag" placeholder="DiscordTag#1234">
-                </div>
-            </form>
-            <div class="modal-actions">
-                <button class="btn btn-secondary" data-close="operator">Annulla</button>
-                <button class="btn btn-primary" data-submit="operator">💾 Crea Operatore</button>
-            </div>
+        <div class="stat-card">
+          <div class="stat-number" id="interventi-count">1</div>
+          <div class="stat-label">Operazioni Attive</div>
         </div>
-    </div>
-
-    <!-- MODAL ATTIVAZIONE UOPI -->
-    <div id="modal-attivazione-uopi" class="modal-backdrop">
-        <div class="modal">
-            <div class="modal-header">
-                <div class="modal-title">🚁 Messaggio di Attivazione UOPI</div>
-                <div class="modal-subtitle">Compila i dati per l'attivazione unità speciale</div>
-            </div>
-            <form class="form-grid" id="attivazione-uopi-form">
-                <div class="form-group">
-                    <label class="form-label">Autorizzato Da:</label>
-                    <select class="form-control" name="autorizzato_da" required>
-                        <option value="">Seleziona autorità</option>
-                        <option value="Commissario Capo">Commissario Capo</option>
-                        <option value="Questore">Questore</option>
-                        <option value="Vice Questore">Vice Questore</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Coordinatore:</label>
-                    <input type="text" class="form-control" name="coordinatore" placeholder="Nome coordinatore" required>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Operatore Contrattazione:</label>
-                    <input type="text" class="form-control" name="operatore_contrattazione" placeholder="Negoziatore assegnato" required>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Tipo di Intervento:</label>
-                    <select class="form-control" name="tipo_intervento" required>
-                        <option value="">Seleziona tipo</option>
-                        <option value="Rapina in corso">Rapina in corso</option>
-                        <option value="Sequestro persona">Sequestro persona</option>
-                        <option value="Barricamento">Barricamento</option>
-                        <option value="Terrorismo">Terrorismo</option>
-                        <option value="Altro">Altro</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Operatori Coinvolti:</label>
-                    <textarea class="form-control" name="operatori_coinvolti" rows="3" placeholder="Lista operatori assegnati..." required></textarea>
-                </div>
-            </form>
-            <div class="modal-actions">
-                <button class="btn btn-secondary" data-close="attivazione-uopi">Annulla</button>
-                <button class="btn btn-primary" data-submit="attivazione-uopi">✅ Attiva UOPI</button>
-            </div>
+        <div class="stat-card">
+          <div class="stat-number">2</div>
+          <div class="stat-label">Squadre Operative</div>
         </div>
-    </div>
-
-    <!-- MODAL ATTIVAZIONE PATTUGLIE -->
-    <div id="modal-attivazione-pattuglie" class="modal-backdrop">
-        <div class="modal">
-            <div class="modal-header">
-                <div class="modal-title">🚔 Attivazione Pattuglie UOPI</div>
-                <div class="modal-subtitle">Gestione pattuglie operative</div>
-            </div>
-            <form class="form-grid" id="attivazione-pattuglie-form">
-                <div class="form-group">
-                    <label class="form-label">Gestito da:</label>
-                    <input type="text" class="form-control" name="gestito_da" placeholder="Centrale operativa" required>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Tipo di Intervento:</label>
-                    <select class="form-control" name="tipo_intervento" required>
-                        <option value="">Seleziona tipo</option>
-                        <option value="Pattugliamento">Pattugliamento</option>
-                        <option value="Controllo territorio">Controllo territorio</option>
-                        <option value="Supporto operazione">Supporto operazione</option>
-                        <option value="Emergenza">Emergenza</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Veicolo Utilizzato:</label>
-                    <input type="text" class="form-control" name="veicolo_utilizzato" placeholder="Codice veicolo (es. UOPI-01)" required>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Operatori in Uscita:</label>
-                    <textarea class="form-control" name="operatori_uscita" rows="3" placeholder="Equipaggio pattuglia..." required></textarea>
-                </div>
-            </form>
-            <div class="modal-actions">
-                <button class="btn btn-secondary" data-close="attivazione-pattuglie">Annulla</button>
-                <button class="btn btn-primary" data-submit="attivazione-pattuglie">🚁 Attiva Pattuglia</button>
-            </div>
+        <div class="stat-card">
+          <div class="stat-number">5</div>
+          <div class="stat-label">Turni Pianificati</div>
         </div>
-    </div>
-
-    <!-- MODAL DISATTIVAZIONE UOPI -->
-    <div id="modal-disattivazione-uopi" class="modal-backdrop">
-        <div class="modal">
-            <div class="modal-header">
-                <div class="modal-title">🏁 Disattivazione UOPI</div>
-                <div class="modal-subtitle">Concludi operazione e rientro</div>
-            </div>
-            <form class="form-grid" id="disattivazione-uopi-form">
-                <div class="form-group">
-                    <label class="form-label">Operatori in Rientro:</label>
-                    <textarea class="form-control" name="operatori_rientro" rows="4" placeholder="Lista operatori che rientrano..." required></textarea>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Ora Disattivazione:</label>
-                    <input type="datetime-local" class="form-control" name="ora_disattivazione" required>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Note Operazione:</label>
-                    <textarea class="form-control" name="note_operazione" rows="3" placeholder="Risultati e note sull'operazione..."></textarea>
-                </div>
-            </form>
-            <div class="modal-actions">
-                <button class="btn btn-secondary" data-close="disattivazione-uopi">Annulla</button>
-                <button class="btn btn-primary" data-submit="disattivazione-uopi">🔚 Disattiva UOPI</button>
-            </div>
+      </div>
+      
+      <h2>Operatori UOPI</h2>
+      <button id="btn-add-operatore" class="primary" aria-controls="form-operatore">Aggiungi Operatore</button>
+      <table aria-describedby="operatori-thead" role="grid">
+        <thead id="operatori-thead">
+          <tr>
+            <th scope="col">Nome</th>
+            <th scope="col">Grado</th>
+            <th scope="col">Ruolo</th>
+            <th scope="col">Stato Operativo</th>
+            <th scope="col">Azioni</th>
+          </tr>
+        </thead>
+        <tbody id="operatori-tbody"></tbody>
+      </table>
+      <form id="form-operatore" aria-labelledby="form-title" novalidate>
+        <h3 id="form-title">Aggiungi Nuovo Operatore</h3>
+        <div>
+          <label for="op-nome">Nome Completo:</label>
+          <input type="text" id="op-nome" required />
         </div>
-    </div>
-
-    <!-- MODAL ISTANZA ATTIVAZIONE -->
-    <div id="modal-istanza-attivazione" class="modal-backdrop">
-        <div class="modal">
-            <div class="modal-header">
-                <div class="modal-title">📋 Istanza per Attivazione UOPI</div>
-                <div class="modal-subtitle">Richiedi attivazione unità speciale</div>
-            </div>
-            <form class="form-grid" id="istanza-attivazione-form">
-                <div class="form-group">
-                    <label class="form-label">Tipo di Rapina:</label>
-                    <select class="form-control" name="tipo_rapina" required>
-                        <option value="">Seleziona categoria</option>
-                        <option value="Rapina a mano armata">Rapina a mano armata</option>
-                        <option value="Furto con sequestro">Furto con sequestro</option>
-                        <option value="Rapina in banca">Rapina in banca</option>
-                        <option value="Rapina gioielleria">Rapina gioielleria</option>
-                        <option value="Altro reato grave">Altro reato grave</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Operatore che Gestirà:</label>
-                    <input type="text" class="form-control" name="operatore_responsabile" placeholder="Nome operatore responsabile" required>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Operatori Disponibili:</label>
-                    <textarea class="form-control" name="operatori_disponibili" rows="3" placeholder="Tonino Frasca, Gabriel Martinelli, Simone Sottaceto, Matteo Rossi, Simone Brighella, Franco Costa, Diego Bianchi" required></textarea>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Urgenza:</label>
-                    <select class="form-control" name="urgenza" required>
-                        <option value="ALTA">ALTA - Immediata</option>
-                        <option value="MEDIA">MEDIA - Entro 30 min</option>
-                        <option value="BASSA">BASSA - Programmata</option>
-                    </select>
-                </div>
-            </form>
-            <div class="modal-actions">
-                <button class="btn btn-secondary" data-close="istanza-attivazione">Annulla</button>
-                <button class="btn btn-primary" data-submit="istanza-attivazione">📨 Invia Istanza</button>
-            </div>
+        <div>
+          <label for="op-grado">Grado:</label>
+          <select id="op-grado" required>
+            <option value="" disabled selected>Seleziona grado</option>
+            <option>Agente</option>
+            <option>Assistente</option>
+            <option>Sovrintendente</option>
+            <option>Ispettore</option>
+            <option>Sostituto Commissario</option>
+          </select>
         </div>
-    </div>
+        <div>
+          <label for="op-ruolo">Ruolo:</label>
+          <input type="text" id="op-ruolo" required />
+        </div>
+        <div>
+          <label for="op-stato">Stato Operativo:</label>
+          <select id="op-stato" required>
+            <option>Disponibile</option>
+            <option>In Missione</option>
+            <option>Non Disponibile</option>
+          </select>
+        </div>
+        <button type="submit" class="primary">Salva</button>
+        <button type="button" id="op-cancel-btn">Annulla</button>
+      </form>
+    </section>
 
-    <script>
-        // CREDENZIALI ADMIN
-        const ADMIN_CREDENTIALS = {
-            username: 'adminuopi_2847832742398',
-            password: 'uopiadmin_82389849298'
-        };
+    <section id="interventi" tabindex="0" aria-label="Sezione Gestione Interventi">
+      <h2>Gestione Interventi</h2>
+      <button id="btn-add-intervento" class="primary">Nuovo Intervento</button>
+      <table>
+        <thead>
+          <tr>
+            <th>ID Intervento</th>
+            <th>Descrizione</th>
+            <th>Assegnato a</th>
+            <th>Stato</th>
+            <th>Azioni</th>
+          </tr>
+        </thead>
+        <tbody id="interventi-tbody"></tbody>
+      </table>
+      <form id="form-intervento" novalidate>
+        <h3>Nuovo Intervento</h3>
+        <div>
+          <label for="int-desc">Descrizione:</label>
+          <input type="text" id="int-desc" required />
+        </div>
+        <div>
+          <label for="int-assegnato">Assegnato a (Nome Operatore):</label>
+          <input type="text" id="int-assegnato" required list="operatori-list" />
+          <datalist id="operatori-list"></datalist>
+        </div>
+        <div>
+          <label for="int-stato">Stato:</label>
+          <select id="int-stato" required>
+            <option>In Attesa</option>
+            <option>In Corso</option>
+            <option>Completato</option>
+          </select>
+        </div>
+        <button type="submit" class="primary">Salva Intervento</button>
+        <button type="button" id="int-cancel-btn">Annulla</button>
+      </form>
+    </section>
 
-        // DATABASE COMPLETO
-        let uopiDatabase = JSON.parse(localStorage.getItem('uopiDatabase')) || {
-            operatori: [],
-            moduli: []
-        };
+    <section id="formazione" tabindex="0" aria-label="Sezione Gestione Formazione">
+      <h2>Formazione e Certificazioni</h2>
+      <button id="btn-add-istruzione" class="primary">Aggiungi Certificazione</button>
+      <table>
+        <thead>
+          <tr>
+            <th>Operatore</th>
+            <th>Certificazione</th>
+            <th>Data conseguimento</th>
+            <th>Data scadenza</th>
+            <th>Azioni</th>
+          </tr>
+        </thead>
+        <tbody id="formazione-tbody"></tbody>
+      </table>
+      <form id="form-istruzione" novalidate>
+        <h3>Aggiungi Certificazione</h3>
+        <div>
+          <label for="cert-op">Operatore (Nome):</label>
+          <input type="text" id="cert-op" required list="operatori-list" />
+        </div>
+        <div>
+          <label for="cert-nome">Certificazione:</label>
+          <input type="text" id="cert-nome" required />
+        </div>
+        <div>
+          <label for="cert-data">Data conseguimento:</label>
+          <input type="date" id="cert-data" required />
+        </div>
+        <div>
+          <label for="cert-scadenza">Data scadenza:</label>
+          <input type="date" id="cert-scadenza" required />
+        </div>
+        <button type="submit" class="primary">Salva Certificazione</button>
+        <button type="button" id="cert-cancel-btn">Annulla</button>
+      </form>
+    </section>
 
-        let currentUser = null;
-        let currentPage = 'dashboard';
-        let isAuthenticated = false;
+    <section id="equipaggiamenti" tabindex="0" aria-label="Sezione Gestione Equipaggiamenti">
+      <h2>Equipaggiamenti</h2>
+      <button id="btn-add-equip" class="primary">Aggiungi Equipaggiamento</button>
+      <table>
+        <thead>
+          <tr>
+            <th>Operatore</th>
+            <th>Equipaggiamento</th>
+            <th>Quantità</th>
+            <th>Azioni</th>
+          </tr>
+        </thead>
+        <tbody id="equipaggiamenti-tbody"></tbody>
+      </table>
+      <form id="form-equip" novalidate>
+        <h3>Aggiungi Equipaggiamento</h3>
+        <div>
+          <label for="equip-op">Operatore (Nome):</label>
+          <input type="text" id="equip-op" required list="operatori-list" />
+        </div>
+        <div>
+          <label for="equip-nome">Equipaggiamento:</label>
+          <input type="text" id="equip-nome" required />
+        </div>
+        <div>
+          <label for="equip-qty">Quantità:</label>
+          <input type="number" id="equip-qty" min="1" required />
+        </div>
+        <button type="submit" class="primary">Salva Equipaggiamento</button>
+        <button type="button" id="equip-cancel-btn">Annulla</button>
+      </form>
+    </section>
 
-        // SISTEMA NOTIFICHE OTTIMIZZATO
-        function showNotification(message) {
-            const banner = document.getElementById('notificationBanner');
-            banner.textContent = message;
-            banner.classList.add('show');
-            
-            setTimeout(() => {
-                banner.classList.remove('show');
-            }, 3000);
+    <section id="report" tabindex="0" aria-label="Sezione Report">
+      <h2>Report e Analisi</h2>
+      <button id="btn-export-csv" class="primary">Esporta Report Operatori</button>
+      <pre id="report-output" style="background:#eee; padding:1rem; max-height:300px; overflow:auto; white-space: pre-wrap; color:#333;"></pre>
+    </section>
+
+  </main>
+</div>
+
+<script>
+const DISCORD_CLIENT_ID = '1387801645743869982'; // Sostituisci con il tuo client ID
+const REDIRECT_URI = window.location.origin + window.location.pathname;
+
+// Funzione per il login con Discord
+function loginWithDiscord() {
+  const params = new URLSearchParams({
+    client_id: DISCORD_CLIENT_ID,
+    redirect_uri: REDIRECT_URI,
+    response_type: 'token',
+    scope: 'identify'
+  });
+  
+  window.location.href = `https://discord.com/oauth2/authorize?client_id=1387801645743869982&permissions=8&integration_type=0&scope=bot`;
+}
+
+// Gestione callback Discord
+function handleDiscordCallback() {
+  const fragment = new URLSearchParams(window.location.hash.slice(1));
+  const accessToken = fragment.get('access_token');
+  
+  if (accessToken) {
+    // Salva il token
+    sessionStorage.setItem('discord_token', accessToken);
+    // Ottieni info utente
+    fetchDiscordUser(accessToken);
+  }
+}
+
+// Ottieni info utente Discord
+async function fetchDiscordUser(token) {
+  try {
+    const response = await fetch('https://discord.com/api/users/@me', {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    });
+    
+    const user = await response.json();
+    
+    if (user.id) {
+      // Verifica se l'utente è autorizzato (modifica con i tuoi ID)
+      const allowedUsers = ['1387684968536477756', '817121576217870348']; // ID Discord degli admin
+      
+      if (allowedUsers.includes(user.id)) {
+        sessionStorage.setItem('user_data', JSON.stringify(user));
+        handleSuccessfulLogin();
+      } else {
+        notifications.error('Non sei autorizzato ad accedere');
+      }
+    }
+  } catch (err) {
+    notifications.error('Errore durante l\'autenticazione Discord');
+    console.error(err);
+  }
+}
+
+// Login gestione - CREDENZIALI: admin / admin
+const loginHandler = {
+  // Credenziali criptate (non usare in produzione)
+  credentials: {
+    username: 'admin',
+    // Password hash per "admin"
+    passwordHash: '8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918'
+  },
+
+  init() {
+    const form = document.getElementById('login-form');
+    const error = document.getElementById('login-error');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const username = form.username.value.trim();
+      const password = form.password.value.trim();
+
+      try {
+        const hashedPassword = await this.hashPassword(password);
+        
+        if (username === this.credentials.username && 
+            hashedPassword === this.credentials.passwordHash) {
+          
+          error.style.display = 'none';
+          this.handleSuccessfulLogin();
+          
+        } else {
+          error.style.display = 'block';
+          error.textContent = 'Credenziali non valide!';
         }
+      } catch (err) {
+        error.style.display = 'block';
+        error.textContent = 'Errore durante il login';
+        console.error('Login error:', err);
+      }
+    });
+  },
 
-        // AUTENTICAZIONE
-        function authenticateUser(username, password) {
-            if (username === ADMIN_CREDENTIALS.username && password === ADMIN_CREDENTIALS.password) {
-                return {
-                    success: true,
-                    user: {
-                        type: 'admin',
-                        username: username,
-                        nome: 'Admin',
-                        cognome: 'UOPI'
-                    }
-                };
-            }
+  async hashPassword(password) {
+    const encoder = new TextEncoder();
+    const data = encoder.encode(password);
+    const hash = await crypto.subtle.digest('SHA-256', data);
+    return Array.from(new Uint8Array(hash))
+      .map(b => b.toString(16).padStart(2, '0'))
+      .join('');
+  },
 
-            const operator = uopiDatabase.operatori.find(op =>
-                (op.matricola === username || op.username === username) &&
-                op.password === password &&
-                op.attivo
-            );
+  handleSuccessfulLogin() {
+    const loginSection = document.getElementById('login-section');
+    const app = document.getElementById('app');
+    const userHeader = document.getElementById('user-header');
 
-            if (operator) {
-                return {
-                    success: true,
-                    user: {
-                        type: 'operator',
-                        id: operator.id,
-                        username: operator.username,
-                        matricola: operator.matricola,
-                        nome: operator.nome,
-                        cognome: operator.cognome,
-                        grado: operator.grado
-                    }
-                };
-            }
+    loginSection.classList.add('fade-out');
+    setTimeout(() => {
+      loginSection.style.display = 'none';
+      app.style.display = 'flex';
+      app.classList.add('visible');
+      userHeader.style.display = 'flex';
+      
+      // Salva sessione
+      sessionStorage.setItem('logged_in', 'true');
+      
+      // Inizializza dashboard
+      initDashboard();
+      
+      // Mostra notifica
+      notifications.success('Login effettuato con successo');
+    }, 600);
+  }
+};
 
-            return { success: false };
-        }
+  // Controllo sessione
+(function checkSession() {
+  if (sessionStorage.getItem('logged_in') === 'true') {
+    document.getElementById('login-section').style.display = 'none';
+    document.getElementById('app').style.display = 'flex';
+    document.getElementById('app').classList.add('visible');
+    document.getElementById('user-header').style.display = 'flex';
+    initDashboard();
+  }
+})();
 
-        function handleLogin() {
-            const username = document.getElementById('username').value.trim();
-            const password = document.getElementById('password').value;
-            const errorMessage = document.getElementById('errorMessage');
+  const loginSection = document.getElementById('login-section');
+  const loginForm = document.getElementById('login-form');
+  const loginError = document.getElementById('login-error');
+  const app = document.getElementById('app');
+  const userHeader = document.getElementById('user-header');
 
-            errorMessage.style.display = 'none';
+  loginForm.addEventListener('submit', e => {
+    e.preventDefault();
+    const username = loginForm.username.value.trim();
+    const password = loginForm.password.value.trim();
 
-            if (!username || !password) {
-                showNotification('⚠️ Inserisci username e password');
-                return false;
-            }
+    // CREDENZIALI PREDEFINITE: admin / admin
+    if (username === 'admin' && password === 'admin') {
+      loginError.style.display = 'none';
+      loginSection.classList.add('fade-out');
+      setTimeout(() => {
+        loginSection.style.display = 'none';
+        app.style.display = 'flex';
+        app.classList.add('visible');
+        userHeader.style.display = 'flex';
+        initDashboard();
+      }, 600);
+    } else {
+      loginError.style.display = 'block';
+    }
+  });
 
-            const authResult = authenticateUser(username, password);
+  // Funzioni per le icone header
+  function openSettings() {
+    alert('Pannello Impostazioni\n\nFunzionalità disponibili:\n• Configurazione sistema\n• Gestione utenti\n• Impostazioni sicurezza\n• Backup database\n\n[In sviluppo...]');
+  }
 
-            if (authResult.success) {
-                currentUser = authResult.user;
-                isAuthenticated = true;
-                showDashboard();
-                showNotification('🚀 Login riuscito! Benvenuto ' + currentUser.nome);
-            } else {
-                errorMessage.style.display = 'block';
-                setTimeout(() => {
-                    errorMessage.style.display = 'none';
-                }, 3000);
-            }
+  function confirmLogout() {
+    if (confirm('Sei sicuro di voler uscire dalla dashboard?\n\nPerderai tutti i dati non salvati.')) {
+      sessionStorage.removeItem('logged_in');
+      notifications.success('Logout effettuato con successo');
+      setTimeout(() => location.reload(), 1000);
+    }
+  }
 
-            return false;
-        }
+  let currentSectionId = 'operatori';
 
-        function showDashboard() {
-            document.getElementById('loginScreen').style.display = 'none';
-            document.getElementById('mainApp').classList.add('show');
+  function changeSection(newId) {
+    if (newId === currentSectionId) return;
+    const oldSection = document.getElementById(currentSectionId);
+    const newSection = document.getElementById(newId);
 
-            updateUserInfo();
-            updateKPIs();
-            updateOperatorsTable();
-            updateFormsList();
-        }
+    oldSection.style.opacity = '0';
+    oldSection.style.transform = 'translateX(40px) scale(0.98)';
 
-        function updateUserInfo() {
-            if (currentUser) {
-                document.getElementById('currentUserName').textContent = `${currentUser.nome} ${currentUser.cognome}`;
-                if (currentUser.type === 'admin') {
-                    document.getElementById('currentUserRole').textContent = 'Amministratore Sistema';
-                } else {
-                    document.getElementById('currentUserRole').textContent = `${currentUser.grado} - ${currentUser.matricola}`;
-                }
-            }
-        }
+    setTimeout(() => {
+      oldSection.classList.remove('active');
+      newSection.classList.add('active');
+      newSection.style.opacity = '0';
+      newSection.style.transform = 'translateX(40px) scale(0.98)';
+      requestAnimationFrame(() => {
+        newSection.style.opacity = '1';
+        newSection.style.transform = 'translateX(0) scale(1)';
+        newSection.focus();
+      });
+      currentSectionId = newId;
+    }, 350);
+  }
 
-        // NAVIGAZIONE OTTIMIZZATA
-        function navigateTo(page) {
-            if (page === currentPage) return;
+  document.querySelectorAll('nav.sidebar button[data-section]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('nav.sidebar button').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      changeSection(btn.getAttribute('data-section'));
+    });
+  });
 
-            // Aggiorna nav
-            document.querySelectorAll('.nav-link').forEach(link => {
-                link.classList.remove('active');
-            });
+  // DATI INIZIALI - Come da vecchio codice
+  let operatori = [
+    { id: 1, nome: 'Mario Rossi', grado: 'Agente', ruolo: 'Operatore UOPI', stato: 'Disponibile' },
+    { id: 2, nome: 'Luca Bianchi', grado: 'Ispettore', ruolo: 'Team Leader UOPI', stato: 'In Missione' },
+    { id: 3, nome: 'Giuseppe Verdi', grado: 'Assistente', ruolo: 'Operatore Specializzato', stato: 'Disponibile' }
+  ];
 
-            const targetLink = document.querySelector(`[data-page="${page}"]`);
-            if (targetLink) {
-                targetLink.classList.add('active');
-            }
+  let interventi = [
+    { id: 1, descrizione: 'Controllo zona centrale Roma', assegnato: 'Mario Rossi', stato: 'In Corso' },
+    { id: 2, descrizione: 'Pattugliamento stazione Termini', assegnato: 'Luca Bianchi', stato: 'In Attesa' }
+  ];
 
-            // Cambia contenuto senza animazioni laggose
-            document.querySelectorAll('.page-content').forEach(content => {
-                content.classList.remove('active');
-            });
+  let formazioni = [
+    { id: 1, operatore: 'Mario Rossi', certificazione: 'Uso armi automatiche', data_conseguimento: '2025-01-20', data_scadenza: '2026-01-20' },
+    { id: 2, operatore: 'Luca Bianchi', certificazione: 'Leadership operativa', data_conseguimento: '2024-11-15', data_scadenza: '2025-11-15' }
+  ];
 
-            const newContent = document.getElementById(`${page}-content`);
-            if (newContent) {
-                newContent.classList.add('active');
-            }
+  let equipaggiamenti = [
+    { id: 1, operatore: 'Mario Rossi', equipaggiamento: 'HK UMP .40', quantita: 1 },
+    { id: 2, operatore: 'Luca Bianchi', equipaggiamento: 'Beretta ARX 160', quantita: 1 },
+    { id: 3, operatore: 'Giuseppe Verdi', equipaggiamento: 'Giubbotto antiproiettile', quantita: 1 }
+  ];
 
-            currentPage = page;
+  // References agli elementi DOM
+  const operatoriTbody = document.getElementById('operatori-tbody');
+  const interventiTbody = document.getElementById('interventi-tbody');
+  const formazioneTbody = document.getElementById('formazione-tbody');
+  const equipaggiamentiTbody = document.getElementById('equipaggiamenti-tbody');
+  const operatoriList = document.getElementById('operatori-list');
 
-            const titles = {
-                dashboard: 'Dashboard Operativa',
-                operatori: 'Gestione Operatori',
-                comunicazioni: 'Centro Comunicazioni',
-                turni: 'Gestione Turni',
-                sanzioni: 'Sanzioni e Promozioni',
-                squadre: 'Squadre d\'Intervento'
-            };
+  function updateOperatoriDatalist() {
+    if(!operatoriList) return;
+    operatoriList.innerHTML = '';
+    operatori.forEach(op => {
+      const option = document.createElement('option');
+      option.value = op.nome;
+      operatoriList.appendChild(option);
+    });
+  }
 
-            document.querySelector('.page-title').textContent = titles[page] || 'Dashboard';
-        }
+  // RENDER FUNCTIONS - Come da vecchio codice
+  function renderOperatori() {
+    operatoriTbody.innerHTML = '';
+    operatori.forEach(op => {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `<td>${op.nome}</td><td>${op.grado}</td><td>${op.ruolo}</td><td>${op.stato}</td><td class="actions"><button class="primary" onclick="editOperatore(${op.id})">Modifica</button> <button 
+  aria-label="Elimina operatore"
+  role="button"
+  class="danger"
+  onclick="deleteOperatore(${op.id})"
+>
+  <span class="sr-only">Elimina</span>
+  <i class="icon-delete" aria-hidden="true"></i>
+</button></td>`;
+      operatoriTbody.appendChild(tr);
+    });
+    updateOperatoriDatalist();
+    document.getElementById('operatori-count').textContent = operatori.length;
+  }
 
-        // GESTIONE MODALS OTTIMIZZATA
-        function openModal(modalId) {
-            const modal = document.getElementById(`modal-${modalId}`);
-            if (modal) {
-                modal.classList.add('show');
-                document.body.style.overflow = 'hidden';
-                
-                if (modalId === 'disattivazione-uopi') {
-                    const now = new Date();
-                    const datetime = now.toISOString().slice(0, 16);
-                    modal.querySelector('input[name="ora_disattivazione"]').value = datetime;
-                }
-            }
-        }
+  function renderInterventi() {
+    interventiTbody.innerHTML = '';
+    interventi.forEach(intv => {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `<td>${intv.id}</td><td>${intv.descrizione}</td><td>${intv.assegnato}</td><td>${intv.stato}</td><td class="actions"><button class="primary" onclick="editIntervento(${intv.id})">Modifica</button> <button class="danger" onclick="deleteIntervento(${intv.id})">Elimina</button></td>`;
+      interventiTbody.appendChild(tr);
+    });
+    document.getElementById('interventi-count').textContent = interventi.length;
+  }
 
-        function closeModal(modalId) {
-            const modal = document.getElementById(`modal-${modalId}`);
-            if (modal) {
-                modal.classList.remove('show');
-                document.body.style.overflow = 'auto';
-                
-                const form = modal.querySelector('form');
-                if (form) {
-                    form.reset();
-                }
-            }
-        }
+  function renderFormazioni() {
+    formazioneTbody.innerHTML = '';
+    formazioni.forEach(cert => {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `<td>${cert.operatore}</td><td>${cert.certificazione}</td><td>${cert.data_conseguimento}</td><td>${cert.data_scadenza}</td><td class="actions"><button class="danger" onclick="deleteFormazione(${cert.id})">Elimina</button></td>`;
+      formazioneTbody.appendChild(tr);
+    });
+  }
 
-        // SUBMIT FORM CHE FUNZIONA
-        function submitForm(formType) {
-            const form = document.getElementById(`${formType}-form`);
-            if (!form) {
-                console.error('Form non trovato:', formType);
-                return;
-            }
+  function renderEquipaggiamenti() {
+    equipaggiamentiTbody.innerHTML = '';
+    equipaggiamenti.forEach(e => {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `<td>${e.operatore}</td><td>${e.equipaggiamento}</td><td>${e.quantita}</td><td class="actions"><button class="danger" onclick="deleteEquipaggiamento(${e.id})">Elimina</button></td>`;
+      equipaggiamentiTbody.appendChild(tr);
+    });
+  }
 
-            if (!form.checkValidity()) {
-                form.reportValidity();
-                return;
-            }
+  // Form animation helpers
+  function showForm(form) {
+    form.classList.add('show');
+  }
+  function hideForm(form) {
+    form.classList.remove('show');
+    setTimeout(() => (form.style.display = 'none'), 500);
+  }
+  function displayForm(form) {
+    form.style.display = 'block';
+    requestAnimationFrame(() => showForm(form));
+  }
 
-            const formData = new FormData(form);
-            const data = {
-                id: Date.now(),
-                timestamp: new Date().toISOString(),
-                tipo: formType,
-                dati: {}
-            };
+  // GESTIONE OPERATORI - Completa come da vecchio codice
+  const formOperatore = document.getElementById('form-operatore');
+  const btnAddOperatore = document.getElementById('btn-add-operatore');
+  const opCancelBtn = document.getElementById('op-cancel-btn');
+  let editingOperatoreId = null;
 
-            for (let [key, value] of formData.entries()) {
-                data.dati[key] = value;
-            }
+  btnAddOperatore.addEventListener('click', () => {
+    editingOperatoreId = null;
+    formOperatore.reset();
+    document.getElementById('form-title').textContent = 'Aggiungi Nuovo Operatore';
+    displayForm(formOperatore);
+    btnAddOperatore.style.display = 'none';
+  });
 
-            if (formType === 'operator') {
-                const matricola = generateMatricola();
-                const tempPassword = generateTempPassword();
+  opCancelBtn.addEventListener('click', () => {
+    hideForm(formOperatore);
+    btnAddOperatore.style.display = 'inline-block';
+  });
 
-                const newOperator = {
-                    id: Date.now(),
-                    matricola: matricola,
-                    username: matricola,
-                    password: tempPassword,
-                    nome: data.dati.nome,
-                    cognome: data.dati.cognome,
-                    grado: data.dati.grado,
-                    data_ingresso: data.dati.data_ingresso,
-                    qualifiche: data.dati.qualifiche?.split(',').map(q => q.trim()).filter(Boolean) || [],
-                    attivo: true,
-                    inServizio: false,
-                    discord_tag: data.dati.discord_tag || ''
-                };
+  formOperatore.addEventListener('submit', e => {
+    e.preventDefault();
+    const nome = document.getElementById('op-nome').value.trim();
+    const grado = document.getElementById('op-grado').value;
+    const ruolo = document.getElementById('op-ruolo').value.trim();
+    const stato = document.getElementById('op-stato').value;
 
-                uopiDatabase.operatori.push(newOperator);
-                closeModal('operator');
-                updateOperatorsTable();
-                updateKPIs();
+    if (editingOperatoreId) {
+      operatori = operatori.map(op => (op.id === editingOperatoreId ? { id: op.id, nome, grado, ruolo, stato } : op));
+    } else {
+      const newId = operatori.length ? Math.max(...operatori.map(op => op.id)) + 1 : 1;
+      operatori.push({ id: newId, nome, grado, ruolo, stato });
+    }
+    renderOperatori();
+    hideForm(formOperatore);
+    btnAddOperatore.style.display = 'inline-block';
+  });
 
-                showNotification(`✅ Operatore creato! Matricola: ${matricola}, Password: ${tempPassword}`);
-            } else {
-                uopiDatabase.moduli.push(data);
-                closeModal(formType);
-                updateFormsList();
+  function editOperatore(id) {
+    const op = operatori.find(o => o.id === id);
+    if (!op) return;
+    editingOperatoreId = id;
+    document.getElementById('form-title').textContent = 'Modifica Operatore';
+    displayForm(formOperatore);
+    btnAddOperatore.style.display = 'none';
+    document.getElementById('op-nome').value = op.nome;
+    document.getElementById('op-grado').value = op.grado;
+    document.getElementById('op-ruolo').value = op.ruolo;
+    document.getElementById('op-stato').value = op.stato;
+  }
 
-                const messages = {
-                    'attivazione-uopi': '🚁 ATTIVAZIONE UOPI CONFERMATA!',
-                    'attivazione-pattuglie': '🚔 PATTUGLIA ATTIVATA!',
-                    'disattivazione-uopi': '🏁 UOPI DISATTIVATO!',
-                    'istanza-attivazione': '📨 ISTANZA INVIATA!'
-                };
+  function deleteOperatore(id) {
+    if (confirm('Eliminare questo operatore?\n\nL\'operazione è irreversibile.')) {
+      operatori = operatori.filter(op => op.id !== id);
+      renderOperatori();
+    }
+  }
 
-                showNotification(messages[formType] + ' - MODULO REGISTRATO');
-            }
+  // GESTIONE INTERVENTI - Completa
+  const formIntervento = document.getElementById('form-intervento');
+  const btnAddIntervento = document.getElementById('btn-add-intervento');
+  const intCancelBtn = document.getElementById('int-cancel-btn');
+  let editingInterventoId = null;
 
-            localStorage.setItem('uopiDatabase', JSON.stringify(uopiDatabase));
-        }
+  btnAddIntervento.addEventListener('click', () => {
+    editingInterventoId = null;
+    formIntervento.reset();
+    displayForm(formIntervento);
+    btnAddIntervento.style.display = 'none';
+  });
 
-        // GENERAZIONE MATRICOLE
-        function generateMatricola() {
-            let maxNum = 0;
-            uopiDatabase.operatori.forEach(op => {
-                const num = parseInt(op.matricola.split('-')[1]) || 0;
-                if (num > maxNum) maxNum = num;
-            });
-            const nextNum = (maxNum + 1).toString().padStart(4, '0');
-            return `UOPI-${nextNum}`;
-        }
+  intCancelBtn.addEventListener('click', () => {
+    hideForm(formIntervento);
+    btnAddIntervento.style.display = 'inline-block';
+  });
 
-        function generateTempPassword() {
-            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-            let password = '';
-            for (let i = 0; i < 8; i++) {
-                password += chars.charAt(Math.floor(Math.random() * chars.length));
-            }
-            return password;
-        }
+  formIntervento.addEventListener('submit', e => {
+    e.preventDefault();
+    const descrizione = document.getElementById('int-desc').value.trim();
+    const assegnato = document.getElementById('int-assegnato').value.trim();
+    const stato = document.getElementById('int-stato').value;
 
-        // AGGIORNA KPI
-        function updateKPIs() {
-            if (!isAuthenticated) return;
+    if (editingInterventoId) {
+      interventi = interventi.map(intv => intv.id === editingInterventoId ? { id:intv.id, descrizione, assegnato, stato } : intv);
+    } else {
+      const newId = interventi.length ? Math.max(...interventi.map(i => i.id)) + 1 : 1;
+      interventi.push({ id: newId, descrizione, assegnato, stato });
+    }
+    renderInterventi();
+    hideForm(formIntervento);
+    btnAddIntervento.style.display = 'inline-block';
+  });
 
-            document.getElementById('kpi-operatori').textContent = uopiDatabase.operatori.filter(o => o.inServizio).length;
-            document.getElementById('kpi-operazioni').textContent = uopiDatabase.moduli.filter(m => m.tipo.includes('attivazione')).length;
-            document.getElementById('kpi-squadre').textContent = 0;
-            document.getElementById('kpi-turni').textContent = uopiDatabase.moduli.length;
-        }
+  function editIntervento(id) {
+    const intv = interventi.find(i => i.id === id);
+    if (!intv) return;
+    editingInterventoId = id;
+    displayForm(formIntervento);
+    btnAddIntervento.style.display = 'none';
+    document.getElementById('int-desc').value = intv.descrizione;
+    document.getElementById('int-assegnato').value = intv.assegnato;
+    document.getElementById('int-stato').value = intv.stato;
+  }
 
-        // AGGIORNA TABELLA OPERATORI
-        function updateOperatorsTable() {
-            const tbody = document.getElementById('operators-tbody');
+  function deleteIntervento(id) {
+    if (confirm('Eliminare questo intervento?')) {
+      interventi = interventi.filter(i => i.id !== id);
+      renderInterventi();
+    }
+  }
 
-            if (uopiDatabase.operatori.length === 0) {
-                tbody.innerHTML = `
-                    <tr>
-                        <td colspan="6" style="text-align: center; color: var(--text-muted); padding: 3rem;">
-                            Nessun operatore registrato. Aggiungi il primo operatore.
-                        </td>
-                    </tr>
-                `;
-                return;
-            }
+  // GESTIONE FORMAZIONE - Completa
+  const formIstruzione = document.getElementById('form-istruzione');
+  const btnAddIstruzione = document.getElementById('btn-add-istruzione');
+  const certCancelBtn = document.getElementById('cert-cancel-btn');
 
-            tbody.innerHTML = uopiDatabase.operatori.map(op => `
-                <tr>
-                    <td>${op.matricola}</td>
-                    <td>${op.nome} ${op.cognome}</td>
-                    <td>${op.grado}</td>
-                    <td>${op.data_ingresso || '-'}</td>
-                    <td><span class="badge ${op.inServizio ? '' : 'badge-warning'}">${op.inServizio ? 'IN SERVIZIO' : 'LIBERO'}</span></td>
-                    <td>
-                        <button class="btn btn-secondary" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" onclick="deleteOperator(${op.id})">
-                            🗑️ Rimuovi
-                        </button>
-                    </td>
-                </tr>
-            `).join('');
-        }
+  btnAddIstruzione.addEventListener('click', () => {
+    formIstruzione.reset();
+    displayForm(formIstruzione);
+    btnAddIstruzione.style.display = 'none';
+  });
 
-        function deleteOperator(id) {
-            const operator = uopiDatabase.operatori.find(op => op.id == id);
-            if (!operator) return;
+  certCancelBtn.addEventListener('click', () => {
+    hideForm(formIstruzione);
+    btnAddIstruzione.style.display = 'inline-block';
+  });
 
-            if (confirm(`🗑️ Confermi la rimozione dell'operatore ${operator.nome} ${operator.cognome}?`)) {
-                uopiDatabase.operatori = uopiDatabase.operatori.filter(o => o.id != id);
-                localStorage.setItem('uopiDatabase', JSON.stringify(uopiDatabase));
-                updateOperatorsTable();
-                updateKPIs();
-                showNotification('✅ Operatore rimosso dal sistema');
-            }
-        }
+  formIstruzione.addEventListener('submit', e => {
+    e.preventDefault();
+    const operatore = document.getElementById('cert-op').value.trim();
+    const certificazione = document.getElementById('cert-nome').value.trim();
+    const data_conseguimento = document.getElementById('cert-data').value;
+    const data_scadenza = document.getElementById('cert-scadenza').value;
 
-        // AGGIORNA LISTA MODULI
-        function updateFormsList() {
-            const container = document.getElementById('forms-container');
+    const newId = formazioni.length ? Math.max(...formazioni.map(c => c.id)) + 1 : 1;
+    formazioni.push({ id: newId, operatore, certificazione, data_conseguimento, data_scadenza });
+    renderFormazioni();
+    hideForm(formIstruzione);
+    btnAddIstruzione.style.display = 'inline-block';
+  });
 
-            if (uopiDatabase.moduli.length === 0) {
-                container.innerHTML = '<p style="color: var(--text-muted); text-align: center;">Nessun modulo registrato ancora...</p>';
-                return;
-            }
+  function deleteFormazione(id) {
+    if (confirm('Eliminare questa certificazione?')) {
+      formazioni = formazioni.filter(f => f.id !== id);
+      renderFormazioni();
+    }
+  }
 
-            const sortedModuli = [...uopiDatabase.moduli].sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+  // GESTIONE EQUIPAGGIAMENTI - Completa
+  const formEquip = document.getElementById('form-equip');
+  const btnAddEquip = document.getElementById('btn-add-equip');
+  const equipCancelBtn = document.getElementById('equip-cancel-btn');
 
-            const moduliHtml = sortedModuli.map(modulo => `
-                <div style="background: var(--tertiary-bg); padding: 1rem; border-radius: 8px; margin-bottom: 1rem; border-left: 4px solid var(--accent);">
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
-                        <strong>${modulo.tipo.toUpperCase()}</strong>
-                        <small style="color: var(--text-muted);">ID: ${modulo.id}</small>
-                    </div>
-                    <div style="color: var(--text-muted); font-size: 0.9rem;">
-                        📅 ${new Date(modulo.timestamp).toLocaleString('it-IT')}
-                    </div>
-                    <div style="margin-top: 0.5rem; font-size: 0.85rem;">
-                        ${Object.entries(modulo.dati).slice(0, 2).map(([key, value]) =>
-                `<span style="background: var(--quaternary-bg); padding: 0.2rem 0.5rem; border-radius: 4px; margin-right: 0.5rem;">${key}: ${value}</span>`
-            ).join('')}
-                    </div>
-                </div>
-            `).join('');
+  btnAddEquip.addEventListener('click', () => {
+    formEquip.reset();
+    displayForm(formEquip);
+    btnAddEquip.style.display = 'none';
+  });
 
-            container.innerHTML = `
-                <h4 style="margin-bottom: 1rem;">📊 Totale: ${sortedModuli.length} moduli</h4>
-                ${moduliHtml}
-            `;
-        }
+  equipCancelBtn.addEventListener('click', () => {
+    hideForm(formEquip);
+    btnAddEquip.style.display = 'inline-block';
+  });
 
-        // LOGOUT
-        function handleLogout() {
-            if (confirm('🚪 Sei sicuro di voler uscire dal sistema UOPI?')) {
-                showNotification('👋 Logout completato. Arrivederci!');
-                setTimeout(() => {
-                    location.reload();
-                }, 1500);
-            }
-        }
+  formEquip.addEventListener('submit', e => {
+    e.preventDefault();
+    const operatore = document.getElementById('equip-op').value.trim();
+    const equipaggiamento = document.getElementById('equip-nome').value.trim();
+    const quantita = parseInt(document.getElementById('equip-qty').value);
 
-        // INIZIALIZZAZIONE OTTIMIZZATA
-        document.addEventListener('DOMContentLoaded', function() {
-            console.log('🚀 INIZIALIZZAZIONE SISTEMA UOPI OTTIMIZZATO...');
+    const newId = equipaggiamenti.length ? Math.max(...equipaggiamenti.map(e => e.id)) + 1 : 1;
+    equipaggiamenti.push({ id: newId, operatore, equipaggiamento, quantita });
+    renderEquipaggiamenti();
+    hideForm(formEquip);
+    btnAddEquip.style.display = 'inline-block';
+  });
 
-            // Carica database
-            const savedDatabase = localStorage.getItem('uopiDatabase');
-            if (savedDatabase) {
-                try {
-                    uopiDatabase = JSON.parse(savedDatabase);
-                } catch (e) {
-                    console.error('Errore caricamento database:', e);
-                }
-            }
+  function deleteEquipaggiamento(id) {
+    if (confirm('Eliminare questo equipaggiamento?')) {
+      equipaggiamenti = equipaggiamenti.filter(e => e.id !== id);
+      renderEquipaggiamenti();
+    }
+  }
 
-            // LOGIN FORM
-            document.getElementById('loginForm').addEventListener('submit', function(e) {
-                e.preventDefault();
-                handleLogin();
-            });
+  // REPORT - Come da vecchio codice
+  const btnExportCsv = document.getElementById('btn-export-csv');
+  const reportOutput = document.getElementById('report-output');
 
-            // NAVIGAZIONE - EVENT DELEGATION
-            document.addEventListener('click', function(e) {
-                // Nav links
-                if (e.target.closest('.nav-link')) {
-                    e.preventDefault();
-                    const page = e.target.closest('.nav-link').getAttribute('data-page');
-                    if (page) navigateTo(page);
-                }
+  btnExportCsv.addEventListener('click', () => {
+    let csv = 'Nome,Grado,Ruolo,Stato Operativo\n';
+    operatori.forEach(op => {
+      csv += `"${op.nome}","${op.grado}","${op.ruolo}","${op.stato}"\n`;
+    });
+    reportOutput.textContent = csv;
+    const blob = new Blob([csv], { type: 'text/csv' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'operatori_uopi_report.csv';
+    a.click();
+    URL.revokeObjectURL(url);
+  });
 
-                // Metric cards navigation
-                if (e.target.closest('[data-nav]')) {
-                    const page = e.target.closest('[data-nav]').getAttribute('data-nav');
-                    if (page) navigateTo(page);
-                }
+  // CACHE SERVICE
+const cacheService = {
+  set(key, data, ttl = 3600) {
+    const item = {
+      value: data,
+      timestamp: Date.now(),
+      ttl: ttl * 1000
+    };
+    localStorage.setItem(key, JSON.stringify(item));
+  },
+  
+  get(key) {
+    const item = localStorage.getItem(key);
+    if (!item) return null;
+    
+    const { value, timestamp, ttl } = JSON.parse(item);
+    if (Date.now() - timestamp > ttl) {
+      localStorage.removeItem(key);
+      return null;
+    }
+    return value;
+  }
+};
 
-                // Modal triggers - PULSANTI CHE FUNZIONANO
-                if (e.target.closest('[data-modal]')) {
-                    e.preventDefault();
-                    const modalId = e.target.closest('[data-modal]').getAttribute('data-modal');
-                    openModal(modalId);
-                }
+  // NOTIFICHE
+const notifications = {
+  show(message, type = 'info') {
+    const notification = document.createElement('div');
+    notification.className = `notification notification-${type}`;
+    notification.textContent = message;
+    
+    document.body.appendChild(notification);
+    
+    setTimeout(() => {
+      notification.classList.add('fade-out');
+      setTimeout(() => notification.remove(), 300);
+    }, 3000);
+  },
+  
+  error(message) {
+    this.show(message, 'error');
+  },
+  
+  success(message) {
+    this.show(message, 'success');
+  }
+};
 
-                // Form submissions
-                if (e.target.closest('[data-submit]')) {
-                    e.preventDefault();
-                    const formType = e.target.closest('[data-submit]').getAttribute('data-submit');
-                    submitForm(formType);
-                }
+  // INIZIALIZZAZIONE DASHBOARD
+  function initDashboard() {
+    renderOperatori();
+    renderInterventi();
+    renderFormazioni();
+    renderEquipaggiamenti();
+  }
 
-                // Modal close buttons
-                if (e.target.closest('[data-close]')) {
-                    e.preventDefault();
-                    const modalId = e.target.closest('[data-close]').getAttribute('data-close');
-                    closeModal(modalId);
-                }
+  function validateLoginForm(username, password) {
+    const errors = [];
+    
+    if (!username) errors.push('Username obbligatorio');
+    if (!password) errors.push('Password obbligatoria');
+    
+    return {
+      isValid: errors.length === 0,
+      errors
+    };
+  }
+</script>
 
-                // Add operator button
-                if (e.target.id === 'addOperatorBtn') {
-                    e.preventDefault();
-                    openModal('operator');
-                }
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  // Controlla se c'è un callback Discord
+  if (window.location.hash) {
+    handleDiscordCallback();
+  }
+  
+  // Controlla sessione esistente
+  const token = sessionStorage.getItem('discord_token');
+  const userData = sessionStorage.getItem('user_data');
+  
+  if (token && userData) {
+    handleSuccessfulLogin();
+  }
+});
+</script>
 
-                // Logout button
-                if (e.target.id === 'logoutBtn') {
-                    e.preventDefault();
-                    handleLogout();
-                }
-            });
-
-            // Chiude modal con click su backdrop
-            document.addEventListener('click', function(e) {
-                if (e.target.classList.contains('modal-backdrop')) {
-                    e.target.classList.remove('show');
-                    document.body.style.overflow = 'auto';
-                }
-            });
-
-            // Gestione ESC per chiudere modal
-            document.addEventListener('keydown', function(e) {
-                if (e.key === 'Escape') {
-                    document.querySelectorAll('.modal-backdrop.show').forEach(modal => {
-                        modal.classList.remove('show');
-                        document.body.style.overflow = 'auto';
-                    });
-                }
-            });
-
-            console.log('✅ SISTEMA UOPI OTTIMIZZATO INIZIALIZZATO!');
-            console.log('📊 Database:', uopiDatabase);
-        });
-    </script>
 </body>
 </html>
