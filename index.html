@@ -112,7 +112,13 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 9999;
+  z-index: 2; /* Login section sopra la dashboard */
+  transition: opacity 0.3s ease;
+}
+
+#login-section.fade-out {
+  opacity: 0;
+  pointer-events: none;
 }
 
 #login-form-container {
@@ -165,6 +171,8 @@
     background: #f4f7fa;
     color: #222938;
     padding-top: 80px;
+    position: relative;
+    z-index: 1; /* Assicura che sia sopra il login section */
   }
   #app.visible {
     display: flex;
