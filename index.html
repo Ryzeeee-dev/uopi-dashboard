@@ -771,19 +771,23 @@ async function fetchDiscordUser(token) {
     const user = await response.json();
     
     if (user.id) {
-      // Verifica se l'utente è autorizzato (modifica con i tuoi ID)
-      const allowedUsers = ['1387684968536477756', '817121576217870348']; // ID Discord degli admin
+      const allowedUsers = ['1387684968536477756', '817121576217870348'];
       
       if (allowedUsers.includes(user.id)) {
+        // Salva dati utente
         sessionStorage.setItem('user_data', JSON.stringify(user));
+        
+        // Gestisci login
         handleSuccessfulLogin();
       } else {
         notifications.error('Non sei autorizzato ad accedere');
+        sessionStorage.removeItem('discord_token');
       }
     }
   } catch (err) {
     notifications.error('Errore durante l\'autenticazione Discord');
     console.error(err);
+    sessionStorage.removeItem('discord_token');
   }
 }
 
@@ -840,22 +844,28 @@ const loginHandler = {
     const app = document.getElementById('app');
     const userHeader = document.getElementById('user-header');
 
+    // Nascondi sezione login
     loginSection.classList.add('fade-out');
     setTimeout(() => {
       loginSection.style.display = 'none';
+      
+      // Mostra dashboard
       app.style.display = 'flex';
       app.classList.add('visible');
+      app.setAttribute('aria-hidden', 'false');
+      
+      // Mostra header utente
       userHeader.style.display = 'flex';
       
-      // Salva sessione
-      sessionStorage.setItem('logged_in', 'true');
-      
-      // Inizializza dashboard
+      // Inizializza contenuti dashboard
       initDashboard();
       
-      // Mostra notifica
+      // Mostra notifica successo
       notifications.success('Login effettuato con successo');
     }, 600);
+
+    // Salva sessione
+    sessionStorage.setItem('logged_in', 'true');
   }
 };
 
