@@ -4,6 +4,8 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Dashboard Gestione UOPI - FiveM</title>
+<meta http-equiv="Content-Security-Policy" content="default-src 'self' https://discord.com; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline';">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <style>
   /* Reset */
   *, *::before, *::after { box-sizing: border-box; }
@@ -725,18 +727,23 @@
 
 <script>
 const DISCORD_CLIENT_ID = '1387801645743869982'; // Sostituisci con il tuo client ID
-const REDIRECT_URI = window.location.origin + '/uopi_dashboard.html';
+const REDIRECT_URI = 'https://ryzeeee-dev.github.io/uopi-dashboard/';
 
 // Funzione per il login con Discord
-function loginWithDiscord() {
-  const params = new URLSearchParams({
-    client_id: DISCORD_CLIENT_ID,
-    redirect_uri: REDIRECT_URI,
-    response_type: 'token',
-    scope: 'identify'
-  });
-  
-  window.location.href = `https://discord.com/api/oauth2/authorize?${params}`
+async function loginWithDiscord() {
+  try {
+    const params = new URLSearchParams({
+      client_id: DISCORD_CLIENT_ID,
+      redirect_uri: REDIRECT_URI,
+      response_type: 'token',
+      scope: 'identify'
+    });
+    
+    window.location.href = `https://discord.com/oauth2/authorize?${params}`;
+  } catch (err) {
+    notifications.error('Errore durante il reindirizzamento a Discord');
+    console.error('Discord login error:', err);
+  }
 }
 
 // Gestione callback Discord
@@ -1326,5 +1333,3 @@ document.addEventListener('DOMContentLoaded', () => {
 
 </body>
 </html>
-
-
