@@ -106,19 +106,16 @@
   
   /* Login section */
   #login-section {
+  display: flex;
   position: fixed;
   inset: 0;
   background: #1a202c;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 2; /* Login section sopra la dashboard */
+  z-index: 1000;
   transition: opacity 0.3s ease;
 }
 
 #login-section.fade-out {
-  opacity: 0;
-  pointer-events: none;
+  display: none;
 }
 
 #login-form-container {
@@ -167,17 +164,19 @@
     display: none;
     height: 100vh;
     opacity: 0;
-    transition: opacity 0.7s ease;
+    transition: all 0.3s ease;
     background: #f4f7fa;
     color: #222938;
     padding-top: 80px;
     position: relative;
-    z-index: 1; /* Assicura che sia sopra il login section */
+    z-index: 1;
   }
+
   #app.visible {
-    display: flex;
-    opacity: 1;
+    display: flex !important;
+    opacity: 1 !important;
   }
+
   nav.sidebar {
     width: 240px;
     background: #1a202c;
@@ -764,6 +763,8 @@ function handleDiscordCallback() {
     sessionStorage.setItem('discord_token', accessToken);
     // Ottieni info utente
     fetchDiscordUser(accessToken);
+    // Rimuovi il hash dall'URL
+    history.pushState('', document.title, window.location.pathname);
   }
 }
 
@@ -853,24 +854,22 @@ const loginHandler = {
     const userHeader = document.getElementById('user-header');
 
     // Nascondi sezione login
-    loginSection.classList.add('fade-out');
-    setTimeout(() => {
-      loginSection.style.display = 'none';
-      
-      // Mostra dashboard
-      app.style.display = 'flex';
-      app.classList.add('visible');
-      app.setAttribute('aria-hidden', 'false');
-      
-      // Mostra header utente
-      userHeader.style.display = 'flex';
-      
-      // Inizializza contenuti dashboard
-      initDashboard();
-      
-      // Mostra notifica successo
-      notifications.success('Login effettuato con successo');
-    }, 600);
+    loginSection.style.display = 'none';
+    
+    // Mostra dashboard
+    app.style.display = 'flex';
+    app.style.opacity = '1';
+    app.classList.add('visible');
+    app.setAttribute('aria-hidden', 'false');
+    
+    // Mostra header utente
+    userHeader.style.display = 'flex';
+    
+    // Inizializza contenuti dashboard
+    initDashboard();
+    
+    // Mostra notifica successo
+    notifications.success('Login effettuato con successo');
 
     // Salva sessione
     sessionStorage.setItem('logged_in', 'true');
