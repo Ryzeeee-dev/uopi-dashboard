@@ -232,72 +232,113 @@
     padding: 80px 20px 20px;
   }
 
+  /* Miglioramenti grafici dashboard */
+  .dashboard-header {
+    background: linear-gradient(135deg, rgba(66, 153, 225, 0.1) 0%, rgba(66, 153, 225, 0.05) 100%);
+    padding: 30px;
+    border-radius: 20px;
+    margin: 20px auto;
+    max-width: 1200px;
+    text-align: center;
+    border: 1px solid rgba(66, 153, 225, 0.2);
+  }
+
+  .dashboard-title {
+    font-size: 2.5rem;
+    margin: 0;
+    background: linear-gradient(135deg, #4299e1 0%, #667eea 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
   .main-sections {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 20px;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 25px;
     padding: 20px;
     max-width: 1600px;
     margin: 0 auto;
   }
 
   .section {
-    background: rgba(255, 255, 255, 0.03);
-    border-radius: 16px;
-    padding: 20px;
-    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-    backdrop-filter: blur(5px);
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    transition: transform 0.3s ease;
+    background: rgba(30, 41, 59, 0.5);
+    border-radius: 20px;
+    padding: 25px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
   }
 
-  .section:hover {
-    transform: translateY(-5px);
+  .section-title {
+    font-size: 1.8rem;
+    margin-bottom: 25px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: #4299e1;
   }
 
   .stats-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 15px;
-    margin: 20px auto;
-    max-width: 1600px;
-    padding: 0 20px;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
   }
 
   .stat-card {
-    background: linear-gradient(135deg, rgba(66, 153, 225, 0.1) 0%, rgba(66, 153, 225, 0.05) 100%);
-    border-radius: 16px;
-    padding: 20px;
-    text-align: center;
-    border: 1px solid rgba(66, 153, 225, 0.1);
-    transition: all 0.3s ease;
+    background: linear-gradient(135deg, rgba(66, 153, 225, 0.15) 0%, rgba(102, 126, 234, 0.15) 100%);
+    padding: 25px;
+    border-radius: 20px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
   }
 
-  .stat-card:hover {
-    transform: scale(1.02);
-    border-color: rgba(66, 153, 225, 0.2);
+  .stat-number {
+    font-size: 2.5rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, #4299e1 0%, #667eea 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
   }
 
-  .table-container {
-    overflow-x: auto;
+  .stat-label {
+    font-size: 1rem;
+    color: #a0aec0;
+    margin-top: 8px;
   }
 
+  /* Miglioramenti tabelle */
   table {
-    width: 100%;
-    border-collapse: collapse;
-    background: rgba(255, 255, 255, 0.02);
-    border-radius: 8px;
-  }
-
-  th, td {
-    padding: 12px;
-    text-align: left;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    margin-top: 15px;
+    border-radius: 15px;
+    overflow: hidden;
+    border: 1px solid rgba(66, 153, 225, 0.2);
   }
 
   th {
-    background: rgba(255, 255, 255, 0.05);
-    font-weight: 600;
+    background: rgba(66, 153, 225, 0.1);
+    color: #4299e1;
+    font-size: 0.95rem;
+    padding: 15px;
+  }
+
+  td {
+    padding: 12px 15px;
+    font-size: 0.9rem;
+  }
+
+  tr:hover {
+    background: rgba(66, 153, 225, 0.05);
+  }
+
+  .action-btn {
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+  }
+
+  .action-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   }
 
   .status-badge {
@@ -309,19 +350,6 @@
   .status-active { background: rgba(72, 187, 120, 0.2); color: #48bb78; }
   .status-inactive { background: rgba(229, 62, 62, 0.2); color: #e53e3e; }
   .status-pending { background: rgba(236, 201, 75, 0.2); color: #ecc94b; }
-
-  .action-btn {
-    padding: 6px 12px;
-    border-radius: 6px;
-    border: none;
-    font-size: 12px;
-    cursor: pointer;
-    margin-right: 4px;
-  }
-
-  .btn-primary { background: #4299e1; color: white; }
-  .btn-danger { background: #e53e3e; color: white; }
-  .btn-success { background: #48bb78; color: white; }
 
   /* Stili per le notifiche */
   #notifications-container {
@@ -694,6 +722,7 @@ class UI {
     document.getElementById('login-section').style.display = 'none';
     document.getElementById('dashboard').style.display = 'block';
     this.updateProfile(userData);
+    AutoLogout.resetTimer(); // Reset timer quando si mostra la dashboard
   }
 
   static updateProfile(user) {
@@ -723,6 +752,13 @@ class UI {
     setTimeout(() => container.remove(), 5000);
   }
 }
+
+// Aggiunta gestione errori più robusta
+window.onerror = function(msg, url, line, col, error) {
+  console.error('Global error:', {msg, url, line, col, error});
+  notifications.error('Si è verificato un errore. Ricarica la pagina.');
+  return false;
+};
 
 // Event Handlers
 class EventHandlers {
@@ -777,9 +813,34 @@ const Actions = {
   }
 };
 
-// Initialize application
+// Aggiunta sistema di auto logout
+class AutoLogout {
+  static TIMEOUT = 30 * 60 * 1000; // 30 minuti
+  static timer = null;
+
+  static init() {
+    this.resetTimer();
+    
+    // Eventi che resettano il timer
+    ['mousedown', 'keydown', 'scroll', 'touchstart'].forEach(event => {
+      document.addEventListener(event, () => this.resetTimer());
+    });
+  }
+
+  static resetTimer() {
+    if (this.timer) clearTimeout(this.timer);
+    
+    this.timer = setTimeout(() => {
+      UI.showError('Sessione scaduta per inattività');
+      DiscordAuth.logout();
+    }, this.TIMEOUT);
+  }
+}
+
+// Modifica inizializzazione
 document.addEventListener('DOMContentLoaded', () => {
   EventHandlers.init();
+  AutoLogout.init();
   
   const token = sessionStorage.getItem('discord_token');
   const userData = sessionStorage.getItem('user_data');
@@ -799,16 +860,6 @@ document.addEventListener('DOMContentLoaded', () => {
 window.onerror = function(msg, url, line, col, error) {
   console.error('Global error:', {msg, url, line, col, error});
   UI.showError('Si è verificato un errore. Ricarica la pagina.');
-  return false;
-};
-</script>
-
-</body>
-</html>
-// Aggiunta gestione errori più robusta
-window.onerror = function(msg, url, line, col, error) {
-  console.error('Global error:', {msg, url, line, col, error});
-  notifications.error('Si è verificato un errore. Ricarica la pagina.');
   return false;
 };
 </script>
