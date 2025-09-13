@@ -105,80 +105,101 @@
     background: rgba(245, 101, 101, 0.2);
   }
 
-  /* Login section */
+  /* Modern Login Section */
   #login-section {
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #1a1c2c 0%, #2a3045 100%);
     position: relative;
     overflow: hidden;
   }
-  
-  #login-section.fade-out {
-    opacity: 0;
-    transition: opacity 0.5s ease;
+
+  #login-section::before {
+    content: '';
+    position: absolute;
+    width: 150%;
+    height: 150%;
+    background: radial-gradient(circle, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+    animation: rotate 25s linear infinite;
   }
-  
+
+  @keyframes rotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+
   #login-form-container {
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(15px);
-    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(20px);
+    border-radius: 24px;
     padding: 40px;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.1);
     width: 100%;
     max-width: 420px;
     text-align: center;
     position: relative;
+    animation: slideUp 0.6s ease-out;
+    transform-origin: center;
   }
-  
+
+  @keyframes slideUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
   .uopi-logo {
-    width: 150px;
-    height: 150px;
-    margin: -90px auto 20px;
+    width: 180px;
+    height: 180px;
+    margin: -100px auto 20px;
     display: block;
-    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
-  }
-  
-  /* Remove setup instructions */
-  .setup-instructions {
-    display: none;
+    filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.4));
+    animation: logoFloat 6s ease-in-out infinite;
   }
 
-  #login-error {
-    display: none;
+  @keyframes logoFloat {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
   }
 
-  /* Enhance login title */
   #login-title {
     color: white;
-    font-size: 2.4rem;
+    font-size: 2.6rem;
     font-weight: 800;
-    margin-bottom: 15px;
+    margin-bottom: 10px;
     text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-    letter-spacing: -0.5px;
+    letter-spacing: -1px;
+    background: linear-gradient(135deg, #fff 0%, #e2e8f0 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
   }
 
   .login-subtitle {
     color: rgba(255, 255, 255, 0.9);
     font-size: 1.1rem;
-    margin-bottom: 30px;
+    margin-bottom: 35px;
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   }
 
   /* Enhance Discord button */
   .discord-login {
-    background: #5865f2;
+    background: linear-gradient(135deg, #5865f2 0%, #4752c4 100%);
     color: white;
-    padding: 16px 30px;
+    padding: 18px 32px;
     border: none;
-    border-radius: 12px;
+    border-radius: 14px;
     font-size: 17px;
     font-weight: 600;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -186,6 +207,37 @@
     width: 100%;
     margin-top: 20px;
     box-shadow: 0 4px 15px rgba(88, 101, 242, 0.4);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .discord-login:hover:not(:disabled) {
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: 0 12px 25px rgba(88, 101, 242, 0.6);
+  }
+
+  .discord-login:active:not(:disabled) {
+    transform: translateY(1px) scale(0.98);
+  }
+
+  .discord-login::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.2),
+      transparent
+    );
+    transition: 0.5s;
+  }
+
+  .discord-login:hover::before {
+    left: 100%;
   }
 </style>
 </head>
@@ -194,7 +246,7 @@
 <!-- Sezione Login -->
 <div id="login-section">
   <div id="login-form-container">
-    <img src="c:\Users\ricca\Downloads\Distintivo_UOPI_della_Polizia_di_Stato-removebg-preview.png" alt="UOPI Logo" class="uopi-logo">
+    <img src="./assets/uopi-logo.png" alt="UOPI Logo" class="uopi-logo">
     <h1 id="login-title">Dashboard UOPI</h1>
     <p class="login-subtitle">Sistema di Gestione Unità Operative di Polizia Italiana</p>
     
@@ -752,58 +804,6 @@ window.onerror = function(msg, url, line, col, error) {
 
 </body>
 </html>
-// ============================================================================
-// CONFIGURAZIONE - MODIFICA QUESTI VALORI
-// ============================================================================
-
-// Il tuo Discord Client ID 
-const DISCORD_CLIENT_ID = '1387801645743869982';
-
-// URL di reindirizzamento OAuth2
-const REDIRECT_URI = 'https://ryzeeee-dev.github.io/uopi-dashboard/';
-
-// Scope richiesti per l'API Discord
-const DISCORD_SCOPES = ['identify'];
-
-// ============================================================================
-// FINE CONFIGURAZIONE
-// ============================================================================
-
-// Sistema notifiche
-const notifications = {
-  show(message, type = 'info') {
-    // Rimuovi notifiche precedenti
-    const existing = document.querySelectorAll('.notification');
-    existing.forEach(n => n.remove());
-    
-    const notification = document.createElement('div');
-    notification.className = `notification ${type}`;
-    notification.textContent = message;
-    document.body.appendChild(notification);
-    
-    setTimeout(() => {
-      notification.remove();
-    }, 6000);
-  },
-  
-  success(message) {
-    this.show(message, 'success');
-  },
-  
-  error(message) {
-    this.show(message, 'error');
-  },
-  
-  info(message) {
-    this.show(message, 'info');
-  }
-};
-
-// Verifica configurazione e tenta login
-function attemptDiscordLogin() {
-  console.log('🚀 Tentativo di login Discord...');
-  
-  // Verifica configurazione
   if (DISCORD_CLIENT_ID === 'YOUR_CLIENT_ID_HERE') {
     console.error('❌ Client ID non configurato');
     notifications.error('Configurazione mancante: imposta il Discord Client ID nel codice');
