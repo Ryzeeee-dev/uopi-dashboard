@@ -131,61 +131,51 @@
     width: 100%;
     max-width: 420px;
     text-align: center;
+    position: relative;
   }
   
+  .uopi-logo {
+    width: 150px;
+    height: 150px;
+    margin: -90px auto 20px;
+    display: block;
+    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
+  }
+  
+  /* Remove setup instructions */
+  .setup-instructions {
+    display: none;
+  }
+
+  #login-error {
+    display: none;
+  }
+
+  /* Enhance login title */
   #login-title {
     color: white;
-    font-size: 2.2rem;
-    font-weight: 700;
-    margin-bottom: 30px;
+    font-size: 2.4rem;
+    font-weight: 800;
+    margin-bottom: 15px;
     text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    letter-spacing: -0.5px;
   }
 
-  /* Setup instructions */
-  .setup-instructions {
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 12px;
-    padding: 20px;
-    margin-bottom: 25px;
-    text-align: left;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-  }
-
-  .setup-instructions h3 {
-    color: #fed7d7;
-    font-size: 16px;
-    margin: 0 0 15px 0;
-    text-align: center;
-  }
-
-  .setup-instructions ol {
+  .login-subtitle {
     color: rgba(255, 255, 255, 0.9);
-    font-size: 13px;
-    line-height: 1.6;
-    margin: 0;
-    padding-left: 20px;
+    font-size: 1.1rem;
+    margin-bottom: 30px;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   }
 
-  .setup-instructions li {
-    margin-bottom: 8px;
-  }
-
-  .setup-instructions code {
-    background: rgba(255, 255, 255, 0.2);
-    padding: 2px 6px;
-    border-radius: 4px;
-    font-family: 'Courier New', monospace;
-    font-size: 12px;
-  }
-
-  /* Discord login button */
+  /* Enhance Discord button */
   .discord-login {
     background: #5865f2;
     color: white;
-    padding: 15px 25px;
+    padding: 16px 30px;
     border: none;
-    border-radius: 10px;
-    font-size: 16px;
+    border-radius: 12px;
+    font-size: 17px;
     font-weight: 600;
     cursor: pointer;
     transition: all 0.3s ease;
@@ -195,301 +185,7 @@
     gap: 15px;
     width: 100%;
     margin-top: 20px;
-  }
-
-  .discord-login:hover:not(:disabled) {
-    background: #4752c4;
-    transform: translateY(-2px);
-    box-shadow: 0 10px 25px rgba(88, 101, 242, 0.4);
-  }
-
-  .discord-login:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
-    transform: none;
-  }
-
-  .discord-icon {
-    width: 24px;
-    height: 24px;
-    fill: currentColor;
-  }
-
-  #login-error {
-    color: #fed7d7;
-    margin-top: 20px;
-    padding: 15px;
-    background: rgba(245, 101, 101, 0.2);
-    border-radius: 8px;
-    display: block;
-    border: 1px solid rgba(245, 101, 101, 0.3);
-    font-size: 14px;
-    line-height: 1.4;
-  }
-  
-  /* Dashboard */
-  #dashboard {
-    display: none;
-    padding: 20px;
-    padding-top: 80px;
-    background: #1a202c;
-    min-height: 100vh;
-  }
-  
-  #dashboard.show {
-    display: flex !important;
-    flex-direction: column;
-    gap: 30px;
-  }
-  
-  .dashboard-header {
-    text-align: center;
-    margin-bottom: 30px;
-  }
-  
-  .dashboard-title {
-    font-size: 2.5rem;
-    font-weight: 700;
-    color: #4299e1;
-    margin-bottom: 10px;
-  }
-  
-  .dashboard-subtitle {
-    font-size: 1.2rem;
-    color: #a0aec0;
-  }
-  
-  /* Stats Cards */
-  .stats-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 20px;
-    margin-bottom: 30px;
-  }
-  
-  .stat-card {
-    background: linear-gradient(135deg, #2d3748 0%, #4a5568 100%);
-    border-radius: 15px;
-    padding: 25px;
-    text-align: center;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-    border: 1px solid rgba(66, 153, 225, 0.1);
-    transition: all 0.3s ease;
-  }
-  
-  .stat-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 15px 40px rgba(66, 153, 225, 0.2);
-  }
-  
-  .stat-number {
-    font-size: 2.5rem;
-    font-weight: 700;
-    color: #4299e1;
-    margin-bottom: 10px;
-  }
-  
-  .stat-label {
-    color: #a0aec0;
-    font-size: 1.1rem;
-  }
-  
-  /* Sezioni principali */
-  .main-sections {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 30px;
-  }
-  
-  .section {
-    background: #2d3748;
-    border-radius: 15px;
-    padding: 25px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-  }
-  
-  .section-title {
-    font-size: 1.5rem;
-    font-weight: 600;
-    color: #4299e1;
-    margin-bottom: 20px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-  
-  .section-icon {
-    font-size: 1.2rem;
-  }
-  
-  /* Tabelle */
-  .table-container {
-    overflow-x: auto;
-    border-radius: 10px;
-    background: #1a202c;
-  }
-  
-  table {
-    width: 100%;
-    border-collapse: collapse;
-    background: transparent;
-  }
-  
-  th {
-    background: #4a5568;
-    color: #e2e8f0;
-    padding: 15px;
-    text-align: left;
-    font-weight: 600;
-    border-bottom: 2px solid #4299e1;
-  }
-  
-  td {
-    padding: 15px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    color: #a0aec0;
-  }
-  
-  tr:hover {
-    background: rgba(66, 153, 225, 0.1);
-  }
-  
-  /* Bottoni azioni */
-  .action-btn {
-    padding: 8px 16px;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    font-size: 12px;
-    font-weight: 500;
-    margin-right: 5px;
-    transition: all 0.3s ease;
-  }
-  
-  .btn-primary {
-    background: #4299e1;
-    color: white;
-  }
-  
-  .btn-danger {
-    background: #f56565;
-    color: white;
-  }
-  
-  .btn-success {
-    background: #48bb78;
-    color: white;
-  }
-  
-  .action-btn:hover {
-    transform: translateY(-1px);
-    opacity: 0.9;
-  }
-  
-  /* Status badges */
-  .status-badge {
-    padding: 4px 12px;
-    border-radius: 20px;
-    font-size: 12px;
-    font-weight: 500;
-  }
-  
-  .status-active {
-    background: #48bb78;
-    color: white;
-  }
-  
-  .status-inactive {
-    background: #f56565;
-    color: white;
-  }
-  
-  .status-pending {
-    background: #ed8936;
-    color: white;
-  }
-  
-  /* Responsive */
-  @media (max-width: 768px) {
-    .stats-grid {
-      grid-template-columns: 1fr;
-    }
-    
-    #dashboard {
-      padding: 15px;
-      padding-top: 70px;
-    }
-    
-    .user-profile-section {
-      padding: 10px;
-    }
-    
-    .dashboard-title {
-      font-size: 2rem;
-    }
-
-    #login-form-container {
-      margin: 20px;
-      padding: 25px;
-      max-width: none;
-    }
-
-    .setup-instructions {
-      padding: 15px;
-    }
-  }
-
-  /* Notification system */
-  .notification {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    padding: 15px 20px;
-    border-radius: 8px;
-    color: white;
-    font-weight: 500;
-    z-index: 10000;
-    animation: slideIn 0.3s ease;
-    max-width: 350px;
-  }
-
-  .notification.success {
-    background: #48bb78;
-  }
-
-  .notification.error {
-    background: #f56565;
-  }
-
-  .notification.info {
-    background: #4299e1;
-  }
-
-  @keyframes slideIn {
-    from {
-      transform: translateX(100%);
-      opacity: 0;
-    }
-    to {
-      transform: translateX(0);
-      opacity: 1;
-    }
-  }
-
-  /* Loading spinner */
-  .loading-spinner {
-    border: 2px solid rgba(255, 255, 255, 0.3);
-    border-radius: 50%;
-    border-top: 2px solid white;
-    width: 20px;
-    height: 20px;
-    animation: spin 1s linear infinite;
-  }
-
-  @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+    box-shadow: 0 4px 15px rgba(88, 101, 242, 0.4);
   }
 </style>
 </head>
@@ -498,21 +194,9 @@
 <!-- Sezione Login -->
 <div id="login-section">
   <div id="login-form-container">
+    <img src="c:\Users\ricca\Downloads\Distintivo_UOPI_della_Polizia_di_Stato-removebg-preview.png" alt="UOPI Logo" class="uopi-logo">
     <h1 id="login-title">Dashboard UOPI</h1>
-    
-    <!-- Setup Instructions -->
-    <div class="setup-instructions">
-      <h3>⚠️ Configurazione Richiesta</h3>
-      <ol>
-        <li>Vai su <code>discord.com/developers/applications</code></li>
-        <li>Clicca "New Application" e crea un'app</li>
-        <li>Vai nella sezione "OAuth2" → "Redirects"</li>
-        <li>Aggiungi come redirect URL: <code id="current-url"></code></li>
-        <li>Copia il "Client ID" dalla sezione "General Information"</li>
-        <li>Modifica il codice sostituendo <code>YOUR_CLIENT_ID_HERE</code></li>
-        <li>Aggiungi il tuo Discord User ID in <code>AUTHORIZED_USERS</code></li>
-      </ol>
-    </div>
+    <p class="login-subtitle">Sistema di Gestione Unità Operative di Polizia Italiana</p>
     
     <button class="discord-login" id="discord-login-btn" onclick="attemptDiscordLogin()">
       <svg class="discord-icon" viewBox="0 0 24 24">
@@ -520,11 +204,6 @@
       </svg>
       <span id="login-text">Accedi con Discord</span>
     </button>
-    
-    <div id="login-error">
-      <strong>Errore di configurazione:</strong> Client ID Discord non impostato.<br>
-      Segui le istruzioni sopra per configurare l'applicazione Discord.
-    </div>
   </div>
 </div>
 
@@ -759,11 +438,6 @@
 // Il tuo Discord Client ID 
 const DISCORD_CLIENT_ID = '1387801645743869982';
 
-// Array degli User ID Discord autorizzati ad accedere
-const AUTHORIZED_USERS = [
-  '1387684968536477756',  // Riccardo
-];
-
 // URL di reindirizzamento OAuth2
 const REDIRECT_URI = 'https://ryzeeee-dev.github.io/uopi-dashboard/';
 
@@ -812,12 +486,6 @@ function attemptDiscordLogin() {
   if (DISCORD_CLIENT_ID === 'YOUR_CLIENT_ID_HERE') {
     console.error('❌ Client ID non configurato');
     notifications.error('Configurazione mancante: imposta il Discord Client ID nel codice');
-    return;
-  }
-  
-  if (AUTHORIZED_USERS.length === 1 && AUTHORIZED_USERS === 'YOUR_DISCORD_USER_ID_HERE') {
-    console.warn('⚠️ User ID non configurati');
-    notifications.error('Configurazione mancante: imposta gli User ID autorizzati nel codice');
     return;
   }
   
@@ -906,17 +574,13 @@ async function fetchDiscordUser(token) {
       throw new Error('Invalid user data received');
     }
 
-    if (AUTHORIZED_USERS.includes(user.id)) {
-      sessionStorage.setItem('user_data', JSON.stringify(user));
-      handleSuccessfulLogin(user);
-      return;
-    }
-    
-    throw new Error(`Unauthorized user ID: ${user.id}`);
+    // Salva i dati utente e procedi con il login
+    sessionStorage.setItem('user_data', JSON.stringify(user));
+    handleSuccessfulLogin(user);
     
   } catch (err) {
     console.error('❌ Errore autenticazione:', err);
-    notifications.error('Accesso non autorizzato');
+    notifications.error('Errore di autenticazione');
     clearSession();
     logout();
   }
@@ -1073,6 +737,342 @@ window.UOPI_DEBUG = {
     hasUserData: !!sessionStorage.getItem('user_data')
   },
   clearSession,
+  showUserIdInstructions
+};
+
+console.log('🐛 Debug info disponibile in window.UOPI_DEBUG');
+
+// Aggiunta gestione errori più robusta
+window.onerror = function(msg, url, line, col, error) {
+  console.error('Global error:', {msg, url, line, col, error});
+  notifications.error('Si è verificato un errore. Ricarica la pagina.');
+  return false;
+};
+</script>
+
+</body>
+</html>
+// ============================================================================
+// CONFIGURAZIONE - MODIFICA QUESTI VALORI
+// ============================================================================
+
+// Il tuo Discord Client ID 
+const DISCORD_CLIENT_ID = '1387801645743869982';
+
+// URL di reindirizzamento OAuth2
+const REDIRECT_URI = 'https://ryzeeee-dev.github.io/uopi-dashboard/';
+
+// Scope richiesti per l'API Discord
+const DISCORD_SCOPES = ['identify'];
+
+// ============================================================================
+// FINE CONFIGURAZIONE
+// ============================================================================
+
+// Sistema notifiche
+const notifications = {
+  show(message, type = 'info') {
+    // Rimuovi notifiche precedenti
+    const existing = document.querySelectorAll('.notification');
+    existing.forEach(n => n.remove());
+    
+    const notification = document.createElement('div');
+    notification.className = `notification ${type}`;
+    notification.textContent = message;
+    document.body.appendChild(notification);
+    
+    setTimeout(() => {
+      notification.remove();
+    }, 6000);
+  },
+  
+  success(message) {
+    this.show(message, 'success');
+  },
+  
+  error(message) {
+    this.show(message, 'error');
+  },
+  
+  info(message) {
+    this.show(message, 'info');
+  }
+};
+
+// Verifica configurazione e tenta login
+function attemptDiscordLogin() {
+  console.log('🚀 Tentativo di login Discord...');
+  
+  // Verifica configurazione
+  if (DISCORD_CLIENT_ID === 'YOUR_CLIENT_ID_HERE') {
+    console.error('❌ Client ID non configurato');
+    notifications.error('Configurazione mancante: imposta il Discord Client ID nel codice');
+    return;
+  }
+  
+  loginWithDiscord();
+}
+
+// Effettua login Discord
+function loginWithDiscord() {
+  const loginBtn = document.getElementById('discord-login-btn');
+  const loginText = document.getElementById('login-text');
+  
+  try {
+    loginBtn.disabled = true;
+    loginText.innerHTML = '<div class="loading-spinner"></div> Reindirizzamento...';
+    
+    const params = new URLSearchParams({
+      client_id: DISCORD_CLIENT_ID,
+      redirect_uri: REDIRECT_URI,
+      response_type: 'token',
+      scope: 'identify',
+      prompt: 'consent'
+    });
+    
+    const authUrl = `https://discord.com/oauth2/authorize?${params}`;
+    console.log('🔗 Auth URL:', authUrl);
+    window.location.replace(authUrl); // Cambiato da window.open a window.location.replace
+    
+  } catch (err) {
+    console.error('❌ Errore login:', err);
+    notifications.error('Errore durante il reindirizzamento');
+    loginBtn.disabled = false;
+    loginText.textContent = 'Accedi con Discord';
+  }
+}
+
+// Gestione callback Discord
+function handleDiscordCallback() {
+  console.log('📥 Gestione callback Discord...');
+  
+  try {
+    const fragment = new URLSearchParams(window.location.hash.slice(1));
+    const accessToken = fragment.get('access_token');
+    const error = fragment.get('error');
+    
+    if (error) {
+      console.error('❌ Errore OAuth2:', error);
+      notifications.error(`Errore Discord: ${error}`);
+      return;
+    }
+    
+    if (accessToken) {
+      console.log('✅ Token ricevuto, recupero dati utente...');
+      
+      // Salva token
+      sessionStorage.setItem('discord_token', accessToken);
+      
+      // Ottieni dati utente
+      fetchDiscordUser(accessToken);
+      
+      // Pulisci URL
+      history.replaceState(null, null, window.location.pathname);
+    }
+  } catch (err) {
+    console.error('❌ Errore callback:', err);
+    notifications.error('Errore durante l\'elaborazione del callback');
+  }
+}
+
+// Recupera dati utente Discord
+async function fetchDiscordUser(token) {
+  try {
+    const response = await fetch('https://discord.com/api/users/@me', {
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      }
+    });
+    
+    if (!response.ok) {
+      throw new Error(`Discord API Error: ${response.status}`);
+    }
+    
+    const user = await response.json();
+    
+    if (!user.id) {
+      throw new Error('Invalid user data received');
+    }
+
+    // Salva i dati utente e procedi con il login
+    sessionStorage.setItem('user_data', JSON.stringify(user));
+    handleSuccessfulLogin(user);
+    
+  } catch (err) {
+    console.error('❌ Errore autenticazione:', err);
+    notifications.error('Errore di autenticazione');
+    clearSession();
+    logout();
+  }
+}
+
+// Login completato con successo
+function handleSuccessfulLogin(user) {
+  console.log('🎉 Login completato per:', user.username || user.global_name);
+  
+  try {
+    // Transizione UI
+    const loginSection = document.getElementById('login-section');
+    const dashboard = document.getElementById('dashboard');
+    
+    loginSection.classList.add('fade-out');
+    
+    setTimeout(() => {
+      loginSection.style.display = 'none';
+      dashboard.classList.add('show');
+    }, 500);
+    
+    // Aggiorna profilo
+    updateUserProfile(user);
+    
+    // Notifica benvenuto
+    notifications.success(`Benvenuto, ${user.global_name || user.username}!`);
+    
+  } catch (err) {
+    console.error('❌ Errore durante il login:', err);
+    notifications.error('Errore durante il caricamento della dashboard');
+  }
+}
+
+// Aggiorna profilo utente
+function updateUserProfile(user) {
+  const userAvatar = document.getElementById('user-avatar');
+  const userName = document.getElementById('user-name');
+  const userRole = document.getElementById('user-role');
+  
+  // Nome
+  userName.textContent = user.global_name || user.username || 'Utente Discord';
+  userRole.textContent = 'Operatore UOPI';
+  
+  // Avatar
+  if (user.avatar) {
+    const avatarUrl = `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png?size=128`;
+    userAvatar.innerHTML = `<img src="${avatarUrl}" alt="Avatar" onerror="this.parentNode.textContent='${(user.global_name || user.username || 'U').charAt(0).toUpperCase()}'">`;
+  } else {
+    userAvatar.textContent = (user.global_name || user.username || 'U').charAt(0).toUpperCase();
+  }
+}
+
+// Logout
+function logout() {
+  console.log('🚪 Logout...');
+  
+  clearSession();
+  
+  // Ripristina UI
+  const loginSection = document.getElementById('login-section');
+  const dashboard = document.getElementById('dashboard');
+  
+  dashboard.classList.remove('show');
+  loginSection.classList.remove('fade-out');
+  loginSection.style.display = 'flex';
+  
+  // Ripristina bottone login
+  const loginBtn = document.getElementById('discord-login-btn');
+  const loginText = document.getElementById('login-text');
+  loginBtn.disabled = false;
+  loginText.textContent = 'Accedi con Discord';
+  
+  notifications.info('Logout effettuato');
+}
+
+// Pulisci sessione
+function clearSession() {
+  sessionStorage.removeItem('discord_token');
+  sessionStorage.removeItem('user_data');
+}
+
+// Controlla sessione esistente
+function checkExistingSession() {
+  const token = sessionStorage.getItem('discord_token');
+  const userData = sessionStorage.getItem('user_data');
+  
+  if (token && userData) {
+    try {
+      const user = JSON.parse(userData);
+      console.log('🔄 Sessione esistente:', user.username || user.global_name);
+      handleSuccessfulLogin(user);
+    } catch (err) {
+      console.error('❌ Errore parsing dati salvati:', err);
+      clearSession();
+    }
+  }
+}
+
+// Come ottenere il Discord User ID
+function showUserIdInstructions() {
+  console.log(`
+🆔 Come ottenere il tuo Discord User ID:
+
+1. Apri Discord
+2. Vai in Impostazioni Utente (icona ingranaggio)
+3. Vai in "Avanzate" 
+4. Attiva "Modalità sviluppatore"
+5. Torna alla chat
+6. Fai clic destro sul tuo nome utente
+7. Seleziona "Copia ID"
+
+Questo ID va inserito nell'array AUTHORIZED_USERS nel codice.
+  `);
+}
+
+// Inizializzazione
+document.addEventListener('DOMContentLoaded', () => {
+  console.log('🚀 Inizializzazione Dashboard UOPI...');
+  
+  // Mostra URL corrente per configurazione
+  const currentUrlElement = document.getElementById('current-url');
+  if (currentUrlElement) {
+    currentUrlElement.textContent = REDIRECT_URI;
+  }
+  
+  // Debug configurazione
+  console.log('🔧 Configurazione:');
+  console.log('- Client ID configurato:', DISCORD_CLIENT_ID !== 'YOUR_CLIENT_ID_HERE' ? '✅' : '❌');
+  console.log('- User ID configurati:', AUTHORIZED_USERS !== 'YOUR_DISCORD_USER_ID_HERE' ? '✅' : '❌');
+  console.log('- Redirect URI:', REDIRECT_URI);
+  
+  // Mostra istruzioni per User ID
+  showUserIdInstructions();
+  
+  // Gestisci callback o sessione esistente
+  if (window.location.hash && window.location.hash.includes('access_token')) {
+    console.log('📨 Callback Discord rilevato');
+    handleDiscordCallback();
+  } else {
+    console.log('🔍 Controllo sessione esistente...');
+    checkExistingSession();
+  }
+});
+
+// Info debug globale
+window.UOPI_DEBUG = {
+  config: {
+    clientId: DISCORD_CLIENT_ID,
+    redirectUri: REDIRECT_URI,
+    authorizedUsers: AUTHORIZED_USERS
+  },
+  session: {
+    hasToken: !!sessionStorage.getItem('discord_token'),
+    hasUserData: !!sessionStorage.getItem('user_data')
+  },
+  clearSession,
+  showUserIdInstructions
+};
+
+console.log('🐛 Debug info disponibile in window.UOPI_DEBUG');
+
+// Aggiunta gestione errori più robusta
+window.onerror = function(msg, url, line, col, error) {
+  console.error('Global error:', {msg, url, line, col, error});
+  notifications.error('Si è verificato un errore. Ricarica la pagina.');
+  return false;
+};
+</script>
+
+</body>
+</html>
   showUserIdInstructions
 };
 
