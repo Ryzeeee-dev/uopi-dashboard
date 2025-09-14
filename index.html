@@ -22,19 +22,9 @@
     overflow-x: hidden;
   }
 
-  /* ✨ ANIMAZIONI GLOBALI */
+  /* ✨ ANIMAZIONI GLOBALI - RIMOSSE QUELLE FASTIDIOSE */
   * {
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-
-  @keyframes float {
-    0%, 100% { transform: translateY(0px); }
-    50% { transform: translateY(-10px); }
-  }
-
-  @keyframes pulse {
-    0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.05); }
   }
 
   @keyframes slideInLeft {
@@ -63,8 +53,8 @@
   }
 
   @keyframes glow {
-    0%, 100% { box-shadow: 0 0 20px rgba(59, 130, 246, 0.4); }
-    50% { box-shadow: 0 0 30px rgba(59, 130, 246, 0.8); }
+    0%, 100% { box-shadow: 0 0 15px rgba(59, 130, 246, 0.3); }
+    50% { box-shadow: 0 0 25px rgba(59, 130, 246, 0.6); }
   }
 
   /* 🔄 LOADING SCREEN */
@@ -97,7 +87,6 @@
     font-size: 64px;
     margin-bottom: 30px;
     color: #4299e1;
-    animation: float 2s ease-in-out infinite;
   }
 
   .loading-spinner {
@@ -114,7 +103,6 @@
     font-size: 20px;
     color: #a0aec0;
     margin-bottom: 30px;
-    animation: pulse 2s ease-in-out infinite;
   }
 
   .loading-progress {
@@ -153,7 +141,6 @@
     bottom: 0;
     background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="0.5"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)" /></svg>');
     opacity: 0.3;
-    animation: float 20s ease-in-out infinite;
   }
 
   .login-container {
@@ -175,7 +162,6 @@
     font-size: 64px;
     margin-bottom: 20px;
     display: block;
-    animation: pulse 2s ease-in-out infinite;
   }
 
   .login-title {
@@ -219,7 +205,6 @@
   .discord-login-button:hover {
     transform: translateY(-3px);
     box-shadow: 0 15px 35px rgba(88, 101, 242, 0.5);
-    animation: glow 2s ease-in-out infinite;
   }
 
   .discord-icon {
@@ -261,7 +246,7 @@
     animation: slideInUp 0.6s ease-out;
   }
 
-  /* 🧭 NAVIGATION */
+  /* 🧭 NAVIGATION - FIXED */
   .dashboard-nav {
     background: rgba(15, 23, 42, 0.95);
     backdrop-filter: blur(20px);
@@ -271,6 +256,7 @@
     top: 0;
     z-index: 998;
     animation: slideInLeft 0.6s ease-out;
+    padding-right: 320px; /* Spazio per user profile */
   }
 
   .nav-container {
@@ -294,7 +280,6 @@
 
   .nav-brand-icon {
     font-size: 36px;
-    animation: float 3s ease-in-out infinite;
   }
 
   .nav-tabs {
@@ -352,26 +337,28 @@
     font-size: 16px;
   }
 
-  /* 👤 USER PROFILE */
+  /* 👤 USER PROFILE - COMPLETAMENTE RIDISEGNATO */
   .user-profile-section {
     position: fixed;
-    top: 0;
-    right: 0;
+    top: 20px;
+    right: 20px;
     display: flex;
     align-items: center;
-    gap: 18px;
-    padding: 20px 30px;
-    background: rgba(15, 23, 42, 0.95);
-    backdrop-filter: blur(20px);
-    z-index: 1000;
-    border-bottom-left-radius: 25px;
+    gap: 15px;
+    padding: 15px 25px;
+    background: rgba(15, 23, 42, 0.98);
+    backdrop-filter: blur(25px);
+    z-index: 1001;
+    border-radius: 20px;
     border: 1px solid rgba(59, 130, 246, 0.2);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
     animation: slideInRight 0.6s ease-out;
+    min-width: 280px;
   }
 
   .user-avatar {
-    width: 55px;
-    height: 55px;
+    width: 50px;
+    height: 50px;
     border-radius: 50%;
     background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
     display: flex;
@@ -379,17 +366,16 @@
     justify-content: center;
     color: white;
     font-weight: bold;
-    font-size: 22px;
+    font-size: 20px;
     border: 3px solid #3b82f6;
     overflow: hidden;
-    box-shadow: 0 10px 30px rgba(59, 130, 246, 0.4);
-    animation: float 4s ease-in-out infinite;
+    box-shadow: 0 8px 20px rgba(59, 130, 246, 0.4);
+    flex-shrink: 0;
   }
 
   .user-avatar.admin {
     border: 3px solid #dc2626;
-    box-shadow: 0 10px 30px rgba(220, 38, 38, 0.4);
-    animation: glow 3s ease-in-out infinite;
+    box-shadow: 0 8px 20px rgba(220, 38, 38, 0.4);
   }
 
   .user-avatar img {
@@ -401,45 +387,59 @@
   .user-info {
     display: flex;
     flex-direction: column;
-    gap: 2px;
+    gap: 4px;
+    flex: 1;
+    min-width: 0; /* Previene overflow */
   }
 
   .user-name {
     font-weight: 700;
-    font-size: 18px;
+    font-size: 16px;
     color: #f1f5f9;
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .user-name span:first-child {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 140px;
   }
 
   .admin-badge {
     background: linear-gradient(135deg, #dc2626, #991b1b);
     color: #ffffff;
-    padding: 4px 12px;
-    border-radius: 12px;
-    font-size: 11px;
+    padding: 3px 8px;
+    border-radius: 8px;
+    font-size: 10px;
     font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.8px;
-    animation: pulse 2s ease-in-out infinite;
-    box-shadow: 0 4px 15px rgba(220, 38, 38, 0.3);
+    letter-spacing: 0.5px;
+    box-shadow: 0 2px 8px rgba(220, 38, 38, 0.3);
+    flex-shrink: 0;
   }
 
   .user-role {
-    font-size: 14px;
-    color: #3b82f6;
-    font-weight: 600;
+    font-size: 13px;
+    color: #64748b;
+    font-weight: 500;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   .header-actions {
     display: flex;
-    gap: 10px;
+    gap: 8px;
+    flex-shrink: 0;
   }
 
   .header-btn {
-    width: 42px;
-    height: 42px;
+    width: 36px;
+    height: 36px;
     border-radius: 50%;
     background: rgba(59, 130, 246, 0.1);
     border: 1px solid rgba(59, 130, 246, 0.2);
@@ -480,7 +480,6 @@
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-    animation: float 4s ease-in-out infinite;
   }
 
   .dashboard-subtitle {
@@ -531,6 +530,7 @@
     font-size: 14px;
     transform: translateY(0);
     backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
   }
 
   .admin-btn:hover {
@@ -563,17 +563,16 @@
     box-shadow: 0 10px 30px rgba(59, 130, 246, 0.3);
     transform: translateY(0);
     backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
   }
 
   .quick-action-btn:hover {
     transform: translateY(-5px);
     box-shadow: 0 20px 40px rgba(59, 130, 246, 0.4);
-    animation: glow 2s ease-in-out infinite;
   }
 
   .quick-action-icon {
     font-size: 24px;
-    animation: float 3s ease-in-out infinite;
   }
 
   /* 📊 STATISTICS */
@@ -596,6 +595,7 @@
     transform: translateY(0);
     box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
     animation: slideInUp 0.6s ease-out;
+    transition: all 0.3s ease;
   }
 
   .stat-card::before {
@@ -611,7 +611,6 @@
   .stat-card:hover {
     transform: translateY(-10px);
     box-shadow: 0 25px 50px rgba(59, 130, 246, 0.3);
-    animation: glow 2s ease-in-out infinite;
   }
 
   .stat-number {
@@ -620,7 +619,6 @@
     color: #3b82f6;
     margin-bottom: 15px;
     line-height: 1;
-    animation: pulse 3s ease-in-out infinite;
   }
 
   .stat-label {
@@ -659,6 +657,7 @@
     overflow: hidden;
     transform: translateY(0);
     animation: slideInUp 0.8s ease-out;
+    transition: all 0.3s ease;
   }
 
   .dashboard-card::before {
@@ -720,7 +719,7 @@
 
   .data-table tr:hover {
     background: rgba(59, 130, 246, 0.1);
-    transform: scale(1.02);
+    transform: scale(1.01);
   }
 
   .data-table tr:last-child td {
@@ -736,7 +735,6 @@
     text-transform: uppercase;
     letter-spacing: 0.8px;
     display: inline-block;
-    animation: pulse 3s ease-in-out infinite;
   }
 
   .status-active { 
@@ -771,18 +769,6 @@
     margin: 30px 0;
     color: white;
     text-align: center;
-    animation: glow 3s ease-in-out infinite;
-  }
-
-  .notification-dot {
-    position: absolute;
-    top: -5px;
-    right: -5px;
-    width: 12px;
-    height: 12px;
-    background: #ef4444;
-    border-radius: 50%;
-    animation: pulse 2s ease-in-out infinite;
   }
 
   .error-message {
@@ -797,6 +783,21 @@
   }
 
   /* 📱 RESPONSIVE */
+  @media (max-width: 1024px) {
+    .dashboard-nav {
+      padding-right: 20px; /* Rimuovi spazio extra su tablet */
+    }
+    
+    .user-profile-section {
+      position: relative;
+      top: auto;
+      right: auto;
+      margin: 20px;
+      min-width: auto;
+      width: calc(100% - 40px);
+    }
+  }
+
   @media (max-width: 768px) {
     .nav-container {
       flex-direction: column;
@@ -816,7 +817,10 @@
     
     .user-profile-section {
       position: relative;
-      border-radius: 0;
+      top: auto;
+      right: auto;
+      margin: 20px 0;
+      border-radius: 15px;
       justify-content: center;
     }
     
@@ -848,17 +852,9 @@
     }
   }
 
-  /* 🎨 HOVER EFFECTS */
+  /* 🎨 HOVER EFFECTS - SOLO SCALE, NO FLOAT */
   .hover-glow:hover {
     animation: glow 2s ease-in-out infinite;
-  }
-
-  .hover-float:hover {
-    animation: float 2s ease-in-out infinite;
-  }
-
-  .hover-pulse:hover {
-    animation: pulse 1s ease-in-out infinite;
   }
 
   /* ⚡ SCROLL ANIMATIONS */
@@ -964,7 +960,7 @@
     </div>
   </nav>
 
-  <!-- 👤 User Profile -->
+  <!-- 👤 User Profile - COMPLETAMENTE RINNOVATO -->
   <div class="user-profile-section">
     <div class="user-avatar" id="user-avatar">
       <span id="user-initial">?</span>
@@ -978,7 +974,7 @@
     </div>
     <div class="header-actions">
       <button class="header-btn hover-glow" onclick="DiscordAuth.logout()" title="Logout">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
           <path d="M16 13v-2H7V8l-5 4 5 4v-3z"/>
           <path d="M20 3h-9c-1.103 0-2 .897-2 2v4h2V5h9v14h-9v-4H9v4c0 1.103.897 2 2 2h9c1.103 0 2-.897 2-2V5c0-1.103-.897-2-2-2z"/>
         </svg>
@@ -1062,7 +1058,7 @@
 
       <div class="feature-highlight scroll-fade-in">
         <h3>🎯 Sistema Avanzato di Gestione</h3>
-        <p>Dashboard completamente funzionale con animazioni professionali e controlli dirigenza</p>
+        <p>Dashboard completamente funzionale con interfaccia user-friendly e controlli dirigenza</p>
       </div>
     </div>
 
@@ -1303,11 +1299,11 @@
 </div>
 
 <script>
-// 🚔 CONFIGURAZIONE - AGGIORNATA CON NUOVO LINK
+// 🚔 CONFIGURAZIONE
 const CONFIG = {
   DISCORD: {
     CLIENT_ID: '1387801645743869982',
-    REDIRECT_URI: 'https://ryze-glitch.github.io/uopi-dashboard/', // ✅ NUOVO LINK
+    REDIRECT_URI: 'https://ryze-glitch.github.io/uopi-dashboard/',
     SCOPE: 'identify'
   },
   ADMIN_IDS: [
@@ -1370,24 +1366,19 @@ class AnimationManager {
 
 // 🗂️ Section Manager
 function switchSection(sectionName) {
-  // Remove active from tabs
   document.querySelectorAll('.nav-tab').forEach(tab => {
     tab.classList.remove('active');
   });
   
-  // Hide all sections
   document.querySelectorAll('.section-container').forEach(section => {
     section.classList.remove('active');
   });
   
-  // Add active to clicked tab
   event.target.classList.add('active');
   
-  // Show selected section with animation
   const targetSection = document.getElementById(`section-${sectionName}`);
   targetSection.classList.add('active');
   
-  // Reinitialize scroll animations for new content
   setTimeout(() => {
     AnimationManager.initScrollAnimations();
   }, 100);
@@ -1442,7 +1433,6 @@ function showModal(title, description) {
   
   document.body.appendChild(modal);
   
-  // Auto remove after 5 seconds
   setTimeout(() => {
     if (modal.parentNode) {
       modal.remove();
@@ -1607,7 +1597,6 @@ class UI {
     this.updateProfile(userData);
     this.checkAdminStatus(userData);
     
-    // Initialize animations
     setTimeout(() => {
       AnimationManager.initScrollAnimations();
       AnimationManager.addHoverEffects();
@@ -1634,23 +1623,16 @@ class UI {
     const isAdmin = CONFIG.ADMIN_IDS.includes(userData.id);
     
     if (isAdmin) {
-      // Show admin badge (RED)
       document.getElementById('admin-badge').style.display = 'inline-block';
-      
-      // Change avatar style
       document.getElementById('user-avatar').classList.add('admin');
-      
-      // Show admin panel
       document.getElementById('admin-panel').style.display = 'block';
       
-      // Show admin tabs
       document.querySelectorAll('.admin-only').forEach(tab => {
         tab.style.display = 'flex';
       });
       
       console.log('🏆 Dirigenza riconosciuta:', userData.username);
       
-      // Welcome message for admins
       setTimeout(() => {
         showModal('Benvenuto Dirigenza', `Accesso completo garantito per ${userData.username}. Tutte le funzioni amministrative sono disponibili.`);
       }, 2000);
@@ -1679,7 +1661,6 @@ document.addEventListener('DOMContentLoaded', async function() {
     DiscordAuth.login();
   });
   
-  // Initialize animations on load
   AnimationManager.initScrollAnimations();
 });
 </script>
