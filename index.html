@@ -189,6 +189,13 @@
     background-clip: text;
   }
 
+  .login-subtitle {
+    font-size: 16px;
+    color: #a0aec0;
+    margin: 0 0 40px 0;
+    line-height: 1.5;
+  }
+
   .discord-login-button {
     background: linear-gradient(135deg, #5865f2 0%, #4752c4 100%);
     color: white;
@@ -213,6 +220,37 @@
     transform: translateY(-3px);
     box-shadow: 0 15px 35px rgba(88, 101, 242, 0.5);
     animation: glow 2s ease-in-out infinite;
+  }
+
+  .discord-icon {
+    width: 24px;
+    height: 24px;
+    flex-shrink: 0;
+  }
+
+  .login-features {
+    margin-top: 40px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    padding-top: 30px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .feature-item {
+    text-align: center;
+  }
+
+  .feature-icon {
+    font-size: 24px;
+    margin-bottom: 8px;
+    display: block;
+  }
+
+  .feature-text {
+    font-size: 12px;
+    color: #a0aec0;
+    line-height: 1.3;
   }
 
   /* 🏠 MAIN DASHBOARD */
@@ -310,6 +348,10 @@
     color: #fecaca;
   }
 
+  .nav-tab-icon {
+    font-size: 16px;
+  }
+
   /* 👤 USER PROFILE */
   .user-profile-section {
     position: fixed;
@@ -350,6 +392,18 @@
     animation: glow 3s ease-in-out infinite;
   }
 
+  .user-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .user-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
   .user-name {
     font-weight: 700;
     font-size: 18px;
@@ -376,6 +430,31 @@
     font-size: 14px;
     color: #3b82f6;
     font-weight: 600;
+  }
+
+  .header-actions {
+    display: flex;
+    gap: 10px;
+  }
+
+  .header-btn {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: rgba(59, 130, 246, 0.1);
+    border: 1px solid rgba(59, 130, 246, 0.2);
+    color: #3b82f6;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+  }
+
+  .header-btn:hover {
+    background: rgba(59, 130, 246, 0.2);
+    border-color: rgba(59, 130, 246, 0.4);
+    transform: scale(1.1);
   }
 
   /* 📊 DASHBOARD CONTENT */
@@ -706,6 +785,17 @@
     animation: pulse 2s ease-in-out infinite;
   }
 
+  .error-message {
+    background: linear-gradient(135deg, #fed7d7, #feb2b2);
+    color: #9b2c2c;
+    padding: 15px 20px;
+    border-radius: 12px;
+    margin: 20px 0;
+    display: none;
+    border-left: 4px solid #e53e3e;
+    font-weight: 500;
+  }
+
   /* 📱 RESPONSIVE */
   @media (max-width: 768px) {
     .nav-container {
@@ -745,6 +835,16 @@
     
     .quick-actions {
       grid-template-columns: 1fr;
+    }
+
+    .login-container {
+      padding: 40px 30px;
+      margin: 20px;
+    }
+
+    .login-features {
+      grid-template-columns: 1fr;
+      gap: 15px;
     }
   }
 
@@ -803,6 +903,21 @@
     </button>
     
     <div id="error-message" class="error-message"></div>
+    
+    <div class="login-features">
+      <div class="feature-item">
+        <span class="feature-icon">🔐</span>
+        <div class="feature-text">Accesso<br>Sicuro</div>
+      </div>
+      <div class="feature-item">
+        <span class="feature-icon">⚡</span>
+        <div class="feature-text">Login<br>Veloce</div>
+      </div>
+      <div class="feature-item">
+        <span class="feature-icon">🛡️</span>
+        <div class="feature-text">OAuth2<br>Protetto</div>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -1188,11 +1303,11 @@
 </div>
 
 <script>
-// 🚔 CONFIGURAZIONE
+// 🚔 CONFIGURAZIONE - AGGIORNATA CON NUOVO LINK
 const CONFIG = {
   DISCORD: {
     CLIENT_ID: '1387801645743869982',
-    REDIRECT_URI: 'https://ryzeeee-dev.github.io/uopi-dashboard/',
+    REDIRECT_URI: 'https://ryze-glitch.github.io/uopi-dashboard/', // ✅ NUOVO LINK
     SCOPE: 'identify'
   },
   ADMIN_IDS: [
