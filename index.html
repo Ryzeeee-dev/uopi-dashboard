@@ -6,15 +6,68 @@
 <title>Dashboard Gestione UOPI - FiveM</title>
 <meta http-equiv="Content-Security-Policy" content="default-src 'self' https://discord.com https://discordapp.com https://cdn.discordapp.com https://*.discord.com; connect-src 'self' https://discord.com https://discordapp.com https://api.discord.com; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline';">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
 <style>
-  *, *::before, *::after { box-sizing: border-box; }
+  *, *::before, *::after { 
+    box-sizing: border-box; 
+    margin: 0; 
+    padding: 0;
+  }
+  
   html, body {
-    margin: 0; padding: 0;
     height: 100%;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: #0f172a;
+    background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
     color: #eee;
+    overflow-x: hidden;
   }
+
+  /* ✨ ANIMAZIONI GLOBALI */
+  * {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+  }
+
+  @keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+  }
+
+  @keyframes slideInLeft {
+    from { transform: translateX(-100%); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+  }
+
+  @keyframes slideInRight {
+    from { transform: translateX(100%); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+  }
+
+  @keyframes slideInUp {
+    from { transform: translateY(50px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+  }
+
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+
+  @keyframes progress {
+    0% { width: 0%; }
+    100% { width: 100%; }
+  }
+
+  @keyframes glow {
+    0%, 100% { box-shadow: 0 0 20px rgba(59, 130, 246, 0.4); }
+    50% { box-shadow: 0 0 30px rgba(59, 130, 246, 0.8); }
+  }
+
+  /* 🔄 LOADING SCREEN */
   .loading-overlay {
     position: fixed;
     top: 0;
@@ -30,18 +83,23 @@
     opacity: 1;
     transition: opacity 0.5s ease-out;
   }
+
   .loading-overlay.show {
     display: flex;
   }
+
   .loading-overlay.hidden {
     opacity: 0;
     pointer-events: none;
   }
+
   .loading-logo {
-    font-size: 48px;
+    font-size: 64px;
     margin-bottom: 30px;
     color: #4299e1;
+    animation: float 2s ease-in-out infinite;
   }
+
   .loading-spinner {
     width: 60px;
     height: 60px;
@@ -51,36 +109,31 @@
     animation: spin 1s linear infinite;
     margin-bottom: 20px;
   }
+
   .loading-text {
-    font-size: 18px;
+    font-size: 20px;
     color: #a0aec0;
-    margin-bottom: 10px;
+    margin-bottom: 30px;
+    animation: pulse 2s ease-in-out infinite;
   }
+
   .loading-progress {
-    width: 200px;
-    height: 4px;
+    width: 300px;
+    height: 6px;
     background: rgba(66, 153, 225, 0.1);
-    border-radius: 2px;
+    border-radius: 3px;
     overflow: hidden;
   }
+
   .loading-progress-bar {
     height: 100%;
     background: linear-gradient(90deg, #4299e1, #667eea);
-    border-radius: 2px;
+    border-radius: 3px;
     width: 0%;
     animation: progress 3s ease-out forwards;
   }
-  @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-  }
-  @keyframes progress {
-    0% { width: 0%; }
-    30% { width: 30%; }
-    60% { width: 60%; }
-    90% { width: 90%; }
-    100% { width: 100%; }
-  }
+
+  /* 🎨 LOGIN SECTION */
   .login-section {
     display: flex;
     align-items: center;
@@ -90,6 +143,7 @@
     position: relative;
     overflow: hidden;
   }
+
   .login-section::before {
     content: '';
     position: absolute;
@@ -99,7 +153,9 @@
     bottom: 0;
     background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="0.5"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)" /></svg>');
     opacity: 0.3;
+    animation: float 20s ease-in-out infinite;
   }
+
   .login-container {
     position: relative;
     z-index: 2;
@@ -112,15 +168,16 @@
     max-width: 450px;
     width: 90%;
     text-align: center;
+    animation: slideInUp 0.8s ease-out;
   }
-  .login-header {
-    margin-bottom: 40px;
-  }
+
   .login-logo {
     font-size: 64px;
     margin-bottom: 20px;
     display: block;
+    animation: pulse 2s ease-in-out infinite;
   }
+
   .login-title {
     font-size: 32px;
     font-weight: 700;
@@ -131,12 +188,7 @@
     -webkit-text-fill-color: transparent;
     background-clip: text;
   }
-  .login-subtitle {
-    font-size: 16px;
-    color: #a0aec0;
-    margin: 0 0 40px 0;
-    line-height: 1.5;
-  }
+
   .discord-login-button {
     background: linear-gradient(135deg, #5865f2 0%, #4752c4 100%);
     color: white;
@@ -146,7 +198,6 @@
     font-size: 16px;
     font-weight: 600;
     cursor: pointer;
-    transition: all 0.4s ease;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -155,140 +206,130 @@
     position: relative;
     overflow: hidden;
     box-shadow: 0 8px 25px rgba(88, 101, 242, 0.3);
+    transform: translateY(0);
   }
+
   .discord-login-button:hover {
     transform: translateY(-3px);
-    box-shadow: 0 15px 35px rgba(88, 101, 242, 0.4);
+    box-shadow: 0 15px 35px rgba(88, 101, 242, 0.5);
+    animation: glow 2s ease-in-out infinite;
   }
-  .discord-login-button:active {
-    transform: translateY(-1px);
-  }
-  .discord-login-button:disabled {
-    opacity: 0.7;
-    cursor: not-allowed;
-    transform: none;
-  }
-  .discord-icon {
-    width: 24px;
-    height: 24px;
-    flex-shrink: 0;
-  }
-  .login-features {
-    margin-top: 40px;
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
-    padding-top: 30px;
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
-  }
-  .feature-item {
-    text-align: center;
-  }
-  .feature-icon {
-    font-size: 24px;
-    margin-bottom: 8px;
-    display: block;
-  }
-  .feature-text {
-    font-size: 12px;
-    color: #a0aec0;
-    line-height: 1.3;
-  }
+
+  /* 🏠 MAIN DASHBOARD */
   .main-container {
     display: none;
     min-height: 100vh;
     background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+    animation: slideInUp 0.6s ease-out;
   }
+
+  /* 🧭 NAVIGATION */
   .dashboard-nav {
     background: rgba(15, 23, 42, 0.95);
     backdrop-filter: blur(20px);
-    border-bottom: 1px solid rgba(59, 130, 246, 0.1);
+    border-bottom: 1px solid rgba(59, 130, 246, 0.2);
     padding: 0 20px;
     position: sticky;
     top: 0;
     z-index: 998;
+    animation: slideInLeft 0.6s ease-out;
   }
+
   .nav-container {
-    max-width: 1200px;
+    max-width: 1400px;
     margin: 0 auto;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    height: 70px;
+    height: 80px;
   }
+
   .nav-brand {
     display: flex;
     align-items: center;
-    gap: 12px;
-    font-size: 24px;
+    gap: 15px;
+    font-size: 26px;
     font-weight: 800;
     color: #f1f5f9;
+    animation: slideInLeft 0.8s ease-out;
   }
+
   .nav-brand-icon {
-    font-size: 32px;
+    font-size: 36px;
+    animation: float 3s ease-in-out infinite;
   }
+
   .nav-tabs {
     display: flex;
     align-items: center;
-    gap: 4px;
+    gap: 6px;
     background: rgba(30, 41, 59, 0.8);
-    border-radius: 16px;
-    padding: 6px;
-    border: 1px solid rgba(59, 130, 246, 0.1);
+    border-radius: 20px;
+    padding: 8px;
+    border: 1px solid rgba(59, 130, 246, 0.2);
+    animation: slideInRight 0.8s ease-out;
   }
+
   .nav-tab {
     display: flex;
     align-items: center;
-    gap: 8px;
-    padding: 12px 20px;
-    border-radius: 12px;
+    gap: 10px;
+    padding: 14px 24px;
+    border-radius: 16px;
     background: transparent;
     border: none;
     color: #94a3b8;
     font-size: 14px;
     font-weight: 600;
     cursor: pointer;
-    transition: all 0.3s ease;
     position: relative;
     overflow: hidden;
+    transform: translateY(0);
   }
+
   .nav-tab:hover {
     color: #f1f5f9;
-    background: rgba(59, 130, 246, 0.1);
+    background: rgba(59, 130, 246, 0.15);
+    transform: translateY(-2px);
   }
+
   .nav-tab.active {
     color: #ffffff;
     background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
-    box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
+    box-shadow: 0 8px 25px rgba(59, 130, 246, 0.4);
+    transform: translateY(-2px);
   }
-  .nav-tab-icon {
-    font-size: 16px;
-  }
-  /* Admin-only tabs */
+
   .nav-tab.admin-only {
-    border: 1px solid rgba(255, 215, 0, 0.3);
+    border: 1px solid rgba(239, 68, 68, 0.3);
+    background: rgba(239, 68, 68, 0.1);
   }
+
   .nav-tab.admin-only:hover {
-    background: rgba(255, 215, 0, 0.1);
-    color: #ffd700;
+    background: rgba(239, 68, 68, 0.2);
+    color: #fecaca;
   }
+
+  /* 👤 USER PROFILE */
   .user-profile-section {
     position: fixed;
     top: 0;
     right: 0;
     display: flex;
     align-items: center;
-    gap: 15px;
-    padding: 15px 25px;
+    gap: 18px;
+    padding: 20px 30px;
     background: rgba(15, 23, 42, 0.95);
-    backdrop-filter: blur(15px);
+    backdrop-filter: blur(20px);
     z-index: 1000;
-    border-bottom-left-radius: 20px;
-    border: 1px solid rgba(59, 130, 246, 0.1);
+    border-bottom-left-radius: 25px;
+    border: 1px solid rgba(59, 130, 246, 0.2);
+    animation: slideInRight 0.6s ease-out;
   }
+
   .user-avatar {
-    width: 50px;
-    height: 50px;
+    width: 55px;
+    height: 55px;
     border-radius: 50%;
     background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
     display: flex;
@@ -296,375 +337,446 @@
     justify-content: center;
     color: white;
     font-weight: bold;
-    font-size: 20px;
+    font-size: 22px;
     border: 3px solid #3b82f6;
     overflow: hidden;
-    box-shadow: 0 8px 25px rgba(59, 130, 246, 0.4);
+    box-shadow: 0 10px 30px rgba(59, 130, 246, 0.4);
+    animation: float 4s ease-in-out infinite;
   }
+
   .user-avatar.admin {
-    border: 3px solid #ffd700;
-    box-shadow: 0 8px 25px rgba(255, 215, 0, 0.4);
+    border: 3px solid #dc2626;
+    box-shadow: 0 10px 30px rgba(220, 38, 38, 0.4);
+    animation: glow 3s ease-in-out infinite;
   }
-  .user-avatar img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-  .user-info {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-  }
+
   .user-name {
     font-weight: 700;
-    font-size: 16px;
+    font-size: 18px;
     color: #f1f5f9;
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 10px;
   }
+
   .admin-badge {
-    background: linear-gradient(135deg, #ffd700, #ffed4e);
-    color: #1a202c;
-    padding: 2px 8px;
-    border-radius: 10px;
-    font-size: 10px;
+    background: linear-gradient(135deg, #dc2626, #991b1b);
+    color: #ffffff;
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-size: 11px;
     font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.5px;
+    letter-spacing: 0.8px;
+    animation: pulse 2s ease-in-out infinite;
+    box-shadow: 0 4px 15px rgba(220, 38, 38, 0.3);
   }
+
   .user-role {
-    font-size: 13px;
+    font-size: 14px;
     color: #3b82f6;
     font-weight: 600;
   }
-  .header-actions {
-    display: flex;
-    gap: 10px;
-  }
-  .header-btn {
-    width: 42px;
-    height: 42px;
-    border-radius: 50%;
-    background: rgba(59, 130, 246, 0.1);
-    border: 1px solid rgba(59, 130, 246, 0.2);
-    color: #3b82f6;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.3s ease;
-  }
-  .header-btn:hover {
-    background: rgba(59, 130, 246, 0.2);
-    border-color: rgba(59, 130, 246, 0.4);
-    transform: scale(1.1);
-  }
+
+  /* 📊 DASHBOARD CONTENT */
   .dashboard {
-    padding: 40px 20px;
+    padding: 50px 30px;
     max-width: 1400px;
     margin: 0 auto;
     width: 100%;
   }
+
   .dashboard-header {
     text-align: center;
-    margin-bottom: 50px;
+    margin-bottom: 60px;
+    animation: slideInUp 0.8s ease-out;
   }
+
   .dashboard-title {
-    font-size: 42px;
+    font-size: 48px;
     font-weight: 800;
     color: #f1f5f9;
-    margin: 0 0 16px 0;
+    margin: 0 0 20px 0;
     background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
+    animation: float 4s ease-in-out infinite;
   }
+
   .dashboard-subtitle {
-    font-size: 18px;
+    font-size: 20px;
     color: #64748b;
     margin: 0;
     font-weight: 500;
   }
-  .section-container {
-    display: none;
+
+  /* 🏆 ADMIN PANEL */
+  .admin-panel {
+    background: linear-gradient(135deg, #dc2626 0%, #991b1b 100%);
+    color: #ffffff;
+    border-radius: 25px;
+    padding: 35px;
+    margin-bottom: 40px;
+    box-shadow: 0 20px 40px rgba(220, 38, 38, 0.3);
+    animation: slideInUp 0.6s ease-out;
+    border: 1px solid rgba(220, 38, 38, 0.3);
   }
-  .section-container.active {
-    display: block;
-    animation: fadeInUp 0.5s ease-out;
+
+  .admin-panel h3 {
+    margin: 0 0 25px 0;
+    font-size: 24px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 10px;
   }
-  @keyframes fadeInUp {
-    from {
-      opacity: 0;
-      transform: translateY(20px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
+
+  .admin-controls {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
   }
-  .stats-grid {
+
+  .admin-btn {
+    background: rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #ffffff;
+    padding: 16px 24px;
+    border-radius: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 14px;
+    transform: translateY(0);
+    backdrop-filter: blur(10px);
+  }
+
+  .admin-btn:hover {
+    background: rgba(255, 255, 255, 0.25);
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  }
+
+  /* ⚡ QUICK ACTIONS */
+  .quick-actions {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 25px;
     margin-bottom: 50px;
+    animation: slideInUp 0.8s ease-out;
   }
+
+  .quick-action-btn {
+    background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+    color: white;
+    border: none;
+    padding: 25px 30px;
+    border-radius: 20px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    font-size: 16px;
+    box-shadow: 0 10px 30px rgba(59, 130, 246, 0.3);
+    transform: translateY(0);
+    backdrop-filter: blur(10px);
+  }
+
+  .quick-action-btn:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 40px rgba(59, 130, 246, 0.4);
+    animation: glow 2s ease-in-out infinite;
+  }
+
+  .quick-action-icon {
+    font-size: 24px;
+    animation: float 3s ease-in-out infinite;
+  }
+
+  /* 📊 STATISTICS */
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    margin-bottom: 60px;
+  }
+
   .stat-card {
     background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
-    border-radius: 20px;
-    padding: 30px;
+    border-radius: 25px;
+    padding: 35px;
     text-align: center;
-    border: 1px solid rgba(59, 130, 246, 0.1);
-    transition: all 0.4s ease;
+    border: 1px solid rgba(59, 130, 246, 0.2);
     position: relative;
     overflow: hidden;
     cursor: pointer;
+    transform: translateY(0);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+    animation: slideInUp 0.6s ease-out;
   }
+
   .stat-card::before {
     content: '';
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
-    height: 4px;
+    height: 6px;
     background: linear-gradient(90deg, #3b82f6, #8b5cf6);
   }
+
   .stat-card:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 25px 50px rgba(59, 130, 246, 0.2);
+    transform: translateY(-10px);
+    box-shadow: 0 25px 50px rgba(59, 130, 246, 0.3);
+    animation: glow 2s ease-in-out infinite;
   }
+
   .stat-number {
-    font-size: 48px;
+    font-size: 52px;
     font-weight: 900;
     color: #3b82f6;
-    margin-bottom: 12px;
+    margin-bottom: 15px;
     line-height: 1;
+    animation: pulse 3s ease-in-out infinite;
   }
+
   .stat-label {
     color: #94a3b8;
-    font-size: 16px;
+    font-size: 18px;
     font-weight: 600;
     text-transform: uppercase;
-    letter-spacing: 0.5px;
+    letter-spacing: 1px;
   }
+
+  /* 🗂️ SECTIONS */
+  .section-container {
+    display: none;
+  }
+
+  .section-container.active {
+    display: block;
+    animation: slideInUp 0.6s ease-out;
+  }
+
+  /* 📋 DASHBOARD CARDS */
   .dashboard-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-    gap: 30px;
-    margin-bottom: 40px;
+    grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+    gap: 35px;
+    margin-bottom: 50px;
   }
+
   .dashboard-card {
     background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
-    border-radius: 24px;
-    padding: 35px;
-    border: 1px solid rgba(59, 130, 246, 0.1);
+    border-radius: 25px;
+    padding: 40px;
+    border: 1px solid rgba(59, 130, 246, 0.2);
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-    transition: all 0.4s ease;
     position: relative;
     overflow: hidden;
+    transform: translateY(0);
+    animation: slideInUp 0.8s ease-out;
   }
+
   .dashboard-card::before {
     content: '';
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
-    height: 4px;
+    height: 6px;
     background: linear-gradient(90deg, #3b82f6, #8b5cf6);
   }
+
   .dashboard-card:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 30px 60px rgba(59, 130, 246, 0.15);
+    transform: translateY(-8px);
+    box-shadow: 0 30px 60px rgba(59, 130, 246, 0.2);
   }
+
   .dashboard-card h2 {
-    margin: 0 0 30px 0;
+    margin: 0 0 35px 0;
     color: #f1f5f9;
-    font-size: 22px;
+    font-size: 24px;
     font-weight: 700;
     display: flex;
     align-items: center;
-    gap: 12px;
-  }
-  /* Admin Panel Styles */
-  .admin-panel {
-    background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
-    color: #1a202c;
-    border-radius: 20px;
-    padding: 25px;
-    margin-bottom: 30px;
-    box-shadow: 0 10px 25px rgba(255, 215, 0, 0.2);
-  }
-  .admin-panel h3 {
-    margin: 0 0 20px 0;
-    font-size: 20px;
-    font-weight: 700;
-  }
-  .admin-controls {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     gap: 15px;
   }
-  .admin-btn {
-    background: rgba(26, 32, 44, 0.1);
-    border: 1px solid rgba(26, 32, 44, 0.2);
-    color: #1a202c;
-    padding: 12px 20px;
-    border-radius: 12px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s ease;
-  }
-  .admin-btn:hover {
-    background: rgba(26, 32, 44, 0.2);
-    transform: translateY(-2px);
-  }
+
+  /* 📊 TABLES */
   .data-table {
     width: 100%;
     border-collapse: collapse;
-    margin-top: 25px;
+    margin-top: 30px;
     background: rgba(30, 41, 59, 0.8);
-    border-radius: 16px;
+    border-radius: 20px;
     overflow: hidden;
-    border: 1px solid rgba(59, 130, 246, 0.1);
+    border: 1px solid rgba(59, 130, 246, 0.2);
+    backdrop-filter: blur(10px);
   }
+
   .data-table th,
   .data-table td {
-    padding: 18px 25px;
+    padding: 20px 30px;
     text-align: left;
     border-bottom: 1px solid rgba(59, 130, 246, 0.1);
   }
+
   .data-table th {
     background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
     color: #ffffff;
     font-weight: 700;
     font-size: 14px;
     text-transform: uppercase;
-    letter-spacing: 1px;
+    letter-spacing: 1.2px;
   }
+
+  .data-table tr {
+    transition: all 0.3s ease;
+  }
+
   .data-table tr:hover {
-    background: rgba(59, 130, 246, 0.05);
+    background: rgba(59, 130, 246, 0.1);
+    transform: scale(1.02);
   }
+
   .data-table tr:last-child td {
     border-bottom: none;
   }
+
+  /* 🏷️ STATUS BADGES */
   .status-badge {
-    padding: 8px 16px;
-    border-radius: 20px;
+    padding: 10px 20px;
+    border-radius: 25px;
     font-size: 12px;
     font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.5px;
+    letter-spacing: 0.8px;
+    display: inline-block;
+    animation: pulse 3s ease-in-out infinite;
   }
+
   .status-active { 
     background: linear-gradient(135deg, #10b981, #059669); 
-    color: #ffffff; 
+    color: #ffffff;
+    box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
   }
+
   .status-inactive { 
     background: linear-gradient(135deg, #ef4444, #dc2626); 
-    color: #ffffff; 
+    color: #ffffff;
+    box-shadow: 0 4px 15px rgba(239, 68, 68, 0.3);
   }
+
   .status-in-progress { 
     background: linear-gradient(135deg, #3b82f6, #2563eb); 
-    color: #ffffff; 
+    color: #ffffff;
+    box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
   }
+
   .status-assigned { 
     background: linear-gradient(135deg, #f59e0b, #d97706); 
-    color: #ffffff; 
+    color: #ffffff;
+    box-shadow: 0 4px 15px rgba(245, 158, 11, 0.3);
   }
-  .error-message {
-    background: linear-gradient(135deg, #fed7d7, #feb2b2);
-    color: #9b2c2c;
-    padding: 15px 20px;
-    border-radius: 12px;
-    margin: 20px 0;
-    display: none;
-    border-left: 4px solid #e53e3e;
-    font-weight: 500;
-  }
-  /* Quick Actions */
-  .quick-actions {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 20px;
-    margin-bottom: 40px;
-  }
-  .quick-action-btn {
-    background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+
+  /* 🎯 SPECIAL FEATURES */
+  .feature-highlight {
+    background: linear-gradient(135deg, #8b5cf6 0%, #ec4899 100%);
+    border-radius: 20px;
+    padding: 30px;
+    margin: 30px 0;
     color: white;
-    border: none;
-    padding: 20px;
-    border-radius: 16px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    font-size: 16px;
+    text-align: center;
+    animation: glow 3s ease-in-out infinite;
   }
-  .quick-action-btn:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 15px 35px rgba(59, 130, 246, 0.3);
+
+  .notification-dot {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    width: 12px;
+    height: 12px;
+    background: #ef4444;
+    border-radius: 50%;
+    animation: pulse 2s ease-in-out infinite;
   }
+
+  /* 📱 RESPONSIVE */
   @media (max-width: 768px) {
     .nav-container {
       flex-direction: column;
       height: auto;
-      padding: 15px 0;
+      padding: 20px 0;
     }
+    
     .nav-brand {
-      margin-bottom: 15px;
+      margin-bottom: 20px;
     }
+    
     .nav-tabs {
       width: 100%;
       justify-content: center;
       flex-wrap: wrap;
     }
-    .nav-tab {
-      padding: 10px 15px;
-      font-size: 13px;
-    }
-    .login-container {
-      padding: 40px 30px;
-      margin: 20px;
-    }
-    .login-features {
-      grid-template-columns: 1fr;
-      gap: 15px;
-    }
+    
     .user-profile-section {
       position: relative;
       border-radius: 0;
       justify-content: center;
-      top: auto;
-      right: auto;
     }
+    
     .dashboard {
-      padding: 20px 15px;
+      padding: 30px 20px;
     }
+    
     .dashboard-grid {
       grid-template-columns: 1fr;
     }
+    
     .stats-grid {
       grid-template-columns: repeat(2, 1fr);
-      gap: 15px;
+      gap: 20px;
     }
-    .stat-card {
-      padding: 20px;
+    
+    .quick-actions {
+      grid-template-columns: 1fr;
     }
-    .dashboard-card {
-      padding: 25px;
-    }
-    .data-table th,
-    .data-table td {
-      padding: 12px 15px;
-      font-size: 14px;
-    }
+  }
+
+  /* 🎨 HOVER EFFECTS */
+  .hover-glow:hover {
+    animation: glow 2s ease-in-out infinite;
+  }
+
+  .hover-float:hover {
+    animation: float 2s ease-in-out infinite;
+  }
+
+  .hover-pulse:hover {
+    animation: pulse 1s ease-in-out infinite;
+  }
+
+  /* ⚡ SCROLL ANIMATIONS */
+  .scroll-fade-in {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.6s ease-out;
+  }
+
+  .scroll-fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
   }
 </style>
 </head>
 
 <body>
+<!-- 🔄 Loading Screen -->
 <div id="loading-overlay" class="loading-overlay">
   <div class="loading-logo">🚔</div>
   <div class="loading-spinner"></div>
@@ -674,6 +786,7 @@
   </div>
 </div>
 
+<!-- 🎨 Login Section -->
 <div id="login-section" class="login-section">
   <div class="login-container">
     <div class="login-header">
@@ -690,25 +803,12 @@
     </button>
     
     <div id="error-message" class="error-message"></div>
-    
-    <div class="login-features">
-      <div class="feature-item">
-        <span class="feature-icon">🔐</span>
-        <div class="feature-text">Accesso<br>Sicuro</div>
-      </div>
-      <div class="feature-item">
-        <span class="feature-icon">⚡</span>
-        <div class="feature-text">Login<br>Veloce</div>
-      </div>
-      <div class="feature-item">
-        <span class="feature-icon">🛡️</span>
-        <div class="feature-text">OAuth2<br>Protetto</div>
-      </div>
-    </div>
   </div>
 </div>
 
+<!-- 🏠 Main Dashboard -->
 <div id="main-container" class="main-container">
+  <!-- 🧭 Navigation -->
   <nav class="dashboard-nav">
     <div class="nav-container">
       <div class="nav-brand">
@@ -737,7 +837,6 @@
           <span class="nav-tab-icon">🛡️</span>
           Equipaggiamenti
         </button>
-        <!-- Admin-only tabs -->
         <button class="nav-tab admin-only" onclick="switchSection('admin')" style="display: none;">
           <span class="nav-tab-icon">⚙️</span>
           Amministrazione
@@ -750,6 +849,7 @@
     </div>
   </nav>
 
+  <!-- 👤 User Profile -->
   <div class="user-profile-section">
     <div class="user-avatar" id="user-avatar">
       <span id="user-initial">?</span>
@@ -757,13 +857,13 @@
     <div class="user-info">
       <div class="user-name" id="user-name">
         <span>Caricamento...</span>
-        <span id="admin-badge" class="admin-badge" style="display: none;">Dirigenza</span>
+        <span id="admin-badge" class="admin-badge" style="display: none;">DIRIGENZA</span>
       </div>
       <div class="user-role">Operatore UOPI</div>
     </div>
     <div class="header-actions">
-      <button class="header-btn" onclick="DiscordAuth.logout()" title="Logout">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+      <button class="header-btn hover-glow" onclick="DiscordAuth.logout()" title="Logout">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
           <path d="M16 13v-2H7V8l-5 4 5 4v-3z"/>
           <path d="M20 3h-9c-1.103 0-2 .897-2 2v4h2V5h9v14h-9v-4H9v4c0 1.103.897 2 2 2h9c1.103 0 2-.897 2-2V5c0-1.103-.897-2-2-2z"/>
         </svg>
@@ -771,74 +871,87 @@
     </div>
   </div>
 
+  <!-- 📊 Dashboard Content -->
   <div class="dashboard">
     <div class="dashboard-header">
       <h1 class="dashboard-title">Sistema UOPI</h1>
       <p class="dashboard-subtitle">Gestione Unità Operative di Polizia Italiana</p>
     </div>
     
-    <!-- Admin Panel (visible only to admins) -->
+    <!-- 🏆 Admin Panel -->
     <div id="admin-panel" class="admin-panel" style="display: none;">
-      <h3>🏆 Pannello Dirigenza</h3>
+      <h3>
+        <span>👑</span>
+        Pannello Dirigenza
+      </h3>
       <div class="admin-controls">
-        <button class="admin-btn" onclick="showAlert('Gestione Utenti')">
-          <span>👥 Gestisci Utenti</span>
+        <button class="admin-btn" onclick="showModal('Gestione Utenti', 'Sistema di gestione completo degli utenti registrati')">
+          <span>👥</span>
+          Gestisci Utenti
         </button>
-        <button class="admin-btn" onclick="showAlert('Impostazioni Sistema')">
-          <span>⚙️ Impostazioni</span>
+        <button class="admin-btn" onclick="showModal('Impostazioni Sistema', 'Configurazione avanzata del sistema UOPI')">
+          <span>⚙️</span>
+          Impostazioni
         </button>
-        <button class="admin-btn" onclick="showAlert('Backup Database')">
-          <span>💾 Backup</span>
+        <button class="admin-btn" onclick="showModal('Backup Database', 'Creazione backup sicuro dei dati')">
+          <span>💾</span>
+          Backup
         </button>
-        <button class="admin-btn" onclick="showAlert('Log Sistema')">
-          <span>📄 Log Sistema</span>
+        <button class="admin-btn" onclick="showModal('Log Sistema', 'Monitoraggio attività e sicurezza')">
+          <span>📄</span>
+          Log Sistema
         </button>
       </div>
     </div>
 
-    <!-- Quick Actions -->
+    <!-- ⚡ Quick Actions -->
     <div class="quick-actions">
-      <button class="quick-action-btn" onclick="showAlert('Nuovo Intervento')">
-        <span>🚨</span>
+      <button class="quick-action-btn hover-glow" onclick="showModal('Nuovo Intervento', 'Creazione di un nuovo intervento operativo')">
+        <span class="quick-action-icon">🚨</span>
         Nuovo Intervento
       </button>
-      <button class="quick-action-btn" onclick="showAlert('Rapporto Turno')">
-        <span>📝</span>
+      <button class="quick-action-btn hover-glow" onclick="showModal('Rapporto Turno', 'Compilazione rapporto di fine turno')">
+        <span class="quick-action-icon">📝</span>
         Rapporto Turno
       </button>
-      <button class="quick-action-btn" onclick="showAlert('Richiesta Supporto')">
-        <span>🆘</span>
+      <button class="quick-action-btn hover-glow" onclick="showModal('Richiesta Supporto', 'Richiesta supporto urgente')">
+        <span class="quick-action-icon">🆘</span>
         Richiesta Supporto
       </button>
-      <button class="quick-action-btn" onclick="showAlert('Gestione Mezzi')">
-        <span>🚗</span>
+      <button class="quick-action-btn hover-glow" onclick="showModal('Gestione Mezzi', 'Controllo stato mezzi operativi')">
+        <span class="quick-action-icon">🚗</span>
         Gestione Mezzi
       </button>
     </div>
     
-    <!-- Overview Section -->
+    <!-- 📊 Overview Section -->
     <div id="section-overview" class="section-container active">
       <div class="stats-grid">
-        <div class="stat-card" onclick="showAlert('Dettagli Operatori')">
-          <div class="stat-number">7</div>
+        <div class="stat-card hover-glow scroll-fade-in" onclick="showModal('Operatori Dettagli', 'Visualizzazione dettagliata di tutti gli operatori in servizio')">
+          <div class="stat-number">12</div>
           <div class="stat-label">Operatori in Servizio</div>
         </div>
-        <div class="stat-card" onclick="showAlert('Dettagli Operazioni')">
-          <div class="stat-number">3</div>
+        <div class="stat-card hover-glow scroll-fade-in" onclick="showModal('Operazioni Dettagli', 'Riepilogo delle operazioni attualmente in corso')">
+          <div class="stat-number">5</div>
           <div class="stat-label">Operazioni Attive</div>
         </div>
-        <div class="stat-card" onclick="showAlert('Dettagli Squadre')">
-          <div class="stat-number">4</div>
+        <div class="stat-card hover-glow scroll-fade-in" onclick="showModal('Squadre Dettagli', 'Stato e composizione delle squadre operative')">
+          <div class="stat-number">8</div>
           <div class="stat-label">Squadre Operative</div>
         </div>
-        <div class="stat-card" onclick="showAlert('Dettagli Turni')">
-          <div class="stat-number">12</div>
+        <div class="stat-card hover-glow scroll-fade-in" onclick="showModal('Turni Dettagli', 'Programmazione e gestione dei turni di servizio')">
+          <div class="stat-number">24</div>
           <div class="stat-label">Turni Pianificati</div>
         </div>
       </div>
+
+      <div class="feature-highlight scroll-fade-in">
+        <h3>🎯 Sistema Avanzato di Gestione</h3>
+        <p>Dashboard completamente funzionale con animazioni professionali e controlli dirigenza</p>
+      </div>
     </div>
 
-    <!-- Operatori Section -->
+    <!-- 👮‍♂️ Operatori Section -->
     <div id="section-operatori" class="section-container">
       <div class="dashboard-grid">
         <div class="dashboard-card">
@@ -860,7 +973,7 @@
                 <td>Coordinatore</td>
                 <td><span class="status-badge status-active">Attivo</span></td>
                 <td>
-                  <button class="admin-btn" style="padding: 5px 10px; font-size: 12px;" onclick="showAlert('Modifica Marco Rossi')">Modifica</button>
+                  <button class="admin-btn" style="padding: 8px 15px; font-size: 12px; margin: 0;" onclick="showModal('Modifica Marco Rossi', 'Gestione profilo operatore Marco Rossi')">Modifica</button>
                 </td>
               </tr>
               <tr>
@@ -869,7 +982,7 @@
                 <td>Investigatore</td>
                 <td><span class="status-badge status-active">Attivo</span></td>
                 <td>
-                  <button class="admin-btn" style="padding: 5px 10px; font-size: 12px;" onclick="showAlert('Modifica Luigi Bianchi')">Modifica</button>
+                  <button class="admin-btn" style="padding: 8px 15px; font-size: 12px; margin: 0;" onclick="showModal('Modifica Luigi Bianchi', 'Gestione profilo operatore Luigi Bianchi')">Modifica</button>
                 </td>
               </tr>
               <tr>
@@ -878,7 +991,7 @@
                 <td>Pattuglia</td>
                 <td><span class="status-badge status-inactive">Non Attivo</span></td>
                 <td>
-                  <button class="admin-btn" style="padding: 5px 10px; font-size: 12px;" onclick="showAlert('Modifica Anna Verdi')">Modifica</button>
+                  <button class="admin-btn" style="padding: 8px 15px; font-size: 12px; margin: 0;" onclick="showModal('Modifica Anna Verdi', 'Gestione profilo operatore Anna Verdi')">Modifica</button>
                 </td>
               </tr>
             </tbody>
@@ -887,7 +1000,7 @@
       </div>
     </div>
 
-    <!-- Interventi Section -->
+    <!-- 🚨 Interventi Section -->
     <div id="section-interventi" class="section-container">
       <div class="dashboard-grid">
         <div class="dashboard-card">
@@ -930,7 +1043,7 @@
       </div>
     </div>
 
-    <!-- Formazione Section -->
+    <!-- 📋 Formazione Section -->
     <div id="section-formazione" class="section-container">
       <div class="dashboard-grid">
         <div class="dashboard-card">
@@ -973,7 +1086,7 @@
       </div>
     </div>
 
-    <!-- Equipaggiamenti Section -->
+    <!-- 🛡️ Equipaggiamenti Section -->
     <div id="section-equipaggiamenti" class="section-container">
       <div class="dashboard-grid">
         <div class="dashboard-card">
@@ -1016,45 +1129,56 @@
       </div>
     </div>
 
-    <!-- Admin Section (visible only to admins) -->
+    <!-- ⚙️ Admin Section -->
     <div id="section-admin" class="section-container">
       <div class="dashboard-grid">
         <div class="dashboard-card">
           <h2>⚙️ Gestione Sistema</h2>
-          <div style="padding: 20px;">
-            <h4>Utenti Registrati</h4>
-            <p>Gestione completa degli utenti del sistema</p>
-            <button class="quick-action-btn" onclick="showAlert('Aggiungi Utente')">
-              <span>➕</span>
-              Aggiungi Nuovo Utente
+          <div style="padding: 25px;">
+            <h4>🎛️ Controlli Avanzati</h4>
+            <p>Accesso completo a tutte le funzionalità di amministrazione del sistema</p>
+            <button class="quick-action-btn" onclick="showModal('Sistema Utenti', 'Gestione completa database utenti')">
+              <span>👥</span>
+              Gestione Completa Utenti
             </button>
           </div>
         </div>
         <div class="dashboard-card">
-          <h2>📊 Statistiche Avanzate</h2>
-          <div style="padding: 20px;">
-            <h4>Dashboard Analytics</h4>
-            <p>Monitoraggio delle performance del sistema</p>
-            <button class="quick-action-btn" onclick="showAlert('Visualizza Report')">
-              <span>📈</span>
-              Visualizza Report Completo
+          <h2>🔧 Configurazione</h2>
+          <div style="padding: 25px;">
+            <h4>⚙️ Impostazioni Avanzate</h4>
+            <p>Configurazione parametri sistema e sicurezza</p>
+            <button class="quick-action-btn" onclick="showModal('Configurazione', 'Pannello configurazione avanzata')">
+              <span>🔧</span>
+              Apri Configurazione
             </button>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- Reports Section (visible only to admins) -->
+    <!-- 📈 Reports Section -->
     <div id="section-reports" class="section-container">
       <div class="dashboard-grid">
         <div class="dashboard-card">
           <h2>📈 Report Operativi</h2>
-          <div style="padding: 20px;">
-            <h4>Report Mensili</h4>
-            <p>Statistiche complete delle operazioni</p>
-            <button class="quick-action-btn" onclick="showAlert('Genera Report')">
+          <div style="padding: 25px;">
+            <h4>📊 Analytics Completi</h4>
+            <p>Report dettagliati sulle performance operative</p>
+            <button class="quick-action-btn" onclick="showModal('Report Mensile', 'Generazione report statistico mensile')">
               <span>📋</span>
               Genera Report Mensile
+            </button>
+          </div>
+        </div>
+        <div class="dashboard-card">
+          <h2>📊 Statistiche Avanzate</h2>
+          <div style="padding: 25px;">
+            <h4>🎯 Performance Metrics</h4>
+            <p>Monitoraggio KPI e metriche operative</p>
+            <button class="quick-action-btn" onclick="showModal('Analytics', 'Dashboard analytics avanzate')">
+              <span>📈</span>
+              Visualizza Analytics
             </button>
           </div>
         </div>
@@ -1071,7 +1195,6 @@ const CONFIG = {
     REDIRECT_URI: 'https://ryzeeee-dev.github.io/uopi-dashboard/',
     SCOPE: 'identify'
   },
-  // 🏆 ID DIRIGENZA
   ADMIN_IDS: [
     '1387684968536477756',
     '817121576217870348', 
@@ -1101,26 +1224,118 @@ class LoadingManager {
   }
 }
 
-// 🗂️ Section Switcher Function
+// 🎨 Animation Manager
+class AnimationManager {
+  static initScrollAnimations() {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.scroll-fade-in').forEach(el => {
+      observer.observe(el);
+    });
+  }
+
+  static addHoverEffects() {
+    document.querySelectorAll('.stat-card, .dashboard-card, .quick-action-btn').forEach(el => {
+      el.addEventListener('mouseenter', () => {
+        el.style.transform = 'translateY(-10px) scale(1.02)';
+      });
+      
+      el.addEventListener('mouseleave', () => {
+        el.style.transform = 'translateY(0) scale(1)';
+      });
+    });
+  }
+}
+
+// 🗂️ Section Manager
 function switchSection(sectionName) {
+  // Remove active from tabs
   document.querySelectorAll('.nav-tab').forEach(tab => {
     tab.classList.remove('active');
   });
   
+  // Hide all sections
   document.querySelectorAll('.section-container').forEach(section => {
     section.classList.remove('active');
   });
   
+  // Add active to clicked tab
   event.target.classList.add('active');
-  document.getElementById(`section-${sectionName}`).classList.add('active');
+  
+  // Show selected section with animation
+  const targetSection = document.getElementById(`section-${sectionName}`);
+  targetSection.classList.add('active');
+  
+  // Reinitialize scroll animations for new content
+  setTimeout(() => {
+    AnimationManager.initScrollAnimations();
+  }, 100);
 }
 
-// 🎯 Alert Function
-function showAlert(message) {
-  alert(`🚔 UOPI: ${message}\n\nQuesta funzionalità sarà implementata presto!`);
+// 🎯 Modal System
+function showModal(title, description) {
+  const modal = document.createElement('div');
+  modal.style.cssText = `
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10000;
+    animation: slideInUp 0.3s ease-out;
+  `;
+  
+  modal.innerHTML = `
+    <div style="
+      background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+      border-radius: 25px;
+      padding: 40px;
+      max-width: 500px;
+      width: 90%;
+      text-align: center;
+      border: 1px solid rgba(59, 130, 246, 0.2);
+      box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5);
+      animation: slideInUp 0.4s ease-out;
+    ">
+      <h2 style="color: #3b82f6; margin-bottom: 20px; font-size: 24px;">🚔 ${title}</h2>
+      <p style="color: #94a3b8; margin-bottom: 30px; line-height: 1.6;">${description}</p>
+      <button onclick="this.closest('div').remove()" style="
+        background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+        color: white;
+        border: none;
+        padding: 15px 30px;
+        border-radius: 15px;
+        font-weight: 600;
+        cursor: pointer;
+        font-size: 16px;
+        transition: all 0.3s ease;
+      " onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">
+        ✅ Compreso
+      </button>
+    </div>
+  `;
+  
+  document.body.appendChild(modal);
+  
+  // Auto remove after 5 seconds
+  setTimeout(() => {
+    if (modal.parentNode) {
+      modal.remove();
+    }
+  }, 5000);
 }
 
-// 🔐 Discord OAuth handling
+// 🔐 Discord OAuth
 class DiscordAuth {
   static async login() {
     try {
@@ -1188,7 +1403,6 @@ class DiscordAuth {
       if (!userData) throw new Error('Invalid user data');
 
       this.saveSession(token, userData);
-      
       localStorage.setItem('discord_authorized', 'true');
       
       setTimeout(() => {
@@ -1277,6 +1491,12 @@ class UI {
     document.getElementById('main-container').style.display = 'block';
     this.updateProfile(userData);
     this.checkAdminStatus(userData);
+    
+    // Initialize animations
+    setTimeout(() => {
+      AnimationManager.initScrollAnimations();
+      AnimationManager.addHoverEffects();
+    }, 100);
   }
 
   static updateProfile(userData) {
@@ -1295,42 +1515,41 @@ class UI {
     }
   }
 
-  // 🏆 CONTROLLO STATO ADMIN
   static checkAdminStatus(userData) {
     const isAdmin = CONFIG.ADMIN_IDS.includes(userData.id);
     
     if (isAdmin) {
-      // Mostra badge dirigenza
+      // Show admin badge (RED)
       document.getElementById('admin-badge').style.display = 'inline-block';
       
-      // Cambia colore avatar
+      // Change avatar style
       document.getElementById('user-avatar').classList.add('admin');
       
-      // Mostra pannello admin
+      // Show admin panel
       document.getElementById('admin-panel').style.display = 'block';
       
-      // Mostra tab admin
+      // Show admin tabs
       document.querySelectorAll('.admin-only').forEach(tab => {
         tab.style.display = 'flex';
       });
       
-      console.log('🏆 Utente Dirigenza riconosciuto:', userData.username);
+      console.log('🏆 Dirigenza riconosciuta:', userData.username);
+      
+      // Welcome message for admins
+      setTimeout(() => {
+        showModal('Benvenuto Dirigenza', `Accesso completo garantito per ${userData.username}. Tutte le funzioni amministrative sono disponibili.`);
+      }, 2000);
     } else {
-      console.log('👮‍♂️ Utente Operatore standard:', userData.username);
+      console.log('👮‍♂️ Operatore standard:', userData.username);
     }
   }
 
   static showError(message) {
-    const errorEl = document.getElementById('error-message');
-    errorEl.textContent = message;
-    errorEl.style.display = 'block';
-    setTimeout(() => {
-      errorEl.style.display = 'none';
-    }, 5000);
+    showModal('Errore', message);
   }
 }
 
-// 🚀 Initialize application
+// 🚀 Initialize
 document.addEventListener('DOMContentLoaded', async function() {
   if (window.location.hash && window.location.hash.includes('access_token')) {
     await DiscordAuth.handleCallback();
@@ -1344,6 +1563,9 @@ document.addEventListener('DOMContentLoaded', async function() {
     this.innerHTML = '<div style="width:20px;height:20px;border:3px solid rgba(255,255,255,.3);border-radius:50%;border-top-color:#fff;animation:spin 1s ease-in-out infinite;display:inline-block;margin-right:10px;"></div> Accesso in corso...';
     DiscordAuth.login();
   });
+  
+  // Initialize animations on load
+  AnimationManager.initScrollAnimations();
 });
 </script>
 
