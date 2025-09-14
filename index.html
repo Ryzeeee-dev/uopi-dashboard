@@ -848,10 +848,11 @@ const CONFIG = {
   }
 };
 
-// 🔄 Loading Manager
+// 🔄 Loading Manager - UN SOLO CARICAMENTO
 class LoadingManager {
   static show() {
-    document.getElementById('loading-overlay').classList.add('show');
+    const loading = document.getElementById('loading-overlay');
+    loading.classList.add('show');
   }
   
   static hide() {
@@ -859,8 +860,7 @@ class LoadingManager {
       const loading = document.getElementById('loading-overlay');
       loading.classList.add('hidden');
       setTimeout(() => {
-        loading.classList.remove('show');
-        loading.classList.remove('hidden');
+        loading.classList.remove('show', 'hidden');
       }, 500);
     }, 2500);
   }
@@ -884,27 +884,33 @@ function switchSection(sectionName) {
 class DiscordAuth {
   static async login() {
     try {
-      // Mostra loading IMMEDIATAMENTE quando clicchi
-      LoadingManager.show();
-      
+      // Controlla se c'è già una sessione esistente
       const existingToken = this.getStoredToken();
       if (existingToken) {
         const userData = await this.fetchUserData(existingToken);
         if (userData) {
+          LoadingManager.show();
           setTimeout(() => {
             UI.showDashboard(userData);
             LoadingManager.hide();
-          }, 1000);
+          }, 500);
           return;
         }
       }
+
+      // Mostra loading solo quando necessario
+      LoadingManager.show();
+
+      // 🎯 PRIMA VOLTA: prompt=consent, DOPO: prompt=none
+      const isFirstTime = !localStorage.getItem('discord_authorized');
+      const promptType = isFirstTime ? 'consent' : 'none';
 
       const params = new URLSearchParams({
         client_id: CONFIG.DISCORD.CLIENT_ID,
         redirect_uri: CONFIG.DISCORD.REDIRECT_URI,
         response_type: 'token',
         scope: CONFIG.DISCORD.SCOPE,
-        prompt: 'none'
+        prompt: promptType
       });
 
       // Redirect a Discord
@@ -925,6 +931,7 @@ class DiscordAuth {
       const token = fragment.get('access_token');
       const error = fragment.get('error');
       
+      // Se prompt=none fallisce, riprova con prompt=consent
       if (error === 'access_denied') {
         const params = new URLSearchParams({
           client_id: CONFIG.DISCORD.CLIENT_ID,
@@ -950,10 +957,13 @@ class DiscordAuth {
 
       this.saveSession(token, userData);
       
+      // 🎯 SEGNA CHE L'UTENTE HA GIÀ AUTORIZZATO
+      localStorage.setItem('discord_authorized', 'true');
+      
       setTimeout(() => {
         UI.showDashboard(userData);
         LoadingManager.hide();
-      }, 2000);
+      }, 1500);
       
     } catch (error) {
       console.error('Callback error:', error);
@@ -1021,7 +1031,7 @@ class DiscordAuth {
         setTimeout(() => {
           UI.showDashboard(userData);
           LoadingManager.hide();
-        }, 1500);
+        }, 1000);
         return true;
       }
     }
@@ -1071,10 +1081,10 @@ document.addEventListener('DOMContentLoaded', async function() {
     return;
   }
   
-  // Controlla sessione esistente
+  // Controlla sessione esistente SENZA mostrare loading
   const hasExistingSession = await DiscordAuth.checkExistingSession();
   
-  // Setup login button con loading immediato
+  // Setup login button
   document.getElementById('discord-login-btn').addEventListener('click', function() {
     this.disabled = true;
     this.innerHTML = '<div style="width:20px;height:20px;border:3px solid rgba(255,255,255,.3);border-radius:50%;border-top-color:#fff;animation:spin 1s ease-in-out infinite;display:inline-block;margin-right:10px;"></div> Accesso in corso...';
