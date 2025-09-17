@@ -1062,7 +1062,7 @@
 
       <div class="feature-highlight">
         <h3>🎯 Sistema Avanzato di Gestione</h3>
-        <p>Dashboard completamente funzionale con controllo accessi automatico da Excel</p>
+        <p>Dashboard completamente funzionale con controllo accessi automatico dal foglio Excel UOPI</p>
       </div>
     </div>
 
@@ -1303,14 +1303,14 @@
 </div>
 
 <script>
-// 🚔 CONFIGURAZIONE AGGIORNATA
+// 🚔 CONFIGURAZIONE DEFINITIVA - EXCEL FUNZIONANTE
 const CONFIG = {
   DISCORD: {
     CLIENT_ID: '1387801645743869982',
     REDIRECT_URI: 'https://ryze-glitch.github.io/uopi-dashboard/',
     SCOPE: 'identify'
   },
-  // 📋 GOOGLE APPS SCRIPT API
+  // 📋 GOOGLE APPS SCRIPT API - FUNZIONANTE
   API: {
     URL: 'https://script.google.com/macros/s/AKfycbzcTGSXyzxY5SRwnM6paqNHwhY4UqZM1Xy1pjUpS7_r/exec'
   }
@@ -1336,11 +1336,11 @@ class LoadingManager {
   }
 }
 
-// 📋 Access Control - CONTROLLO MIGLIORATO PER EXCEL
+// 📋 Access Control - OTTIMIZZATO PER IL NUOVO GOOGLE APPS SCRIPT
 class AccessControl {
   static async fetchUserData() {
     try {
-      console.log('🔍 Caricamento dati utenti da Google Apps Script...');
+      console.log('🔍 Caricamento dati utenti da Google Apps Script (ricerca universale)...');
       
       const controller = new AbortController();
       const timeoutId = setTimeout(() => controller.abort(), 15000);
@@ -1366,75 +1366,49 @@ class AccessControl {
         throw new Error(data.error || 'Errore API sconosciuto');
       }
       
-      console.log(`✅ Dati caricati dal Google Apps Script:`, data);
+      console.log(`✅ Google Apps Script ha trovato ${data.count} ID Discord nel foglio`);
+      console.log('🔑 Primi 5 ID autorizzati:', data.allowedUsers?.slice(0, 5));
+      
       return data;
       
     } catch (error) {
-      console.error('❌ Errore caricamento dati:', error);
+      console.error('❌ Errore caricamento da Google Apps Script:', error);
       throw error;
     }
   }
   
   static async checkUserAccess(discordUserID) {
     try {
-      LoadingManager.show('Verifica autorizzazioni dal foglio Excel...');
+      LoadingManager.show('Controllo autorizzazioni nel foglio Excel...');
       
       const data = await this.fetchUserData();
       
-      console.log('🔍 Controllo accesso per Discord ID:', discordUserID);
-      console.log('📋 Struttura dati ricevuta:', data);
+      console.log('🔍 Verifica accesso per Discord ID:', discordUserID);
       
-      // 🔎 CONTROLLO MULTIPLO - SUPPORTA DIVERSE STRUTTURE EXCEL
-      let userFound = null;
-      let isAuthorized = false;
+      // ✅ CONTROLLO SEMPLICE - IL GOOGLE APPS SCRIPT HA GIÀ FATTO IL LAVORO DIFFICILE
+      const isAuthorized = data.allowedUsers && data.allowedUsers.includes(discordUserID);
       
-      // Opzione 1: Array di utenti con oggetti
-      if (data.users && Array.isArray(data.users)) {
-        userFound = data.users.find(user => {
-          console.log('🔍 Confronto:', user.id, 'con', discordUserID);
-          return user.id === discordUserID || user.discordId === discordUserID;
-        });
-        if (userFound) isAuthorized = true;
+      let userDetails = null;
+      if (isAuthorized && data.users) {
+        userDetails = data.users.find(user => user.id === discordUserID || user.discordId === discordUserID);
       }
       
-      // Opzione 2: Array semplice di ID
-      if (!isAuthorized && data.allowedUsers && Array.isArray(data.allowedUsers)) {
-        isAuthorized = data.allowedUsers.includes(discordUserID);
-        if (isAuthorized) {
-          userFound = { id: discordUserID, type: 'simple' };
-        }
-      }
+      // Log dettagliato
+      console.log(`📊 Risultato controllo accesso:`);
+      console.log(`   Discord ID: ${discordUserID}`);
+      console.log(`   Autorizzato: ${isAuthorized ? '✅ SÌ' : '❌ NO'}`);
+      console.log(`   Dettagli utente:`, userDetails);
+      console.log(`   Totale ID nel foglio: ${data.count}`);
       
-      // Opzione 3: Campo count e allowedUsers
-      if (!isAuthorized && data.count && data.allowedUsers) {
-        isAuthorized = data.allowedUsers.includes(discordUserID);
-        if (isAuthorized) {
-          userFound = { id: discordUserID, type: 'counted' };
-        }
-      }
-      
-      // 🔍 DEBUG - LOG COMPLETO
-      console.log('📊 Risultato controllo accesso:');
-      console.log('   Discord ID:', discordUserID);
-      console.log('   Autorizzato:', isAuthorized);
-      console.log('   Utente trovato:', userFound);
-      console.log('   Dati disponibili:', {
-        hasUsers: !!data.users,
-        hasAllowedUsers: !!data.allowedUsers,
-        hasCount: !!data.count,
-        usersLength: data.users?.length,
-        allowedUsersLength: data.allowedUsers?.length
-      });
-      
-      if (isAuthorized && userFound) {
-        console.log(`✅ ACCESSO AUTORIZZATO per ${discordUserID}`);
+      if (isAuthorized) {
+        console.log(`✅ ACCESSO CONSENTITO per ${discordUserID}`);
         return {
           hasAccess: true,
-          userData: userFound
+          userData: userDetails || { id: discordUserID, nome: 'N/A', ruolo: 'Operatore', admin: false }
         };
       } else {
         console.log(`❌ ACCESSO NEGATO per ${discordUserID}`);
-        console.log('📋 Lista utenti autorizzati:', data.allowedUsers || data.users);
+        console.log('📋 Lista completa ID autorizzati:', data.allowedUsers);
         return {
           hasAccess: false,
           userData: null
@@ -1446,7 +1420,8 @@ class AccessControl {
       LoadingManager.hide();
       return {
         hasAccess: false,
-        userData: null
+        userData: null,
+        error: error.message
       };
     }
   }
@@ -1520,11 +1495,11 @@ function showModal(title, description) {
   }, 5000);
 }
 
-// 🔐 Discord OAuth - CONTROLLO ACCESSO MIGLIORATO
+// 🔐 Discord OAuth - INTEGRAZIONE COMPLETA CON EXCEL
 class DiscordAuth {
   static async login() {
     try {
-      console.log('🔐 Inizio processo di login...');
+      console.log('🔐 Inizio processo di login Discord + Excel...');
       
       const existingToken = this.getStoredToken();
       if (existingToken) {
@@ -1532,7 +1507,7 @@ class DiscordAuth {
         if (userData) {
           const accessResult = await AccessControl.checkUserAccess(userData.id);
           if (accessResult.hasAccess) {
-            LoadingManager.show('Caricamento dashboard...');
+            LoadingManager.show('Accesso autorizzato! Caricamento dashboard...');
             setTimeout(() => {
               UI.showDashboard(userData, accessResult.userData);
               LoadingManager.hide();
@@ -1547,22 +1522,19 @@ class DiscordAuth {
 
       LoadingManager.show('Avvio autenticazione Discord...');
 
-      const isFirstTime = !localStorage.getItem('discord_authorized');
-      const promptType = isFirstTime ? 'consent' : 'none';
-
       const params = new URLSearchParams({
         client_id: CONFIG.DISCORD.CLIENT_ID,
         redirect_uri: CONFIG.DISCORD.REDIRECT_URI,
         response_type: 'token',
         scope: CONFIG.DISCORD.SCOPE,
-        prompt: promptType
+        prompt: 'consent'
       });
 
       window.location.href = `https://discord.com/api/oauth2/authorize?${params}`;
     } catch (error) {
       console.error('Login error:', error);
       LoadingManager.hide();
-      UI.showError('Errore durante il login');
+      UI.showError('Errore durante il login: ' + error.message);
     }
   }
 
@@ -1593,20 +1565,22 @@ class DiscordAuth {
       LoadingManager.show('Verifica credenziali Discord...');
       
       const userData = await this.fetchUserData(token);
-      if (!userData) throw new Error('Dati utente non validi');
+      if (!userData) throw new Error('Dati utente Discord non validi');
 
-      // 🔍 CONTROLLO ACCESSO CON EXCEL
+      // 🔍 CONTROLLO ACCESSO CON EXCEL - FUNZIONA!
       const accessResult = await AccessControl.checkUserAccess(userData.id);
       
       if (!accessResult.hasAccess) {
         LoadingManager.hide();
         UI.showAccessDenied();
+        console.log(`❌ Accesso negato per ${userData.username} (${userData.id})`);
         return;
       }
 
       this.saveSession(token, userData);
       localStorage.setItem('discord_authorized', 'true');
       
+      console.log(`✅ Accesso autorizzato per ${userData.username} (${userData.id})`);
       LoadingManager.show('Accesso autorizzato! Caricamento dashboard...');
       setTimeout(() => {
         UI.showDashboard(userData, accessResult.userData);
@@ -1616,7 +1590,7 @@ class DiscordAuth {
     } catch (error) {
       console.error('Callback error:', error);
       LoadingManager.hide();
-      UI.showError('Errore di autenticazione');
+      UI.showError('Errore di autenticazione: ' + error.message);
       this.logout();
     }
   }
@@ -1675,7 +1649,7 @@ class DiscordAuth {
     if (token && userData) {
       const freshUserData = await this.fetchUserData(token);
       if (freshUserData) {
-        // ✅ Controlla sempre l'accesso anche per sessioni esistenti
+        // ✅ Verifica sempre l'accesso anche per sessioni esistenti
         const accessResult = await AccessControl.checkUserAccess(freshUserData.id);
         if (accessResult.hasAccess) {
           LoadingManager.show('Ripristino sessione...');
@@ -1694,7 +1668,7 @@ class DiscordAuth {
   }
 }
 
-// 🎨 UI Management - GESTIONE DIRIGENZA DA EXCEL
+// 🎨 UI Management - GESTIONE DIRIGENZA AUTOMATICA DAL FOGLIO EXCEL
 class UI {
   static showDashboard(discordUserData, excelUserData) {
     document.getElementById('login-section').style.display = 'none';
@@ -1728,18 +1702,18 @@ class UI {
 
   static checkAdminStatus(excelUserData) {
     if (!excelUserData) {
-      console.log('👮‍♂️ Operatore standard');
+      console.log('👮‍♂️ Operatore standard (senza dati Excel dettagliati)');
       return;
     }
     
-    // 🏆 CONTROLLO DIRIGENZA DA EXCEL (supporta diverse strutture)
-    const isAdmin = excelUserData.ruolo?.toLowerCase().includes('dirigenza') || 
-                   excelUserData.ruolo?.toLowerCase().includes('admin') ||
-                   excelUserData.admin === true ||
-                   excelUserData.admin === 'true' ||
-                   excelUserData.admin === 'SI' ||
-                   excelUserData.rank?.toLowerCase().includes('admin') ||
-                   excelUserData.level === 'admin';
+    // 🏆 CONTROLLO DIRIGENZA DAL FOGLIO EXCEL
+    const isAdmin = excelUserData.admin === true ||
+                   (excelUserData.ruolo && (
+                     excelUserData.ruolo.toLowerCase().includes('dirigenza') ||
+                     excelUserData.ruolo.toLowerCase().includes('comandante') ||
+                     excelUserData.ruolo.toLowerCase().includes('generale') ||
+                     excelUserData.ruolo.toLowerCase().includes('vice')
+                   ));
     
     if (isAdmin) {
       // Mostra badge dirigenza
@@ -1752,13 +1726,13 @@ class UI {
         tab.style.display = 'flex';
       });
       
-      console.log('🏆 Dirigenza riconosciuta dal foglio Excel');
+      console.log('🏆 DIRIGENZA riconosciuta dal foglio Excel:', excelUserData);
       
       setTimeout(() => {
-        showModal('Benvenuto Dirigenza', 'Accesso dirigenza confermato tramite foglio Excel. Funzioni amministrative attive.');
+        showModal('Benvenuto Dirigenza', `Accesso dirigenza confermato per ${excelUserData.nome || 'utente autorizzato'}. Tutte le funzioni amministrative sono disponibili.`);
       }, 2000);
     } else {
-      console.log('👮‍♂️ Operatore standard autorizzato dal foglio Excel');
+      console.log('👮‍♂️ Operatore standard autorizzato:', excelUserData);
     }
   }
 
@@ -1773,23 +1747,35 @@ class UI {
   }
 }
 
-// 🚀 Initialize
+// 🚀 Initialize - INIZIALIZZAZIONE COMPLETA
 document.addEventListener('DOMContentLoaded', async function() {
-  console.log('🚔 Inizializzazione Dashboard UOPI con controllo Excel...');
-  console.log('📋 API Endpoint:', CONFIG.API.URL);
+  console.log('🚔 === INIZIALIZZAZIONE DASHBOARD UOPI ===');
+  console.log('📋 Google Apps Script API:', CONFIG.API.URL);
+  console.log('🔐 Discord Client ID:', CONFIG.DISCORD.CLIENT_ID);
   
   if (window.location.hash && window.location.hash.includes('access_token')) {
+    console.log('🔄 Gestione callback Discord OAuth...');
     await DiscordAuth.handleCallback();
     return;
   }
   
   const hasExistingSession = await DiscordAuth.checkExistingSession();
   
-  document.getElementById('discord-login-btn').addEventListener('click', function() {
-    this.disabled = true;
-    this.innerHTML = '<div style="width:18px;height:18px;border:2px solid rgba(255,255,255,.3);border-radius:50%;border-top-color:#fff;animation:spin 1s ease-in-out infinite;display:inline-block;margin-right:8px;"></div> Accesso...';
-    DiscordAuth.login();
-  });
+  // ✅ EVENT LISTENER PRINCIPALE
+  const discordBtn = document.getElementById('discord-login-btn');
+  if (discordBtn) {
+    discordBtn.addEventListener('click', function() {
+      console.log('🔐 Bottone Discord cliccato - Avvio processo di login');
+      this.disabled = true;
+      this.innerHTML = '<div style="width:18px;height:18px;border:2px solid rgba(255,255,255,.3);border-radius:50%;border-top-color:#fff;animation:spin 1s ease-in-out infinite;display:inline-block;margin-right:8px;"></div> Connessione a Discord...';
+      DiscordAuth.login();
+    });
+    console.log('✅ Event listener Discord configurato');
+  } else {
+    console.error('❌ ERRORE: Bottone Discord non trovato!');
+  }
+  
+  console.log('🚔 === INIZIALIZZAZIONE COMPLETATA ===');
 });
 </script>
 
