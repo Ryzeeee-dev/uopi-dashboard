@@ -1062,7 +1062,7 @@
 
       <div class="feature-highlight">
         <h3>🎯 Sistema Avanzato di Gestione</h3>
-        <p>Dashboard completamente funzionale con controllo accessi e interfaccia dirigenza</p>
+        <p>Dashboard completamente funzionale con controllo accessi automatico da Excel</p>
       </div>
     </div>
 
@@ -1303,17 +1303,19 @@
 </div>
 
 <script>
-// 🚔 CONFIGURAZIONE AGGIORNATA CON GOOGLE APPS SCRIPT
+// 🚔 CONFIGURAZIONE CON GOOGLE APPS SCRIPT
 const CONFIG = {
   DISCORD: {
     CLIENT_ID: '1387801645743869982',
     REDIRECT_URI: 'https://ryze-glitch.github.io/uopi-dashboard/',
     SCOPE: 'identify'
   },
-  // 📋 GOOGLE APPS SCRIPT API - SOSTITUISCI CON IL TUO URL
+  // 📋 GOOGLE APPS SCRIPT API - TUO ENDPOINT
   API: {
-    URL: 'https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec' // ⚠️ SOSTITUISCI QUI!
-  },
+    URL: 'https://script.google.com/macros/s/AKfycbzcTGSXyzxY5SRwnM6paqNHwhY4UqZM1Xy1pjUpS7_r/exec'
+  }
+  // ❌ RIMOSSI ADMIN_IDS HARDCODED - TUTTO GESTITO DA EXCEL
+};
 
 // 🔄 Loading Manager
 class LoadingManager {
@@ -1335,20 +1337,21 @@ class LoadingManager {
   }
 }
 
-// 📋 Access Control con Google Apps Script API
+// 📋 Access Control con Google Apps Script API - GESTIONE AUTOMATICA
 class AccessControl {
-  static async fetchAllowedUsers() {
+  static async fetchUserData() {
     try {
-      console.log('🔍 Caricamento lista accessi da Google Apps Script...');
+      console.log('🔍 Caricamento dati utenti da Google Apps Script...');
       
       // Timeout per evitare blocchi infiniti
       const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 secondi
+      const timeoutId = setTimeout(() => controller.abort(), 15000); // 15 secondi
       
       const response = await fetch(CONFIG.API.URL, {
         method: 'GET',
         headers: {
-          'Accept': 'application/json'
+          'Accept': 'application/json',
+          'Cache-Control': 'no-cache'
         },
         signal: controller.signal
       });
@@ -1365,17 +1368,14 @@ class AccessControl {
         throw new Error(data.error || 'Errore API sconosciuto');
       }
       
-      console.log(`✅ Lista accessi caricata: ${data.count} utenti autorizzati`);
-      console.log('📋 Utenti autorizzati:', data.allowedUsers);
+      console.log(`✅ Dati caricati: ${data.users?.length || 0} utenti totali`);
+      console.log('📋 Struttura dati:', data);
       
-      return data.allowedUsers || [];
+      return data;
       
     } catch (error) {
-      console.error('❌ Errore caricamento accessi:', error);
-      
-      // Fallback agli admin in caso di errore API
-      console.log('🔄 Fallback su admin IDs di emergenza');
-      return CONFIG.ADMIN_IDS;
+      console.error('❌ Errore caricamento dati:', error);
+      throw error;
     }
   }
   
@@ -1383,18 +1383,32 @@ class AccessControl {
     try {
       LoadingManager.show('Verifica autorizzazioni...');
       
-      const allowedUsers = await this.fetchAllowedUsers();
-      const hasAccess = allowedUsers.includes(discordUserID);
+      const data = await this.fetchUserData();
       
-      console.log(`🔍 Controllo accesso per ID: ${discordUserID}`);
-      console.log(`🔍 Risultato: ${hasAccess ? '✅ AUTORIZZATO' : '❌ NEGATO'}`);
+      // Cerca l'utente nei dati
+      const userFound = data.users?.find(user => user.id === discordUserID);
       
-      return hasAccess;
+      if (userFound) {
+        console.log(`✅ Utente autorizzato:`, userFound);
+        return {
+          hasAccess: true,
+          userData: userFound
+        };
+      } else {
+        console.log(`❌ Utente NON autorizzato: ${discordUserID}`);
+        return {
+          hasAccess: false,
+          userData: null
+        };
+      }
       
     } catch (error) {
       console.error('❌ Errore controllo accessi:', error);
       LoadingManager.hide();
-      return false;
+      return {
+        hasAccess: false,
+        userData: null
+      };
     }
   }
 }
@@ -1467,7 +1481,7 @@ function showModal(title, description) {
   }, 5000);
 }
 
-// 🔐 Discord OAuth with Access Control
+// 🔐 Discord OAuth with Excel Integration
 class DiscordAuth {
   static async login() {
     try {
@@ -1475,11 +1489,11 @@ class DiscordAuth {
       if (existingToken) {
         const userData = await this.fetchUserData(existingToken);
         if (userData) {
-          const hasAccess = await AccessControl.checkUserAccess(userData.id);
-          if (hasAccess) {
+          const accessResult = await AccessControl.checkUserAccess(userData.id);
+          if (accessResult.hasAccess) {
             LoadingManager.show('Caricamento dashboard...');
             setTimeout(() => {
-              UI.showDashboard(userData);
+              UI.showDashboard(userData, accessResult.userData);
               LoadingManager.hide();
             }, 500);
           } else {
@@ -1540,10 +1554,10 @@ class DiscordAuth {
       const userData = await this.fetchUserData(token);
       if (!userData) throw new Error('Dati utente non validi');
 
-      // 🔍 CONTROLLO ACCESSO PRINCIPALE
-      const hasAccess = await AccessControl.checkUserAccess(userData.id);
+      // 🔍 CONTROLLO ACCESSO CON EXCEL
+      const accessResult = await AccessControl.checkUserAccess(userData.id);
       
-      if (!hasAccess) {
+      if (!accessResult.hasAccess) {
         LoadingManager.hide();
         UI.showAccessDenied();
         return;
@@ -1554,7 +1568,7 @@ class DiscordAuth {
       
       LoadingManager.show('Accesso autorizzato! Caricamento dashboard...');
       setTimeout(() => {
-        UI.showDashboard(userData);
+        UI.showDashboard(userData, accessResult.userData);
         LoadingManager.hide();
       }, 1000);
       
@@ -1621,11 +1635,11 @@ class DiscordAuth {
       const freshUserData = await this.fetchUserData(token);
       if (freshUserData) {
         // ✅ Controlla sempre l'accesso anche per sessioni esistenti
-        const hasAccess = await AccessControl.checkUserAccess(freshUserData.id);
-        if (hasAccess) {
+        const accessResult = await AccessControl.checkUserAccess(freshUserData.id);
+        if (accessResult.hasAccess) {
           LoadingManager.show('Ripristino sessione...');
           setTimeout(() => {
-            UI.showDashboard(userData);
+            UI.showDashboard(userData, accessResult.userData);
             LoadingManager.hide();
           }, 800);
           return true;
@@ -1639,14 +1653,14 @@ class DiscordAuth {
   }
 }
 
-// 🎨 UI Management
+// 🎨 UI Management - AGGIORNATO PER GESTIONE AUTOMATICA EXCEL
 class UI {
-  static showDashboard(userData) {
+  static showDashboard(discordUserData, excelUserData) {
     document.getElementById('login-section').style.display = 'none';
     document.getElementById('access-denied-section').style.display = 'none';
     document.getElementById('main-container').style.display = 'block';
-    this.updateProfile(userData);
-    this.checkAdminStatus(userData);
+    this.updateProfile(discordUserData);
+    this.checkAdminStatus(excelUserData); // Usa dati da Excel
   }
 
   static showAccessDenied() {
@@ -1671,53 +1685,26 @@ class UI {
     }
   }
 
-  static checkAdminStatus(userData) {
-    const isAdmin = CONFIG.ADMIN_IDS.includes(userData.id);
+  static checkAdminStatus(excelUserData) {
+    // 🏆 CONTROLLO DIRIGENZA DA EXCEL (colonna "ruolo" o "admin")
+    if (!excelUserData) {
+      console.log('👮‍♂️ Operatore standard');
+      return;
+    }
+    
+    // Controlla se ha ruolo dirigenza dal foglio Excel
+    const isAdmin = excelUserData.ruolo?.toLowerCase().includes('dirigenza') || 
+                   excelUserData.ruolo?.toLowerCase().includes('admin') ||
+                   excelUserData.admin === true ||
+                   excelUserData.admin === 'true' ||
+                   excelUserData.admin === 'SI';
     
     if (isAdmin) {
+      // Mostra badge dirigenza
       document.getElementById('admin-badge').style.display = 'inline-block';
       document.getElementById('user-avatar').classList.add('admin');
       document.getElementById('admin-panel').style.display = 'block';
       
+      // Mostra tab admin
       document.querySelectorAll('.admin-only').forEach(tab => {
-        tab.style.display = 'flex';
-      });
-      
-      console.log('🏆 Dirigenza riconosciuta:', userData.username);
-      
-      setTimeout(() => {
-        showModal('Benvenuto Dirigenza', `Accesso dirigenza confermato per ${userData.username}. Tutte le funzioni amministrative sono disponibili.`);
-      }, 2000);
-    } else {
-      console.log('👮‍♂️ Operatore autorizzato:', userData.username);
-    }
-  }
-
-  static showError(message) {
-    showModal('Errore', message);
-  }
-}
-
-// 🚀 Initialize
-document.addEventListener('DOMContentLoaded', async function() {
-  console.log('🚔 Inizializzazione Dashboard UOPI con controllo accessi...');
-  console.log('📋 API Endpoint:', CONFIG.API.URL);
-  
-  if (window.location.hash && window.location.hash.includes('access_token')) {
-    await DiscordAuth.handleCallback();
-    return;
-  }
-  
-  const hasExistingSession = await DiscordAuth.checkExistingSession();
-  
-  document.getElementById('discord-login-btn').addEventListener('click', function() {
-    this.disabled = true;
-    this.innerHTML = '<div style="width:18px;height:18px;border:2px solid rgba(255,255,255,.3);border-radius:50%;border-top-color:#fff;animation:spin 1s ease-in-out infinite;display:inline-block;margin-right:8px;"></div> Accesso...';
-    DiscordAuth.login();
-  });
-});
-</script>
-
-</body>
-</html>
-
+        tab.style.display = '
