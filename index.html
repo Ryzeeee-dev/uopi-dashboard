@@ -21,11 +21,6 @@
     overflow-x: hidden;
   }
 
-  /* ✨ ANIMAZIONI RIDOTTE - SOLO ESSENZIALI */
-  .smooth-transition {
-    transition: all 0.3s ease;
-  }
-
   @keyframes slideInUp {
     from { transform: translateY(30px); opacity: 0; }
     to { transform: translateY(0); opacity: 1; }
@@ -157,7 +152,6 @@
     font-weight: 600;
     cursor: pointer;
     transition: all 0.3s ease;
-    margin-right: 10px;
   }
 
   .retry-button:hover {
@@ -240,31 +234,6 @@
     flex-shrink: 0;
   }
 
-  .login-features {
-    margin-top: 40px;
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
-    padding-top: 30px;
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
-  }
-
-  .feature-item {
-    text-align: center;
-  }
-
-  .feature-icon {
-    font-size: 24px;
-    margin-bottom: 8px;
-    display: block;
-  }
-
-  .feature-text {
-    font-size: 12px;
-    color: #a0aec0;
-    line-height: 1.3;
-  }
-
   /* 🏠 MAIN DASHBOARD */
   .main-container {
     display: none;
@@ -272,7 +241,7 @@
     background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
   }
 
-  /* 🧭 NAVIGATION - LAYOUT COMPLETAMENTE FISSO */
+  /* 🧭 NAVIGATION */
   .dashboard-nav {
     background: rgba(15, 23, 42, 0.95);
     backdrop-filter: blur(20px);
@@ -351,18 +320,14 @@
   .nav-tab.admin-only {
     border: 1px solid rgba(239, 68, 68, 0.3);
     background: rgba(239, 68, 68, 0.1);
-  }
-
-  .nav-tab.admin-only:hover {
-    background: rgba(239, 68, 68, 0.2);
-    color: #fecaca;
+    display: none;
   }
 
   .nav-tab-icon {
     font-size: 14px;
   }
 
-  /* 👤 USER PROFILE - POSIZIONE COMPLETAMENTE SEPARATA */
+  /* 👤 USER PROFILE */
   .user-profile-section {
     position: fixed;
     top: 15px;
@@ -426,13 +391,6 @@
     flex-wrap: wrap;
   }
 
-  .user-name span:first-child {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    max-width: 120px;
-  }
-
   .admin-badge {
     background: linear-gradient(135deg, #dc2626, #991b1b);
     color: #ffffff;
@@ -443,15 +401,13 @@
     text-transform: uppercase;
     letter-spacing: 0.5px;
     flex-shrink: 0;
+    display: none;
   }
 
   .user-role {
     font-size: 11px;
     color: #64748b;
     font-weight: 500;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
   }
 
   .header-actions {
@@ -519,42 +475,7 @@
     margin-bottom: 30px;
     box-shadow: 0 15px 30px rgba(220, 38, 38, 0.3);
     border: 1px solid rgba(220, 38, 38, 0.3);
-  }
-
-  .admin-panel h3 {
-    margin: 0 0 20px 0;
-    font-size: 20px;
-    font-weight: 700;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-
-  .admin-controls {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 15px;
-  }
-
-  .admin-btn {
-    background: rgba(255, 255, 255, 0.15);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    color: #ffffff;
-    padding: 14px 20px;
-    border-radius: 14px;
-    font-weight: 600;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 13px;
-    transition: all 0.3s ease;
-  }
-
-  .admin-btn:hover {
-    background: rgba(255, 255, 255, 0.25);
-    transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    display: none;
   }
 
   /* ⚡ QUICK ACTIONS */
@@ -584,10 +505,6 @@
   .quick-action-btn:hover {
     transform: translateY(-3px);
     box-shadow: 0 15px 30px rgba(59, 130, 246, 0.4);
-  }
-
-  .quick-action-icon {
-    font-size: 20px;
   }
 
   /* 📊 STATISTICS */
@@ -652,169 +569,13 @@
     animation: slideInUp 0.4s ease-out;
   }
 
-  /* 📋 DASHBOARD CARDS */
-  .dashboard-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-    gap: 25px;
-    margin-bottom: 40px;
-  }
-
-  .dashboard-card {
-    background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
-    border-radius: 20px;
-    padding: 30px;
-    border: 1px solid rgba(59, 130, 246, 0.2);
-    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
-    position: relative;
-    overflow: hidden;
-    transition: all 0.3s ease;
-  }
-
-  .dashboard-card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 4px;
-    background: linear-gradient(90deg, #3b82f6, #8b5cf6);
-  }
-
-  .dashboard-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 25px 50px rgba(59, 130, 246, 0.15);
-  }
-
-  .dashboard-card h2 {
-    margin: 0 0 25px 0;
-    color: #f1f5f9;
-    font-size: 20px;
-    font-weight: 700;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-
-  /* 📊 TABLES */
-  .data-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-    background: rgba(30, 41, 59, 0.8);
-    border-radius: 16px;
-    overflow: hidden;
-    border: 1px solid rgba(59, 130, 246, 0.2);
-  }
-
-  .data-table th,
-  .data-table td {
-    padding: 15px 20px;
-    text-align: left;
-    border-bottom: 1px solid rgba(59, 130, 246, 0.1);
-  }
-
-  .data-table th {
-    background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
-    color: #ffffff;
-    font-weight: 700;
-    font-size: 13px;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-  }
-
-  .data-table tr:hover {
-    background: rgba(59, 130, 246, 0.1);
-  }
-
-  .data-table tr:last-child td {
-    border-bottom: none;
-  }
-
-  /* 🏷️ STATUS BADGES */
-  .status-badge {
-    padding: 6px 12px;
-    border-radius: 20px;
-    font-size: 11px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    display: inline-block;
-  }
-
-  .status-active { 
-    background: linear-gradient(135deg, #10b981, #059669); 
-    color: #ffffff;
-  }
-
-  .status-inactive { 
-    background: linear-gradient(135deg, #ef4444, #dc2626); 
-    color: #ffffff;
-  }
-
-  .status-in-progress { 
-    background: linear-gradient(135deg, #3b82f6, #2563eb); 
-    color: #ffffff;
-  }
-
-  .status-assigned { 
-    background: linear-gradient(135deg, #f59e0b, #d97706); 
-    color: #ffffff;
-  }
-
-  /* 🎯 SPECIAL FEATURES */
-  .feature-highlight {
-    background: linear-gradient(135deg, #8b5cf6 0%, #ec4899 100%);
-    border-radius: 16px;
-    padding: 25px;
-    margin: 25px 0;
-    color: white;
-    text-align: center;
-  }
-
-  .error-message {
-    background: linear-gradient(135deg, #fed7d7, #feb2b2);
-    color: #9b2c2c;
-    padding: 15px 20px;
-    border-radius: 12px;
-    margin: 20px 0;
-    display: none;
-    border-left: 4px solid #e53e3e;
-    font-weight: 500;
-  }
-
-  /* 📱 RESPONSIVE */
-  @media (max-width: 1200px) {
-    .nav-container {
-      grid-template-columns: 250px 1fr;
-    }
-    
-    .nav-tabs {
-      gap: 4px;
-    }
-    
-    .nav-tab {
-      padding: 10px 14px;
-      font-size: 12px;
-    }
-  }
-
-  @media (max-width: 1024px) {
+  /* RESPONSIVE */
+  @media (max-width: 768px) {
     .nav-container {
       grid-template-columns: 1fr;
       height: auto;
       padding: 15px 20px;
       gap: 15px;
-    }
-    
-    .nav-brand {
-      justify-self: center;
-    }
-    
-    .nav-tabs {
-      justify-self: center;
-      width: 100%;
-      justify-content: center;
     }
     
     .user-profile-section {
@@ -823,41 +584,6 @@
       right: auto;
       margin: 15px auto;
       max-width: 500px;
-    }
-  }
-
-  @media (max-width: 768px) {
-    .user-profile-section {
-      margin: 15px 15px;
-      min-width: auto;
-      width: calc(100% - 30px);
-    }
-    
-    .dashboard {
-      padding: 20px 15px;
-    }
-    
-    .dashboard-grid {
-      grid-template-columns: 1fr;
-    }
-    
-    .stats-grid {
-      grid-template-columns: repeat(2, 1fr);
-      gap: 15px;
-    }
-    
-    .quick-actions {
-      grid-template-columns: 1fr;
-    }
-
-    .login-container, .access-denied-container {
-      padding: 40px 30px;
-      margin: 20px;
-    }
-
-    .login-features {
-      grid-template-columns: 1fr;
-      gap: 15px;
     }
   }
 </style>
@@ -902,28 +628,13 @@
       Continua con Discord
     </button>
     
-    <div id="error-message" class="error-message"></div>
-    
-    <div class="login-features">
-      <div class="feature-item">
-        <span class="feature-icon">🔐</span>
-        <div class="feature-text">Accesso<br>Sicuro</div>
-      </div>
-      <div class="feature-item">
-        <span class="feature-icon">⚡</span>
-        <div class="feature-text">Login<br>Veloce</div>
-      </div>
-      <div class="feature-item">
-        <span class="feature-icon">🛡️</span>
-        <div class="feature-text">OAuth2<br>Protetto</div>
-      </div>
-    </div>
+    <div id="error-message" style="display: none; margin-top: 20px; color: #ef4444; text-align: center;"></div>
   </div>
 </div>
 
 <!-- 🏠 Main Dashboard -->
 <div id="main-container" class="main-container">
-  <!-- 🧭 Navigation - LAYOUT FISSO -->
+  <!-- 🧭 Navigation -->
   <nav class="dashboard-nav">
     <div class="nav-container">
       <div class="nav-brand">
@@ -944,27 +655,15 @@
           <span class="nav-tab-icon">🚨</span>
           Interventi
         </button>
-        <button class="nav-tab" onclick="switchSection('formazione')">
-          <span class="nav-tab-icon">📋</span>
-          Formazione
-        </button>
-        <button class="nav-tab" onclick="switchSection('equipaggiamenti')">
-          <span class="nav-tab-icon">🛡️</span>
-          Equipaggiamenti
-        </button>
-        <button class="nav-tab admin-only" onclick="switchSection('admin')" style="display: none;">
+        <button class="nav-tab admin-only" onclick="switchSection('admin')">
           <span class="nav-tab-icon">⚙️</span>
           Amministrazione
-        </button>
-        <button class="nav-tab admin-only" onclick="switchSection('reports')" style="display: none;">
-          <span class="nav-tab-icon">📈</span>
-          Report
         </button>
       </div>
     </div>
   </nav>
 
-  <!-- 👤 User Profile - POSIZIONE SEPARATA -->
+  <!-- 👤 User Profile -->
   <div class="user-profile-section">
     <div class="user-avatar" id="user-avatar">
       <span id="user-initial">?</span>
@@ -972,7 +671,7 @@
     <div class="user-info">
       <div class="user-name" id="user-name">
         <span>Caricamento...</span>
-        <span id="admin-badge" class="admin-badge" style="display: none;">DIRIGENZA</span>
+        <span id="admin-badge" class="admin-badge">DIRIGENZA</span>
       </div>
       <div class="user-role">Operatore UOPI</div>
     </div>
@@ -994,47 +693,27 @@
     </div>
     
     <!-- 🏆 Admin Panel -->
-    <div id="admin-panel" class="admin-panel" style="display: none;">
-      <h3>
-        <span>👑</span>
-        Pannello Dirigenza
-      </h3>
-      <div class="admin-controls">
-        <button class="admin-btn" onclick="showModal('Gestione Utenti', 'Sistema di gestione completo degli utenti registrati')">
-          <span>👥</span>
-          Gestisci Utenti
-        </button>
-        <button class="admin-btn" onclick="showModal('Impostazioni Sistema', 'Configurazione avanzata del sistema UOPI')">
-          <span>⚙️</span>
-          Impostazioni
-        </button>
-        <button class="admin-btn" onclick="showModal('Backup Database', 'Creazione backup sicuro dei dati')">
-          <span>💾</span>
-          Backup
-        </button>
-        <button class="admin-btn" onclick="showModal('Log Sistema', 'Monitoraggio attività e sicurezza')">
-          <span>📄</span>
-          Log Sistema
-        </button>
-      </div>
+    <div id="admin-panel" class="admin-panel">
+      <h3>👑 Pannello Dirigenza</h3>
+      <p>Controlli amministrativi disponibili</p>
     </div>
 
     <!-- ⚡ Quick Actions -->
     <div class="quick-actions">
       <button class="quick-action-btn" onclick="showModal('Nuovo Intervento', 'Creazione di un nuovo intervento operativo')">
-        <span class="quick-action-icon">🚨</span>
+        <span>🚨</span>
         Nuovo Intervento
       </button>
       <button class="quick-action-btn" onclick="showModal('Rapporto Turno', 'Compilazione rapporto di fine turno')">
-        <span class="quick-action-icon">📝</span>
+        <span>📝</span>
         Rapporto Turno
       </button>
       <button class="quick-action-btn" onclick="showModal('Richiesta Supporto', 'Richiesta supporto urgente')">
-        <span class="quick-action-icon">🆘</span>
+        <span>🆘</span>
         Richiesta Supporto
       </button>
       <button class="quick-action-btn" onclick="showModal('Gestione Mezzi', 'Controllo stato mezzi operativi')">
-        <span class="quick-action-icon">🚗</span>
+        <span>🚗</span>
         Gestione Mezzi
       </button>
     </div>
@@ -1042,260 +721,21 @@
     <!-- 📊 Overview Section -->
     <div id="section-overview" class="section-container active">
       <div class="stats-grid">
-        <div class="stat-card" onclick="showModal('Operatori Dettagli', 'Visualizzazione dettagliata di tutti gli operatori in servizio')">
+        <div class="stat-card">
           <div class="stat-number">12</div>
           <div class="stat-label">Operatori in Servizio</div>
         </div>
-        <div class="stat-card" onclick="showModal('Operazioni Dettagli', 'Riepilogo delle operazioni attualmente in corso')">
+        <div class="stat-card">
           <div class="stat-number">5</div>
           <div class="stat-label">Operazioni Attive</div>
         </div>
-        <div class="stat-card" onclick="showModal('Squadre Dettagli', 'Stato e composizione delle squadre operative')">
+        <div class="stat-card">
           <div class="stat-number">8</div>
           <div class="stat-label">Squadre Operative</div>
         </div>
-        <div class="stat-card" onclick="showModal('Turni Dettagli', 'Programmazione e gestione dei turni di servizio')">
+        <div class="stat-card">
           <div class="stat-number">24</div>
           <div class="stat-label">Turni Pianificati</div>
-        </div>
-      </div>
-
-      <div class="feature-highlight">
-        <h3>🎯 Sistema Avanzato di Gestione</h3>
-        <p>Dashboard completamente funzionale con controllo accessi automatico da Excel</p>
-      </div>
-    </div>
-
-    <!-- 👮‍♂️ Operatori Section -->
-    <div id="section-operatori" class="section-container">
-      <div class="dashboard-grid">
-        <div class="dashboard-card">
-          <h2>👮‍♂️ Operatori UOPI</h2>
-          <table class="data-table">
-            <thead>
-              <tr>
-                <th>Nome</th>
-                <th>Grado</th>
-                <th>Ruolo</th>
-                <th>Stato</th>
-                <th>Azioni</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>Marco Rossi</td>
-                <td>Sovrintendente</td>
-                <td>Coordinatore</td>
-                <td><span class="status-badge status-active">Attivo</span></td>
-                <td>
-                  <button class="admin-btn" style="padding: 6px 12px; font-size: 11px; margin: 0;" onclick="showModal('Modifica Marco Rossi', 'Gestione profilo operatore Marco Rossi')">Modifica</button>
-                </td>
-              </tr>
-              <tr>
-                <td>Luigi Bianchi</td>
-                <td>Ispettore</td>
-                <td>Investigatore</td>
-                <td><span class="status-badge status-active">Attivo</span></td>
-                <td>
-                  <button class="admin-btn" style="padding: 6px 12px; font-size: 11px; margin: 0;" onclick="showModal('Modifica Luigi Bianchi', 'Gestione profilo operatore Luigi Bianchi')">Modifica</button>
-                </td>
-              </tr>
-              <tr>
-                <td>Anna Verdi</td>
-                <td>Agente</td>
-                <td>Pattuglia</td>
-                <td><span class="status-badge status-inactive">Non Attivo</span></td>
-                <td>
-                  <button class="admin-btn" style="padding: 6px 12px; font-size: 11px; margin: 0;" onclick="showModal('Modifica Anna Verdi', 'Gestione profilo operatore Anna Verdi')">Modifica</button>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-
-    <!-- 🚨 Interventi Section -->
-    <div id="section-interventi" class="section-container">
-      <div class="dashboard-grid">
-        <div class="dashboard-card">
-          <h2>🚨 Gestione Interventi</h2>
-          <table class="data-table">
-            <thead>
-              <tr>
-                <th>ID</th>
-                <th>Descrizione</th>
-                <th>Assegnato a</th>
-                <th>Stato</th>
-                <th>Priorità</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>#001</td>
-                <td>Controllo routine via Roma</td>
-                <td>Marco Rossi</td>
-                <td><span class="status-badge status-in-progress">In Corso</span></td>
-                <td><span class="status-badge status-assigned">Media</span></td>
-              </tr>
-              <tr>
-                <td>#002</td>
-                <td>Incidente stradale A1</td>
-                <td>Luigi Bianchi</td>
-                <td><span class="status-badge status-assigned">Assegnato</span></td>
-                <td><span class="status-badge status-active">Alta</span></td>
-              </tr>
-              <tr>
-                <td>#003</td>
-                <td>Controllo documenti centro</td>
-                <td>Anna Verdi</td>
-                <td><span class="status-badge status-inactive">Sospeso</span></td>
-                <td><span class="status-badge status-assigned">Bassa</span></td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-
-    <!-- 📋 Formazione Section -->
-    <div id="section-formazione" class="section-container">
-      <div class="dashboard-grid">
-        <div class="dashboard-card">
-          <h2>📋 Formazione e Certificazioni</h2>
-          <table class="data-table">
-            <thead>
-              <tr>
-                <th>Operatore</th>
-                <th>Certificazione</th>
-                <th>Conseguimento</th>
-                <th>Scadenza</th>
-                <th>Stato</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>Marco Rossi</td>
-                <td>Primo Soccorso</td>
-                <td>15/03/2024</td>
-                <td>15/03/2026</td>
-                <td><span class="status-badge status-active">Valida</span></td>
-              </tr>
-              <tr>
-                <td>Luigi Bianchi</td>
-                <td>Investigazioni</td>
-                <td>22/01/2024</td>
-                <td>22/01/2027</td>
-                <td><span class="status-badge status-active">Valida</span></td>
-              </tr>
-              <tr>
-                <td>Anna Verdi</td>
-                <td>Guida Sicura</td>
-                <td>10/12/2023</td>
-                <td>10/12/2025</td>
-                <td><span class="status-badge status-assigned">In Scadenza</span></td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-
-    <!-- 🛡️ Equipaggiamenti Section -->
-    <div id="section-equipaggiamenti" class="section-container">
-      <div class="dashboard-grid">
-        <div class="dashboard-card">
-          <h2>🛡️ Equipaggiamenti</h2>
-          <table class="data-table">
-            <thead>
-              <tr>
-                <th>Operatore</th>
-                <th>Equipaggiamento</th>
-                <th>Quantità</th>
-                <th>Stato</th>
-                <th>Ultima Manutenzione</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>Marco Rossi</td>
-                <td>Radio portatile</td>
-                <td>1</td>
-                <td><span class="status-badge status-active">Disponibile</span></td>
-                <td>01/09/2025</td>
-              </tr>
-              <tr>
-                <td>Luigi Bianchi</td>
-                <td>Giubbotto antiproiettile</td>
-                <td>1</td>
-                <td><span class="status-badge status-active">Disponibile</span></td>
-                <td>15/08/2025</td>
-              </tr>
-              <tr>
-                <td>Anna Verdi</td>
-                <td>Taser</td>
-                <td>1</td>
-                <td><span class="status-badge status-assigned">Manutenzione</span></td>
-                <td>20/07/2025</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-
-    <!-- ⚙️ Admin Section -->
-    <div id="section-admin" class="section-container">
-      <div class="dashboard-grid">
-        <div class="dashboard-card">
-          <h2>⚙️ Gestione Sistema</h2>
-          <div style="padding: 20px;">
-            <h4>🎛️ Controlli Avanzati</h4>
-            <p>Accesso completo a tutte le funzionalità di amministrazione del sistema</p>
-            <button class="quick-action-btn" onclick="showModal('Sistema Utenti', 'Gestione completa database utenti')">
-              <span>👥</span>
-              Gestione Completa Utenti
-            </button>
-          </div>
-        </div>
-        <div class="dashboard-card">
-          <h2>🔧 Configurazione</h2>
-          <div style="padding: 20px;">
-            <h4>⚙️ Impostazioni Avanzate</h4>
-            <p>Configurazione parametri sistema e sicurezza</p>
-            <button class="quick-action-btn" onclick="showModal('Configurazione', 'Pannello configurazione avanzata')">
-              <span>🔧</span>
-              Apri Configurazione
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- 📈 Reports Section -->
-    <div id="section-reports" class="section-container">
-      <div class="dashboard-grid">
-        <div class="dashboard-card">
-          <h2>📈 Report Operativi</h2>
-          <div style="padding: 20px;">
-            <h4>📊 Analytics Completi</h4>
-            <p>Report dettagliati sulle performance operative</p>
-            <button class="quick-action-btn" onclick="showModal('Report Mensile', 'Generazione report statistico mensile')">
-              <span>📋</span>
-              Genera Report Mensile
-            </button>
-          </div>
-        </div>
-        <div class="dashboard-card">
-          <h2>📊 Statistiche Avanzate</h2>
-          <div style="padding: 20px;">
-            <h4>🎯 Performance Metrics</h4>
-            <p>Monitoraggio KPI e metriche operative</p>
-            <button class="quick-action-btn" onclick="showModal('Analytics', 'Dashboard analytics avanzate')">
-              <span>📈</span>
-              Visualizza Analytics
-            </button>
-          </div>
         </div>
       </div>
     </div>
@@ -1303,18 +743,16 @@
 </div>
 
 <script>
-// 🚔 CONFIGURAZIONE CON GOOGLE APPS SCRIPT
+// 🚔 CONFIGURAZIONE
 const CONFIG = {
   DISCORD: {
     CLIENT_ID: '1387801645743869982',
     REDIRECT_URI: 'https://ryze-glitch.github.io/uopi-dashboard/',
     SCOPE: 'identify'
   },
-  // 📋 GOOGLE APPS SCRIPT API - TUO ENDPOINT
   API: {
     URL: 'https://script.google.com/macros/s/AKfycbzcTGSXyzxY5SRwnM6paqNHwhY4UqZM1Xy1pjUpS7_r/exec'
   }
-  // ❌ RIMOSSI ADMIN_IDS HARDCODED - TUTTO GESTITO DA EXCEL
 };
 
 // 🔄 Loading Manager
@@ -1337,15 +775,14 @@ class LoadingManager {
   }
 }
 
-// 📋 Access Control con Google Apps Script API - GESTIONE AUTOMATICA
+// 📋 Access Control
 class AccessControl {
   static async fetchUserData() {
     try {
       console.log('🔍 Caricamento dati utenti da Google Apps Script...');
       
-      // Timeout per evitare blocchi infiniti
       const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 15000); // 15 secondi
+      const timeoutId = setTimeout(() => controller.abort(), 15000);
       
       const response = await fetch(CONFIG.API.URL, {
         method: 'GET',
@@ -1368,9 +805,7 @@ class AccessControl {
         throw new Error(data.error || 'Errore API sconosciuto');
       }
       
-      console.log(`✅ Dati caricati: ${data.users?.length || 0} utenti totali`);
-      console.log('📋 Struttura dati:', data);
-      
+      console.log(`✅ Dati caricati:`, data);
       return data;
       
     } catch (error) {
@@ -1385,8 +820,14 @@ class AccessControl {
       
       const data = await this.fetchUserData();
       
-      // Cerca l'utente nei dati
-      const userFound = data.users?.find(user => user.id === discordUserID);
+      // Cerca l'utente nei dati (supporta diverse strutture)
+      let userFound = null;
+      
+      if (data.users && Array.isArray(data.users)) {
+        userFound = data.users.find(user => user.id === discordUserID);
+      } else if (data.allowedUsers && Array.isArray(data.allowedUsers)) {
+        userFound = data.allowedUsers.includes(discordUserID) ? { id: discordUserID } : null;
+      }
       
       if (userFound) {
         console.log(`✅ Utente autorizzato:`, userFound);
@@ -1413,78 +854,12 @@ class AccessControl {
   }
 }
 
-// 🗂️ Section Manager
-function switchSection(sectionName) {
-  document.querySelectorAll('.nav-tab').forEach(tab => {
-    tab.classList.remove('active');
-  });
-  
-  document.querySelectorAll('.section-container').forEach(section => {
-    section.classList.remove('active');
-  });
-  
-  event.target.classList.add('active');
-  document.getElementById(`section-${sectionName}`).classList.add('active');
-}
-
-// 🎯 Modal System
-function showModal(title, description) {
-  const modal = document.createElement('div');
-  modal.style.cssText = `
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.8);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 10000;
-  `;
-  
-  modal.innerHTML = `
-    <div style="
-      background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
-      border-radius: 20px;
-      padding: 30px;
-      max-width: 450px;
-      width: 90%;
-      text-align: center;
-      border: 1px solid rgba(59, 130, 246, 0.2);
-      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
-    ">
-      <h2 style="color: #3b82f6; margin-bottom: 15px; font-size: 20px;">🚔 ${title}</h2>
-      <p style="color: #94a3b8; margin-bottom: 25px; line-height: 1.5;">${description}</p>
-      <button onclick="this.closest('div').remove()" style="
-        background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
-        color: white;
-        border: none;
-        padding: 12px 25px;
-        border-radius: 12px;
-        font-weight: 600;
-        cursor: pointer;
-        font-size: 14px;
-        transition: all 0.3s ease;
-      " onmouseover="this.style.transform='translateY(-1px)'" onmouseout="this.style.transform='translateY(0)'">
-        ✅ Compreso
-      </button>
-    </div>
-  `;
-  
-  document.body.appendChild(modal);
-  
-  setTimeout(() => {
-    if (modal.parentNode) {
-      modal.remove();
-    }
-  }, 5000);
-}
-
-// 🔐 Discord OAuth with Excel Integration
+// 🔐 Discord OAuth
 class DiscordAuth {
   static async login() {
     try {
+      console.log('🔐 Inizio processo di login...');
+      
       const existingToken = this.getStoredToken();
       if (existingToken) {
         const userData = await this.fetchUserData(existingToken);
@@ -1506,22 +881,19 @@ class DiscordAuth {
 
       LoadingManager.show('Avvio autenticazione Discord...');
 
-      const isFirstTime = !localStorage.getItem('discord_authorized');
-      const promptType = isFirstTime ? 'consent' : 'none';
-
       const params = new URLSearchParams({
         client_id: CONFIG.DISCORD.CLIENT_ID,
         redirect_uri: CONFIG.DISCORD.REDIRECT_URI,
         response_type: 'token',
         scope: CONFIG.DISCORD.SCOPE,
-        prompt: promptType
+        prompt: 'consent'
       });
 
       window.location.href = `https://discord.com/api/oauth2/authorize?${params}`;
     } catch (error) {
       console.error('Login error:', error);
       LoadingManager.hide();
-      UI.showError('Errore durante il login');
+      UI.showError('Errore durante il login: ' + error.message);
     }
   }
 
@@ -1533,15 +905,8 @@ class DiscordAuth {
       const token = fragment.get('access_token');
       const error = fragment.get('error');
       
-      if (error === 'access_denied') {
-        const params = new URLSearchParams({
-          client_id: CONFIG.DISCORD.CLIENT_ID,
-          redirect_uri: CONFIG.DISCORD.REDIRECT_URI,
-          response_type: 'token',
-          scope: CONFIG.DISCORD.SCOPE,
-          prompt: 'consent'
-        });
-        window.location.href = `https://discord.com/api/oauth2/authorize?${params}`;
+      if (error) {
+        console.error('OAuth error:', error);
         return;
       }
       
@@ -1554,7 +919,6 @@ class DiscordAuth {
       const userData = await this.fetchUserData(token);
       if (!userData) throw new Error('Dati utente non validi');
 
-      // 🔍 CONTROLLO ACCESSO CON EXCEL
       const accessResult = await AccessControl.checkUserAccess(userData.id);
       
       if (!accessResult.hasAccess) {
@@ -1564,7 +928,6 @@ class DiscordAuth {
       }
 
       this.saveSession(token, userData);
-      localStorage.setItem('discord_authorized', 'true');
       
       LoadingManager.show('Accesso autorizzato! Caricamento dashboard...');
       setTimeout(() => {
@@ -1575,7 +938,7 @@ class DiscordAuth {
     } catch (error) {
       console.error('Callback error:', error);
       LoadingManager.hide();
-      UI.showError('Errore di autenticazione');
+      UI.showError('Errore di autenticazione: ' + error.message);
       this.logout();
     }
   }
@@ -1617,11 +980,6 @@ class DiscordAuth {
     return null;
   }
 
-  static getStoredUserData() {
-    const userData = localStorage.getItem('user_data');
-    return userData ? JSON.parse(userData) : null;
-  }
-
   static logout() {
     localStorage.clear();
     window.location.reload();
@@ -1629,12 +987,11 @@ class DiscordAuth {
 
   static async checkExistingSession() {
     const token = this.getStoredToken();
-    const userData = this.getStoredUserData();
+    const userData = JSON.parse(localStorage.getItem('user_data') || 'null');
     
     if (token && userData) {
       const freshUserData = await this.fetchUserData(token);
       if (freshUserData) {
-        // ✅ Controlla sempre l'accesso anche per sessioni esistenti
         const accessResult = await AccessControl.checkUserAccess(freshUserData.id);
         if (accessResult.hasAccess) {
           LoadingManager.show('Ripristino sessione...');
@@ -1653,14 +1010,14 @@ class DiscordAuth {
   }
 }
 
-// 🎨 UI Management - AGGIORNATO PER GESTIONE AUTOMATICA EXCEL
+// 🎨 UI Management
 class UI {
   static showDashboard(discordUserData, excelUserData) {
     document.getElementById('login-section').style.display = 'none';
     document.getElementById('access-denied-section').style.display = 'none';
     document.getElementById('main-container').style.display = 'block';
     this.updateProfile(discordUserData);
-    this.checkAdminStatus(excelUserData); // Usa dati da Excel
+    this.checkAdminStatus(excelUserData);
   }
 
   static showAccessDenied() {
@@ -1686,13 +1043,11 @@ class UI {
   }
 
   static checkAdminStatus(excelUserData) {
-    // 🏆 CONTROLLO DIRIGENZA DA EXCEL (colonna "ruolo" o "admin")
     if (!excelUserData) {
       console.log('👮‍♂️ Operatore standard');
       return;
     }
     
-    // Controlla se ha ruolo dirigenza dal foglio Excel
     const isAdmin = excelUserData.ruolo?.toLowerCase().includes('dirigenza') || 
                    excelUserData.ruolo?.toLowerCase().includes('admin') ||
                    excelUserData.admin === true ||
@@ -1700,11 +1055,80 @@ class UI {
                    excelUserData.admin === 'SI';
     
     if (isAdmin) {
-      // Mostra badge dirigenza
       document.getElementById('admin-badge').style.display = 'inline-block';
       document.getElementById('user-avatar').classList.add('admin');
       document.getElementById('admin-panel').style.display = 'block';
       
-      // Mostra tab admin
       document.querySelectorAll('.admin-only').forEach(tab => {
-        tab.style.display = '
+        tab.style.display = 'flex';
+      });
+      
+      console.log('🏆 Dirigenza riconosciuta dal foglio Excel');
+      
+      setTimeout(() => {
+        showModal('Benvenuto Dirigenza', 'Accesso dirigenza confermato tramite foglio Excel. Funzioni amministrative attive.');
+      }, 2000);
+    } else {
+      console.log('👮‍♂️ Operatore standard autorizzato');
+    }
+  }
+
+  static showError(message) {
+    const errorEl = document.getElementById('error-message');
+    errorEl.textContent = message;
+    errorEl.style.display = 'block';
+    
+    setTimeout(() => {
+      errorEl.style.display = 'none';
+    }, 5000);
+  }
+}
+
+// 🗂️ Utility Functions
+function switchSection(sectionName) {
+  document.querySelectorAll('.nav-tab').forEach(tab => {
+    tab.classList.remove('active');
+  });
+  
+  document.querySelectorAll('.section-container').forEach(section => {
+    section.classList.remove('active');
+  });
+  
+  event.target.classList.add('active');
+  document.getElementById(`section-${sectionName}`).classList.add('active');
+}
+
+function showModal(title, description) {
+  alert(`🚔 ${title}\n\n${description}`);
+}
+
+// 🚀 Initialize
+document.addEventListener('DOMContentLoaded', async function() {
+  console.log('🚔 Inizializzazione Dashboard UOPI...');
+  console.log('📋 API Endpoint:', CONFIG.API.URL);
+  
+  if (window.location.hash && window.location.hash.includes('access_token')) {
+    await DiscordAuth.handleCallback();
+    return;
+  }
+  
+  const hasExistingSession = await DiscordAuth.checkExistingSession();
+  
+  // ✅ AGGIUNGI EVENT LISTENER AL BOTTONE DISCORD
+  const discordBtn = document.getElementById('discord-login-btn');
+  if (discordBtn) {
+    discordBtn.addEventListener('click', function() {
+      console.log('🔐 Bottone Discord cliccato');
+      this.disabled = true;
+      this.innerHTML = '<div style="width:18px;height:18px;border:2px solid rgba(255,255,255,.3);border-radius:50%;border-top-color:#fff;animation:spin 1s ease-in-out infinite;display:inline-block;margin-right:8px;"></div> Accesso...';
+      DiscordAuth.login();
+    });
+    console.log('✅ Event listener aggiunto al bottone Discord');
+  } else {
+    console.error('❌ Bottone Discord non trovato!');
+  }
+});
+</script>
+
+</body>
+</html>
