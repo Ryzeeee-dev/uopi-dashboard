@@ -4,7 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Dashboard Gestione UOPI - FiveM</title>
-<meta http-equiv="Content-Security-Policy" content="default-src 'self' https://discord.com https://discordapp.com https://cdn.discordapp.com https://*.discord.com https://docs.google.com; connect-src 'self' https://discord.com https://discordapp.com https://api.discord.com https://docs.google.com; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline';">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self' https://discord.com https://discordapp.com https://cdn.discordapp.com https://*.discord.com https://script.google.com https://script.googleusercontent.com; connect-src 'self' https://discord.com https://discordapp.com https://api.discord.com https://script.google.com https://script.googleusercontent.com; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline';">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <style>
   *, *::before, *::after { 
@@ -1303,19 +1303,18 @@
 </div>
 
 <script>
-// 🚔 CONFIGURAZIONE
+// 🚔 CONFIGURAZIONE AGGIORNATA CON GOOGLE APPS SCRIPT
 const CONFIG = {
   DISCORD: {
     CLIENT_ID: '1387801645743869982',
     REDIRECT_URI: 'https://ryze-glitch.github.io/uopi-dashboard/',
     SCOPE: 'identify'
   },
-  // 📋 GOOGLE SHEETS - CONTROLLO ACCESSI
-  SHEETS: {
-    ID: '1v3q2-JfLEX_Av8JwUqHuEzZeLPmt64Ajh1OSCcuS1eE',
-    GID: '0'
+  // 📋 GOOGLE APPS SCRIPT API - SOSTITUISCI CON IL TUO URL
+  API: {
+    URL: 'https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec' // ⚠️ SOSTITUISCI QUI!
   },
-  // 🏆 ADMIN IDS (DIRIGENZA) - da mantenere per i controlli admin
+  // 🏆 ADMIN IDS (DIRIGENZA) - Fallback in caso di errore API
   ADMIN_IDS: [
     '1387684968536477756',
     '817121576217870348', 
@@ -1343,39 +1342,50 @@ class LoadingManager {
       setTimeout(() => {
         loading.classList.remove('show', 'hidden');
       }, 500);
-    }, 1500);
+    }, 1000);
   }
 }
 
-// 📋 Google Sheets Access Control
+// 📋 Access Control con Google Apps Script API
 class AccessControl {
   static async fetchAllowedUsers() {
     try {
-      const url = `https://docs.google.com/spreadsheets/d/${CONFIG.SHEETS.ID}/gviz/tq?tqx=out:json&gid=${CONFIG.SHEETS.GID}`;
+      console.log('🔍 Caricamento lista accessi da Google Apps Script...');
       
-      const response = await fetch(url);
-      let text = await response.text();
+      // Timeout per evitare blocchi infiniti
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 secondi
       
-      // Rimuovi caratteri non validi JSON
-      text = text.substring(47).slice(0, -2);
-      const data = JSON.parse(text);
+      const response = await fetch(CONFIG.API.URL, {
+        method: 'GET',
+        headers: {
+          'Accept': 'application/json'
+        },
+        signal: controller.signal
+      });
       
-      // Estrai gli ID Discord (prima colonna)
-      const allowedIDs = [];
-      if (data.table && data.table.rows) {
-        data.table.rows.forEach(row => {
-          if (row.c && row.c[0] && row.c[0].v) {
-            allowedIDs.push(row.c[0].v.toString());
-          }
-        });
+      clearTimeout(timeoutId);
+      
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
       }
       
-      console.log('✅ Utenti autorizzati caricati:', allowedIDs.length);
-      return allowedIDs;
+      const data = await response.json();
+      
+      if (!data.success) {
+        throw new Error(data.error || 'Errore API sconosciuto');
+      }
+      
+      console.log(`✅ Lista accessi caricata: ${data.count} utenti autorizzati`);
+      console.log('📋 Utenti autorizzati:', data.allowedUsers);
+      
+      return data.allowedUsers || [];
       
     } catch (error) {
-      console.error('❌ Errore caricamento lista accessi:', error);
-      // In caso di errore, fallback agli admin IDs
+      console.error('❌ Errore caricamento accessi:', error);
+      
+      // Fallback agli admin in caso di errore API
+      console.log('🔄 Fallback su admin IDs di emergenza');
       return CONFIG.ADMIN_IDS;
     }
   }
@@ -1387,12 +1397,14 @@ class AccessControl {
       const allowedUsers = await this.fetchAllowedUsers();
       const hasAccess = allowedUsers.includes(discordUserID);
       
-      console.log(`🔍 Controllo accesso per ID ${discordUserID}:`, hasAccess ? '✅ AUTORIZZATO' : '❌ NEGATO');
+      console.log(`🔍 Controllo accesso per ID: ${discordUserID}`);
+      console.log(`🔍 Risultato: ${hasAccess ? '✅ AUTORIZZATO' : '❌ NEGATO'}`);
       
       return hasAccess;
       
     } catch (error) {
       console.error('❌ Errore controllo accessi:', error);
+      LoadingManager.hide();
       return false;
     }
   }
@@ -1474,7 +1486,6 @@ class DiscordAuth {
       if (existingToken) {
         const userData = await this.fetchUserData(existingToken);
         if (userData) {
-          // ✅ Controlla accesso prima di mostrare dashboard
           const hasAccess = await AccessControl.checkUserAccess(userData.id);
           if (hasAccess) {
             LoadingManager.show('Caricamento dashboard...');
@@ -1483,13 +1494,14 @@ class DiscordAuth {
               LoadingManager.hide();
             }, 500);
           } else {
+            LoadingManager.hide();
             UI.showAccessDenied();
           }
           return;
         }
       }
 
-      LoadingManager.show('Avvio autenticazione...');
+      LoadingManager.show('Avvio autenticazione Discord...');
 
       const isFirstTime = !localStorage.getItem('discord_authorized');
       const promptType = isFirstTime ? 'consent' : 'none';
@@ -1505,8 +1517,8 @@ class DiscordAuth {
       window.location.href = `https://discord.com/api/oauth2/authorize?${params}`;
     } catch (error) {
       console.error('Login error:', error);
-      UI.showError('Errore durante il login');
       LoadingManager.hide();
+      UI.showError('Errore durante il login');
     }
   }
 
@@ -1534,10 +1546,10 @@ class DiscordAuth {
 
       window.history.replaceState(null, null, window.location.pathname);
       
-      LoadingManager.show('Verifica credenziali...');
+      LoadingManager.show('Verifica credenziali Discord...');
       
       const userData = await this.fetchUserData(token);
-      if (!userData) throw new Error('Invalid user data');
+      if (!userData) throw new Error('Dati utente non validi');
 
       // 🔍 CONTROLLO ACCESSO PRINCIPALE
       const hasAccess = await AccessControl.checkUserAccess(userData.id);
@@ -1551,7 +1563,7 @@ class DiscordAuth {
       this.saveSession(token, userData);
       localStorage.setItem('discord_authorized', 'true');
       
-      LoadingManager.show('Accesso autorizzato! Caricamento...');
+      LoadingManager.show('Accesso autorizzato! Caricamento dashboard...');
       setTimeout(() => {
         UI.showDashboard(userData);
         LoadingManager.hide();
@@ -1685,10 +1697,10 @@ class UI {
       console.log('🏆 Dirigenza riconosciuta:', userData.username);
       
       setTimeout(() => {
-        showModal('Benvenuto Dirigenza', `Accesso completo garantito per ${userData.username}. Tutte le funzioni amministrative sono disponibili.`);
+        showModal('Benvenuto Dirigenza', `Accesso dirigenza confermato per ${userData.username}. Tutte le funzioni amministrative sono disponibili.`);
       }, 2000);
     } else {
-      console.log('👮‍♂️ Operatore standard autorizzato:', userData.username);
+      console.log('👮‍♂️ Operatore autorizzato:', userData.username);
     }
   }
 
@@ -1699,7 +1711,8 @@ class UI {
 
 // 🚀 Initialize
 document.addEventListener('DOMContentLoaded', async function() {
-  console.log('🚔 Inizializzazione Dashboard UOPI...');
+  console.log('🚔 Inizializzazione Dashboard UOPI con controllo accessi...');
+  console.log('📋 API Endpoint:', CONFIG.API.URL);
   
   if (window.location.hash && window.location.hash.includes('access_token')) {
     await DiscordAuth.handleCallback();
