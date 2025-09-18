@@ -21,7 +21,7 @@
     overflow-x: hidden;
   }
 
-  /* ✨ ANIMAZIONI AVANZATE */
+  /* ✨ ANIMAZIONI */
   @keyframes slideInUp {
     from { transform: translateY(30px); opacity: 0; }
     to { transform: translateY(0); opacity: 1; }
@@ -47,12 +47,7 @@
     50% { box-shadow: 0 0 30px rgba(59, 130, 246, 0.6); }
   }
 
-  @keyframes fadeInScale {
-    from { transform: scale(0.9); opacity: 0; }
-    to { transform: scale(1); opacity: 1; }
-  }
-
-  /* 🔄 LOADING SCREEN MIGLIORATO */
+  /* 🔄 LOADING SCREEN */
   .loading-overlay {
     position: fixed;
     top: 0;
@@ -83,7 +78,6 @@
     margin-bottom: 30px;
     color: #4299e1;
     animation: pulse 2s infinite;
-    text-shadow: 0 0 20px rgba(66, 153, 225, 0.5);
   }
 
   .loading-spinner {
@@ -102,7 +96,15 @@
     margin-bottom: 30px;
     text-align: center;
     font-weight: 500;
-    letter-spacing: 0.5px;
+  }
+
+  .loading-debug {
+    font-size: 12px;
+    color: #64748b;
+    margin-bottom: 20px;
+    text-align: center;
+    font-family: 'Courier New', monospace;
+    max-width: 400px;
   }
 
   .loading-progress {
@@ -111,7 +113,6 @@
     background: rgba(66, 153, 225, 0.1);
     border-radius: 4px;
     overflow: hidden;
-    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
   }
 
   .loading-progress-bar {
@@ -120,28 +121,15 @@
     border-radius: 4px;
     width: 0%;
     animation: progress 4s ease-out forwards;
-    box-shadow: 0 0 10px rgba(66, 153, 225, 0.5);
   }
 
-  /* 🚫 ACCESS DENIED SCREEN MIGLIORATO */
+  /* 🚫 ACCESS DENIED SCREEN */
   .access-denied-section {
     display: none;
     align-items: center;
     justify-content: center;
     min-height: 100vh;
-    background: linear-gradient(135deg, #dc2626 0%, #991b1b 50%, #7f1d1d 100%);
-    position: relative;
-  }
-
-  .access-denied-section::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="2" fill="rgba(255,255,255,0.1)"/></svg>') repeat;
-    opacity: 0.1;
+    background: linear-gradient(135deg, #dc2626 0%, #991b1b 100%);
   }
 
   .access-denied-container {
@@ -154,9 +142,6 @@
     max-width: 500px;
     width: 90%;
     text-align: center;
-    position: relative;
-    z-index: 1;
-    animation: fadeInScale 0.5s ease-out;
   }
 
   .access-denied-icon {
@@ -164,7 +149,6 @@
     color: #dc2626;
     margin-bottom: 20px;
     animation: pulse 3s infinite;
-    text-shadow: 0 0 30px rgba(220, 38, 38, 0.5);
   }
 
   .access-denied-title {
@@ -172,15 +156,26 @@
     font-weight: 800;
     color: #dc2626;
     margin: 0 0 16px 0;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
   }
 
   .access-denied-subtitle {
     font-size: 16px;
     color: #cbd5e1;
-    margin: 0 0 30px 0;
+    margin: 0 0 20px 0;
     line-height: 1.6;
-    opacity: 0.9;
+  }
+
+  .debug-info {
+    background: rgba(0, 0, 0, 0.3);
+    padding: 15px;
+    border-radius: 8px;
+    margin: 20px 0;
+    font-family: 'Courier New', monospace;
+    font-size: 12px;
+    color: #94a3b8;
+    text-align: left;
+    max-height: 150px;
+    overflow-y: auto;
   }
 
   .retry-button {
@@ -193,7 +188,6 @@
     font-weight: 600;
     cursor: pointer;
     transition: all 0.3s ease;
-    box-shadow: 0 8px 25px rgba(220, 38, 38, 0.4);
   }
 
   .retry-button:hover {
@@ -201,25 +195,13 @@
     box-shadow: 0 12px 35px rgba(220, 38, 38, 0.6);
   }
 
-  /* 🎨 LOGIN SECTION MIGLIORATO */
+  /* 🎨 LOGIN SECTION */
   .login-section {
     display: flex;
     align-items: center;
     justify-content: center;
     min-height: 100vh;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
-    position: relative;
-  }
-
-  .login-section::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
-                radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   }
 
   .login-container {
@@ -232,16 +214,12 @@
     max-width: 480px;
     width: 90%;
     text-align: center;
-    position: relative;
-    z-index: 1;
-    animation: fadeInScale 0.6s ease-out;
   }
 
   .login-logo {
     font-size: 72px;
     margin-bottom: 20px;
     display: block;
-    text-shadow: 0 0 30px rgba(66, 153, 225, 0.5);
     animation: glow 3s infinite;
   }
 
@@ -254,7 +232,6 @@
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   }
 
   .login-subtitle {
@@ -262,7 +239,6 @@
     color: #cbd5e1;
     margin: 0 0 40px 0;
     line-height: 1.6;
-    opacity: 0.9;
   }
 
   .discord-login-button {
@@ -281,8 +257,6 @@
     width: 100%;
     box-shadow: 0 8px 30px rgba(88, 101, 242, 0.4);
     transition: all 0.3s ease;
-    position: relative;
-    overflow: hidden;
   }
 
   .discord-login-button:hover:not(:disabled) {
@@ -293,7 +267,6 @@
   .discord-login-button:disabled {
     opacity: 0.7;
     cursor: not-allowed;
-    transform: none;
   }
 
   .discord-icon {
@@ -302,610 +275,12 @@
     flex-shrink: 0;
   }
 
-  .login-features {
-    margin-top: 40px;
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
-    padding-top: 30px;
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
-  }
-
-  .feature-item {
-    text-align: center;
-    transition: transform 0.3s ease;
-  }
-
-  .feature-item:hover {
-    transform: translateY(-2px);
-  }
-
-  .feature-icon {
-    font-size: 28px;
-    margin-bottom: 8px;
-    display: block;
-  }
-
-  .feature-text {
-    font-size: 12px;
-    color: #cbd5e1;
-    line-height: 1.3;
-    font-weight: 500;
-  }
-
-  /* 🏠 MAIN DASHBOARD */
-  .main-container {
-    display: none;
-    min-height: 100vh;
-    background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-  }
-
-  /* 🧭 NAVIGATION MIGLIORATO */
-  .dashboard-nav {
-    background: rgba(15, 23, 42, 0.95);
-    backdrop-filter: blur(20px);
-    border-bottom: 1px solid rgba(59, 130, 246, 0.2);
-    padding: 0;
-    position: sticky;
-    top: 0;
-    z-index: 997;
-    width: 100%;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-  }
-
-  .nav-container {
-    display: grid;
-    grid-template-columns: 300px 1fr;
-    align-items: center;
-    height: 80px;
-    padding: 0 20px;
-    max-width: none;
-    margin: 0;
-    gap: 20px;
-  }
-
-  .nav-brand {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    font-size: 24px;
-    font-weight: 800;
-    color: #f1f5f9;
-  }
-
-  .nav-brand-icon {
-    font-size: 32px;
-    animation: pulse 4s infinite;
-  }
-
-  .nav-tabs {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    background: rgba(30, 41, 59, 0.8);
-    border-radius: 20px;
-    padding: 8px;
-    border: 1px solid rgba(59, 130, 246, 0.2);
-    justify-self: start;
-    flex-wrap: wrap;
-    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
-  }
-
-  .nav-tab {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 12px 18px;
-    border-radius: 14px;
-    background: transparent;
-    border: none;
-    color: #94a3b8;
-    font-size: 13px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    white-space: nowrap;
-    position: relative;
-  }
-
-  .nav-tab:hover {
-    color: #f1f5f9;
-    background: rgba(59, 130, 246, 0.15);
-    transform: translateY(-1px);
-  }
-
-  .nav-tab.active {
-    color: #ffffff;
-    background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
-    box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
-  }
-
-  .nav-tab.admin-only {
-    border: 1px solid rgba(239, 68, 68, 0.3);
-    background: rgba(239, 68, 68, 0.1);
-    animation: glow 4s infinite;
-  }
-
-  .nav-tab.admin-only:hover {
-    background: rgba(239, 68, 68, 0.2);
-    color: #fecaca;
-  }
-
-  .nav-tab-icon {
-    font-size: 14px;
-  }
-
-  /* 👤 USER PROFILE MIGLIORATO */
-  .user-profile-section {
-    position: fixed;
-    top: 15px;
-    right: 15px;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 12px 20px;
-    background: rgba(15, 23, 42, 0.98);
-    backdrop-filter: blur(25px);
-    z-index: 1000;
-    border-radius: 16px;
-    border: 1px solid rgba(59, 130, 246, 0.2);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-    max-width: 380px;
-    min-width: 300px;
-    animation: slideInUp 0.5s ease-out;
-  }
-
-  .user-avatar {
-    width: 46px;
-    height: 46px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    font-weight: bold;
-    font-size: 18px;
-    border: 2px solid #3b82f6;
-    overflow: hidden;
-    flex-shrink: 0;
-    transition: all 0.3s ease;
-  }
-
-  .user-avatar:hover {
-    transform: scale(1.05);
-  }
-
-  .user-avatar.admin {
-    border: 2px solid #dc2626;
-    box-shadow: 0 0 20px rgba(220, 38, 38, 0.4);
-    animation: glow 3s infinite;
-  }
-
-  .user-avatar img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-
-  .user-info {
-    display: flex;
-    flex-direction: column;
-    gap: 3px;
-    flex: 1;
-    min-width: 0;
-  }
-
-  .user-name {
-    font-weight: 600;
-    font-size: 15px;
-    color: #f1f5f9;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    flex-wrap: wrap;
-  }
-
-  .user-name span:first-child {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    max-width: 160px;
-  }
-
-  .admin-badge {
-    background: linear-gradient(135deg, #dc2626, #991b1b);
-    color: #ffffff;
-    padding: 3px 8px;
-    border-radius: 8px;
-    font-size: 9px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    flex-shrink: 0;
-    animation: pulse 2s infinite;
-    box-shadow: 0 2px 8px rgba(220, 38, 38, 0.3);
-  }
-
-  .user-role {
-    font-size: 12px;
-    color: #64748b;
-    font-weight: 500;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-
-  .header-actions {
-    display: flex;
-    gap: 8px;
-    flex-shrink: 0;
-  }
-
-  .header-btn {
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    background: rgba(59, 130, 246, 0.1);
-    border: 1px solid rgba(59, 130, 246, 0.2);
-    color: #3b82f6;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.3s ease;
-  }
-
-  .header-btn:hover {
-    background: rgba(59, 130, 246, 0.2);
-    transform: scale(1.1);
-    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
-  }
-
-  /* 📊 DASHBOARD CONTENT MIGLIORATO */
-  .dashboard {
-    padding: 50px 30px;
-    max-width: 1400px;
-    margin: 0 auto;
-    width: 100%;
-  }
-
-  .dashboard-header {
-    text-align: center;
-    margin-bottom: 60px;
-    animation: fadeInScale 0.6s ease-out;
-  }
-
-  .dashboard-title {
-    font-size: 48px;
-    font-weight: 900;
-    color: #f1f5f9;
-    margin: 0 0 16px 0;
-    background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    text-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  }
-
-  .dashboard-subtitle {
-    font-size: 20px;
-    color: #64748b;
-    margin: 0;
-    font-weight: 500;
-    letter-spacing: 0.5px;
-  }
-
-  /* 🏆 ADMIN PANEL MIGLIORATO */
-  .admin-panel {
-    background: linear-gradient(135deg, #dc2626 0%, #991b1b 100%);
-    color: #ffffff;
-    border-radius: 24px;
-    padding: 35px;
-    margin-bottom: 40px;
-    box-shadow: 0 20px 40px rgba(220, 38, 38, 0.3);
-    border: 1px solid rgba(220, 38, 38, 0.3);
-    position: relative;
-    overflow: hidden;
-    animation: slideInUp 0.5s ease-out;
-  }
-
-  .admin-panel::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 4px;
-    background: linear-gradient(90deg, #fbbf24, #f59e0b);
-  }
-
-  .admin-panel h3 {
-    margin: 0 0 25px 0;
-    font-size: 24px;
-    font-weight: 800;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-  }
-
-  .admin-controls {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 18px;
-  }
-
-  .admin-btn {
-    background: rgba(255, 255, 255, 0.15);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    color: #ffffff;
-    padding: 16px 22px;
-    border-radius: 16px;
-    font-weight: 600;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-size: 14px;
-    transition: all 0.3s ease;
-    backdrop-filter: blur(10px);
-  }
-
-  .admin-btn:hover {
-    background: rgba(255, 255, 255, 0.25);
-    transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
-  }
-
-  /* ⚡ QUICK ACTIONS MIGLIORATO */
-  .quick-actions {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 25px;
-    margin-bottom: 50px;
-  }
-
-  .quick-action-btn {
-    background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
-    color: white;
-    border: none;
-    padding: 25px 30px;
-    border-radius: 20px;
-    font-weight: 600;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    font-size: 16px;
-    box-shadow: 0 10px 25px rgba(59, 130, 246, 0.3);
-    transition: all 0.3s ease;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .quick-action-btn::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-    transition: left 0.5s ease;
-  }
-
-  .quick-action-btn:hover::before {
-    left: 100%;
-  }
-
-  .quick-action-btn:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 15px 35px rgba(59, 130, 246, 0.4);
-  }
-
-  .quick-action-icon {
-    font-size: 24px;
-  }
-
-  /* 📊 STATISTICS MIGLIORATO */
-  .stats-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 30px;
-    margin-bottom: 60px;
-  }
-
-  .stat-card {
-    background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
-    border-radius: 24px;
-    padding: 35px;
-    text-align: center;
-    border: 1px solid rgba(59, 130, 246, 0.2);
-    position: relative;
-    overflow: hidden;
-    cursor: pointer;
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
-    transition: all 0.4s ease;
-    animation: fadeInScale 0.5s ease-out;
-  }
-
-  .stat-card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 6px;
-    background: linear-gradient(90deg, #3b82f6, #8b5cf6);
-  }
-
-  .stat-card:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 25px 50px rgba(59, 130, 246, 0.25);
-  }
-
-  .stat-number {
-    font-size: 56px;
-    font-weight: 900;
-    color: #3b82f6;
-    margin-bottom: 15px;
-    line-height: 1;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  }
-
-  .stat-label {
-    color: #94a3b8;
-    font-size: 18px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-  }
-
-  /* 🗂️ SECTIONS */
-  .section-container {
-    display: none;
-  }
-
-  .section-container.active {
-    display: block;
-    animation: slideInUp 0.5s ease-out;
-  }
-
-  /* 📋 DASHBOARD CARDS MIGLIORATO */
-  .dashboard-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
-    gap: 30px;
-    margin-bottom: 50px;
-  }
-
-  .dashboard-card {
-    background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
-    border-radius: 24px;
-    padding: 35px;
-    border: 1px solid rgba(59, 130, 246, 0.2);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-    position: relative;
-    overflow: hidden;
-    transition: all 0.4s ease;
-    animation: fadeInScale 0.5s ease-out;
-  }
-
-  .dashboard-card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 6px;
-    background: linear-gradient(90deg, #3b82f6, #8b5cf6);
-  }
-
-  .dashboard-card:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 30px 60px rgba(59, 130, 246, 0.2);
-  }
-
-  .dashboard-card h2 {
-    margin: 0 0 30px 0;
-    color: #f1f5f9;
-    font-size: 22px;
-    font-weight: 700;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-  }
-
-  /* 📊 TABLES MIGLIORATO */
-  .data-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 25px;
-    background: rgba(30, 41, 59, 0.8);
-    border-radius: 16px;
-    overflow: hidden;
-    border: 1px solid rgba(59, 130, 246, 0.2);
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
-  }
-
-  .data-table th,
-  .data-table td {
-    padding: 18px 22px;
-    text-align: left;
-    border-bottom: 1px solid rgba(59, 130, 246, 0.1);
-  }
-
-  .data-table th {
-    background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
-    color: #ffffff;
-    font-weight: 700;
-    font-size: 14px;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-  }
-
-  .data-table tr:hover {
-    background: rgba(59, 130, 246, 0.1);
-    transform: scale(1.01);
-    transition: all 0.2s ease;
-  }
-
-  .data-table tr:last-child td {
-    border-bottom: none;
-  }
-
-  /* 🏷️ STATUS BADGES MIGLIORATO */
-  .status-badge {
-    padding: 8px 16px;
-    border-radius: 20px;
-    font-size: 11px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    display: inline-block;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-  }
-
-  .status-active { 
-    background: linear-gradient(135deg, #10b981, #059669); 
-    color: #ffffff;
-  }
-
-  .status-inactive { 
-    background: linear-gradient(135deg, #ef4444, #dc2626); 
-    color: #ffffff;
-  }
-
-  .status-in-progress { 
-    background: linear-gradient(135deg, #3b82f6, #2563eb); 
-    color: #ffffff;
-  }
-
-  .status-assigned { 
-    background: linear-gradient(135deg, #f59e0b, #d97706); 
-    color: #ffffff;
-  }
-
-  /* 🎯 SPECIAL FEATURES MIGLIORATO */
-  .feature-highlight {
-    background: linear-gradient(135deg, #8b5cf6 0%, #ec4899 100%);
-    border-radius: 20px;
-    padding: 30px;
-    margin: 30px 0;
-    color: white;
-    text-align: center;
-    box-shadow: 0 15px 35px rgba(139, 92, 246, 0.3);
-    animation: fadeInScale 0.6s ease-out;
-  }
-
   .error-message, .success-message {
-    padding: 18px 24px;
+    padding: 15px 20px;
     border-radius: 12px;
     margin: 20px 0;
     display: none;
     font-weight: 500;
-    animation: slideInUp 0.3s ease-out;
   }
 
   .error-message {
@@ -920,89 +295,64 @@
     border-left: 4px solid #10b981;
   }
 
-  /* 📱 RESPONSIVE MIGLIORATO */
-  @media (max-width: 1200px) {
-    .nav-container {
-      grid-template-columns: 250px 1fr;
-    }
-    
-    .nav-tabs {
-      gap: 4px;
-    }
-    
-    .nav-tab {
-      padding: 10px 14px;
-      font-size: 12px;
-    }
+  /* 🏠 MAIN DASHBOARD - Semplificato per test */
+  .main-container {
+    display: none;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+    padding: 50px 30px;
+    text-align: center;
   }
 
-  @media (max-width: 1024px) {
-    .nav-container {
-      grid-template-columns: 1fr;
-      height: auto;
-      padding: 15px 20px;
-      gap: 15px;
-    }
-    
-    .nav-brand {
-      justify-self: center;
-    }
-    
-    .nav-tabs {
-      justify-self: center;
-      width: 100%;
-      justify-content: center;
-    }
-    
-    .user-profile-section {
-      position: relative;
-      top: auto;
-      right: auto;
-      margin: 15px auto;
-      max-width: 500px;
-    }
+  .dashboard-title {
+    font-size: 48px;
+    font-weight: 900;
+    color: #f1f5f9;
+    margin-bottom: 30px;
+    background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
   }
 
+  .user-info-card {
+    background: rgba(26, 32, 44, 0.95);
+    border-radius: 20px;
+    padding: 30px;
+    max-width: 500px;
+    margin: 0 auto 30px;
+    border: 1px solid rgba(59, 130, 246, 0.2);
+  }
+
+  .logout-btn {
+    background: linear-gradient(135deg, #dc2626 0%, #991b1b 100%);
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 20px;
+  }
+
+  .logout-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 8px 20px rgba(220, 38, 38, 0.4);
+  }
+
+  /* 📱 RESPONSIVE */
   @media (max-width: 768px) {
-    .user-profile-section {
-      margin: 15px 15px;
-      min-width: auto;
-      width: calc(100% - 30px);
-    }
-    
-    .dashboard {
-      padding: 25px 15px;
-    }
-    
-    .dashboard-grid {
-      grid-template-columns: 1fr;
-    }
-    
-    .stats-grid {
-      grid-template-columns: repeat(2, 1fr);
-      gap: 20px;
-    }
-    
-    .quick-actions {
-      grid-template-columns: 1fr;
-    }
-
     .login-container, .access-denied-container {
       padding: 40px 30px;
       margin: 20px;
     }
-
-    .login-features {
-      grid-template-columns: 1fr;
-      gap: 15px;
+    
+    .main-container {
+      padding: 25px 15px;
     }
     
     .dashboard-title {
       font-size: 36px;
-    }
-    
-    .stat-number {
-      font-size: 42px;
     }
   }
 </style>
@@ -1014,6 +364,7 @@
   <div class="loading-logo">🚔</div>
   <div class="loading-spinner"></div>
   <div class="loading-text">Caricamento Dashboard UOPI...</div>
+  <div id="loading-debug" class="loading-debug">Inizializzazione sistema...</div>
   <div class="loading-progress">
     <div class="loading-progress-bar"></div>
   </div>
@@ -1024,7 +375,10 @@
   <div class="access-denied-container">
     <div class="access-denied-icon">🚫</div>
     <h1 class="access-denied-title">Accesso Negato</h1>
-    <p class="access-denied-subtitle">Il tuo account Discord non è presente nella lista autorizzata della dashboard UOPI.<br><br>Contatta l'amministratore per richiedere l'accesso al sistema.</p>
+    <p class="access-denied-subtitle">Il tuo account Discord non è autorizzato ad accedere a questa dashboard UOPI.</p>
+    <div id="debug-info" class="debug-info">
+      Debug info verrà caricato qui...
+    </div>
     <button class="retry-button" onclick="DiscordAuth.logout()">
       🔄 Riprova con altro account
     </button>
@@ -1034,11 +388,9 @@
 <!-- 🎨 Login Section -->
 <div id="login-section" class="login-section">
   <div class="login-container">
-    <div class="login-header">
-      <span class="login-logo">🚔</span>
-      <h1 class="login-title">UOPI Dashboard</h1>
-      <p class="login-subtitle">Sistema di Gestione Unità Operative<br>Accedi con il tuo account Discord autorizzato</p>
-    </div>
+    <span class="login-logo">🚔</span>
+    <h1 class="login-title">UOPI Dashboard</h1>
+    <p class="login-subtitle">Sistema di Gestione Unità Operative<br>Accedi con il tuo account Discord autorizzato</p>
     
     <button id="discord-login-btn" class="discord-login-button">
       <svg class="discord-icon" viewBox="0 0 24 24" fill="currentColor">
@@ -1049,467 +401,49 @@
     
     <div id="error-message" class="error-message"></div>
     <div id="success-message" class="success-message"></div>
-    
-    <div class="login-features">
-      <div class="feature-item">
-        <span class="feature-icon">🔐</span>
-        <div class="feature-text">Accesso<br>Sicuro</div>
-      </div>
-      <div class="feature-item">
-        <span class="feature-icon">⚡</span>
-        <div class="feature-text">Sistema<br>Garantito</div>
-      </div>
-      <div class="feature-item">
-        <span class="feature-icon">🛡️</span>
-        <div class="feature-text">Lista<br>Autorizzata</div>
-      </div>
-    </div>
   </div>
 </div>
 
 <!-- 🏠 Main Dashboard -->
 <div id="main-container" class="main-container">
-  <!-- 🧭 Navigation -->
-  <nav class="dashboard-nav">
-    <div class="nav-container">
-      <div class="nav-brand">
-        <span class="nav-brand-icon">🚔</span>
-        UOPI Dashboard
-      </div>
-      
-      <div class="nav-tabs">
-        <button class="nav-tab active" onclick="switchSection('overview')">
-          <span class="nav-tab-icon">📊</span>
-          Panoramica
-        </button>
-        <button class="nav-tab" onclick="switchSection('operatori')">
-          <span class="nav-tab-icon">👮‍♂️</span>
-          Operatori
-        </button>
-        <button class="nav-tab" onclick="switchSection('interventi')">
-          <span class="nav-tab-icon">🚨</span>
-          Interventi
-        </button>
-        <button class="nav-tab" onclick="switchSection('formazione')">
-          <span class="nav-tab-icon">📋</span>
-          Formazione
-        </button>
-        <button class="nav-tab" onclick="switchSection('equipaggiamenti')">
-          <span class="nav-tab-icon">🛡️</span>
-          Equipaggiamenti
-        </button>
-        <button class="nav-tab admin-only" onclick="switchSection('admin')" style="display: none;">
-          <span class="nav-tab-icon">⚙️</span>
-          Amministrazione
-        </button>
-        <button class="nav-tab admin-only" onclick="switchSection('reports')" style="display: none;">
-          <span class="nav-tab-icon">📈</span>
-          Report
-        </button>
-      </div>
+  <h1 class="dashboard-title">🚔 Dashboard UOPI</h1>
+  
+  <div class="user-info-card">
+    <h2>Benvenuto nella Dashboard UOPI</h2>
+    <div id="user-details">
+      <p><strong>Nome:</strong> <span id="user-name-display">Caricamento...</span></p>
+      <p><strong>Ruolo:</strong> <span id="user-role-display">Caricamento...</span></p>
+      <p><strong>Discord ID:</strong> <span id="user-id-display">Caricamento...</span></p>
+      <p><strong>Livello:</strong> <span id="user-admin-display">Caricamento...</span></p>
+      <p><strong>Fonte dati:</strong> <span id="data-source-display">Caricamento...</span></p>
     </div>
-  </nav>
-
-  <!-- 👤 User Profile -->
-  <div class="user-profile-section">
-    <div class="user-avatar" id="user-avatar">
-      <span id="user-initial">?</span>
-    </div>
-    <div class="user-info">
-      <div class="user-name" id="user-name">
-        <span>Caricamento...</span>
-        <span id="admin-badge" class="admin-badge" style="display: none;">DIRIGENZA</span>
-      </div>
-      <div class="user-role" id="user-role">Operatore UOPI</div>
-    </div>
-    <div class="header-actions">
-      <button class="header-btn" onclick="DiscordAuth.logout()" title="Logout">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-          <path d="M16 13v-2H7V8l-5 4 5 4v-3z"/>
-          <path d="M20 3h-9c-1.103 0-2 .897-2 2v4h2V5h9v14h-9v-4H9v4c0 1.103.897 2 2 2h9c1.103 0 2-.897 2-2V5c0-1.103-.897-2-2-2z"/>
-        </svg>
-      </button>
-    </div>
+    
+    <button class="logout-btn" onclick="DiscordAuth.logout()">
+      🚪 Esci dalla Dashboard
+    </button>
   </div>
-
-  <!-- 📊 Dashboard Content -->
-  <div class="dashboard">
-    <div class="dashboard-header">
-      <h1 class="dashboard-title">Sistema UOPI</h1>
-      <p class="dashboard-subtitle">Gestione Unità Operative di Polizia Italiana - FiveM</p>
-    </div>
-    
-    <!-- 🏆 Admin Panel -->
-    <div id="admin-panel" class="admin-panel" style="display: none;">
-      <h3>
-        <span>👑</span>
-        Pannello Dirigenza Autorizzata
-      </h3>
-      <div class="admin-controls">
-        <button class="admin-btn" onclick="showModal('Gestione Utenti UOPI', 'Sistema di gestione completo degli utenti autorizzati nella lista fissa del Google Apps Script')">
-          <span>👥</span>
-          Gestisci Utenti
-        </button>
-        <button class="admin-btn" onclick="showModal('Impostazioni Sistema', 'Configurazione avanzata del sistema UOPI con lista autorizzazioni garantita')">
-          <span>⚙️</span>
-          Impostazioni
-        </button>
-        <button class="admin-btn" onclick="showModal('Backup Database', 'Creazione backup sicuro dei dati operativi con sistema sempre funzionante')">
-          <span>💾</span>
-          Backup Dati
-        </button>
-        <button class="admin-btn" onclick="showModal('Log Sistema', 'Monitoraggio attività e controllo accessi con debug completo')">
-          <span>📄</span>
-          Log Sistema
-        </button>
-        <button class="admin-btn" onclick="showModal('Lista Autorizzazioni', 'Gestione lista fissa degli ID Discord autorizzati')">
-          <span>🔐</span>
-          Lista Autorizzazioni
-        </button>
-        <button class="admin-btn" onclick="showModal('Sistema Garantito', 'Monitoraggio sistema sempre funzionante con fallback automatico')">
-          <span>🛡️</span>
-          Sistema Garantito
-        </button>
-      </div>
-    </div>
-
-    <!-- ⚡ Quick Actions -->
-    <div class="quick-actions">
-      <button class="quick-action-btn" onclick="showModal('Nuovo Intervento UOPI', 'Creazione di un nuovo intervento operativo con assegnazione automatica delle squadre')">
-        <span class="quick-action-icon">🚨</span>
-        Nuovo Intervento
-      </button>
-      <button class="quick-action-btn" onclick="showModal('Rapporto Turno', 'Compilazione rapporto di fine turno con salvataggio automatico nel sistema')">
-        <span class="quick-action-icon">📝</span>
-        Rapporto Turno
-      </button>
-      <button class="quick-action-btn" onclick="showModal('Richiesta Supporto', 'Richiesta supporto urgente da altri reparti con notifica immediata')">
-        <span class="quick-action-icon">🆘</span>
-        Richiesta Supporto
-      </button>
-      <button class="quick-action-btn" onclick="showModal('Gestione Mezzi', 'Controllo stato e assegnazione mezzi operativi in tempo reale')">
-        <span class="quick-action-icon">🚗</span>
-        Gestione Mezzi
-      </button>
-    </div>
-    
-    <!-- 📊 Overview Section -->
-    <div id="section-overview" class="section-container active">
-      <div class="stats-grid">
-        <div class="stat-card" onclick="showModal('Operatori UOPI Dettagli', 'Visualizzazione dettagliata di tutti gli operatori autorizzati dal sistema')">
-          <div class="stat-number">15</div>
-          <div class="stat-label">Operatori Autorizzati</div>
-        </div>
-        <div class="stat-card" onclick="showModal('Operazioni Dettagli', 'Riepilogo delle operazioni attualmente in corso con aggiornamenti in tempo reale')">
-          <div class="stat-number">8</div>
-          <div class="stat-label">Operazioni Attive</div>
-        </div>
-        <div class="stat-card" onclick="showModal('Squadre Dettagli', 'Stato e composizione delle squadre operative UOPI')">
-          <div class="stat-number">4</div>
-          <div class="stat-label">Squadre Operative</div>
-        </div>
-        <div class="stat-card" onclick="showModal('Sistema Status', 'Stato del sistema con lista autorizzazioni sempre funzionante')">
-          <div class="stat-number">100</div>
-          <div class="stat-label">% Sistema Attivo</div>
-        </div>
-      </div>
-
-      <div class="feature-highlight">
-        <h3>🎯 Sistema UOPI Garantito al 100%</h3>
-        <p>Dashboard completamente funzionale con lista autorizzazioni fissa e sistema di accesso sempre garantito. Non dipende più da fogli esterni - il tuo accesso è permanentemente assicurato nella lista hardcoded del Google Apps Script.</p>
-      </div>
-    </div>
-
-    <!-- 👮‍♂️ Operatori Section -->
-    <div id="section-operatori" class="section-container">
-      <div class="dashboard-grid">
-        <div class="dashboard-card">
-          <h2>👮‍♂️ Operatori UOPI Autorizzati</h2>
-          <table class="data-table">
-            <thead>
-              <tr>
-                <th>Nome</th>
-                <th>Grado</th>
-                <th>Ruolo</th>
-                <th>Stato Sistema</th>
-                <th>Azioni</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>Tonino Frasca</td>
-                <td>Comandante Generale</td>
-                <td>👑 Dirigenza Generale</td>
-                <td><span class="status-badge status-active">Lista Fissa</span></td>
-                <td>
-                  <button class="admin-btn" style="padding: 8px 16px; font-size: 12px; margin: 0;" onclick="showModal('Profilo Tonino Frasca', 'Gestione profilo Comandante Generale con accesso garantito al sistema')">Gestisci</button>
-                </td>
-              </tr>
-              <tr>
-                <td>Gabriel Martinelli</td>
-                <td>Comandante</td>
-                <td>💫 Dirigenza Generale</td>
-                <td><span class="status-badge status-active">Lista Fissa</span></td>
-                <td>
-                  <button class="admin-btn" style="padding: 8px 16px; font-size: 12px; margin: 0;" onclick="showModal('Profilo Gabriel Martinelli', 'Gestione profilo Comandante con autorità operativa completa')">Gestisci</button>
-                </td>
-              </tr>
-              <tr>
-                <td>Franco Costa</td>
-                <td>Vice Comandante</td>
-                <td>🌟 Dirigenza Generale</td>
-                <td><span class="status-badge status-active">Lista Fissa</span></td>
-                <td>
-                  <button class="admin-btn" style="padding: 8px 16px; font-size: 12px; margin: 0;" onclick="showModal('Profilo Franco Costa', 'Gestione profilo Vice Comandante con funzioni dirigenziali')">Gestisci</button>
-                </td>
-              </tr>
-              <tr>
-                <td>Diego Bianchi</td>
-                <td>Sostituto Vice Comandante</td>
-                <td>⭐ Dirigenza Generale</td>
-                <td><span class="status-badge status-active">Lista Fissa</span></td>
-                <td>
-                  <button class="admin-btn" style="padding: 8px 16px; font-size: 12px; margin: 0;" onclick="showModal('Profilo Diego Bianchi', 'Gestione profilo con responsabilità operative')">Gestisci</button>
-                </td>
-              </tr>
-              <tr>
-                <td>Simone Brighella</td>
-                <td>Sostituto Vice Comandante</td>
-                <td>⭐ Dirigenza Generale</td>
-                <td><span class="status-badge status-active">Lista Fissa</span></td>
-                <td>
-                  <button class="admin-btn" style="padding: 8px 16px; font-size: 12px; margin: 0;" onclick="showModal('Profilo Simone Brighella', 'Gestione profilo operativo dirigenziale')">Gestisci</button>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-
-    <!-- 🚨 Interventi Section -->
-    <div id="section-interventi" class="section-container">
-      <div class="dashboard-grid">
-        <div class="dashboard-card">
-          <h2>🚨 Gestione Interventi UOPI</h2>
-          <table class="data-table">
-            <thead>
-              <tr>
-                <th>ID Intervento</th>
-                <th>Tipologia</th>
-                <th>Squadra Assegnata</th>
-                <th>Stato</th>
-                <th>Priorità</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>#UOPI-001</td>
-                <td>Controllo territorio Centro</td>
-                <td>Squadra Alpha</td>
-                <td><span class="status-badge status-in-progress">In Corso</span></td>
-                <td><span class="status-badge status-assigned">Media</span></td>
-              </tr>
-              <tr>
-                <td>#UOPI-002</td>
-                <td>Incidente stradale SS1</td>
-                <td>Squadra Bravo</td>
-                <td><span class="status-badge status-assigned">Assegnato</span></td>
-                <td><span class="status-badge status-active">Alta</span></td>
-              </tr>
-              <tr>
-                <td>#UOPI-003</td>
-                <td>Controllo documentale</td>
-                <td>Squadra Charlie</td>
-                <td><span class="status-badge status-active">Completato</span></td>
-                <td><span class="status-badge status-assigned">Bassa</span></td>
-              </tr>
-              <tr>
-                <td>#UOPI-004</td>
-                <td>Supporto evento pubblico</td>
-                <td>Squadra Delta</td>
-                <td><span class="status-badge status-in-progress">In Preparazione</span></td>
-                <td><span class="status-badge status-assigned">Media</span></td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-
-    <!-- 📋 Formazione Section -->
-    <div id="section-formazione" class="section-container">
-      <div class="dashboard-grid">
-        <div class="dashboard-card">
-          <h2>📋 Formazione e Certificazioni UOPI</h2>
-          <table class="data-table">
-            <thead>
-              <tr>
-                <th>Operatore</th>
-                <th>Certificazione</th>
-                <th>Conseguimento</th>
-                <th>Scadenza</th>
-                <th>Stato</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>Tonino Frasca</td>
-                <td>Comando e Controllo Avanzato</td>
-                <td>15/03/2024</td>
-                <td>15/03/2027</td>
-                <td><span class="status-badge status-active">Valida</span></td>
-              </tr>
-              <tr>
-                <td>Gabriel Martinelli</td>
-                <td>Gestione Emergenze</td>
-                <td>22/01/2024</td>
-                <td>22/01/2027</td>
-                <td><span class="status-badge status-active">Valida</span></td>
-              </tr>
-              <tr>
-                <td>Franco Costa</td>
-                <td>Primo Soccorso Avanzato</td>
-                <td>10/12/2023</td>
-                <td>10/12/2025</td>
-                <td><span class="status-badge status-assigned">In Scadenza</span></td>
-              </tr>
-              <tr>
-                <td>Diego Bianchi</td>
-                <td>Investigazioni Speciali</td>
-                <td>05/08/2024</td>
-                <td>05/08/2027</td>
-                <td><span class="status-badge status-active">Valida</span></td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-
-    <!-- 🛡️ Equipaggiamenti Section -->
-    <div id="section-equipaggiamenti" class="section-container">
-      <div class="dashboard-grid">
-        <div class="dashboard-card">
-          <h2>🛡️ Equipaggiamenti UOPI</h2>
-          <table class="data-table">
-            <thead>
-              <tr>
-                <th>Equipaggiamento</th>
-                <th>Assegnato a</th>
-                <th>Quantità</th>
-                <th>Stato</th>
-                <th>Ultima Manutenzione</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>Radio Tattica Digitale</td>
-                <td>Squadra Alpha</td>
-                <td>4</td>
-                <td><span class="status-badge status-active">Operativo</span></td>
-                <td>01/09/2025</td>
-              </tr>
-              <tr>
-                <td>Giubbotto Antiproiettile NIJ IIIA</td>
-                <td>Tutti gli operatori</td>
-                <td>15</td>
-                <td><span class="status-badge status-active">Operativo</span></td>
-                <td>15/08/2025</td>
-              </tr>
-              <tr>
-                <td>Dispositivo Taser X26P</td>
-                <td>Squadra Bravo</td>
-                <td>2</td>
-                <td><span class="status-badge status-assigned">Manutenzione</span></td>
-                <td>20/07/2025</td>
-              </tr>
-              <tr>
-                <td>Veicolo Blindato Iveco Daily</td>
-                <td>Squadra Delta</td>
-                <td>1</td>
-                <td><span class="status-badge status-active">Operativo</span></td>
-                <td>10/09/2025</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-
-    <!-- ⚙️ Admin Section -->
-    <div id="section-admin" class="section-container">
-      <div class="dashboard-grid">
-        <div class="dashboard-card">
-          <h2>⚙️ Gestione Sistema UOPI</h2>
-          <div style="padding: 25px;">
-            <h4>🎛️ Controlli Avanzati Dirigenza</h4>
-            <p>Accesso completo a tutte le funzionalità di amministrazione del sistema UOPI con lista autorizzazioni hardcoded e sistema sempre funzionante al 100%.</p>
-            <button class="quick-action-btn" onclick="showModal('Sistema Autorizzazioni', 'Gestione lista fissa degli utenti autorizzati nel Google Apps Script')">
-              <span>👥</span>
-              Lista Autorizzazioni Fissa
-            </button>
-          </div>
-        </div>
-        <div class="dashboard-card">
-          <h2>🔧 Sistema Garantito</h2>
-          <div style="padding: 25px;">
-            <h4>⚙️ Funzionamento Sempre Attivo</h4>
-            <p>Sistema con lista hardcoded che garantisce il funzionamento al 100% indipendentemente da connessioni esterne o fogli Google Sheets.</p>
-            <button class="quick-action-btn" onclick="showModal('Status Sistema', 'Monitoraggio sistema sempre attivo con lista autorizzazioni fissa')">
-              <span>🛡️</span>
-              Sistema Sempre Attivo
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- 📈 Reports Section -->
-    <div id="section-reports" class="section-container">
-      <div class="dashboard-grid">
-        <div class="dashboard-card">
-          <h2>📈 Report Operativi UOPI</h2>
-          <div style="padding: 25px;">
-            <h4>📊 Analytics Sistema Garantito</h4>
-            <p>Report dettagliati sulle performance operative con sistema di accesso sempre funzionante e lista autorizzazioni fissa.</p>
-            <button class="quick-action-btn" onclick="showModal('Report Sistema', 'Generazione report con sistema sempre attivo e accesso garantito')">
-              <span>📋</span>
-              Report Sistema Garantito
-            </button>
-          </div>
-        </div>
-        <div class="dashboard-card">
-          <h2>📊 Statistiche Avanzate</h2>
-          <div style="padding: 25px;">
-            <h4>🎯 Monitoraggio Sistema</h4>
-            <p>Dashboard analytics complete con monitoraggio del sistema hardcoded e lista autorizzazioni sempre funzionante.</p>
-            <button class="quick-action-btn" onclick="showModal('Analytics Sistema', 'Dashboard analytics con sistema sempre attivo')">
-              <span>📈</span>
-              Analytics Sistema
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
+  
+  <div style="margin-top: 30px; color: #64748b; font-size: 14px;">
+    <p>✅ Sistema con lettura automatica foglio Google Sheets + fallback garantito</p>
+    <p>🔑 Il tuo accesso è sempre assicurato dalla lista hardcoded</p>
   </div>
 </div>
 
 <script>
-// 🚔 CONFIGURAZIONE FINALE - SISTEMA GARANTITO
+// 🚔 CONFIGURAZIONE SISTEMA DEFINITIVO
 const CONFIG = {
   DISCORD: {
     CLIENT_ID: '1387801645743869982',
     REDIRECT_URI: 'https://ryze-glitch.github.io/uopi-dashboard/',
     SCOPE: 'identify'
   },
-  // 📋 GOOGLE APPS SCRIPT API - LISTA FISSA HARDCODED
+  // 📋 GOOGLE APPS SCRIPT API - LETTURA FOGLIO + FALLBACK
   API: {
     URL: 'https://script.google.com/macros/s/AKfycbzcTGSXyzxY5SRwnM6paqNHwhY4UqZM1Xy1pjUpS7_r/exec'
   }
 };
 
-// 🔄 Loading Manager Avanzato
+// 🔄 Loading Manager con Debug
 class LoadingManager {
   static show(text = 'Caricamento Dashboard UOPI...') {
     const loading = document.getElementById('loading-overlay');
@@ -1529,23 +463,26 @@ class LoadingManager {
   }
   
   static updateText(text) {
-    const loading = document.getElementById('loading-overlay');
-    const loadingText = loading.querySelector('.loading-text');
-    if (loadingText) {
-      loadingText.textContent = text;
-    }
+    const loadingText = document.querySelector('.loading-text');
+    if (loadingText) loadingText.textContent = text;
+  }
+  
+  static updateDebug(debug) {
+    const debugEl = document.getElementById('loading-debug');
+    if (debugEl) debugEl.textContent = debug;
   }
 }
 
-// 📋 Access Control - SISTEMA LISTA FISSA GARANTITO
+// 📋 Access Control - SISTEMA COMPLETO
 class AccessControl {
   static async fetchUserData() {
     try {
-      console.log('🔍 Connessione a Google Apps Script con lista fissa...');
-      LoadingManager.updateText('Verifica lista autorizzazioni...');
+      console.log('🔍 Connessione a Google Apps Script (lettura foglio + fallback)...');
+      LoadingManager.updateText('Connessione al sistema autorizzazioni...');
+      LoadingManager.updateDebug('Tentativo connessione Google Apps Script...');
       
       const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 15000);
+      const timeoutId = setTimeout(() => controller.abort(), 20000);
       
       const response = await fetch(CONFIG.API.URL, {
         method: 'GET',
@@ -1569,50 +506,33 @@ class AccessControl {
         throw new Error(data.error || 'Errore API');
       }
       
-      console.log(`✅ Sistema ${data.debug.source} - Trovati ${data.count} utenti autorizzati`);
-      console.log('🔑 Lista ID hardcoded:', data.allowedUsers);
-      console.log('🎯 IL TUO ID incluso:', data.debug.yourIdIncluded ? '✅ SÌ' : '❌ NO');
+      console.log(`✅ Sistema ${data.debug.source} - ${data.count} utenti autorizzati`);
+      console.log('🎯 Il tuo ID incluso:', data.debug.yourIdIncluded ? '✅ SÌ' : '❌ NO');
+      console.log('👤 Il tuo profilo:', data.debug.yourUser);
       
-      LoadingManager.updateText('Lista autorizzazioni caricata...');
+      LoadingManager.updateText(`Sistema ${data.debug.source} attivo`);
+      LoadingManager.updateDebug(`${data.debug.source}: ${data.count} utenti, il tuo ID: ${data.debug.yourIdIncluded ? 'INCLUSO' : 'MANCANTE'}`);
       
       return data;
       
     } catch (error) {
-      console.error('❌ Errore connessione Google Apps Script:', error);
-      LoadingManager.updateText('Attivazione sistema di emergenza locale...');
-      
-      // 🆘 FALLBACK LOCALE ASSOLUTO
-      console.log('🆘 Attivo sistema di emergenza locale...');
-      return {
-        success: true,
-        count: 1,
-        allowedUsers: ['817121576217870348'], // IL TUO ID SEMPRE GARANTITO
-        users: [{
-          id: '817121576217870348',
-          discordId: '817121576217870348',
-          nome: 'Tonino Frasca',
-          ruolo: '👑 Comandante Generale',
-          admin: true,
-          source: 'local_emergency_guaranteed'
-        }],
-        debug: {
-          source: 'LOCAL_EMERGENCY_GUARANTEED',
-          yourIdIncluded: true,
-          message: 'Sistema di emergenza - Accesso sempre garantito'
-        }
-      };
+      console.error('❌ Errore Google Apps Script:', error);
+      LoadingManager.updateText('Errore connessione - Sistema offline');
+      LoadingManager.updateDebug(`Errore: ${error.message}`);
+      throw error;
     }
   }
   
   static async checkUserAccess(discordUserID) {
     try {
-      LoadingManager.updateText('Controllo autorizzazioni...');
+      LoadingManager.updateText('Verifica autorizzazioni...');
+      LoadingManager.updateDebug(`Controllo ID: ${discordUserID}`);
       
       const data = await this.fetchUserData();
       
       console.log('🔍 Verifica accesso per Discord ID:', discordUserID);
       
-      // ✅ CONTROLLO NELLA LISTA FISSA
+      // ✅ CONTROLLO NELLA LISTA
       const isAuthorized = data.allowedUsers && data.allowedUsers.includes(discordUserID);
       
       let userDetails = null;
@@ -1620,13 +540,17 @@ class AccessControl {
         userDetails = data.users.find(user => user.id === discordUserID || user.discordId === discordUserID);
       }
       
-      // Log dettagliato
-      console.log(`📊 Risultato controllo accesso:`);
-      console.log(`   Discord ID: ${discordUserID}`);
-      console.log(`   Nella lista: ${isAuthorized ? '✅ SÌ' : '❌ NO'}`);
-      console.log(`   Fonte dati: ${data.debug?.source || 'UNKNOWN'}`);
-      console.log(`   Dettagli:`, userDetails);
-      console.log(`   Totale autorizzati: ${data.count}`);
+      // Log dettagliato per debug
+      const debugInfo = {
+        discordId: discordUserID,
+        authorized: isAuthorized,
+        source: data.debug?.source,
+        totalUsers: data.count,
+        userDetails: userDetails,
+        allIds: data.allowedUsers?.slice(0, 10)
+      };
+      
+      console.log('📊 Debug completo accesso:', debugInfo);
       
       if (isAuthorized) {
         console.log(`✅ ACCESSO AUTORIZZATO per ${discordUserID}`);
@@ -1634,133 +558,51 @@ class AccessControl {
         const finalUserData = userDetails || { 
           id: discordUserID, 
           nome: 'Operatore UOPI', 
-          ruolo: '👑 Comandante Generale', 
-          admin: true // Tutti sono admin nella lista fissa
+          ruolo: 'Operatore UOPI', 
+          admin: true
         };
         
         return {
           hasAccess: true,
           userData: finalUserData,
-          source: data.debug?.source
+          source: data.debug?.source,
+          debugInfo: debugInfo
         };
       } else {
         console.log(`❌ ACCESSO NEGATO per ${discordUserID}`);
-        console.log('📋 Lista autorizzazioni disponibile:', data.allowedUsers);
         return {
           hasAccess: false,
           userData: null,
-          source: data.debug?.source
+          source: data.debug?.source,
+          debugInfo: debugInfo
         };
       }
       
     } catch (error) {
       console.error('❌ Errore controllo accessi:', error);
       LoadingManager.hide();
+      
+      const debugInfo = {
+        discordId: discordUserID,
+        error: error.message,
+        authorized: false
+      };
+      
       return {
         hasAccess: false,
         userData: null,
-        error: error.message
+        error: error.message,
+        debugInfo: debugInfo
       };
     }
   }
 }
 
-// 🗂️ Section Manager
-function switchSection(sectionName) {
-  document.querySelectorAll('.nav-tab').forEach(tab => {
-    tab.classList.remove('active');
-  });
-  
-  document.querySelectorAll('.section-container').forEach(section => {
-    section.classList.remove('active');
-  });
-  
-  event.target.classList.add('active');
-  document.getElementById(`section-${sectionName}`).classList.add('active');
-}
-
-// 🎯 Modal System Avanzato
-function showModal(title, description) {
-  const modal = document.createElement('div');
-  modal.style.cssText = `
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.85);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 10000;
-    animation: fadeIn 0.3s ease-out;
-    backdrop-filter: blur(5px);
-  `;
-  
-  modal.innerHTML = `
-    <div style="
-      background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
-      border-radius: 24px;
-      padding: 35px;
-      max-width: 520px;
-      width: 90%;
-      text-align: center;
-      border: 1px solid rgba(59, 130, 246, 0.2);
-      box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6);
-      transform: scale(0.9);
-      animation: modalPop 0.4s ease-out forwards;
-      position: relative;
-    ">
-      <div style="position: absolute; top: 0; left: 0; right: 0; height: 4px; background: linear-gradient(90deg, #3b82f6, #8b5cf6); border-radius: 24px 24px 0 0;"></div>
-      <div style="font-size: 56px; margin-bottom: 20px; animation: pulse 3s infinite;">🚔</div>
-      <h2 style="color: #3b82f6; margin-bottom: 18px; font-size: 24px; font-weight: 800;">${title}</h2>
-      <p style="color: #94a3b8; margin-bottom: 28px; line-height: 1.6; font-size: 15px;">${description}</p>
-      <button onclick="this.closest('[style*=\"position: fixed\"]').remove()" style="
-        background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
-        color: white;
-        border: none;
-        padding: 14px 28px;
-        border-radius: 14px;
-        font-weight: 600;
-        cursor: pointer;
-        font-size: 15px;
-        transition: all 0.3s ease;
-        box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
-      " onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 10px 30px rgba(59, 130, 246, 0.5)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 6px 20px rgba(59, 130, 246, 0.4)'">
-        ✅ Compreso
-      </button>
-    </div>
-  `;
-  
-  const style = document.createElement('style');
-  style.textContent = `
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
-    @keyframes modalPop {
-      from { transform: scale(0.9); opacity: 0; }
-      to { transform: scale(1); opacity: 1; }
-    }
-  `;
-  document.head.appendChild(style);
-  
-  document.body.appendChild(modal);
-  
-  // Auto-chiusura dopo 10 secondi
-  setTimeout(() => {
-    if (modal.parentNode) {
-      modal.style.animation = 'fadeOut 0.4s ease-out forwards';
-      setTimeout(() => modal.remove(), 400);
-    }
-  }, 10000);
-}
-
-// 🔐 Discord OAuth - SISTEMA GARANTITO
+// 🔐 Discord OAuth - SISTEMA CON DEBUG
 class DiscordAuth {
   static async login() {
     try {
-      console.log('🔐 Avvio login con sistema lista fissa garantito...');
+      console.log('🔐 Avvio login Discord con debug completo...');
       
       const existingToken = this.getStoredToken();
       if (existingToken) {
@@ -1769,14 +611,14 @@ class DiscordAuth {
         if (userData) {
           const accessResult = await AccessControl.checkUserAccess(userData.id);
           if (accessResult.hasAccess) {
-            LoadingManager.updateText('Accesso confermato dalla lista...');
+            LoadingManager.updateText('Sessione valida - Accesso confermato');
             setTimeout(() => {
-              UI.showDashboard(userData, accessResult.userData);
+              UI.showDashboard(userData, accessResult.userData, accessResult.source, accessResult.debugInfo);
               LoadingManager.hide();
-            }, 800);
+            }, 1000);
           } else {
             LoadingManager.hide();
-            UI.showAccessDenied();
+            UI.showAccessDenied(accessResult.debugInfo);
           }
           return;
         }
@@ -1830,34 +672,25 @@ class DiscordAuth {
       const userData = await this.fetchUserData(token);
       if (!userData) throw new Error('Dati utente Discord non validi');
 
-      LoadingManager.updateText('Controllo lista autorizzazioni...');
+      LoadingManager.updateText('Controllo autorizzazioni sistema...');
       
-      // 🔍 CONTROLLO CON LISTA FISSA
+      // 🔍 CONTROLLO ACCESSO CON DEBUG COMPLETO
       const accessResult = await AccessControl.checkUserAccess(userData.id);
       
       if (!accessResult.hasAccess) {
         LoadingManager.hide();
-        UI.showAccessDenied();
-        console.log(`❌ Accesso negato per ${userData.username} (${userData.id}) - Non in lista fissa`);
+        UI.showAccessDenied(accessResult.debugInfo);
+        console.log(`❌ Accesso negato per ${userData.username} (${userData.id})`);
         return;
       }
 
       this.saveSession(token, userData);
-      localStorage.setItem('discord_authorized', 'true');
       
-      console.log(`✅ Accesso autorizzato per ${userData.username} (${userData.id}) dalla lista fissa`);
-      
-      if (accessResult.source && accessResult.source.includes('EMERGENCY')) {
-        LoadingManager.updateText('Sistema di emergenza - Accesso dirigenza garantito!');
-        setTimeout(() => {
-          UI.showSuccess('Sistema di emergenza attivato - Il tuo accesso è sempre garantito');
-        }, 2000);
-      } else {
-        LoadingManager.updateText('Accesso confermato dalla lista hardcoded!');
-      }
+      console.log(`✅ Accesso autorizzato per ${userData.username} (${userData.id})`);
+      LoadingManager.updateText('Accesso confermato - Caricamento dashboard...');
       
       setTimeout(() => {
-        UI.showDashboard(userData, accessResult.userData);
+        UI.showDashboard(userData, accessResult.userData, accessResult.source, accessResult.debugInfo);
         LoadingManager.hide();
       }, 1500);
       
@@ -1926,14 +759,14 @@ class DiscordAuth {
       if (freshUserData) {
         const accessResult = await AccessControl.checkUserAccess(freshUserData.id);
         if (accessResult.hasAccess) {
-          LoadingManager.updateText('Sessione valida - Accesso dalla lista...');
+          LoadingManager.updateText('Sessione valida - Ripristino...');
           setTimeout(() => {
-            UI.showDashboard(userData, accessResult.userData);
+            UI.showDashboard(userData, accessResult.userData, accessResult.source, accessResult.debugInfo);
             LoadingManager.hide();
           }, 1000);
           return true;
         } else {
-          UI.showAccessDenied();
+          UI.showAccessDenied(accessResult.debugInfo);
           return true;
         }
       }
@@ -1942,79 +775,40 @@ class DiscordAuth {
   }
 }
 
-// 🎨 UI Management - DIRIGENZA AUTOMATICA
+// 🎨 UI Management - CON DEBUG
 class UI {
-  static showDashboard(discordUserData, systemUserData) {
+  static showDashboard(discordUserData, systemUserData, source, debugInfo) {
     document.getElementById('login-section').style.display = 'none';
     document.getElementById('access-denied-section').style.display = 'none';
     document.getElementById('main-container').style.display = 'block';
-    this.updateProfile(discordUserData, systemUserData);
-    this.checkAdminStatus(systemUserData);
+    
+    // Aggiorna le informazioni utente
+    document.getElementById('user-name-display').textContent = systemUserData?.nome || discordUserData.username || 'N/A';
+    document.getElementById('user-role-display').textContent = systemUserData?.ruolo || 'Operatore UOPI';
+    document.getElementById('user-id-display').textContent = discordUserData.id;
+    document.getElementById('user-admin-display').textContent = systemUserData?.admin ? '👑 Dirigenza' : '👮‍♂️ Operatore';
+    document.getElementById('data-source-display').textContent = source || 'N/A';
+    
+    console.log('✅ Dashboard caricata con successo');
   }
 
-  static showAccessDenied() {
+  static showAccessDenied(debugInfo) {
     document.getElementById('login-section').style.display = 'none';
     document.getElementById('main-container').style.display = 'none';
     document.getElementById('access-denied-section').style.display = 'flex';
-  }
-
-  static updateProfile(discordData, systemData) {
-    const userNameEl = document.getElementById('user-name');
-    const userInitialEl = document.getElementById('user-initial');
-    const userAvatarEl = document.getElementById('user-avatar');
-    const userRoleEl = document.getElementById('user-role');
-
-    // Usa i dati dal sistema se disponibili, altrimenti Discord
-    const displayName = systemData?.nome || discordData.username || 'Operatore UOPI';
-    const displayRole = systemData?.ruolo || 'Operatore UOPI';
-
-    if (displayName) {
-      userNameEl.querySelector('span').textContent = displayName;
-      userInitialEl.textContent = displayName.charAt(0).toUpperCase();
-      userRoleEl.textContent = displayRole;
-    }
-
-    if (discordData.avatar) {
-      const avatarUrl = `https://cdn.discordapp.com/avatars/${discordData.id}/${discordData.avatar}.png?size=128`;
-      userAvatarEl.innerHTML = `<img src="${avatarUrl}" alt="Avatar">`;
-    }
-  }
-
-  static checkAdminStatus(systemUserData) {
-    if (!systemUserData) {
-      console.log('👮‍♂️ Operatore standard');
-      return;
-    }
     
-    // 🏆 TUTTI NELLA LISTA FISSA SONO ADMIN
-    const isAdmin = systemUserData.admin === true || true; // Forza admin per lista fissa
-    
-    if (isAdmin) {
-      // Mostra badge dirigenza
-      document.getElementById('admin-badge').style.display = 'inline-block';
-      document.getElementById('user-avatar').classList.add('admin');
-      document.getElementById('admin-panel').style.display = 'block';
-      
-      // Mostra tab admin
-      document.querySelectorAll('.admin-only').forEach(tab => {
-        tab.style.display = 'flex';
-      });
-      
-      console.log('🏆 DIRIGENZA attivata automaticamente:', systemUserData);
-      
-      // Messaggio di benvenuto personalizzato
-      let welcomeMessage = `Benvenuto ${systemUserData.nome || 'Dirigente UOPI'}!`;
-      if (systemUserData.source && systemUserData.source.includes('EMERGENCY')) {
-        welcomeMessage += ' Sistema di emergenza attivo - Il tuo accesso è sempre garantito dalla lista hardcoded.';
-      } else {
-        welcomeMessage += ' Accesso confermato dalla lista autorizzazioni fissa - Sistema sempre funzionante.';
-      }
-      
-      setTimeout(() => {
-        showModal('Accesso Dirigenza UOPI Garantito', welcomeMessage);
-      }, 2500);
-    } else {
-      console.log('👮‍♂️ Operatore standard dalla lista:', systemUserData);
+    // Mostra info di debug
+    if (debugInfo) {
+      const debugEl = document.getElementById('debug-info');
+      debugEl.innerHTML = `
+        <strong>Debug Info:</strong><br>
+        Discord ID: ${debugInfo.discordId}<br>
+        Autorizzato: ${debugInfo.authorized ? '✅' : '❌'}<br>
+        Fonte dati: ${debugInfo.source || 'N/A'}<br>
+        Totale utenti: ${debugInfo.totalUsers || 'N/A'}<br>
+        ${debugInfo.error ? `Errore: ${debugInfo.error}<br>` : ''}
+        Primi 5 ID autorizzati: ${debugInfo.allIds ? debugInfo.allIds.join(', ') : 'N/A'}
+      `;
     }
   }
 
@@ -2023,10 +817,7 @@ class UI {
     if (errorEl) {
       errorEl.textContent = message;
       errorEl.style.display = 'block';
-      
-      setTimeout(() => {
-        errorEl.style.display = 'none';
-      }, 8000);
+      setTimeout(() => errorEl.style.display = 'none', 8000);
     }
   }
   
@@ -2035,21 +826,18 @@ class UI {
     if (successEl) {
       successEl.textContent = message;
       successEl.style.display = 'block';
-      
-      setTimeout(() => {
-        successEl.style.display = 'none';
-      }, 10000);
+      setTimeout(() => successEl.style.display = 'none', 8000);
     }
   }
 }
 
-// 🚀 Initialize - SISTEMA LISTA FISSA GARANTITO
+// 🚀 Initialize - SISTEMA COMPLETO CON DEBUG
 document.addEventListener('DOMContentLoaded', async function() {
-  console.log('🚔 === INIZIALIZZAZIONE DASHBOARD UOPI SISTEMA GARANTITO ===');
-  console.log('📋 Google Apps Script API:', CONFIG.API.URL);
-  console.log('🔐 Discord Client ID:', CONFIG.DISCORD.CLIENT_ID);
-  console.log('🛡️ Sistema Lista Fissa: ATTIVO E GARANTITO');
-  console.log('🎯 Il tuo ID 817121576217870348 è SEMPRE incluso');
+  console.log('🚔 === INIZIALIZZAZIONE DASHBOARD UOPI SISTEMA COMPLETO ===');
+  console.log('📋 Google Apps Script:', CONFIG.API.URL);
+  console.log('🔐 Discord Client:', CONFIG.DISCORD.CLIENT_ID);
+  console.log('🛡️ Sistema: Lettura foglio + Nome utente + Fallback garantito');
+  console.log('🎯 Target ID: 817121576217870348 (sempre incluso nel fallback)');
   
   if (window.location.hash && window.location.hash.includes('access_token')) {
     console.log('🔄 Gestione callback Discord OAuth...');
@@ -2060,26 +848,24 @@ document.addEventListener('DOMContentLoaded', async function() {
   const hasExistingSession = await DiscordAuth.checkExistingSession();
   
   if (!hasExistingSession) {
-    // ✅ EVENT LISTENER PRINCIPALE
+    // ✅ EVENT LISTENER LOGIN BUTTON
     const discordBtn = document.getElementById('discord-login-btn');
     if (discordBtn) {
       discordBtn.addEventListener('click', function() {
-        console.log('🔐 Login avviato - Sistema lista fissa garantito');
+        console.log('🔐 Login avviato - Sistema completo attivo');
         this.disabled = true;
         this.innerHTML = `
           <div style="width:20px;height:20px;border:3px solid rgba(255,255,255,.3);border-radius:50%;border-top-color:#fff;animation:spin 1s ease-in-out infinite;display:inline-block;margin-right:10px;"></div>
-          Accesso in corso...
+          Autenticazione in corso...
         `;
         DiscordAuth.login();
       });
-      console.log('✅ Event listener configurato - Sistema garantito attivo');
-    } else {
-      console.error('❌ ERRORE: Bottone Discord non trovato!');
+      console.log('✅ Event listener login configurato');
     }
   }
   
   console.log('🚔 === INIZIALIZZAZIONE COMPLETATA ===');
-  console.log('🔥 SISTEMA AL 100% GARANTITO - IL TUO ACCESSO È SEMPRE ASSICURATO!');
+  console.log('🔥 SISTEMA DEFINITIVO - LETTURA FOGLIO + FALLBACK ASSOLUTO');
 });
 </script>
 
