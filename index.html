@@ -66,69 +66,327 @@
     margin-bottom: 20px;
   }
 
-  /* 🚫 ACCESS DENIED SCREEN */
+  /* 🚫 ACCESS DENIED SCREEN MIGLIORATO */
   .access-denied-section {
     display: none;
     align-items: center;
     justify-content: center;
     min-height: 100vh;
-    background: linear-gradient(135deg, #dc2626 0%, #991b1b 100%);
+    background: linear-gradient(135deg, #dc2626 0%, #991b1b 50%, #7f1d1d 100%);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .access-denied-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle at 20% 80%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
+    pointer-events: none;
   }
 
   .access-denied-container {
     background: rgba(26, 32, 44, 0.95);
-    backdrop-filter: blur(20px);
+    backdrop-filter: blur(25px);
     border-radius: 24px;
-    padding: 60px 50px;
-    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6);
+    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6);
     border: 1px solid rgba(220, 38, 38, 0.3);
-    max-width: 500px;
+    max-width: 600px;
     width: 90%;
+    position: relative;
+    z-index: 1;
+    overflow: hidden;
+    animation: slideInUp 0.6s ease-out;
+  }
+
+  .denied-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 6px;
+    background: linear-gradient(90deg, #dc2626, #ef4444, #f87171);
+    box-shadow: 0 0 20px rgba(220, 38, 38, 0.5);
+  }
+
+  .denied-content {
+    padding: 50px 40px 30px;
     text-align: center;
   }
 
-  .access-denied-icon {
-    font-size: 100px;
-    color: #dc2626;
-    margin-bottom: 20px;
+  .denied-icon-container {
+    position: relative;
+    display: inline-block;
+    margin-bottom: 30px;
+  }
+
+  .denied-icon {
+    font-size: 120px;
     animation: pulse 3s infinite;
+    text-shadow: 0 0 30px rgba(220, 38, 38, 0.5);
+    position: relative;
+    z-index: 2;
   }
 
-  .access-denied-title {
-    font-size: 32px;
+  .denied-badge {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    background: linear-gradient(135deg, #1e293b, #334155);
+    color: #3b82f6;
+    padding: 8px 12px;
+    border-radius: 12px;
+    font-size: 14px;
     font-weight: 800;
+    border: 2px solid #3b82f6;
+    box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+    z-index: 3;
+  }
+
+  .denied-title {
+    font-size: 36px;
+    font-weight: 900;
     color: #dc2626;
-    margin: 0 0 16px 0;
+    margin: 0 0 8px 0;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
   }
 
-  .access-denied-subtitle {
-    font-size: 16px;
-    color: #cbd5e1;
-    margin: 0 0 20px 0;
-    line-height: 1.6;
+  .denied-subtitle {
+    font-size: 20px;
+    font-weight: 600;
+    color: #f1f5f9;
+    margin: 0 0 25px 0;
+    opacity: 0.9;
   }
 
-  .debug-info {
+  .denied-message {
     background: rgba(0, 0, 0, 0.3);
-    padding: 15px;
-    border-radius: 8px;
-    margin: 20px 0;
-    font-family: 'Courier New', monospace;
-    font-size: 12px;
+    border-radius: 16px;
+    padding: 25px;
+    margin-bottom: 30px;
+    border-left: 4px solid #dc2626;
+  }
+
+  .denied-message p {
+    color: #cbd5e1;
+    line-height: 1.6;
+    margin: 0 0 12px 0;
+    font-size: 16px;
+  }
+
+  .denied-message p:last-child {
+    margin-bottom: 0;
+  }
+
+  .denied-info-card {
+    background: linear-gradient(135deg, #1e293b, #334155);
+    border-radius: 16px;
+    margin-bottom: 30px;
+    border: 1px solid rgba(59, 130, 246, 0.2);
+    overflow: hidden;
+  }
+
+  .info-header {
+    background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+    color: white;
+    padding: 15px 20px;
+    font-size: 16px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .info-icon {
+    font-size: 20px;
+  }
+
+  .info-content {
+    padding: 20px;
+  }
+
+  .info-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(59, 130, 246, 0.1);
+  }
+
+  .info-row:last-child {
+    border-bottom: none;
+  }
+
+  .info-label {
     color: #94a3b8;
+    font-weight: 500;
+    font-size: 14px;
+  }
+
+  .info-value {
+    color: #f1f5f9;
+    font-weight: 600;
+    font-size: 14px;
+    font-family: 'Courier New', monospace;
+  }
+
+  .denied-status {
+    color: #ef4444 !important;
+  }
+
+  .denied-instructions {
+    background: rgba(16, 185, 129, 0.1);
+    border: 1px solid rgba(16, 185, 129, 0.3);
+    border-radius: 16px;
+    padding: 25px;
+    margin-bottom: 30px;
     text-align: left;
   }
 
-  .retry-button {
-    background: linear-gradient(135deg, #dc2626 0%, #991b1b 100%);
+  .denied-instructions h3 {
+    color: #10b981;
+    margin: 0 0 20px 0;
+    font-size: 18px;
+    font-weight: 700;
+    text-align: center;
+  }
+
+  .instruction-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .step {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+  }
+
+  .step-number {
+    background: linear-gradient(135deg, #10b981, #059669);
     color: white;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 14px;
+    flex-shrink: 0;
+  }
+
+  .step-text {
+    color: #cbd5e1;
+    font-size: 15px;
+    line-height: 1.4;
+  }
+
+  .denied-actions {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .retry-button, .info-button {
     border: none;
-    padding: 18px 36px;
+    padding: 16px 24px;
     border-radius: 16px;
     font-size: 16px;
     font-weight: 600;
     cursor: pointer;
     transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 200px;
+    justify-content: center;
+  }
+
+  .retry-button.primary {
+    background: linear-gradient(135deg, #dc2626, #991b1b);
+    color: white;
+    box-shadow: 0 8px 25px rgba(220, 38, 38, 0.4);
+  }
+
+  .retry-button.primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 35px rgba(220, 38, 38, 0.6);
+  }
+
+  .info-button.secondary {
+    background: rgba(59, 130, 246, 0.1);
+    color: #3b82f6;
+    border: 1px solid rgba(59, 130, 246, 0.3);
+  }
+
+  .info-button.secondary:hover {
+    background: rgba(59, 130, 246, 0.2);
+    transform: translateY(-1px);
+  }
+
+  .btn-icon {
+    font-size: 18px;
+  }
+
+  .debug-section {
+    margin-top: 25px;
+    background: rgba(0, 0, 0, 0.4);
+    border-radius: 12px;
+    border: 1px solid rgba(156, 163, 175, 0.3);
+    animation: slideInUp 0.3s ease-out;
+  }
+
+  .debug-header {
+    background: rgba(156, 163, 175, 0.2);
+    color: #d1d5db;
+    padding: 12px 20px;
+    font-size: 14px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border-radius: 12px 12px 0 0;
+  }
+
+  .debug-icon {
+    font-size: 16px;
+  }
+
+  .debug-content {
+    padding: 20px;
+    font-family: 'Courier New', monospace;
+    font-size: 12px;
+    color: #9ca3af;
+    line-height: 1.5;
+    text-align: left;
+    max-height: 200px;
+    overflow-y: auto;
+  }
+
+  .denied-footer {
+    background: rgba(0, 0, 0, 0.3);
+    padding: 20px 40px;
+    text-align: center;
+    border-top: 1px solid rgba(220, 38, 38, 0.2);
+  }
+
+  .denied-footer p {
+    color: #94a3b8;
+    margin: 0 0 5px 0;
+    font-size: 14px;
+  }
+
+  .denied-footer p:last-child {
+    margin-bottom: 0;
+    font-size: 12px;
+    opacity: 0.8;
   }
 
   /* 🎨 LOGIN SECTION */
@@ -456,7 +714,56 @@
 
   /* 📱 RESPONSIVE */
   @media (max-width: 768px) {
-    .login-container, .access-denied-container {
+    .access-denied-container {
+      margin: 20px;
+      max-width: none;
+    }
+    
+    .denied-content {
+      padding: 40px 25px 20px;
+    }
+    
+    .denied-icon {
+      font-size: 80px;
+    }
+    
+    .denied-title {
+      font-size: 28px;
+    }
+    
+    .denied-subtitle {
+      font-size: 18px;
+    }
+    
+    .denied-actions {
+      flex-direction: column;
+      align-items: center;
+    }
+    
+    .retry-button, .info-button {
+      width: 100%;
+      max-width: 300px;
+    }
+    
+    .instruction-steps {
+      gap: 12px;
+    }
+    
+    .step {
+      flex-direction: column;
+      text-align: center;
+      gap: 10px;
+    }
+    
+    .step-text {
+      text-align: center;
+    }
+    
+    .denied-footer {
+      padding: 15px 25px;
+    }
+
+    .login-container {
       padding: 40px 30px;
       margin: 20px;
     }
@@ -490,16 +797,97 @@
   <div class="loading-text">Caricamento Dashboard UOPI...</div>
 </div>
 
-<!-- 🚫 Access Denied Screen -->
+<!-- 🚫 Access Denied Screen MIGLIORATO -->
 <div id="access-denied-section" class="access-denied-section">
   <div class="access-denied-container">
-    <div class="access-denied-icon">🚫</div>
-    <h1 class="access-denied-title">Accesso Negato</h1>
-    <p class="access-denied-subtitle">Il tuo account Discord non è autorizzato ad accedere a questa dashboard UOPI.</p>
-    <div id="debug-info" class="debug-info"></div>
-    <button class="retry-button" onclick="logout()">
-      🔄 Riprova con altro account
-    </button>
+    <!-- Background animato -->
+    <div class="denied-background"></div>
+    
+    <!-- Contenuto principale -->
+    <div class="denied-content">
+      <div class="denied-icon-container">
+        <div class="denied-icon">🚫</div>
+        <div class="denied-badge">UOPI</div>
+      </div>
+      
+      <h1 class="denied-title">Accesso Riservato</h1>
+      <h2 class="denied-subtitle">Area Operatori UOPI Autorizzati</h2>
+      
+      <div class="denied-message">
+        <p>Il tuo account Discord non risulta registrato nel sistema delle <strong>Unità Operative di Polizia Italiana</strong>.</p>
+        <p>L'accesso a questa dashboard è riservato esclusivamente agli operatori UOPI ufficialmente autorizzati.</p>
+      </div>
+      
+      <div class="denied-info-card">
+        <div class="info-header">
+          <span class="info-icon">ℹ️</span>
+          <strong>Informazioni Sistema</strong>
+        </div>
+        <div class="info-content">
+          <div class="info-row">
+            <span class="info-label">Discord ID:</span>
+            <span class="info-value" id="denied-discord-id">N/A</span>
+          </div>
+          <div class="info-row">
+            <span class="info-label">Stato Autorizzazione:</span>
+            <span class="info-value denied-status">❌ Non Autorizzato</span>
+          </div>
+          <div class="info-row">
+            <span class="info-label">Operatori Registrati:</span>
+            <span class="info-value" id="denied-total-users">N/A</span>
+          </div>
+          <div class="info-row">
+            <span class="info-label">Sistema:</span>
+            <span class="info-value">🛡️ Sicurezza Multi-Livello</span>
+          </div>
+        </div>
+      </div>
+      
+      <div class="denied-instructions">
+        <h3>🎯 Come Richiedere l'Accesso</h3>
+        <div class="instruction-steps">
+          <div class="step">
+            <span class="step-number">1</span>
+            <span class="step-text">Contatta la <strong>Dirigenza UOPI</strong> su Discord</span>
+          </div>
+          <div class="step">
+            <span class="step-number">2</span>
+            <span class="step-text">Fornisci il tuo <strong>Discord ID</strong> mostrato sopra</span>
+          </div>
+          <div class="step">
+            <span class="step-number">3</span>
+            <span class="step-text">Attendi l'autorizzazione della <strong>Dirigenza</strong></span>
+          </div>
+        </div>
+      </div>
+      
+      <div class="denied-actions">
+        <button class="retry-button primary" onclick="logout()">
+          <span class="btn-icon">🔄</span>
+          Riprova con Altro Account
+        </button>
+        <button class="info-button secondary" onclick="toggleDebugInfo()">
+          <span class="btn-icon">🔧</span>
+          Mostra Info Debug
+        </button>
+      </div>
+      
+      <div id="debug-info-detailed" class="debug-section" style="display: none;">
+        <div class="debug-header">
+          <span class="debug-icon">🔧</span>
+          <strong>Informazioni Tecniche</strong>
+        </div>
+        <div id="debug-content" class="debug-content">
+          <!-- Contenuto debug verrà inserito qui -->
+        </div>
+      </div>
+    </div>
+    
+    <!-- Footer -->
+    <div class="denied-footer">
+      <p>🚔 <strong>Sistema UOPI</strong> - Unità Operative di Polizia Italiana</p>
+      <p>Accesso autorizzato solo per operatori ufficiali • <span style="color: #10b981;">Sistema Sicuro</span></p>
+    </div>
   </div>
 </div>
 
@@ -761,6 +1149,49 @@ function checkAccess(discordUserID) {
   }
 }
 
+// 🎨 Funzione per toggle debug info
+function toggleDebugInfo() {
+  const debugSection = document.getElementById('debug-info-detailed');
+  const button = event.target.closest('.info-button');
+  
+  if (debugSection.style.display === 'none') {
+    debugSection.style.display = 'block';
+    button.innerHTML = '<span class="btn-icon">🔧</span>Nascondi Info Debug';
+  } else {
+    debugSection.style.display = 'none';
+    button.innerHTML = '<span class="btn-icon">🔧</span>Mostra Info Debug';
+  }
+}
+
+// 🚫 Funzione showAccessDenied migliorata
+function showAccessDenied(debugInfo) {
+  document.getElementById('login-section').style.display = 'none';
+  document.getElementById('main-container').style.display = 'none';
+  document.getElementById('access-denied-section').style.display = 'flex';
+  
+  // Aggiorna le informazioni nella card
+  if (debugInfo) {
+    document.getElementById('denied-discord-id').textContent = debugInfo.discordId;
+    document.getElementById('denied-total-users').textContent = debugInfo.totalAuthorized || 'N/A';
+    
+    // Aggiorna debug dettagliato
+    const debugContent = document.getElementById('debug-content');
+    debugContent.innerHTML = `
+      <div><strong>Sistema Multi-Utente UOPI</strong></div>
+      <div>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</div>
+      <div>Discord ID: ${debugInfo.discordId}</div>
+      <div>Autorizzato: ${debugInfo.authorized ? '✅ SÌ' : '❌ NO'}</div>
+      <div>Sistema: Lista Hardcoded Multi-Utente</div>
+      <div>Totale autorizzati: ${debugInfo.totalAuthorized}</div>
+      <div>Primi 5 ID autorizzati:</div>
+      <div>  ${debugInfo.authorizedIds ? debugInfo.authorizedIds.join('\n  ') : 'N/A'}</div>
+      <div>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</div>
+      <div><em>Per richiedere l'accesso, contatta la dirigenza UOPI</em></div>
+      <div><em>e fornisci il tuo Discord ID mostrato sopra.</em></div>
+    `;
+  }
+}
+
 // 🔐 Discord OAuth
 async function discordLogin() {
   try {
@@ -914,26 +1345,6 @@ function showDashboard(discordUserData, systemUserData) {
   }
   
   console.log('✅ Dashboard caricata per:', userName, '- Admin:', isAdmin);
-}
-
-function showAccessDenied(debugInfo) {
-  document.getElementById('login-section').style.display = 'none';
-  document.getElementById('main-container').style.display = 'none';
-  document.getElementById('access-denied-section').style.display = 'flex';
-  
-  // Mostra info di debug
-  if (debugInfo) {
-    const debugEl = document.getElementById('debug-info');
-    debugEl.innerHTML = `
-      <strong>Sistema Multi-Utente - Debug Info:</strong><br>
-      Discord ID: ${debugInfo.discordId}<br>
-      Autorizzato: ${debugInfo.authorized ? '✅' : '❌'}<br>
-      Sistema: Lista Hardcoded Multi-Utente<br>
-      Totale autorizzati: ${debugInfo.totalAuthorized}<br>
-      Primi 5 ID: ${debugInfo.authorizedIds.join(', ')}<br><br>
-      <em>Contatta la dirigenza per richiedere l'accesso</em>
-    `;
-  }
 }
 
 function showSection(sectionName) {
