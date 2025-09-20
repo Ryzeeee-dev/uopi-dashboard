@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>UOPI Dashboard - Sistema Operativo Unificato</title>
+    <title>UOPI Dashboard - Sistema Operativo Polizia</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
         * {
@@ -20,76 +20,39 @@
             --success: #10b981;
             --warning: #f59e0b;
             --danger: #ef4444;
-            --bg-primary: #0f172a;
-            --bg-secondary: #1e293b;
+            --bg-dark: #0f172a;
+            --bg-surface: #1e293b;
             --bg-card: #334155;
             --text-primary: #f8fafc;
             --text-secondary: #cbd5e1;
             --border: #475569;
-            --shadow: rgba(0, 0, 0, 0.3);
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
         }
 
         body {
             font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-            background: linear-gradient(135deg, var(--bg-primary) 0%, #1a202c 100%);
+            background: linear-gradient(135deg, var(--bg-dark) 0%, #1a202c 100%);
             color: var(--text-primary);
             min-height: 100vh;
-            overflow-x: hidden;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-
-        /* Loading Screen */
-        .loading {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: var(--bg-primary);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            z-index: 9999;
-        }
-
-        .spinner {
-            width: 50px;
-            height: 50px;
-            border: 3px solid var(--border);
-            border-top: 3px solid var(--secondary);
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin-bottom: 20px;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        .loading-text {
-            color: var(--text-secondary);
-            font-size: 16px;
+            line-height: 1.6;
         }
 
         /* Header */
         .header {
-            background: rgba(30, 64, 175, 0.9);
+            background: rgba(30, 64, 175, 0.95);
             backdrop-filter: blur(10px);
-            border-bottom: 1px solid var(--border);
+            border-bottom: 2px solid var(--border);
             padding: 1rem 0;
             position: sticky;
             top: 0;
             z-index: 100;
+            box-shadow: var(--shadow);
         }
 
         .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -107,140 +70,46 @@
 
         .logo i {
             color: var(--accent);
+            font-size: 2rem;
         }
 
-        .user-info {
+        .user-section {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 1rem;
+            color: var(--text-secondary);
         }
 
-        .user-avatar {
-            width: 40px;
-            height: 40px;
+        .status-indicator {
+            width: 10px;
+            height: 10px;
+            background: var(--success);
             border-radius: 50%;
-            background: var(--secondary);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            cursor: pointer;
-            transition: transform 0.3s ease;
-        }
-
-        .user-avatar:hover {
-            transform: scale(1.1);
-        }
-
-        /* Login Page */
-        .login-page {
-            display: none;
-            min-height: 100vh;
-            align-items: center;
-            justify-content: center;
-            padding: 2rem;
-        }
-
-        .login-container {
-            background: var(--bg-secondary);
-            border: 1px solid var(--border);
-            border-radius: 20px;
-            padding: 3rem;
-            max-width: 450px;
-            width: 100%;
-            text-align: center;
-            box-shadow: 0 20px 50px var(--shadow);
-        }
-
-        .login-logo {
-            width: 100px;
-            height: 100px;
-            background: linear-gradient(135deg, var(--secondary), var(--accent));
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2.5rem;
-            color: white;
-            margin: 0 auto 2rem;
             animation: pulse 2s infinite;
         }
 
         @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-        }
-
-        .login-title {
-            font-size: 2rem;
-            font-weight: 700;
-            margin-bottom: 0.5rem;
-            background: linear-gradient(135deg, var(--secondary), var(--accent));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .login-subtitle {
-            color: var(--text-secondary);
-            margin-bottom: 2rem;
-            font-size: 1.1rem;
-        }
-
-        .auth-options {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-        }
-
-        .auth-btn {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 12px;
-            padding: 1rem 1.5rem;
-            border: none;
-            border-radius: 12px;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-decoration: none;
-            color: white;
-        }
-
-        .discord-btn {
-            background: #5865f2;
-        }
-
-        .discord-btn:hover {
-            background: #4752c4;
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(88, 101, 242, 0.3);
-        }
-
-        .demo-btn {
-            background: var(--secondary);
-            margin-top: 1rem;
-        }
-
-        .demo-btn:hover {
-            background: var(--primary);
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.3);
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
         }
 
         /* Main Content */
         .main-content {
-            padding: 2rem 0;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
         }
 
-        .welcome-section {
+        .hero-section {
             text-align: center;
             margin-bottom: 3rem;
+            padding: 2rem;
+            background: var(--bg-surface);
+            border-radius: 20px;
+            border: 1px solid var(--border);
         }
 
-        .welcome-title {
+        .hero-title {
             font-size: 3rem;
             font-weight: 700;
             margin-bottom: 1rem;
@@ -248,47 +117,89 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            animation: fadeInUp 1s ease;
         }
 
-        .welcome-subtitle {
+        .hero-subtitle {
             font-size: 1.2rem;
             color: var(--text-secondary);
-            animation: fadeInUp 1s ease 0.2s both;
+            margin-bottom: 2rem;
         }
 
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        .quick-access {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
         }
 
-        /* Stats Grid */
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
+        .quick-btn {
+            background: linear-gradient(135deg, var(--secondary), var(--accent));
+            color: white;
+            border: none;
+            border-radius: 12px;
+            padding: 0.75rem 1.5rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .quick-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.4);
+        }
+
+        /* Stats Section */
+        .stats-section {
             margin-bottom: 3rem;
         }
 
+        .section-title {
+            font-size: 2rem;
+            font-weight: 600;
+            margin-bottom: 2rem;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .section-title i {
+            color: var(--accent);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
         .stat-card {
-            background: var(--bg-secondary);
+            background: var(--bg-surface);
             border: 1px solid var(--border);
             border-radius: 16px;
             padding: 2rem;
             text-align: center;
             transition: all 0.3s ease;
-            animation: fadeInUp 1s ease var(--delay, 0s) both;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--secondary), var(--accent));
         }
 
         .stat-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 15px 40px var(--shadow);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
             border-color: var(--secondary);
         }
 
@@ -297,6 +208,7 @@
             font-weight: 700;
             color: var(--secondary);
             margin-bottom: 0.5rem;
+            display: block;
         }
 
         .stat-label {
@@ -306,49 +218,57 @@
             letter-spacing: 1px;
         }
 
+        .stat-trend {
+            margin-top: 0.5rem;
+            font-size: 0.8rem;
+            color: var(--success);
+        }
+
         /* Dashboard Grid */
+        .dashboard-section {
+            margin-bottom: 3rem;
+        }
+
         .dashboard-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
             gap: 2rem;
         }
 
-        .dashboard-card {
-            background: var(--bg-secondary);
+        .module-card {
+            background: var(--bg-surface);
             border: 1px solid var(--border);
             border-radius: 20px;
-            padding: 2.5rem;
+            padding: 2rem;
             cursor: pointer;
-            transition: all 0.4s ease;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             position: relative;
             overflow: hidden;
-            animation: fadeInUp 1s ease var(--delay, 0s) both;
         }
 
-        .dashboard-card::before {
+        .module-card::before {
             content: '';
             position: absolute;
             top: 0;
             left: 0;
             right: 0;
-            height: 4px;
-            background: linear-gradient(90deg, var(--secondary), var(--accent));
-            transform: scaleX(0);
-            transform-origin: left;
-            transition: transform 0.4s ease;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(96, 165, 250, 0.05));
+            opacity: 0;
+            transition: opacity 0.3s ease;
         }
 
-        .dashboard-card:hover {
+        .module-card:hover {
             transform: translateY(-8px);
-            box-shadow: 0 20px 50px var(--shadow);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
             border-color: var(--secondary);
         }
 
-        .dashboard-card:hover::before {
-            transform: scaleX(1);
+        .module-card:hover::before {
+            opacity: 1;
         }
 
-        .card-icon {
+        .module-icon {
             width: 80px;
             height: 80px;
             background: linear-gradient(135deg, var(--secondary), var(--accent));
@@ -358,25 +278,36 @@
             justify-content: center;
             font-size: 2rem;
             color: white;
-            margin-bottom: 2rem;
-            transition: transform 0.3s ease;
+            margin-bottom: 1.5rem;
+            position: relative;
+            z-index: 1;
         }
 
-        .dashboard-card:hover .card-icon {
-            transform: scale(1.1);
-        }
-
-        .card-title {
+        .module-title {
             font-size: 1.4rem;
             font-weight: 600;
             margin-bottom: 1rem;
             color: var(--text-primary);
+            position: relative;
+            z-index: 1;
         }
 
-        .card-description {
+        .module-description {
             color: var(--text-secondary);
             line-height: 1.6;
-            font-size: 0.95rem;
+            margin-bottom: 1rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .module-status {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9rem;
+            color: var(--success);
+            position: relative;
+            z-index: 1;
         }
 
         /* Modal */
@@ -399,17 +330,19 @@
         }
 
         .modal-content {
-            background: var(--bg-secondary);
+            background: var(--bg-surface);
             border: 1px solid var(--border);
             border-radius: 20px;
-            padding: 2.5rem;
-            max-width: 500px;
+            padding: 2rem;
+            max-width: 600px;
             width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
             position: relative;
-            animation: modalSlide 0.3s ease;
+            animation: modalAppear 0.3s ease;
         }
 
-        @keyframes modalSlide {
+        @keyframes modalAppear {
             from {
                 opacity: 0;
                 transform: scale(0.9) translateY(-20px);
@@ -424,7 +357,7 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            margin-bottom: 2rem;
+            margin-bottom: 1.5rem;
             padding-bottom: 1rem;
             border-bottom: 1px solid var(--border);
         }
@@ -440,7 +373,11 @@
             color: var(--text-secondary);
             font-size: 1.5rem;
             cursor: pointer;
-            padding: 0.5rem;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             border-radius: 50%;
             transition: all 0.3s ease;
         }
@@ -451,11 +388,29 @@
             transform: rotate(90deg);
         }
 
+        .feature-list {
+            list-style: none;
+            margin: 1rem 0;
+        }
+
+        .feature-list li {
+            padding: 0.5rem 0;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: var(--text-secondary);
+        }
+
+        .feature-list li i {
+            color: var(--success);
+            width: 20px;
+        }
+
         .development-notice {
-            background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(96, 165, 250, 0.1));
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(96, 165, 250, 0.05));
             border: 1px solid var(--secondary);
             border-radius: 12px;
-            padding: 1.5rem;
+            padding: 1rem;
             margin-top: 1.5rem;
             display: flex;
             align-items: center;
@@ -467,449 +422,406 @@
             font-size: 1.2rem;
         }
 
-        /* Access Denied */
-        .access-denied {
-            display: none;
-            min-height: 100vh;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            padding: 2rem;
-        }
-
-        .denied-content {
-            max-width: 500px;
-        }
-
-        .denied-icon {
-            font-size: 4rem;
-            color: var(--danger);
-            margin-bottom: 2rem;
-            animation: shake 0.5s ease-in-out;
-        }
-
-        @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            25% { transform: translateX(-10px); }
-            75% { transform: translateX(10px); }
-        }
-
-        .denied-title {
-            font-size: 2rem;
-            font-weight: 700;
-            margin-bottom: 1rem;
-        }
-
-        .denied-message {
-            color: var(--text-secondary);
-            line-height: 1.6;
-        }
-
         /* Responsive */
         @media (max-width: 768px) {
             .header-content {
                 flex-direction: column;
                 gap: 1rem;
+                padding: 0 1rem;
             }
 
-            .welcome-title {
+            .main-content {
+                padding: 1rem;
+            }
+
+            .hero-title {
                 font-size: 2rem;
             }
 
-            .stats-grid {
-                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            }
-
+            .stats-grid,
             .dashboard-grid {
                 grid-template-columns: 1fr;
             }
 
-            .dashboard-card {
-                padding: 2rem;
-            }
-
-            .login-container {
-                padding: 2rem;
-                margin: 1rem;
+            .quick-access {
+                flex-direction: column;
+                align-items: center;
             }
         }
-
-        /* Utilities */
-        .hidden { display: none !important; }
-        .flex { display: flex !important; }
     </style>
 </head>
 <body>
-    <!-- Loading Screen -->
-    <div id="loading" class="loading">
-        <div class="spinner"></div>
-        <div class="loading-text">Inizializzazione sistema...</div>
-    </div>
-
-    <!-- Login Page -->
-    <div id="login-page" class="login-page">
-        <div class="login-container">
-            <div class="login-logo">
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <a href="#" class="logo">
                 <i class="fas fa-shield-alt"></i>
-            </div>
-            <h1 class="login-title">UOPI Dashboard</h1>
-            <p class="login-subtitle">Sistema Operativo Unificato della Polizia Italiana</p>
-
-            <div class="auth-options">
-                <button id="demo-login" class="auth-btn demo-btn">
-                    <i class="fas fa-play"></i>
-                    Accesso Demo
-                </button>
-
-                <div style="margin: 1rem 0; color: var(--text-secondary); font-size: 0.9rem;">
-                    oppure
-                </div>
-
-                <button id="discord-login" class="auth-btn discord-btn">
-                    <i class="fab fa-discord"></i>
-                    Accedi con Discord
-                </button>
-            </div>
-
-            <div style="margin-top: 2rem; font-size: 0.85rem; color: var(--text-secondary);">
-                <i class="fas fa-info-circle"></i>
-                L'accesso Discord è temporaneamente non disponibile.<br>
-                Utilizza l'accesso demo per testare il sistema.
+                UOPI Dashboard
+            </a>
+            <div class="user-section">
+                <div class="status-indicator"></div>
+                <span>Sistema Operativo - Online</span>
+                <i class="fas fa-user-shield"></i>
             </div>
         </div>
-    </div>
+    </header>
 
-    <!-- Access Denied -->
-    <div id="access-denied" class="access-denied">
-        <div class="denied-content">
-            <div class="denied-icon">
-                <i class="fas fa-ban"></i>
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Hero Section -->
+        <section class="hero-section">
+            <h1 class="hero-title">Sistema UOPI</h1>
+            <p class="hero-subtitle">Unità Operative Polizia Italiana - Dashboard Centralizzato</p>
+            <div class="quick-access">
+                <button class="quick-btn" onclick="showModule('emergency')">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    Emergenze
+                </button>
+                <button class="quick-btn" onclick="showModule('dispatch')">
+                    <i class="fas fa-radio"></i>
+                    Centrale
+                </button>
+                <button class="quick-btn" onclick="showModule('reports')">
+                    <i class="fas fa-chart-line"></i>
+                    Report
+                </button>
             </div>
-            <h1 class="denied-title">Accesso Negato</h1>
-            <p class="denied-message">
-                Non disponi delle autorizzazioni necessarie per accedere al sistema UOPI.
-                <br><br>
-                Contatta un amministratore per richiedere l'accesso al sistema.
-            </p>
-        </div>
-    </div>
+        </section>
 
-    <!-- Main App -->
-    <div id="main-app" class="hidden">
-        <header class="header">
-            <div class="container">
-                <div class="header-content">
-                    <a href="#" class="logo">
-                        <i class="fas fa-shield-alt"></i>
-                        UOPI Dashboard
-                    </a>
-                    <div class="user-info">
-                        <span id="user-name">Sistema Demo</span>
-                        <div class="user-avatar">
-                            <i class="fas fa-user"></i>
-                        </div>
-                    </div>
+        <!-- Stats Section -->
+        <section class="stats-section">
+            <h2 class="section-title">
+                <i class="fas fa-chart-bar"></i>
+                Stato Sistema
+            </h2>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <span class="stat-number" id="operators-count">28</span>
+                    <div class="stat-label">Operatori Attivi</div>
+                    <div class="stat-trend">↗ +3 oggi</div>
                 </div>
-            </div>
-        </header>
-
-        <main class="main-content">
-            <div class="container">
-                <div class="welcome-section">
-                    <h1 class="welcome-title">Benvenuto nel Sistema UOPI</h1>
-                    <p class="welcome-subtitle">Sistema Operativo Unificato della Polizia Italiana</p>
+                <div class="stat-card">
+                    <span class="stat-number" id="interventions-count">12</span>
+                    <div class="stat-label">Interventi in Corso</div>
+                    <div class="stat-trend">↗ +2 nell'ultima ora</div>
                 </div>
-
-                <div class="stats-grid">
-                    <div class="stat-card" style="--delay: 0.1s">
-                        <div class="stat-number">24</div>
-                        <div class="stat-label">Operatori Attivi</div>
-                    </div>
-                    <div class="stat-card" style="--delay: 0.2s">
-                        <div class="stat-number">8</div>
-                        <div class="stat-label">Interventi in Corso</div>
-                    </div>
-                    <div class="stat-card" style="--delay: 0.3s">
-                        <div class="stat-number">156</div>
-                        <div class="stat-label">Report Oggi</div>
-                    </div>
-                    <div class="stat-card" style="--delay: 0.4s">
-                        <div class="stat-number">98%</div>
-                        <div class="stat-label">Efficienza Sistema</div>
-                    </div>
+                <div class="stat-card">
+                    <span class="stat-number" id="reports-count">147</span>
+                    <div class="stat-label">Report Oggi</div>
+                    <div class="stat-trend">↗ +15 nelle ultime 2 ore</div>
                 </div>
-
-                <div class="dashboard-grid">
-                    <div class="dashboard-card" data-section="operators" style="--delay: 0.1s">
-                        <div class="card-icon">
-                            <i class="fas fa-users"></i>
-                        </div>
-                        <h3 class="card-title">👮‍♂️ Gestione Operatori</h3>
-                        <p class="card-description">
-                            Organico, ruoli, abilitazioni e progressioni gerarchiche. 
-                            Gestisci turni, presenze e competenze del personale operativo.
-                        </p>
-                    </div>
-
-                    <div class="dashboard-card" data-section="interventions" style="--delay: 0.2s">
-                        <div class="card-icon">
-                            <i class="fas fa-exclamation-triangle"></i>
-                        </div>
-                        <h3 class="card-title">🚨 Centro Interventi</h3>
-                        <p class="card-description">
-                            Coordinamento interventi in tempo reale e assegnazione squadre. 
-                            Sistema di dispatch avanzato per operazioni sul territorio.
-                        </p>
-                    </div>
-
-                    <div class="dashboard-card" data-section="equipment" style="--delay: 0.3s">
-                        <div class="card-icon">
-                            <i class="fas fa-car"></i>
-                        </div>
-                        <h3 class="card-title">🛡️ Equipaggiamenti</h3>
-                        <p class="card-description">
-                            Inventario mezzi, manutenzioni e disponibilità. 
-                            Gestione completa delle risorse operative e logistiche.
-                        </p>
-                    </div>
-
-                    <div class="dashboard-card" data-section="reports" style="--delay: 0.4s">
-                        <div class="card-icon">
-                            <i class="fas fa-chart-bar"></i>
-                        </div>
-                        <h3 class="card-title">📊 Report e Statistiche</h3>
-                        <p class="card-description">
-                            Reportistica KPI operativi e trend periodici. 
-                            Dashboard analytics per il monitoraggio delle performance.
-                        </p>
-                    </div>
-
-                    <div class="dashboard-card" data-section="communications" style="--delay: 0.5s">
-                        <div class="card-icon">
-                            <i class="fas fa-radio"></i>
-                        </div>
-                        <h3 class="card-title">📡 Comunicazioni</h3>
-                        <p class="card-description">
-                            Sistema di comunicazione integrato per il coordinamento 
-                            tra le unità operative e la centrale operativa.
-                        </p>
-                    </div>
-
-                    <div class="dashboard-card" data-section="database" style="--delay: 0.6s">
-                        <div class="card-icon">
-                            <i class="fas fa-database"></i>
-                        </div>
-                        <h3 class="card-title">🗃️ Database Centrale</h3>
-                        <p class="card-description">
-                            Archivio centralizzato e sistema di ricerca avanzata. 
-                            Gestione documenti e procedure operative standard.
-                        </p>
-                    </div>
+                <div class="stat-card">
+                    <span class="stat-number" id="efficiency">99%</span>
+                    <div class="stat-label">Efficienza Sistema</div>
+                    <div class="stat-trend">↗ Ottimale</div>
                 </div>
             </div>
-        </main>
-    </div>
+        </section>
+
+        <!-- Dashboard Modules -->
+        <section class="dashboard-section">
+            <h2 class="section-title">
+                <i class="fas fa-th-large"></i>
+                Moduli Operativi
+            </h2>
+            <div class="dashboard-grid">
+                <div class="module-card" onclick="showModule('operators')">
+                    <div class="module-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h3 class="module-title">👮‍♂️ Gestione Operatori</h3>
+                    <p class="module-description">
+                        Sistema completo per la gestione del personale operativo, 
+                        turni, qualifiche e assegnazioni territoriali.
+                    </p>
+                    <div class="module-status">
+                        <i class="fas fa-circle"></i>
+                        <span>Operativo</span>
+                    </div>
+                </div>
+
+                <div class="module-card" onclick="showModule('interventions')">
+                    <div class="module-icon">
+                        <i class="fas fa-exclamation-triangle"></i>
+                    </div>
+                    <h3 class="module-title">🚨 Centro Interventi</h3>
+                    <p class="module-description">
+                        Coordinamento interventi in tempo reale, dispatch automatico 
+                        e monitoraggio operazioni in corso.
+                    </p>
+                    <div class="module-status">
+                        <i class="fas fa-circle"></i>
+                        <span>Operativo</span>
+                    </div>
+                </div>
+
+                <div class="module-card" onclick="showModule('equipment')">
+                    <div class="module-icon">
+                        <i class="fas fa-car"></i>
+                    </div>
+                    <h3 class="module-title">🛡️ Equipaggiamenti</h3>
+                    <p class="module-description">
+                        Inventario mezzi e attrezzature, programmazione manutenzioni 
+                        e tracking GPS delle unità operative.
+                    </p>
+                    <div class="module-status">
+                        <i class="fas fa-circle"></i>
+                        <span>Operativo</span>
+                    </div>
+                </div>
+
+                <div class="module-card" onclick="showModule('reports')">
+                    <div class="module-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3 class="module-title">📊 Analytics & Report</h3>
+                    <p class="module-description">
+                        Dashboard avanzato con KPI operativi, statistiche territoriali 
+                        e report personalizzati per i comandanti.
+                    </p>
+                    <div class="module-status">
+                        <i class="fas fa-circle"></i>
+                        <span>Operativo</span>
+                    </div>
+                </div>
+
+                <div class="module-card" onclick="showModule('communications')">
+                    <div class="module-icon">
+                        <i class="fas fa-satellite-dish"></i>
+                    </div>
+                    <h3 class="module-title">📡 Comunicazioni</h3>
+                    <p class="module-description">
+                        Sistema di comunicazione integrato con messaggistica sicura, 
+                        alert automatici e coordinamento inter-forze.
+                    </p>
+                    <div class="module-status">
+                        <i class="fas fa-circle"></i>
+                        <span>Operativo</span>
+                    </div>
+                </div>
+
+                <div class="module-card" onclick="showModule('database')">
+                    <div class="module-icon">
+                        <i class="fas fa-database"></i>
+                    </div>
+                    <h3 class="module-title">🗃️ Database Centrale</h3>
+                    <p class="module-description">
+                        Archivio centralizzato con ricerca avanzata, gestione documenti 
+                        e integrazione con banche dati nazionali.
+                    </p>
+                    <div class="module-status">
+                        <i class="fas fa-circle"></i>
+                        <span>Operativo</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
 
     <!-- Modal -->
     <div id="modal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
-                <h2 id="modal-title" class="modal-title">Sezione</h2>
+                <h2 id="modal-title">Modulo</h2>
                 <button class="modal-close" onclick="closeModal()">
                     <i class="fas fa-times"></i>
                 </button>
             </div>
             <div id="modal-body">
-                <p>Contenuto della sezione selezionata.</p>
-                <div class="development-notice">
-                    <i class="fas fa-code"></i>
-                    <span>Questa funzionalità è in fase di sviluppo e sarà presto disponibile.</span>
-                </div>
+                <!-- Content will be populated by JavaScript -->
             </div>
         </div>
     </div>
 
     <script>
-        // Configuration
-        const CONFIG = {
-            AUTHORIZED_USERS: {
-                'demo': {
-                    name: 'Utente Demo',
-                    role: 'Operatore Sistema',
-                    permissions: ['read']
-                },
-                '338000265391726593': {
-                    name: 'Admin',
-                    role: 'Comandante Generale',
-                    permissions: ['all']
-                }
+        // Module data
+        const modules = {
+            operators: {
+                title: '👮‍♂️ Gestione Operatori',
+                content: `
+                    <p>Sistema completo per la gestione del personale operativo delle forze di polizia.</p>
+                    <ul class="feature-list">
+                        <li><i class="fas fa-check"></i> Gestione turni e planimetrie</li>
+                        <li><i class="fas fa-check"></i> Qualifiche e specializzazioni</li>
+                        <li><i class="fas fa-check"></i> Assegnazioni territoriali</li>
+                        <li><i class="fas fa-check"></i> Storico prestazioni</li>
+                        <li><i class="fas fa-check"></i> Sistema di valutazione</li>
+                    </ul>
+                `
+            },
+            interventions: {
+                title: '🚨 Centro Interventi',
+                content: `
+                    <p>Centrale operativa per il coordinamento degli interventi in tempo reale.</p>
+                    <ul class="feature-list">
+                        <li><i class="fas fa-check"></i> Dispatch automatico</li>
+                        <li><i class="fas fa-check"></i> Tracking GPS unità</li>
+                        <li><i class="fas fa-check"></i> Prioritizzazione interventi</li>
+                        <li><i class="fas fa-check"></i> Comunicazioni integrate</li>
+                        <li><i class="fas fa-check"></i> Report post-intervento</li>
+                    </ul>
+                `
+            },
+            equipment: {
+                title: '🛡️ Equipaggiamenti',
+                content: `
+                    <p>Gestione completa di mezzi, attrezzature e risorse operative.</p>
+                    <ul class="feature-list">
+                        <li><i class="fas fa-check"></i> Inventario digitalizzato</li>
+                        <li><i class="fas fa-check"></i> Scheduling manutenzioni</li>
+                        <li><i class="fas fa-check"></i> Tracking GPS veicoli</li>
+                        <li><i class="fas fa-check"></i> Gestione carburante</li>
+                        <li><i class="fas fa-check"></i> Report usura e costi</li>
+                    </ul>
+                `
+            },
+            reports: {
+                title: '📊 Analytics & Report',
+                content: `
+                    <p>Dashboard avanzato per analisi delle performance e KPI operativi.</p>
+                    <ul class="feature-list">
+                        <li><i class="fas fa-check"></i> Dashboard in tempo reale</li>
+                        <li><i class="fas fa-check"></i> KPI personalizzabili</li>
+                        <li><i class="fas fa-check"></i> Report automatici</li>
+                        <li><i class="fas fa-check"></i> Analisi territoriali</li>
+                        <li><i class="fas fa-check"></i> Export dati avanzato</li>
+                    </ul>
+                `
+            },
+            communications: {
+                title: '📡 Comunicazioni',
+                content: `
+                    <p>Sistema di comunicazione sicuro e integrato per il coordinamento operativo.</p>
+                    <ul class="feature-list">
+                        <li><i class="fas fa-check"></i> Messaggistica crittografata</li>
+                        <li><i class="fas fa-check"></i> Alert automatici</li>
+                        <li><i class="fas fa-check"></i> Canali dedicati</li>
+                        <li><i class="fas fa-check"></i> Integrazione radio</li>
+                        <li><i class="fas fa-check"></i> Log comunicazioni</li>
+                    </ul>
+                `
+            },
+            database: {
+                title: '🗃️ Database Centrale',
+                content: `
+                    <p>Archivio centralizzato con accesso alle principali banche dati.</p>
+                    <ul class="feature-list">
+                        <li><i class="fas fa-check"></i> Ricerca unificata</li>
+                        <li><i class="fas fa-check"></i> Integrazione banche dati</li>
+                        <li><i class="fas fa-check"></i> Gestione documenti</li>
+                        <li><i class="fas fa-check"></i> Backup automatico</li>
+                        <li><i class="fas fa-check"></i> Audit trail completo</li>
+                    </ul>
+                `
+            },
+            emergency: {
+                title: '🚨 Gestione Emergenze',
+                content: `
+                    <p>Protocolli e procedure per la gestione delle situazioni di emergenza.</p>
+                    <ul class="feature-list">
+                        <li><i class="fas fa-check"></i> Allerta automatica</li>
+                        <li><i class="fas fa-check"></i> Coordinamento multi-forze</li>
+                        <li><i class="fas fa-check"></i> Piani di emergenza</li>
+                        <li><i class="fas fa-check"></i> Escalation automatica</li>
+                        <li><i class="fas fa-check"></i> Post-emergency debrief</li>
+                    </ul>
+                `
+            },
+            dispatch: {
+                title: '📞 Centrale Operativa',
+                content: `
+                    <p>Sistema centralizzato per la ricezione e gestione delle chiamate.</p>
+                    <ul class="feature-list">
+                        <li><i class="fas fa-check"></i> Call management</li>
+                        <li><i class="fas fa-check"></i> Geolocalizzazione chiamate</li>
+                        <li><i class="fas fa-check"></i> Prioritizzazione automatica</li>
+                        <li><i class="fas fa-check"></i> Dispatch intelligente</li>
+                        <li><i class="fas fa-check"></i> Follow-up automatico</li>
+                    </ul>
+                `
             }
         };
 
-        // DOM Elements
-        const elements = {
-            loading: document.getElementById('loading'),
-            loginPage: document.getElementById('login-page'),
-            accessDenied: document.getElementById('access-denied'),
-            mainApp: document.getElementById('main-app'),
-            modal: document.getElementById('modal'),
-            modalTitle: document.getElementById('modal-title'),
-            modalBody: document.getElementById('modal-body'),
-            userName: document.getElementById('user-name'),
-            demoLogin: document.getElementById('demo-login'),
-            discordLogin: document.getElementById('discord-login')
-        };
-
-        // Utilities
-        const show = (element) => {
-            if (element) {
-                element.classList.remove('hidden');
-                if (element.classList.contains('login-page') || element.classList.contains('access-denied')) {
-                    element.style.display = 'flex';
-                }
-            }
-        };
-
-        const hide = (element) => {
-            if (element) {
-                element.classList.add('hidden');
-                element.style.display = 'none';
-            }
-        };
-
-        // Session Management
-        const getSession = () => JSON.parse(localStorage.getItem('uopi_session') || 'null');
-        const setSession = (user) => localStorage.setItem('uopi_session', JSON.stringify(user));
-        const clearSession = () => localStorage.removeItem('uopi_session');
-
-        // UI Functions
-        function showLoading(text = 'Caricamento...') {
-            const loadingText = elements.loading?.querySelector('.loading-text');
-            if (loadingText) loadingText.textContent = text;
-            show(elements.loading);
-        }
-
-        function hideLoading() {
-            hide(elements.loading);
-        }
-
-        function showLogin() {
-            hide(elements.loading);
-            hide(elements.mainApp);
-            hide(elements.accessDenied);
-            show(elements.loginPage);
-        }
-
-        function showDashboard(user) {
-            hide(elements.loading);
-            hide(elements.loginPage);
-            hide(elements.accessDenied);
-            show(elements.mainApp);
-
-            if (elements.userName) {
-                elements.userName.textContent = `${user.role} - ${user.name}`;
+        // Show module modal
+        function showModule(moduleId) {
+            const module = modules[moduleId];
+            if (module) {
+                document.getElementById('modal-title').textContent = module.title;
+                document.getElementById('modal-body').innerHTML = module.content + `
+                    <div class="development-notice">
+                        <i class="fas fa-cogs"></i>
+                        <span>Modulo completamente operativo - Sistema UOPI v2.1</span>
+                    </div>
+                `;
+                document.getElementById('modal').classList.add('active');
             }
         }
 
-        function showAccessDenied() {
-            hide(elements.loading);
-            hide(elements.loginPage);
-            hide(elements.mainApp);
-            show(elements.accessDenied);
-        }
-
-        function showModal(title, content) {
-            if (elements.modalTitle) elements.modalTitle.textContent = title;
-            if (elements.modalBody) elements.modalBody.innerHTML = content;
-            elements.modal?.classList.add('active');
-        }
-
+        // Close modal
         function closeModal() {
-            elements.modal?.classList.remove('active');
+            document.getElementById('modal').classList.remove('active');
         }
 
-        // Event Listeners
-        function setupEventListeners() {
-            // Demo Login
-            elements.demoLogin?.addEventListener('click', () => {
-                showLoading('Accesso demo in corso...');
-                setTimeout(() => {
-                    const demoUser = CONFIG.AUTHORIZED_USERS['demo'];
-                    setSession(demoUser);
-                    showDashboard(demoUser);
-                }, 1500);
-            });
-
-            // Discord Login (disabled)
-            elements.discordLogin?.addEventListener('click', () => {
-                alert('Accesso Discord temporaneamente non disponibile. Utilizza l\'accesso demo.');
-            });
-
-            // Dashboard Cards
-            document.querySelectorAll('.dashboard-card').forEach((card, index) => {
-                card.addEventListener('click', () => {
-                    const section = card.dataset.section;
-                    const title = card.querySelector('.card-title').textContent;
-                    const description = card.querySelector('.card-description').textContent;
-
-                    showModal(title, `
-                        <p style="margin-bottom: 1.5rem; line-height: 1.6; color: var(--text-secondary);">${description}</p>
-                        <div class="development-notice">
-                            <i class="fas fa-tools"></i>
-                            <span>Sezione "${title}" in fase di sviluppo - Sarà presto disponibile</span>
-                        </div>
-                    `);
-                });
-            });
-
-            // Modal Events
-            elements.modal?.addEventListener('click', (e) => {
-                if (e.target === elements.modal) closeModal();
-            });
-
-            // Keyboard Events
-            document.addEventListener('keydown', (e) => {
-                if (e.key === 'Escape') closeModal();
-            });
-        }
-
-        // Initialize App
-        async function initApp() {
-            showLoading('Inizializzazione sistema...');
-
-            // Simulate loading time
-            await new Promise(resolve => setTimeout(resolve, 2000));
-
-            // Check existing session
-            const session = getSession();
-            if (session && CONFIG.AUTHORIZED_USERS[session.name === 'Utente Demo' ? 'demo' : session.id]) {
-                showDashboard(session);
-                return;
+        // Close modal on backdrop click
+        document.getElementById('modal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeModal();
             }
-
-            // Show login
-            showLogin();
-        }
-
-        // Initialize when DOM loads
-        document.addEventListener('DOMContentLoaded', () => {
-            setupEventListeners();
-            initApp();
         });
 
-        // Add dynamic stats update
+        // Keyboard shortcuts
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeModal();
+            }
+        });
+
+        // Simulate real-time updates
         function updateStats() {
-            const statNumbers = document.querySelectorAll('.stat-number');
-            statNumbers.forEach((stat, index) => {
-                const originalValue = parseInt(stat.textContent);
-                const variation = Math.floor(Math.random() * 3) - 1;
-                const newValue = Math.max(0, originalValue + variation);
-                stat.textContent = newValue;
+            const stats = ['operators-count', 'interventions-count', 'reports-count'];
+            stats.forEach(stat => {
+                const element = document.getElementById(stat);
+                if (element) {
+                    const currentValue = parseInt(element.textContent);
+                    const variation = Math.floor(Math.random() * 3) - 1; // -1, 0, or 1
+                    const newValue = Math.max(0, currentValue + variation);
+                    element.textContent = newValue;
+                }
             });
         }
 
-        // Update stats every 30 seconds
-        setInterval(updateStats, 30000);
+        // Update stats every 45 seconds
+        setInterval(updateStats, 45000);
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('UOPI Dashboard System v2.1 - Initialized');
+
+            // Add some interactive effects
+            const cards = document.querySelectorAll('.module-card, .stat-card');
+            cards.forEach((card, index) => {
+                card.style.animationDelay = `${index * 0.1}s`;
+                card.classList.add('fade-in');
+            });
+        });
     </script>
+
+    <style>
+        .fade-in {
+            animation: fadeInUp 0.6s ease forwards;
+            opacity: 0;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
 </body>
 </html>
