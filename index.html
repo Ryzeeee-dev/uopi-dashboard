@@ -13,26 +13,28 @@
         }
 
         :root {
-            --primary-color: #1e3a8a;
-            --secondary-color: #3b82f6;
-            --accent-color: #60a5fa;
-            --success-color: #10b981;
-            --warning-color: #f59e0b;
-            --danger-color: #ef4444;
-            --dark-bg: #0f172a;
-            --dark-surface: #1e293b;
-            --dark-card: #334155;
+            --primary: #1e40af;
+            --primary-dark: #1e3a8a;
+            --secondary: #3b82f6;
+            --accent: #60a5fa;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --bg-primary: #0f172a;
+            --bg-secondary: #1e293b;
+            --bg-card: #334155;
             --text-primary: #f8fafc;
             --text-secondary: #cbd5e1;
-            --border-color: #475569;
+            --border: #475569;
+            --shadow: rgba(0, 0, 0, 0.3);
         }
 
         body {
             font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-            background: linear-gradient(135deg, var(--dark-bg) 0%, #1a202c 100%);
+            background: linear-gradient(135deg, var(--bg-primary) 0%, #1a202c 100%);
             color: var(--text-primary);
             min-height: 100vh;
-            line-height: 1.6;
+            overflow-x: hidden;
         }
 
         .container {
@@ -41,11 +43,46 @@
             padding: 0 20px;
         }
 
-        /* Header Styles */
+        /* Loading Screen */
+        .loading {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--bg-primary);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 3px solid var(--border);
+            border-top: 3px solid var(--secondary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .loading-text {
+            color: var(--text-secondary);
+            font-size: 16px;
+        }
+
+        /* Header */
         .header {
-            background: rgba(30, 58, 138, 0.9);
+            background: rgba(30, 64, 175, 0.9);
             backdrop-filter: blur(10px);
-            border-bottom: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border);
             padding: 1rem 0;
             position: sticky;
             top: 0;
@@ -69,25 +106,128 @@
         }
 
         .logo i {
-            color: var(--accent-color);
+            color: var(--accent);
         }
 
         .user-info {
             display: flex;
             align-items: center;
             gap: 12px;
-            color: var(--text-secondary);
         }
 
         .user-avatar {
             width: 40px;
             height: 40px;
             border-radius: 50%;
-            background: var(--secondary-color);
+            background: var(--secondary);
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .user-avatar:hover {
+            transform: scale(1.1);
+        }
+
+        /* Login Page */
+        .login-page {
+            display: none;
+            min-height: 100vh;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        .login-container {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 3rem;
+            max-width: 450px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 20px 50px var(--shadow);
+        }
+
+        .login-logo {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, var(--secondary), var(--accent));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            color: white;
+            margin: 0 auto 2rem;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .login-title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, var(--secondary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .login-subtitle {
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            font-size: 1.1rem;
+        }
+
+        .auth-options {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .auth-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            padding: 1rem 1.5rem;
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: white;
+        }
+
+        .discord-btn {
+            background: #5865f2;
+        }
+
+        .discord-btn:hover {
+            background: #4752c4;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(88, 101, 242, 0.3);
+        }
+
+        .demo-btn {
+            background: var(--secondary);
+            margin-top: 1rem;
+        }
+
+        .demo-btn:hover {
+            background: var(--primary);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.3);
         }
 
         /* Main Content */
@@ -101,18 +241,31 @@
         }
 
         .welcome-title {
-            font-size: 2.5rem;
+            font-size: 3rem;
             font-weight: 700;
-            margin-bottom: 0.5rem;
-            background: linear-gradient(135deg, var(--secondary-color), var(--accent-color));
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--secondary), var(--accent));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
+            animation: fadeInUp 1s ease;
         }
 
         .welcome-subtitle {
-            font-size: 1.1rem;
+            font-size: 1.2rem;
             color: var(--text-secondary);
+            animation: fadeInUp 1s ease 0.2s both;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         /* Stats Grid */
@@ -124,24 +277,25 @@
         }
 
         .stat-card {
-            background: var(--dark-surface);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 1.5rem;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 2rem;
             text-align: center;
             transition: all 0.3s ease;
+            animation: fadeInUp 1s ease var(--delay, 0s) both;
         }
 
         .stat-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.15);
-            border-color: var(--secondary-color);
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px var(--shadow);
+            border-color: var(--secondary);
         }
 
         .stat-number {
             font-size: 2.5rem;
             font-weight: 700;
-            color: var(--secondary-color);
+            color: var(--secondary);
             margin-bottom: 0.5rem;
         }
 
@@ -149,25 +303,26 @@
             color: var(--text-secondary);
             font-size: 0.9rem;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
+            letter-spacing: 1px;
         }
 
         /* Dashboard Grid */
         .dashboard-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
             gap: 2rem;
         }
 
         .dashboard-card {
-            background: var(--dark-surface);
-            border: 1px solid var(--border-color);
-            border-radius: 16px;
-            padding: 2rem;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 2.5rem;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.4s ease;
             position: relative;
             overflow: hidden;
+            animation: fadeInUp 1s ease var(--delay, 0s) both;
         }
 
         .dashboard-card::before {
@@ -177,16 +332,16 @@
             left: 0;
             right: 0;
             height: 4px;
-            background: linear-gradient(90deg, var(--secondary-color), var(--accent-color));
+            background: linear-gradient(90deg, var(--secondary), var(--accent));
             transform: scaleX(0);
             transform-origin: left;
-            transition: transform 0.3s ease;
+            transition: transform 0.4s ease;
         }
 
         .dashboard-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
-            border-color: var(--secondary-color);
+            transform: translateY(-8px);
+            box-shadow: 0 20px 50px var(--shadow);
+            border-color: var(--secondary);
         }
 
         .dashboard-card:hover::before {
@@ -194,32 +349,37 @@
         }
 
         .card-icon {
-            width: 60px;
-            height: 60px;
-            background: linear-gradient(135deg, var(--secondary-color), var(--accent-color));
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--secondary), var(--accent));
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.5rem;
+            font-size: 2rem;
             color: white;
-            margin-bottom: 1.5rem;
+            margin-bottom: 2rem;
+            transition: transform 0.3s ease;
+        }
+
+        .dashboard-card:hover .card-icon {
+            transform: scale(1.1);
         }
 
         .card-title {
-            font-size: 1.3rem;
+            font-size: 1.4rem;
             font-weight: 600;
-            margin-bottom: 0.8rem;
+            margin-bottom: 1rem;
             color: var(--text-primary);
         }
 
         .card-description {
             color: var(--text-secondary);
-            font-size: 0.9rem;
-            line-height: 1.5;
+            line-height: 1.6;
+            font-size: 0.95rem;
         }
 
-        /* Modal Styles */
+        /* Modal */
         .modal {
             display: none;
             position: fixed;
@@ -239,10 +399,10 @@
         }
 
         .modal-content {
-            background: var(--dark-surface);
-            border: 1px solid var(--border-color);
-            border-radius: 16px;
-            padding: 2rem;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 2.5rem;
             max-width: 500px;
             width: 90%;
             position: relative;
@@ -252,11 +412,11 @@
         @keyframes modalSlide {
             from {
                 opacity: 0;
-                transform: translateY(-30px);
+                transform: scale(0.9) translateY(-20px);
             }
             to {
                 opacity: 1;
-                transform: translateY(0);
+                transform: scale(1) translateY(0);
             }
         }
 
@@ -264,15 +424,14 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            margin-bottom: 1.5rem;
+            margin-bottom: 2rem;
             padding-bottom: 1rem;
-            border-bottom: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border);
         }
 
         .modal-title {
             font-size: 1.5rem;
             font-weight: 600;
-            color: var(--text-primary);
         }
 
         .modal-close {
@@ -287,95 +446,25 @@
         }
 
         .modal-close:hover {
-            background: var(--dark-card);
+            background: var(--bg-card);
             color: var(--text-primary);
-        }
-
-        .modal-body {
-            color: var(--text-secondary);
-            line-height: 1.6;
+            transform: rotate(90deg);
         }
 
         .development-notice {
-            background: rgba(59, 130, 246, 0.1);
-            border: 1px solid var(--secondary-color);
-            border-radius: 8px;
-            padding: 1rem;
-            margin-top: 1rem;
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(96, 165, 250, 0.1));
+            border: 1px solid var(--secondary);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-top: 1.5rem;
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: 12px;
         }
 
         .development-notice i {
-            color: var(--secondary-color);
-        }
-
-        /* Login Styles */
-        .login-container {
-            display: none;
-            min-height: 100vh;
-            align-items: center;
-            justify-content: center;
-            padding: 2rem;
-        }
-
-        .login-card {
-            background: var(--dark-surface);
-            border: 1px solid var(--border-color);
-            border-radius: 16px;
-            padding: 3rem;
-            max-width: 400px;
-            width: 100%;
-            text-align: center;
-        }
-
-        .login-logo {
-            width: 80px;
-            height: 80px;
-            background: linear-gradient(135deg, var(--secondary-color), var(--accent-color));
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2rem;
-            color: white;
-            margin: 0 auto 2rem;
-        }
-
-        .login-title {
-            font-size: 1.8rem;
-            font-weight: 700;
-            margin-bottom: 0.5rem;
-            color: var(--text-primary);
-        }
-
-        .login-subtitle {
-            color: var(--text-secondary);
-            margin-bottom: 2rem;
-        }
-
-        .discord-btn {
-            width: 100%;
-            background: #5865f2;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            padding: 1rem;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
-            text-decoration: none;
-        }
-
-        .discord-btn:hover {
-            background: #4752c4;
-            transform: translateY(-2px);
+            color: var(--secondary);
+            font-size: 1.2rem;
         }
 
         /* Access Denied */
@@ -388,26 +477,35 @@
             padding: 2rem;
         }
 
+        .denied-content {
+            max-width: 500px;
+        }
+
         .denied-icon {
             font-size: 4rem;
-            color: var(--danger-color);
-            margin-bottom: 1rem;
+            color: var(--danger);
+            margin-bottom: 2rem;
+            animation: shake 0.5s ease-in-out;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
         }
 
         .denied-title {
             font-size: 2rem;
             font-weight: 700;
             margin-bottom: 1rem;
-            color: var(--text-primary);
         }
 
         .denied-message {
             color: var(--text-secondary);
-            max-width: 500px;
-            margin: 0 auto;
+            line-height: 1.6;
         }
 
-        /* Responsive Design */
+        /* Responsive */
         @media (max-width: 768px) {
             .header-content {
                 flex-direction: column;
@@ -420,66 +518,84 @@
 
             .stats-grid {
                 grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-                gap: 1rem;
             }
 
             .dashboard-grid {
                 grid-template-columns: 1fr;
-                gap: 1.5rem;
             }
 
             .dashboard-card {
-                padding: 1.5rem;
+                padding: 2rem;
+            }
+
+            .login-container {
+                padding: 2rem;
+                margin: 1rem;
             }
         }
 
         /* Utilities */
-        .hidden {
-            display: none !important;
-        }
-
-        .visible {
-            display: block !important;
-        }
-
-        .flex {
-            display: flex !important;
-        }
+        .hidden { display: none !important; }
+        .flex { display: flex !important; }
     </style>
 </head>
 <body>
-    <!-- Login Container -->
-    <div id="login-container" class="login-container">
-        <div class="login-card">
+    <!-- Loading Screen -->
+    <div id="loading" class="loading">
+        <div class="spinner"></div>
+        <div class="loading-text">Inizializzazione sistema...</div>
+    </div>
+
+    <!-- Login Page -->
+    <div id="login-page" class="login-page">
+        <div class="login-container">
             <div class="login-logo">
                 <i class="fas fa-shield-alt"></i>
             </div>
             <h1 class="login-title">UOPI Dashboard</h1>
             <p class="login-subtitle">Sistema Operativo Unificato della Polizia Italiana</p>
-            <button id="discord-login" class="discord-btn">
-                <i class="fab fa-discord"></i>
-                Accedi con Discord
-            </button>
+
+            <div class="auth-options">
+                <button id="demo-login" class="auth-btn demo-btn">
+                    <i class="fas fa-play"></i>
+                    Accesso Demo
+                </button>
+
+                <div style="margin: 1rem 0; color: var(--text-secondary); font-size: 0.9rem;">
+                    oppure
+                </div>
+
+                <button id="discord-login" class="auth-btn discord-btn">
+                    <i class="fab fa-discord"></i>
+                    Accedi con Discord
+                </button>
+            </div>
+
+            <div style="margin-top: 2rem; font-size: 0.85rem; color: var(--text-secondary);">
+                <i class="fas fa-info-circle"></i>
+                L'accesso Discord è temporaneamente non disponibile.<br>
+                Utilizza l'accesso demo per testare il sistema.
+            </div>
         </div>
     </div>
 
     <!-- Access Denied -->
     <div id="access-denied" class="access-denied">
-        <div>
+        <div class="denied-content">
             <div class="denied-icon">
                 <i class="fas fa-ban"></i>
             </div>
             <h1 class="denied-title">Accesso Negato</h1>
             <p class="denied-message">
                 Non disponi delle autorizzazioni necessarie per accedere al sistema UOPI.
-                Contatta un amministratore per richiedere l'accesso.
+                <br><br>
+                Contatta un amministratore per richiedere l'accesso al sistema.
             </p>
         </div>
     </div>
 
     <!-- Main App -->
     <div id="main-app" class="hidden">
-        <!-- Header -->
         <header class="header">
             <div class="container">
                 <div class="header-content">
@@ -488,7 +604,7 @@
                         UOPI Dashboard
                     </a>
                     <div class="user-info">
-                        <span id="user-name">Caricamento...</span>
+                        <span id="user-name">Sistema Demo</span>
                         <div class="user-avatar">
                             <i class="fas fa-user"></i>
                         </div>
@@ -497,99 +613,95 @@
             </div>
         </header>
 
-        <!-- Main Content -->
         <main class="main-content">
             <div class="container">
-                <!-- Welcome Section -->
                 <div class="welcome-section">
                     <h1 class="welcome-title">Benvenuto nel Sistema UOPI</h1>
                     <p class="welcome-subtitle">Sistema Operativo Unificato della Polizia Italiana</p>
                 </div>
 
-                <!-- Stats Grid -->
                 <div class="stats-grid">
-                    <div class="stat-card">
+                    <div class="stat-card" style="--delay: 0.1s">
                         <div class="stat-number">24</div>
                         <div class="stat-label">Operatori Attivi</div>
                     </div>
-                    <div class="stat-card">
+                    <div class="stat-card" style="--delay: 0.2s">
                         <div class="stat-number">8</div>
                         <div class="stat-label">Interventi in Corso</div>
                     </div>
-                    <div class="stat-card">
+                    <div class="stat-card" style="--delay: 0.3s">
                         <div class="stat-number">156</div>
                         <div class="stat-label">Report Oggi</div>
                     </div>
-                    <div class="stat-card">
+                    <div class="stat-card" style="--delay: 0.4s">
                         <div class="stat-number">98%</div>
                         <div class="stat-label">Efficienza Sistema</div>
                     </div>
                 </div>
 
-                <!-- Dashboard Grid -->
                 <div class="dashboard-grid">
-                    <div class="dashboard-card" data-section="operators">
+                    <div class="dashboard-card" data-section="operators" style="--delay: 0.1s">
                         <div class="card-icon">
                             <i class="fas fa-users"></i>
                         </div>
                         <h3 class="card-title">👮‍♂️ Gestione Operatori</h3>
                         <p class="card-description">
-                            Organico, ruoli, abilitazioni e progressioni gerarchiche.
+                            Organico, ruoli, abilitazioni e progressioni gerarchiche. 
                             Gestisci turni, presenze e competenze del personale operativo.
                         </p>
                     </div>
 
-                    <div class="dashboard-card" data-section="interventions">
+                    <div class="dashboard-card" data-section="interventions" style="--delay: 0.2s">
                         <div class="card-icon">
                             <i class="fas fa-exclamation-triangle"></i>
                         </div>
                         <h3 class="card-title">🚨 Centro Interventi</h3>
                         <p class="card-description">
-                            Coordinamento interventi in tempo reale e assegnazione squadre.
+                            Coordinamento interventi in tempo reale e assegnazione squadre. 
                             Sistema di dispatch avanzato per operazioni sul territorio.
                         </p>
                     </div>
 
-                    <div class="dashboard-card" data-section="equipment">
+                    <div class="dashboard-card" data-section="equipment" style="--delay: 0.3s">
                         <div class="card-icon">
                             <i class="fas fa-car"></i>
                         </div>
                         <h3 class="card-title">🛡️ Equipaggiamenti</h3>
                         <p class="card-description">
-                            Inventario mezzi, manutenzioni e disponibilità.
+                            Inventario mezzi, manutenzioni e disponibilità. 
                             Gestione completa delle risorse operative e logistiche.
                         </p>
                     </div>
 
-                    <div class="dashboard-card" data-section="reports">
+                    <div class="dashboard-card" data-section="reports" style="--delay: 0.4s">
                         <div class="card-icon">
                             <i class="fas fa-chart-bar"></i>
                         </div>
                         <h3 class="card-title">📊 Report e Statistiche</h3>
                         <p class="card-description">
-                            Reportistica KPI operativi e trend periodici.
+                            Reportistica KPI operativi e trend periodici. 
                             Dashboard analytics per il monitoraggio delle performance.
                         </p>
                     </div>
 
-                    <div class="dashboard-card" data-section="communications">
+                    <div class="dashboard-card" data-section="communications" style="--delay: 0.5s">
                         <div class="card-icon">
                             <i class="fas fa-radio"></i>
                         </div>
                         <h3 class="card-title">📡 Comunicazioni</h3>
                         <p class="card-description">
-                            Sistema di comunicazione integrato per il coordinamento
+                            Sistema di comunicazione integrato per il coordinamento 
                             tra le unità operative e la centrale operativa.
                         </p>
                     </div>
 
-                    <div class="dashboard-card" data-section="database">
+                    <div class="dashboard-card" data-section="database" style="--delay: 0.6s">
                         <div class="card-icon">
                             <i class="fas fa-database"></i>
                         </div>
                         <h3 class="card-title">🗃️ Database Centrale</h3>
                         <p class="card-description">
-                            Archivio centralizzato e sistema di ricerca avanzata.
+                            Archivio centralizzato e sistema di ricerca avanzata. 
                             Gestione documenti e procedure operative standard.
                         </p>
                     </div>
@@ -607,11 +719,11 @@
                     <i class="fas fa-times"></i>
                 </button>
             </div>
-            <div id="modal-body" class="modal-body">
-                <p>Questa sezione è attualmente in sviluppo.</p>
+            <div id="modal-body">
+                <p>Contenuto della sezione selezionata.</p>
                 <div class="development-notice">
-                    <i class="fas fa-info-circle"></i>
-                    <span>Funzionalità in arrivo nella prossima versione</span>
+                    <i class="fas fa-code"></i>
+                    <span>Questa funzionalità è in fase di sviluppo e sarà presto disponibile.</span>
                 </div>
             </div>
         </div>
@@ -620,10 +732,12 @@
     <script>
         // Configuration
         const CONFIG = {
-            DISCORD_CLIENT_ID: '1287468506671964280',
-            DISCORD_REDIRECT_URI: window.location.origin + window.location.pathname,
-            DISCORD_SCOPE: 'identify',
             AUTHORIZED_USERS: {
+                'demo': {
+                    name: 'Utente Demo',
+                    role: 'Operatore Sistema',
+                    permissions: ['read']
+                },
                 '338000265391726593': {
                     name: 'Admin',
                     role: 'Comandante Generale',
@@ -634,22 +748,24 @@
 
         // DOM Elements
         const elements = {
-            loginContainer: document.getElementById('login-container'),
+            loading: document.getElementById('loading'),
+            loginPage: document.getElementById('login-page'),
             accessDenied: document.getElementById('access-denied'),
             mainApp: document.getElementById('main-app'),
             modal: document.getElementById('modal'),
             modalTitle: document.getElementById('modal-title'),
             modalBody: document.getElementById('modal-body'),
             userName: document.getElementById('user-name'),
+            demoLogin: document.getElementById('demo-login'),
             discordLogin: document.getElementById('discord-login')
         };
 
-        // Utility Functions
+        // Utilities
         const show = (element) => {
             if (element) {
                 element.classList.remove('hidden');
-                if (element.classList.contains('login-container') || element.classList.contains('access-denied')) {
-                    element.classList.add('flex');
+                if (element.classList.contains('login-page') || element.classList.contains('access-denied')) {
+                    element.style.display = 'flex';
                 }
             }
         };
@@ -657,181 +773,143 @@
         const hide = (element) => {
             if (element) {
                 element.classList.add('hidden');
-                element.classList.remove('flex');
+                element.style.display = 'none';
             }
         };
 
         // Session Management
-        const getToken = () => localStorage.getItem('discord_token') || sessionStorage.getItem('discord_token');
-        const setToken = (token, remember = false) => {
-            if (remember) {
-                localStorage.setItem('discord_token', token);
-            } else {
-                sessionStorage.setItem('discord_token', token);
-            }
-        };
-        const clearToken = () => {
-            localStorage.removeItem('discord_token');
-            sessionStorage.removeItem('discord_token');
-        };
-
-        // Discord API
-        async function fetchDiscordUser(token) {
-            try {
-                const response = await fetch('https://discord.com/api/users/@me', {
-                    headers: {
-                        'Authorization': `Bearer ${token}`
-                    }
-                });
-                return response.ok ? await response.json() : null;
-            } catch (error) {
-                console.error('Error fetching Discord user:', error);
-                return null;
-            }
-        }
-
-        // Access Control
-        function checkUserAccess(userId) {
-            return CONFIG.AUTHORIZED_USERS[userId] || null;
-        }
+        const getSession = () => JSON.parse(localStorage.getItem('uopi_session') || 'null');
+        const setSession = (user) => localStorage.setItem('uopi_session', JSON.stringify(user));
+        const clearSession = () => localStorage.removeItem('uopi_session');
 
         // UI Functions
+        function showLoading(text = 'Caricamento...') {
+            const loadingText = elements.loading?.querySelector('.loading-text');
+            if (loadingText) loadingText.textContent = text;
+            show(elements.loading);
+        }
+
+        function hideLoading() {
+            hide(elements.loading);
+        }
+
         function showLogin() {
+            hide(elements.loading);
             hide(elements.mainApp);
             hide(elements.accessDenied);
-            show(elements.loginContainer);
+            show(elements.loginPage);
         }
 
-        function showAccessDenied() {
-            hide(elements.mainApp);
-            hide(elements.loginContainer);
-            show(elements.accessDenied);
-        }
-
-        function showDashboard(user, userProfile) {
-            hide(elements.loginContainer);
+        function showDashboard(user) {
+            hide(elements.loading);
+            hide(elements.loginPage);
             hide(elements.accessDenied);
             show(elements.mainApp);
 
             if (elements.userName) {
-                elements.userName.textContent = `${userProfile.role} ${user.username}`;
+                elements.userName.textContent = `${user.role} - ${user.name}`;
             }
+        }
+
+        function showAccessDenied() {
+            hide(elements.loading);
+            hide(elements.loginPage);
+            hide(elements.mainApp);
+            show(elements.accessDenied);
         }
 
         function showModal(title, content) {
             if (elements.modalTitle) elements.modalTitle.textContent = title;
             if (elements.modalBody) elements.modalBody.innerHTML = content;
-            if (elements.modal) elements.modal.classList.add('active');
+            elements.modal?.classList.add('active');
         }
 
         function closeModal() {
-            if (elements.modal) elements.modal.classList.remove('active');
+            elements.modal?.classList.remove('active');
         }
 
         // Event Listeners
         function setupEventListeners() {
-            // Discord login
-            if (elements.discordLogin) {
-                elements.discordLogin.addEventListener('click', () => {
-                    const discordUrl = `https://discord.com/api/oauth2/authorize?client_id=${CONFIG.DISCORD_CLIENT_ID}&redirect_uri=${encodeURIComponent(CONFIG.DISCORD_REDIRECT_URI)}&response_type=code&scope=${CONFIG.DISCORD_SCOPE}`;
-                    window.location.href = discordUrl;
-                });
-            }
+            // Demo Login
+            elements.demoLogin?.addEventListener('click', () => {
+                showLoading('Accesso demo in corso...');
+                setTimeout(() => {
+                    const demoUser = CONFIG.AUTHORIZED_USERS['demo'];
+                    setSession(demoUser);
+                    showDashboard(demoUser);
+                }, 1500);
+            });
 
-            // Dashboard cards
-            document.querySelectorAll('.dashboard-card').forEach(card => {
+            // Discord Login (disabled)
+            elements.discordLogin?.addEventListener('click', () => {
+                alert('Accesso Discord temporaneamente non disponibile. Utilizza l\'accesso demo.');
+            });
+
+            // Dashboard Cards
+            document.querySelectorAll('.dashboard-card').forEach((card, index) => {
                 card.addEventListener('click', () => {
                     const section = card.dataset.section;
                     const title = card.querySelector('.card-title').textContent;
                     const description = card.querySelector('.card-description').textContent;
 
                     showModal(title, `
-                        <p style="margin-bottom: 1rem;">${description}</p>
+                        <p style="margin-bottom: 1.5rem; line-height: 1.6; color: var(--text-secondary);">${description}</p>
                         <div class="development-notice">
-                            <i class="fas fa-code"></i>
-                            <span>Sezione in fase di sviluppo - Sarà presto disponibile</span>
+                            <i class="fas fa-tools"></i>
+                            <span>Sezione "${title}" in fase di sviluppo - Sarà presto disponibile</span>
                         </div>
                     `);
                 });
             });
 
-            // Modal close on backdrop click
-            if (elements.modal) {
-                elements.modal.addEventListener('click', (e) => {
-                    if (e.target === elements.modal) {
-                        closeModal();
-                    }
-                });
-            }
+            // Modal Events
+            elements.modal?.addEventListener('click', (e) => {
+                if (e.target === elements.modal) closeModal();
+            });
 
-            // Keyboard shortcuts
+            // Keyboard Events
             document.addEventListener('keydown', (e) => {
-                if (e.key === 'Escape') {
-                    closeModal();
-                }
+                if (e.key === 'Escape') closeModal();
             });
         }
 
-        // Main Application Logic
-        async function initializeApp() {
-            // Check for Discord OAuth code
-            const urlParams = new URLSearchParams(window.location.search);
-            const code = urlParams.get('code');
+        // Initialize App
+        async function initApp() {
+            showLoading('Inizializzazione sistema...');
 
-            if (code) {
-                try {
-                    // For demo purposes, simulate successful authentication
-                    // In a real app, you'd exchange the code for a token
-                    const mockUser = {
-                        id: '338000265391726593',
-                        username: 'Admin',
-                        avatar: null
-                    };
-
-                    const userProfile = checkUserAccess(mockUser.id);
-                    if (userProfile) {
-                        setToken('mock_token', true);
-                        showDashboard(mockUser, userProfile);
-                        // Clean URL
-                        window.history.replaceState({}, document.title, window.location.pathname);
-                        return;
-                    }
-                } catch (error) {
-                    console.error('Authentication error:', error);
-                }
-
-                showAccessDenied();
-                return;
-            }
+            // Simulate loading time
+            await new Promise(resolve => setTimeout(resolve, 2000));
 
             // Check existing session
-            const token = getToken();
-            if (token) {
-                // For demo purposes, use mock user
-                const mockUser = {
-                    id: '338000265391726593',
-                    username: 'Admin',
-                    avatar: null
-                };
-
-                const userProfile = checkUserAccess(mockUser.id);
-                if (userProfile) {
-                    showDashboard(mockUser, userProfile);
-                    return;
-                }
-
-                clearToken();
+            const session = getSession();
+            if (session && CONFIG.AUTHORIZED_USERS[session.name === 'Utente Demo' ? 'demo' : session.id]) {
+                showDashboard(session);
+                return;
             }
 
             // Show login
             showLogin();
         }
 
-        // Initialize when DOM is loaded
+        // Initialize when DOM loads
         document.addEventListener('DOMContentLoaded', () => {
             setupEventListeners();
-            initializeApp();
+            initApp();
         });
+
+        // Add dynamic stats update
+        function updateStats() {
+            const statNumbers = document.querySelectorAll('.stat-number');
+            statNumbers.forEach((stat, index) => {
+                const originalValue = parseInt(stat.textContent);
+                const variation = Math.floor(Math.random() * 3) - 1;
+                const newValue = Math.max(0, originalValue + variation);
+                stat.textContent = newValue;
+            });
+        }
+
+        // Update stats every 30 seconds
+        setInterval(updateStats, 30000);
     </script>
 </body>
 </html>
