@@ -6,10 +6,9 @@
 <title>UOPI Dashboard</title>
 <meta name="color-scheme" content="dark light" />
 <style>
-  /* Base */
   :root{
-    --bg1:#0f172a; --bg2:#1e293b;
-    --card:#111827f5; --card2:#0b1220f0;
+    --bg1:#0b1220; --bg2:#0f172a; --bg3:#162036;
+    --card:#0d1426f2; --card2:#0c1528f2;
     --muted:#94a3b8; --text:#e5e7eb; --textStrong:#f8fafc;
     --pri1:#3b82f6; --pri2:#8b5cf6; --accent:#22d3ee;
     --ok:#10b981; --warn:#f59e0b; --err:#ef4444;
@@ -18,76 +17,95 @@
   *{box-sizing:border-box}
   html,body{height:100%;margin:0}
   body{
-    background: radial-gradient(1000px 600px at -5% -10%, #0b1324 0%, transparent 60%), 
+    background: radial-gradient(1200px 700px at -10% -15%, #0b1324 0%, transparent 60%), 
                 radial-gradient(900px 500px at 110% 0%, #0b1324 0%, transparent 55%),
                 linear-gradient(135deg,var(--bg1) 0%,var(--bg2) 100%);
     color:var(--text);
     font-family: "Segoe UI", system-ui, -apple-system, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji","Segoe UI Emoji", "Segoe UI Symbol";
+    overflow-x:hidden;
   }
-  a{color:inherit}
+  a{color:inherit;text-decoration:none}
 
-  /* Layout */
-  .container{max-width:1200px;margin:28px auto;padding:0 18px}
+  /* Animazioni */
+  @keyframes fadeIn {from{opacity:0} to{opacity:1}}
+  @keyframes slideUp {from{transform:translateY(18px);opacity:0} to{transform:translateY(0);opacity:1}}
+  @keyframes spin {to{transform:rotate(360deg)}}
+
+  /* Loading overlay */
+  .loading{
+    position:fixed;inset:0;display:none;align-items:center;justify-content:center;flex-direction:column;gap:14px;
+    background:linear-gradient(135deg,#0b1220 0%,#0a101c 100%);z-index:9998;color:#cbd5e1
+  }
+  .loading.show{display:flex}
+  .spinner{
+    width:48px;height:48px;border-radius:50%;
+    border:4px solid #ffffff18;border-top-color:#60a5fa; animation:spin 1s linear infinite
+  }
+
+  /* Login page */
+  .login-wrap{
+    min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px;
+    animation:fadeIn .5s ease
+  }
+  .login-card{
+    width:100%;max-width:460px;background:linear-gradient(180deg,#0d1426f2,#0c1528e8);
+    border:1px solid #33415580;border-radius:20px;padding:26px 22px;text-align:center;
+    box-shadow:0 30px 80px #0007; animation:slideUp .35s ease
+  }
+  .logo{
+    width:68px;height:68px;border-radius:16px;display:grid;place-items:center;margin:0 auto 10px;
+    background:linear-gradient(135deg,var(--pri1),var(--pri2));box-shadow:0 0 0 4px #0a1222, 0 10px 24px #3b82f644;font-size:34px
+  }
+  .h1{font-weight:900;font-size:28px;margin:6px 0;background:linear-gradient(90deg,var(--pri1),var(--pri2));-webkit-background-clip:text;color:transparent}
+  .p{color:#a7b3c6}
+  .btn{
+    width:100%;display:flex;align-items:center;justify-content:center;gap:10px;
+    padding:14px;border:none;border-radius:12px;font-weight:900;cursor:pointer;margin-top:16px;
+    color:#fff;background:linear-gradient(135deg,#5865f2,#4752c4);box-shadow:0 10px 26px #5865f244
+  }
+  .btn:disabled{opacity:.7;cursor:not-allowed}
+
+  /* Top header after login */
+  .container{max-width:1200px;margin:26px auto;padding:0 18px}
   .header{
     display:flex;align-items:center;justify-content:space-between;gap:16px;
-    background: linear-gradient(180deg, #0b1220f9 0%, #0b1220e0 100%);
-    border:1px solid #33415580;border-radius:18px;padding:16px 18px;
-    box-shadow: 0 8px 28px #00000055;
+    background: linear-gradient(180deg, #0b1220f8 0%, #0b1220e5 100%);
+    border:1px solid #33415580;border-radius:18px;padding:14px 16px;
+    box-shadow: 0 8px 28px #00000055; animation:slideUp .35s ease
   }
   .brand{display:flex;align-items:center;gap:12px}
-  .logo{
-    width:44px;height:44px;border-radius:12px;
-    display:grid;place-items:center;
-    background:linear-gradient(135deg,var(--pri1),var(--pri2));
-    box-shadow:0 0 0 3px #172554, 0 12px 30px #3b82f644;
-    font-size:24px
-  }
-  .title{font-weight:900;font-size:22px;letter-spacing:.2px}
-  .subtitle{color:var(--muted);font-size:13px;margin-top:2px}
-
+  .brand .mark{width:40px;height:40px;border-radius:12px;display:grid;place-items:center;background:linear-gradient(135deg,var(--pri1),var(--pri2));box-shadow:0 0 0 3px #172554, 0 12px 30px #3b82f644}
+  .brand .meta .title{font-weight:900;font-size:20px}
+  .brand .meta .subtitle{color:var(--muted);font-size:12px;margin-top:3px}
   .user{
-    display:flex;align-items:center;gap:14px;
-    padding:10px 12px;border-radius:14px;
-    background:#0b1220cc;border:1px solid #33415580;
+    display:flex;align-items:center;gap:12px;padding:8px 10px;border-radius:14px;background:#0b1220cc;border:1px solid #33415580
   }
-  .avatar{
-    width:40px;height:40px;border-radius:50%;
-    background:linear-gradient(135deg,var(--pri1),var(--pri2));
-    display:grid;place-items:center;font-weight:800;color:white;
-    box-shadow:0 0 0 3px #1e293b;
-  }
-  .user .meta{line-height:1.1}
-  .user .name{font-weight:700}
+  .avatar{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--pri1),var(--pri2));display:grid;place-items:center;font-weight:800;color:white}
+  .user .name{font-weight:800}
   .user .role{font-size:12px;color:var(--muted)}
-  .logout{background:linear-gradient(135deg,#ef4444,#991b1b);border:none;color:#fff;
-    padding:10px 14px;border-radius:10px;font-weight:700;cursor:pointer}
+  .logout{background:linear-gradient(135deg,#ef4444,#991b1b);border:none;color:#fff;padding:8px 12px;border-radius:10px;font-weight:800;cursor:pointer}
 
   /* KPIs */
-  .kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin:22px 0}
+  .kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin:20px 0}
   .kpi{
     background:linear-gradient(180deg,#0b1220f5 0%, #0b1220da 100%);
-    border:1px solid #33415580;border-radius:16px;padding:18px;
+    border:1px solid #33415580;border-radius:16px;padding:16px;
     box-shadow:0 10px 30px #00000044;position:relative;overflow:hidden
   }
-  .kpi::after{
-    content:"";position:absolute;inset:-25% -50% auto auto;height:140%;width:140%;
-    background:conic-gradient(from 180deg at 50% 50%, #3b82f633, #8b5cf644, transparent 35%);
-    filter:blur(30px);opacity:.35;pointer-events:none
-  }
-  .kpi .label{color:var(--muted);font-weight:700;font-size:12px;text-transform:uppercase;letter-spacing:.08em}
-  .kpi .value{font-weight:900;font-size:28px;margin-top:6px;background:linear-gradient(90deg,var(--pri1),var(--pri2));-webkit-background-clip:text;color:transparent}
+  .kpi .label{color:var(--muted);font-weight:800;font-size:11px;text-transform:uppercase;letter-spacing:.08em}
+  .kpi .value{font-weight:900;font-size:26px;margin-top:6px;background:linear-gradient(90deg,var(--pri1),var(--pri2));-webkit-background-clip:text;color:transparent}
 
   /* Tabs */
   .tabs{display:flex;gap:10px;flex-wrap:wrap}
-  .tab{border:none;cursor:pointer;border-radius:11px;padding:10px 16px;font-weight:800;color:#e2e8f0;background:#172033;border:1px solid #33415580}
+  .tab{border:none;cursor:pointer;border-radius:11px;padding:10px 16px;font-weight:900;color:#e2e8f0;background:#172033;border:1px solid #33415580;transition:.2s}
   .tab.active{color:#fff;background:linear-gradient(135deg,var(--pri1),var(--pri2));box-shadow:0 10px 26px #3b82f633, inset 0 0 0 1px #ffffff22}
   .tab:not(.active):hover{background:#1a2740}
 
-  /* Card area */
+  /* Card/Content */
   .card{
     background:linear-gradient(180deg,#0b1220f5 0%, #0b1220e0 100%);
     border:1px solid #33415580;border-radius:18px;margin-top:16px;padding:18px;
-    box-shadow:0 14px 38px #0000004a;
+    box-shadow:0 14px 38px #0000004a; animation:fadeIn .35s ease
   }
   .welcome{
     background: linear-gradient(135deg,#8b5cf6,#ec4899);
@@ -96,11 +114,9 @@
   }
   .wel-title{font-size:18px;font-weight:900;margin:0}
   .wel-text{margin:6px 0 0 0;opacity:.95}
-  .wel-cta{background:#ffffff22;color:#fff;border:none;border-radius:10px;padding:9px 14px;font-weight:800}
+  .wel-cta{background:#ffffff22;color:#fff;border:none;border-radius:10px;padding:9px 14px;font-weight:800;cursor:pointer}
   .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}
-  .feature{
-    background:#0c162c; border:1px solid #33415580;border-radius:14px;padding:16px;
-  }
+  .feature{background:#0c162c; border:1px solid #33415580;border-radius:14px;padding:16px;}
   .feature h3{margin:0 0 8px 0;font-size:16px}
   .feature p{margin:0 0 12px 0;color:var(--muted)}
   .feature .btn{background:linear-gradient(135deg,var(--pri1),var(--pri2));border:none;color:#fff;padding:9px 14px;border-radius:10px;font-weight:800}
@@ -112,157 +128,273 @@
   .devbox{
     background:linear-gradient(180deg,#0b1220f5 0%, #0b1220e8 100%); 
     border:1px solid #334155aa; border-radius:20px; padding:28px 22px;text-align:center;
-    min-width:300px; box-shadow: 0 20px 60px #0008;
+    min-width:300px; box-shadow: 0 20px 60px #0008; animation:slideUp .3s ease
   }
   .dev-emoji{font-size:44px;margin-bottom:6px}
   .dev-title{margin:0;font-size:18px;font-weight:900;background:linear-gradient(90deg,#fcd34d,#ef4444);-webkit-background-clip:text;color:transparent}
   .dev-text{margin:8px 0 16px 0;color:#e2e8f0}
-  .dev-close{background:linear-gradient(135deg,var(--pri1),var(--pri2));border:none;color:#fff;font-weight:900;padding:10px 18px;border-radius:12px}
+  .dev-close{background:linear-gradient(135deg,var(--pri1),var(--pri2));border:none;color:#fff;font-weight:900;padding:10px 18px;border-radius:12px;cursor:pointer}
 
-  /* Footer */
-  .foot{color:#93a0b6; margin:20px 2px 12px 2px; font-size:12px; text-align:center}
+  /* Access Denied (se mai serve) */
+  .denied{min-height:100vh;display:none;align-items:center;justify-content:center;padding:24px}
+  .denied .box{background:linear-gradient(180deg,#0d1426f2,#0c1528e8);border:1px solid #33415580;border-radius:20px;padding:26px 22px;text-align:center;max-width:560px}
+  .denied .icon{font-size:70px;margin-bottom:6px}
+  .denied .title{font-weight:900;color:#ef4444;font-size:26px;margin:6px 0 8px}
 
   /* Responsive */
-  @media (max-width:820px){
-    .kpis{grid-template-columns:repeat(2,1fr)}
-  }
-  @media (max-width:540px){
-    .header{flex-direction:column;align-items:stretch}
-    .user{justify-content:space-between}
-  }
+  @media (max-width:820px){.kpis{grid-template-columns:repeat(2,1fr)}}
+  @media (max-width:540px){.header{flex-direction:column;align-items:stretch}.user{justify-content:space-between}}
 </style>
 </head>
 <body>
 
-<div class="container">
-  <!-- Header -->
-  <div class="header">
-    <div class="brand">
-      <div class="logo">🚔</div>
-      <div>
-        <div class="title">UOPI Dashboard</div>
-        <div class="subtitle">Sistema di Gestione Unità Operative</div>
+<!-- LOADING -->
+<div class="loading" id="loading">
+  <div class="spinner"></div>
+  <div>Caricamento Dashboard UOPI...</div>
+</div>
+
+<!-- LOGIN -->
+<div class="login-wrap" id="login-page">
+  <div class="login-card">
+    <div class="logo">🚔</div>
+    <div class="h1">UOPI Dashboard</div>
+    <div class="p">Accedi con il tuo account Discord autorizzato per entrare nel sistema UOPI</div>
+    <button id="discord-btn" class="btn">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515a.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0a12.64 12.64 0 0 0-.617-1.25a.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057a19.9 19.9 0 0 0 5.993 3.03a.078.078 0 0 0 .084-.028a14.09 14.09 0 0 0 1.226-1.994a.076.076 0 0 0-.041-.106a13.107 13.107 0 0 1-1.872-.892a.077.077 0 0 1-.008-.128a10.2 10.2 0 0 0 .372-.292a.074.074 0 0 1 .077-.010c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127a12.299 12.299 0 0 1-1.873.892a.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028a19.839 19.839 0 0 0 6.002-3.03a.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419c0-1.333.956-2.419 2.157-2.419c1.21 0 2.176 1.096 2.157 2.42c0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419c0-1.333.955-2.419 2.157-2.419c1.21 0 2.176 1.096 2.157 2.42c0 1.333-.946 2.418-2.157 2.418Z"/></svg>
+      Accedi con Discord
+    </button>
+  </div>
+</div>
+
+<!-- ACCESS DENIED -->
+<div class="denied" id="denied-page">
+  <div class="box">
+    <div class="icon">🚫</div>
+    <div class="title">Accesso Riservato</div>
+    <div class="p">Il tuo account Discord non risulta autorizzato all’accesso.</div>
+    <div class="p" style="margin-top:8px;">Contatta la dirigenza UOPI e fornisci il tuo Discord ID per essere abilitato.</div>
+    <button class="btn" style="margin-top:16px;background:linear-gradient(135deg,#ef4444,#991b1b)" onclick="doLogout()">Riprova con altro account</button>
+  </div>
+</div>
+
+<!-- DASHBOARD -->
+<div id="app" style="display:none;">
+  <div class="container">
+    <!-- Header -->
+    <div class="header">
+      <div class="brand">
+        <div class="mark">🚔</div>
+        <div class="meta">
+          <div class="title">UOPI Dashboard</div>
+          <div class="subtitle">Sistema di Gestione Unità Operative</div>
+        </div>
       </div>
-    </div>
-    <div class="user">
-      <div class="avatar" id="userAvatar">T</div>
-      <div class="meta">
-        <div class="name" id="userName">Tonino Frasca</div>
-        <div class="role" id="userRole">👑 Comandante Generale • ID <span id="userId">817121576217870348</span></div>
-      </div>
-      <button class="logout" onclick="logout()">Logout</button>
-    </div>
-  </div>
-
-  <!-- KPIs -->
-  <div class="kpis">
-    <div class="kpi"><div class="label">Operatori Attivi</div><div class="value">15</div></div>
-    <div class="kpi"><div class="label">Interventi Attivi</div><div class="value">8</div></div>
-    <div class="kpi"><div class="label">Squadre</div><div class="value">4</div></div>
-    <div class="kpi"><div class="label">Stato Sistema</div><div class="value">100%</div></div>
-  </div>
-
-  <!-- Tabs -->
-  <div class="tabs">
-    <button class="tab active" data-target="overview" onclick="openOverview(this)">📊 Panoramica</button>
-    <button class="tab" onclick="openDev(this)">👮‍♂️ Operatori</button>
-    <button class="tab" onclick="openDev(this)">🚨 Interventi</button>
-    <button class="tab" onclick="openDev(this)">🛡️ Equipaggiamenti</button>
-    <button class="tab" onclick="openDev(this)">⚙️ Admin</button>
-  </div>
-
-  <!-- Content card -->
-  <div class="card" id="contentCard">
-    <!-- Overview -->
-    <section id="overview">
-      <div class="welcome">
+      <div class="user">
+        <div class="avatar" id="avatar">?</div>
         <div>
-          <h2 class="wel-title">Benvenuto nel Sistema UOPI</h2>
-          <p class="wel-text">Pannello operativo per la gestione delle unità UOPI su FiveM. Le altre sezioni sono in sviluppo e verranno rilasciate progressivamente.</p>
+          <div class="name" id="name">Operatore UOPI</div>
+          <div class="role" id="role">👮‍♂️ Operatore • ID <span id="uid">N/A</span></div>
         </div>
-        <button class="wel-cta" onclick="openDev()">Roadmap 🚧</button>
+        <button class="logout" onclick="doLogout()">Logout</button>
       </div>
+    </div>
 
-      <div class="grid">
-        <div class="feature">
-          <h3>👮‍♂️ Gestione Operatori</h3>
-          <p>Gestione completa organico UOPI, ruoli e qualifiche, progressioni e abilitazioni operative.</p>
-          <button class="btn disabled" onclick="openDev()">Apri modulo</button>
+    <!-- KPIs -->
+    <div class="kpis">
+      <div class="kpi"><div class="label">Operatori Attivi</div><div class="value">15</div></div>
+      <div class="kpi"><div class="label">Interventi Attivi</div><div class="value">8</div></div>
+      <div class="kpi"><div class="label">Squadre</div><div class="value">4</div></div>
+      <div class="kpi"><div class="label">Stato Sistema</div><div class="value">100%</div></div>
+    </div>
+
+    <!-- Tabs -->
+    <div class="tabs">
+      <button class="tab active" onclick="openOverview(this)">📊 Panoramica</button>
+      <button class="tab" onclick="openDev(this)">👮‍♂️ Operatori</button>
+      <button class="tab" onclick="openDev(this)">🚨 Interventi</button>
+      <button class="tab" onclick="openDev(this)">🛡️ Equipaggiamenti</button>
+      <button class="tab" onclick="openDev(this)">⚙️ Admin</button>
+    </div>
+
+    <!-- Content -->
+    <div class="card" id="content">
+      <section id="overview">
+        <div class="welcome">
+          <div>
+            <h2 class="wel-title">Benvenuto nel Sistema UOPI</h2>
+            <p class="wel-text">Interfaccia moderna e responsiva. Le altre sezioni sono in sviluppo e mostreranno una modale dedicata.</p>
+          </div>
+          <button class="wel-cta" onclick="openDev()">Roadmap 🚧</button>
         </div>
-        <div class="feature">
-          <h3>🚨 Centro Interventi</h3>
-          <p>Coordinamento interventi in tempo reale, assegnazione squadre, priorità e stato operazioni.</p>
-          <button class="btn disabled" onclick="openDev()">Apri centro</button>
+
+        <div class="grid">
+          <div class="feature">
+            <h3>👮‍♂️ Gestione Operatori</h3>
+            <p>Organico, ruoli, abilitazioni e progressioni gerarchiche.</p>
+            <button class="btn disabled" onclick="openDev()">Apri modulo</button>
+          </div>
+          <div class="feature">
+            <h3>🚨 Centro Interventi</h3>
+            <p>Coordinamento interventi in tempo reale e assegnazione squadre.</p>
+            <button class="btn disabled" onclick="openDev()">Apri centro</button>
+          </div>
+          <div class="feature">
+            <h3>🛡️ Equipaggiamenti</h3>
+            <p>Inventario mezzi, manutenzioni e disponibilità.</p>
+            <button class="btn disabled" onclick="openDev()">Gestisci</button>
+          </div>
+          <div class="feature">
+            <h3>📊 Report e Statistiche</h3>
+            <p>Reportistica KPI operativi e trend periodici.</p>
+            <button class="btn disabled" onclick="openDev()">Visualizza</button>
+          </div>
         </div>
-        <div class="feature">
-          <h3>🛡️ Equipaggiamenti</h3>
-          <p>Inventario mezzi ed equipaggiamenti UOPI, manutenzioni, disponibilità e assegnazioni.</p>
-          <button class="btn disabled" onclick="openDev()">Gestisci</button>
-        </div>
-        <div class="feature">
-          <h3>📊 Report e Statistiche</h3>
-          <p>Reportistica avanzata delle attività UOPI, KPI operativi e trend periodici.</p>
-          <button class="btn disabled" onclick="openDev()">Visualizza</button>
-        </div>
-      </div>
-    </section>
+      </section>
+    </div>
+
+    <div class="p" style="text-align:center;margin:16px 0;color:#93a0b6">© UOPI • Dashboard Operativa • Interfaccia in sviluppo attivo</div>
   </div>
-
-  <div class="foot">© UOPI • Dashboard Operativa • Interfaccia in sviluppo attivo</div>
 </div>
 
 <!-- Modal DEV -->
-<div class="overlay" id="devOverlay" aria-hidden="true">
+<div class="overlay" id="devModal" aria-hidden="true">
   <div class="devbox" role="dialog" aria-modal="true">
     <div class="dev-emoji">🚧</div>
     <h3 class="dev-title">SEZIONE IN FASE DI SVILUPPO</h3>
-    <p class="dev-text">Questa funzionalità non è ancora disponibile. Torna presto per scoprire le novità.</p>
+    <p class="dev-text">Questa funzionalità non è ancora disponibile. Torna presto per le novità.</p>
     <button class="dev-close" onclick="closeDev()">Chiudi</button>
   </div>
 </div>
 
 <script>
-  // Dati utente (integra con il tuo login)
-  const user = { name:'Tonino Frasca', role:'👑 Comandante Generale', id:'817121576217870348', avatar:null };
-  (function initUser(){
-    document.getElementById('userName').textContent = user.name;
-    document.getElementById('userRole').innerHTML = user.role + ' • ID <span id="userId">'+user.id+'</span>';
-    const av = document.getElementById('userAvatar');
-    if(user.avatar){ av.innerHTML = '<img alt="" src="'+user.avatar+'" style="width:100%;height:100%;border-radius:50%;">'; }
-    else{ av.textContent = (user.name||'?').charAt(0).toUpperCase(); }
-  })();
+  // Config Discord
+  const CONFIG = {
+    DISCORD: {
+      CLIENT_ID: '1387801645743869982',
+      REDIRECT_URI: 'https://ryze-glitch.github.io/uopi-dashboard/',
+      SCOPE: 'identify'
+    }
+  };
 
-  // Tab handler
-  function resetTabs(btn){
+  // Lista autorizzati (incluso nuovo ID)
+  const AUTHORIZED = {
+    '817121576217870348': { nome:'Tonino Frasca', ruolo:'👑 Comandante Generale', admin:true },
+    '1387684968536477756': { nome:'Gabriel Martinelli', ruolo:'👑 Comandante Generale', admin:true },
+    '796078370176487454': { nome:'Simone Sottaceto', ruolo:'💫 Comandante', admin:true },
+    '814941325916241930': { nome:'Matteo Rossi', ruolo:'🌟 Vice Comandante', admin:true },
+    '1062981395644948550': { nome:'Franco Costa', ruolo:'🌟 Vice Comandante', admin:true },
+    '734406288213016607': { nome:'Diego Bianchi', ruolo:'⭐ Sostituto Vice Comandante', admin:true },
+    '1249738701081155658': { nome:'Simone Brighella', ruolo:'⭐ Sostituto Vice Comandante', admin:true },
+    '1418191798198861824': { nome:'Nuovo Operatore', ruolo:'👮‍♂️ Operatore', admin:false }
+  };
+
+  // UI helpers
+  const $ = s => document.querySelector(s);
+  function show(el){ el.style.display='block'; }
+  function hide(el){ el.style.display='none'; }
+
+  // Loading
+  function loading(on, text='Caricamento Dashboard UOPI...'){
+    const l = $('#loading');
+    l.querySelector('div:last-child').textContent = text;
+    l.classList[on?'add':'remove']('show');
+  }
+
+  // OAuth begin
+  $('#discord-btn').addEventListener('click', () => {
+    const params = new URLSearchParams({
+      client_id: CONFIG.DISCORD.CLIENT_ID,
+      redirect_uri: CONFIG.DISCORD.REDIRECT_URI,
+      response_type: 'token',
+      scope: CONFIG.DISCORD.SCOPE,
+      prompt: 'consent'
+    });
+    window.location.href = `https://discord.com/api/oauth2/authorize?${params}`;
+  });
+
+  // Session storage
+  function saveSession(token, user){ localStorage.setItem('discord_token', token); localStorage.setItem('user_data', JSON.stringify(user)); localStorage.setItem('login_time', Date.now().toString()); }
+  function getToken(){
+    const t = localStorage.getItem('discord_token'); const ts = parseInt(localStorage.getItem('login_time')||'0',10);
+    if(!t) return null; const seven = 7*24*60*60*1000; if(Date.now()-ts>seven) return null; return t;
+  }
+  function doLogout(){ localStorage.clear(); window.location.replace(CONFIG.DISCORD.REDIRECT_URI); }
+  window.doLogout = doLogout;
+
+  // Fetch Discord
+  async function fetchMe(token){
+    const r = await fetch('https://discord.com/api/users/@me',{headers:{Authorization:`Bearer ${token}`}})
+    if(!r.ok) return null; return r.json();
+  }
+
+  // Access control
+  function checkAccess(id){ return AUTHORIZED[id] || null; }
+
+  // App rendering
+  function renderDashboard(me, profile){
+    // Fill header
+    $('#name').textContent = profile?.nome || me.username || 'Operatore UOPI';
+    $('#role').innerHTML = (profile?.ruolo || '👮‍♂️ Operatore') + ' • ID <span id="uid">'+me.id+'</span>';
+    $('#avatar').textContent = (profile?.nome || me.username || '?').charAt(0).toUpperCase();
+    // Show app
+    hide($('#login-page')); hide($('#denied-page')); show($('#app'));
+  }
+
+  // Modal dev
+  const modal = $('#devModal');
+  function openDev(btn){
     document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
     if(btn) btn.classList.add('active');
+    modal.classList.add('show'); modal.setAttribute('aria-hidden','false');
   }
+  function closeDev(){ modal.classList.remove('show'); modal.setAttribute('aria-hidden','true'); }
+  window.openDev = openDev; window.closeDev = closeDev;
+  modal.addEventListener('click', e=>{ if(e.target===modal) closeDev(); });
+  window.addEventListener('keydown', e=>{ if(e.key==='Escape') closeDev(); });
+
   function openOverview(btn){
-    resetTabs(btn);
-    document.getElementById('overview').style.display='block';
+    document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+    btn.classList.add('active');
+    // overview already visible
   }
+  window.openOverview = openOverview;
 
-  // Modal DEV
-  const overlay = document.getElementById('devOverlay');
-  function openDev(btn){
-    resetTabs(btn);
-    // mantieni vista overview e mostra modale
-    if(document.getElementById('overview').style.display==='none'){
-      document.getElementById('overview').style.display='block';
+  // Init
+  (async function init(){
+    // OAuth callback
+    if(window.location.hash.includes('access_token')){
+      const frag = new URLSearchParams(window.location.hash.slice(1));
+      const token = frag.get('access_token');
+      window.history.replaceState(null,null,window.location.pathname);
+      loading(true,'Verifica credenziali Discord...');
+      const me = await fetchMe(token);
+      if(!me){ loading(false); hide($('#app')); hide($('#login-page')); show($('#denied-page')); return; }
+      const profile = checkAccess(me.id);
+      if(!profile){ loading(false); hide($('#app')); hide($('#login-page')); show($('#denied-page')); return; }
+      saveSession(token, me);
+      renderDashboard(me, profile);
+      loading(false);
+      return;
     }
-    overlay.classList.add('show');
-    overlay.setAttribute('aria-hidden','false');
-  }
-  function closeDev(){
-    overlay.classList.remove('show');
-    overlay.setAttribute('aria-hidden','true');
-  }
 
-  // Accessibilità: chiudi con ESC e click fuori
-  overlay.addEventListener('click', (e)=>{ if(e.target===overlay) closeDev(); });
-  window.addEventListener('keydown', (e)=>{ if(e.key==='Escape') closeDev(); });
+    // Existing session
+    const token = getToken();
+    if(token){
+      loading(true,'Ripristino sessione...');
+      const me = await fetchMe(token);
+      if(me){
+        const profile = checkAccess(me.id);
+        if(profile){ renderDashboard(me, profile); loading(false); return; }
+      }
+      loading(false);
+      show($('#denied-page'));
+      return;
+    }
 
-  function logout(){ location.reload(); }
+    // No session
+    show($('#login-page'));
+  })();
 </script>
 
 </body>
